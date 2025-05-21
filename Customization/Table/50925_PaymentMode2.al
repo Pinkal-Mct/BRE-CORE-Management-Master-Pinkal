@@ -181,7 +181,7 @@ table 50925 "Payment Mode2"
             var
                 Email: Codeunit "Send Payment Receipt";
                 emailrec: Codeunit "Send PaymentMode Email";
-                AzureBlobUploader: Codeunit "Azure Blob Management";
+                // AzureBlobUploader: Codeunit "Azure Blob Management";
                 InStream: InStream;
                 FileName: Text;
                 SASUrlBase: Text;
