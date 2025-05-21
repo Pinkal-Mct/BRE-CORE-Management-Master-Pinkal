@@ -306,8 +306,8 @@ codeunit 50514 "Cash Receipt Journal Entry"
         GenJournalLine."Account Type" := GenJournalLine."Account Type"::Customer;
         GenJournalLine."Account No." := PDCTransactionRec."Tenant Id"; // Customer from Payment Series
         GenJournalLine.Description := 'PDC Received - Cheque No. ' + PDCTransactionRec."Cheque Number";
-        GenJournalLine.Amount := -PDCTransactionRec.Amount;
-        GenJournalLine."Amount (LCY)" := GenJournalLine.Amount;
+        GenJournalLine.Validate(Amount, Round(-PDCTransactionRec.Amount));
+        // GenJournalLine."Amount (LCY)" := GenJournalLine.Amount;
         GenJournalLine."Bal. Account Type" := GenJournalLine."Bal. Account Type"::"G/L Account";
         GenJournalLine."Bal. Account No." := PDCReceivedGL;
 
