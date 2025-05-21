@@ -64,7 +64,7 @@ table 50922 "FinalSettlement"
             trigger OnValidate()
             var
                 Email: Codeunit "FS_Receivable Payment Receipt";
-                AzureBlobUploader: Codeunit "Azure Blob Management";
+                // AzureBlobUploader: Codeunit "Azure Blob Management";
                 InStream: InStream;
                 FileName: Text;
                 SASUrlBase: Text;
