@@ -103,10 +103,11 @@ tableextension 50502 SalesInvoiceHeaderExt extends "Sales Header"
             DataClassification = ToBeClassified;
             Caption = 'Credit Memo No';
         }
-        field(50120; "Contract Amount"; Integer)
+        field(50120; "Contract Amount"; Decimal)
         {
             DataClassification = ToBeClassified;
             Caption = 'Contract Amount';
+
         }
         field(50121; "Terminated Credit Note"; Boolean)
         {
