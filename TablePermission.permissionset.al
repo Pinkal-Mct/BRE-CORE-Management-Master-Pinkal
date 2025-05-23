@@ -249,7 +249,7 @@ permissionset 50100 TablePermission
         table "Vendor Profile" = X,
         table "Workflow Frequency" = X,
         table "Workflow Frequency PR" = X,
-        // codeunit "Azure Blob Management"=X,
+    // codeunit "Azure Blob Management"=X,
         codeunit CalculateNumberOfInstallments = X,
         codeunit "Cash Receipt Journal Entry" = X,
         codeunit "Create Sales Credit Memo" = X,
@@ -276,5 +276,7 @@ permissionset 50100 TablePermission
         codeunit SendInvoiceToTenant = X,
         codeunit SendRejectionToLeaseTeam = X,
         codeunit SendTenantMail = X,
-        codeunit UploadAttachment = X;
+        codeunit UploadAttachment = X,
+        tabledata "Revenue Allocation Approval" = RIMD,
+        table "Revenue Allocation Approval" = X;
 }
