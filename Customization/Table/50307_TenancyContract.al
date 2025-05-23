@@ -1502,13 +1502,13 @@ table 50307 "Tenancy Contract"
         field(50176; "Security Amount Received"; Decimal)
         {
             DataClassification = ToBeClassified;
-            Editable = false;
+            // Editable = false;
         }
 
         field(50177; "Security Balanced Amount"; Decimal)
         {
             DataClassification = ToBeClassified;
-            Editable = false;
+            // Editable = false;
         }
 
         field(50179; "Termination Of Contract"; Option)
