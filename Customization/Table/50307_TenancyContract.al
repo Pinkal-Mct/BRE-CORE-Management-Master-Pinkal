@@ -2712,7 +2712,7 @@ table 50307 "Tenancy Contract"
                 Rec."Base Amount Type" := leaseproposal."Base Amount Type";
                 Rec."Frequency Of Payment" := leaseproposal."Frequency Of Payment";
                 ManagementFeeMasterDetailsFetch();
-                Rec.Modify();
+                // Rec.Modify();
             end else begin
                 Rec.Init();
                 Rec."Vendor ID" := leaseproposal."Vendor ID";
@@ -2764,7 +2764,7 @@ table 50307 "Tenancy Contract"
                 Rec."Base Amount Type" := contractrenewal."Base Amount Type";
                 Rec."Frequency Of Payment" := contractrenewal."Frequency Of Payment";
                 ManagementFeeMasterDetailsFetch();
-                Rec.Modify();
+                // Rec.Modify();
             end else begin
                 // Insert new
                 Rec.Init();
