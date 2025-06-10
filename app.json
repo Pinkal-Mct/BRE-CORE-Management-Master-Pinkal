@@ -2,7 +2,7 @@
   "id": "d428365a-d3cf-41bd-a230-0e7c93943ec6",
   "name": "Core-RealEstate",
   "publisher": "Default Publisher",
-  "version": "1.0.0.1",
+  "version": "1.0.0.2",
   "brief": "",
   "description": "",
   "privacyStatement": "",
@@ -17,7 +17,7 @@
   "idRanges": [
     {
       "from": 50100,
-      "to": 50999
+      "to": 59999
     }
   ],
   "resourceExposurePolicy": {
