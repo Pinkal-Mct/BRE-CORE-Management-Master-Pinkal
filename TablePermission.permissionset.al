@@ -278,5 +278,12 @@ permissionset 50100 TablePermission
         codeunit SendTenantMail = X,
         codeunit UploadAttachment = X,
         tabledata "Revenue Allocation Approval" = RIMD,
-        table "Revenue Allocation Approval" = X;
+        table "Revenue Allocation Approval" = X,
+        tabledata "Construction Project" = RIMD,
+        tabledata "Contract Assignment" = RIMD,
+        tabledata "No. Series Setup" = RIMD,
+        table "Construction Project" = X,
+        table "Contract Assignment" = X,
+        table "No. Series Setup" = X,
+        page "No. Series Setup" = X;
 }
