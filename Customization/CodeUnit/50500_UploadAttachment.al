@@ -305,7 +305,52 @@ codeunit 50500 UploadAttachment
     //         Error('Failed to send HTTP request.');
     // end;
 
+    procedure UploadDocument(var pUploadResult: Text): Text
+    var
+        inStream: InStream;
+        fileName: Text;
+        sasUrlBase: Text;
+        sasUrlWithFileName: Text;
+        uploadResult: Text;
+        tempBlob: Codeunit "Temp Blob";
+        validFormats: List of [Text];
+        fileExtension: Text[10];
+        fileSize: Decimal;
+        azureConfig: Record AzureConfiguration;
+    begin
+        // Validate and retrieve the SAS URL from the configuration table
+        if not azureConfig.FindFirst() then
+            Error('Azure configuration is missing. Please set up the SAS URL in the Azure Configuration table.');
 
+        validFormats.Add('.pdf');
+        validFormats.Add('.docx');
+        validFormats.Add('.jpg');
+        validFormats.Add('.jpeg');
+        // Get the SAS base URL (without the file name)
+        sasUrlBase := azureConfig."SAS URL";
+
+        // Load the file to be uploaded into an InStream
+        if UploadIntoStream('Select a Document', '', '(*.pdf, *.docx,*.jpeg, *.jpg)|*.pdf;*.docx;*.jpeg;*.jpg', fileName, inStream) then begin
+
+            fileExtension := LowerCase(CopyStr(fileName, StrPos(fileName, '.'), StrLen(fileName) - StrPos(fileName, '.') + 1));
+            if not validFormats.Contains(fileExtension) then
+                Error('Unsupported file format. Please upload PDF, DOCX, JPEG or JPG.');
+
+            fileSize := inStream.Length / 1024 / 1024; // Convert to MB
+            if fileSize > 5 then
+                Error('File is too large. Maximum size allowed is 5MB.');
+            // Append the file name to the base SAS URL to create a full SAS URL
+            sasUrlWithFileName := StrSubstNo('%1/%2?%3', CopyStr(sasUrlBase, 1, StrPos(sasUrlBase, '?') - 1), fileName, CopyStr(sasUrlBase, StrPos(sasUrlBase, '?') + 1));
+
+
+            // Call the upload function with the modified SAS URL
+            uploadResult := UploadDocumentToBlobStorage(sasUrlWithFileName, fileName, inStream);
+
+            // Message('Document uploaded successfully: %1', fileName);
+            exit(fileName);
+        end else
+            Message('No document was selected to upload.');
+    end;
 
 }
 
