@@ -111,10 +111,11 @@ table 53752 "Contract Assignment"
             DataClassification = ToBeClassified;
             Caption = 'Contract Template';
         }
-        field(53765; "Contract File"; Decimal)
+        field(53765; "Contract File"; Text[250])
         {
             DataClassification = ToBeClassified;
             Caption = 'Contract File';
+            InitValue = 'Upload File';
         }
         field(53766; "Contract Notes"; Text[250])
         {
