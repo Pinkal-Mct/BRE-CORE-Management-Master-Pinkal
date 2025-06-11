@@ -14,7 +14,13 @@ page 53751 "No. Series Setup"
         {
             group(Group)
             {
+
                 Caption = 'No. Series Setup';
+                field("Construction Project Nos."; Rec."Construction Project No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the construction project number series.';
+                }
                 field("Contract Assignment Nos."; Rec."Contract Assignment Nos.")
                 {
                     ApplicationArea = All;
