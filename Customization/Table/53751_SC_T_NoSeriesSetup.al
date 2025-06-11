@@ -17,7 +17,7 @@ table 53751 "No. Series Setup"
         }
         field(53753; "Construction Project No."; Code[20])
         {
-             DataClassification = ToBeClassified;
+            DataClassification = ToBeClassified;
             Caption = 'Construction Project Nos.';
             TableRelation = "No. Series".Code;
         }
