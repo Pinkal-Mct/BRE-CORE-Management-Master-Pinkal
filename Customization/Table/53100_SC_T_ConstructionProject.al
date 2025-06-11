@@ -190,4 +190,16 @@ table 53100 "Construction Project"
             Clustered = true;
         }
     }
+
+    trigger OnInsert()
+
+    var
+        noSeriesSetup: Record "No. Series Setup";
+        noseries: Codeunit "No. Series";
+    begin
+        if noSeriesSetup.Get() then begin
+            Rec."Project ID" := noseries.GetNextNo(noSeriesSetup."Construction Project No.");
+        end else
+            Error('No. Series Setup not found for Construction Project Nos.');
+    end;
 }
