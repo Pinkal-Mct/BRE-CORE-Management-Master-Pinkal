@@ -1,5 +1,49 @@
 codeunit 50950 "Azure AD Blob Storage"
 {
+
+    procedure ValidateDocument(var pUploadResult: Text; pFolderName: Text): Text
+    var
+        inStream: InStream;
+        fileName: Text;
+        sasUrlBase: Text;
+        sasUrlWithFileName: Text;
+        uploadResult: Text;
+        tempBlob: Codeunit "Temp Blob";
+        validFormats: List of [Text];
+        fileExtension: Text[10];
+        fileSize: Decimal;
+        azureConfig: Record AzureConfiguration;
+        azureBlobUploaderNew: Codeunit "Azure AD Blob Storage";
+    begin
+        // Validate and retrieve the SAS URL from the configuration table
+        if not azureConfig.FindFirst() then
+            Error('Azure configuration is missing. Please set up the SAS URL in the Azure Configuration table.');
+
+        validFormats.Add('.pdf');
+        validFormats.Add('.docx');
+        validFormats.Add('.jpg');
+        validFormats.Add('.jpeg');
+
+        // Load the file to be uploaded into an InStream
+        if UploadIntoStream('Select a Document', '', '(*.pdf, *.docx,*.jpeg, *.jpg)|*.pdf;*.docx;*.jpeg;*.jpg', fileName, inStream) then begin
+
+            fileExtension := LowerCase(CopyStr(fileName, StrPos(fileName, '.'), StrLen(fileName) - StrPos(fileName, '.') + 1));
+            if not validFormats.Contains(fileExtension) then
+                Error('Unsupported file format. Please upload PDF, DOCX, JPEG or JPG.');
+
+            fileSize := inStream.Length / 1024 / 1024; // Convert to MB
+            if fileSize > 5 then
+                Error('File is too large. Maximum size allowed is 5MB.');
+
+            // Call the upload to blob function
+            pUploadResult := UploadDocumentToBlob(inStream, fileName, pFolderName);
+
+            // Message('Document uploaded successfully: %1', fileName);
+            exit(fileName);
+        end else
+            Message('No document was selected to upload.');
+    end;
+
     procedure UploadDocumentToBlob(var InStream: InStream; FileName: Text; FolderName: Text): Text
     var
         AccessToken: Text;
@@ -19,8 +63,8 @@ codeunit 50950 "Azure AD Blob Storage"
         BlobContainerUrl: Text;
     begin
         // Get configuration
-        if not ConfigRecord.FindFirst() then
-            Error('Azure configuration is missing. Please set up the configuration.');
+        // if not ConfigRecord.FindFirst() then
+        //     Error('Azure configuration is missing. Please set up the configuration.');
 
         // Get storage account from configuration
         StorageAccount := ConfigRecord."Storage Account Name";

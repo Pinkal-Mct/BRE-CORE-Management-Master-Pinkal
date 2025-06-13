@@ -317,6 +317,8 @@ codeunit 50500 UploadAttachment
         fileExtension: Text[10];
         fileSize: Decimal;
         azureConfig: Record AzureConfiguration;
+        azureBlobUploaderNew: Codeunit "Azure AD Blob Storage";
+        folderName: Text;
     begin
         // Validate and retrieve the SAS URL from the configuration table
         if not azureConfig.FindFirst() then
@@ -342,9 +344,9 @@ codeunit 50500 UploadAttachment
             // Append the file name to the base SAS URL to create a full SAS URL
             sasUrlWithFileName := StrSubstNo('%1/%2?%3', CopyStr(sasUrlBase, 1, StrPos(sasUrlBase, '?') - 1), fileName, CopyStr(sasUrlBase, StrPos(sasUrlBase, '?') + 1));
 
-
             // Call the upload function with the modified SAS URL
-            uploadResult := UploadDocumentToBlobStorage(sasUrlWithFileName, fileName, inStream);
+            uploadResult := azureBlobUploaderNew.UploadDocumentToBlob(inStream, fileName, folderName);
+            // uploadResult := UploadDocumentToBlobStorage(sasUrlWithFileName, fileName, inStream);
 
             // Message('Document uploaded successfully: %1', fileName);
             exit(fileName);
