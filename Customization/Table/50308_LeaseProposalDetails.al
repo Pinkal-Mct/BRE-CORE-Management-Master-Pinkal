@@ -68,8 +68,12 @@ table 50308 "Lease Proposal Details"
         {
             DataClassification = ToBeClassified;
             Caption = 'Single Unit ID';
+            //     TableRelation = Item."No."
+            // where("Property ID" = field("Property ID"), "Unit Status" = const('Free'), "MergeSplitOption" = const(Single));// Filter by Property ID, Unit Status, and Merging/Splitting
+
             TableRelation = Item."No."
-        where("Property ID" = field("Property ID"), "Unit Status" = const('Free'), "MergeSplitOption" = const(Single));// Filter by Property ID, Unit Status, and Merging/Splitting
+    where("Property ID" = field("Property ID"), "Unit Status" = const(Free), "MergeSplitOption" = const(Single));
+
             trigger OnValidate()
             var
                 LeaseProposalRec: Record "Lease Proposal Details";
@@ -133,7 +137,10 @@ table 50308 "Lease Proposal Details"
                             Validate("Rent Amount VAT %", "Rent Amount VAT %"::"0%");
                     end;
 
-                    ItemRec."Unit Status" := 'Selected';
+                    // ItemRec."Unit Status" := 'Selected';
+
+                    ItemRec."Unit Status" := ItemRec."Unit Status"::Selected;
+
 
                     ItemRec.Modify();
                 end;
@@ -258,6 +265,7 @@ table 50308 "Lease Proposal Details"
             // end;
             // Trasfer from Table End
         }
+
 
         field(50118; "Lease Duration"; Text[50])
         {
@@ -404,14 +412,15 @@ table 50308 "Lease Proposal Details"
                                 end;
                             "Proposal Status"::Approved:
                                 begin
-                                    ItemRec."Unit Status" := 'Selected';
+                                    ItemRec."Unit Status" := ItemRec."Unit Status"::Selected;
                                     ItemRec.Modify();
                                 end;
                             "Proposal Status"::Declined:
                                 begin
-                                    ItemRec."Unit Status" := 'Free';
+                                    ItemRec."Unit Status" := ItemRec."Unit Status"::Free;
                                     ItemRec.Modify();
                                 end;
+
                         end;
                     end else
                         Message('Unit ID not found in Item Record');
@@ -435,7 +444,8 @@ table 50308 "Lease Proposal Details"
                                     ItemRec.SetRange("Merged Unit ID", MergeUnitRec."Merged Unit ID");
                                     if ItemRec.FindSet() then begin
                                         repeat
-                                            ItemRec."Unit Status" := 'Selected'; // Set Unit Status to Selected
+                                            ItemRec."Unit Status" := ItemRec."Unit Status"::Selected;
+                                            // Set Unit Status to Selected
                                             ItemRec.Modify();
                                         until ItemRec.Next() = 0;
                                     end;
@@ -459,7 +469,8 @@ table 50308 "Lease Proposal Details"
                                     ItemRec.SetRange("Merged Unit ID", MergeUnitRec."Merged Unit ID");
                                     if ItemRec.FindSet() then begin
                                         repeat
-                                            ItemRec."Unit Status" := 'Free'; // Set Unit Status to Free
+                                            ItemRec."Unit Status" := ItemRec."Unit Status"::Free;
+                                            // Set Unit Status to Free
                                             ItemRec.Modify();
                                         until ItemRec.Next() = 0;
                                     end;
@@ -578,7 +589,8 @@ table 50308 "Lease Proposal Details"
                         ItemRec.SetFilter("No.", SelectedUnits); // Set filter to selected units
                         if ItemRec.FindSet() then begin
                             repeat
-                                ItemRec."Unit Status" := 'Selected';
+                                ItemRec."Unit Status" := ItemRec."Unit Status"::Selected;
+
                                 ItemRec.Modify();
                             until ItemRec.Next() = 0;
                         end;
@@ -1476,6 +1488,7 @@ table 50308 "Lease Proposal Details"
             // end;
             // Trasfer from Table End
         }
+
         field(50172; "Vendor Name"; Text[100])
         {
             DataClassification = ToBeClassified;
@@ -1805,7 +1818,6 @@ table 50308 "Lease Proposal Details"
         ValidateRecord();
     end;
     // Trasfer from Table End
-
 
 
     //-------------Record Insert--------------//
