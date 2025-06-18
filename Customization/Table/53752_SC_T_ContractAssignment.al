@@ -23,10 +23,8 @@ table 53752 "Contract Assignment"
                     Error('Project with ID %1 does not exist.', Rec."Project ID")
                 else begin
                     Rec."Project Name" := constructionProject."Project Name";
-                    Rec."Project Location" := constructionProject."Project Location";
-                    Rec."Project Scope" := constructionProject."Project Scope";
-                    Rec."Project Start Date" := constructionProject."Project Start Date";
-                    Rec."Project End Date" := constructionProject."Project End Date";
+                    Rec."Project Start Date" := constructionProject."Planned start date";
+                    Rec."Project End Date" := constructionProject."Planned end Date";
                 end;
             end;
         }
