@@ -4,6 +4,7 @@ table 53100 "Construction Project"
     Caption = 'Construction Project';
     fields
     {
+        // Project Details //
         field(53100; "Project ID"; Code[20])
         {
             DataClassification = ToBeClassified;
@@ -14,172 +15,229 @@ table 53100 "Construction Project"
             DataClassification = ToBeClassified;
             Caption = 'Project Name';
         }
-        field(53102; "Project Location"; Text[100])
+        field(53102; "Project type"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Project Location';
+            Caption = 'Project type';
         }
-        field(53103; "Project Scope"; Text[100])
+        field(53103; "Project status"; Option)
         {
-            DataClassification = ToBeClassified;
-            Caption = 'Project Scope';
-        }
-        field(53104; "Project Start Date"; Date)
-        {
-            DataClassification = ToBeClassified;
-            Caption = 'Project Start Date';
-        }
-        field(53105; "Project End Date"; Date)
-        {
-            DataClassification = ToBeClassified;
-            Caption = 'Project End Date';
-        }
-        field(53106; "Project Status"; Option)
-        {
-            OptionCaption = ' ,In Progress,Completed,On Hold';
-            OptionMembers = " ",InProgress,Completed,OnHold;
+            OptionCaption = ' ,Planned,In progress,Completed,On Hold,Cancelled';
+            OptionMembers = " ",Planned,InProgress,Completed,OnHold,Cancelled;
             DataClassification = ToBeClassified;
             Caption = 'Project Status';
         }
-        field(53107; "Milestone ID"; Text[100])
+        // Project Details // 
+
+        // Project scope //
+        field(53104; "Description"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Milestone ID';
+            Caption = 'Description';
         }
-        field(53108; "Milestone Name"; Text[100])
+        field(53105; "Objectives"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Milestone Name';
+            Caption = 'Objectives';
         }
-        field(53109; "Milestone Start Date"; Date)
+        field(53106; "Additional Notes"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Milestone Start Date';
+            Caption = 'Additional Notes';
         }
-        field(53110; "Milestone End Date"; Date)
+        // Project scope //
+
+        // Project Location //
+        field(53107; "Address Line 1"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Milestone End Date';
+            Caption = 'Address Line 1';
         }
-        field(53111; "Milestone Status"; Option)
-        {
-            OptionCaption = ' ,Not Started,In Progress,Completed';
-            OptionMembers = " ",NotStarted,InProgress,Completed;
-            DataClassification = ToBeClassified;
-            Caption = 'Milestone Status';
-        }
-        field(53112; "Milestone Progress"; Decimal)
-        {
-            DecimalPlaces = 2;
-            MinValue = 0;
-            MaxValue = 100;
-            DataClassification = ToBeClassified;
-            Caption = 'Milestone Progress';
-        }
-        field(53113; "Milestone Notes"; Text[100])
+        field(53108; "Address Line 2"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Milestone Notes';
+            Caption = 'Address Line 2';
         }
-        field(53114; "Task ID"; Text[100])
+        field(53109; "Postal code"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Task ID';
+            Caption = 'Postal code';
         }
-        field(53115; "Task Name"; Text[100])
+        field(53110; "latitude"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Task Name';
+            Caption = 'latitude';
         }
-        field(53116; "Task Start Date"; Date)
+        field(53111; "longitude"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Task Start Date';
+            Caption = 'longitude';
         }
-        field(53117; "Task End Date"; Date)
+        field(53112; "Location link"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Task End Date';
+            Caption = 'Location link';
         }
-        field(53118; "Task Status"; Option)
-        {
-            OptionCaption = ' ,Not Started,In Progress,Completed';
-            OptionMembers = " ",NotStarted,InProgress,Completed;
-            DataClassification = ToBeClassified;
-            Caption = 'Task Status';
-        }
-        field(53119; "Task Progress"; Decimal)
-        {
-            DecimalPlaces = 2;
-            MinValue = 0;
-            MaxValue = 100;
-            DataClassification = ToBeClassified;
-            Caption = 'Task Progress';
-        }
-        field(53120; "Task Notes"; Text[100])
+        // Project Location //
+
+        // Timeline //
+        field(53113; "Planned start date"; Date)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Task Notes';
+            Caption = 'Planned start date';
         }
-        field(53121; "Issue ID"; Text[100])
+        field(53114; "Planned end Date"; Date)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Issue ID';
+            Caption = 'Planned end Date';
         }
-        field(53122; "Issue Description"; Text[100])
+        field(53115; "Actual start date"; Date)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Issue Description';
+            Caption = 'Actual start date';
         }
-        field(53123; "Issue Start Date"; Date)
+        field(53116; "Final completion date"; Date)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Issue Start Date';
+            Caption = 'Final completion date';
         }
-        field(53124; "Issue Resolution Date"; Date)
+        // Timeline //
+
+        // Performance Metrics //
+        field(53117; "Progress percentages"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Issue Resolution Date';
+            Caption = 'Progress percentages';
         }
-        field(53125; "Issue Status"; Option)
-        {
-            OptionCaption = ' ,Open,In Progress,Resolved';
-            OptionMembers = " ",Open,InProgress,Resolved;
-            DataClassification = ToBeClassified;
-            Caption = 'Issue Status';
-        }
-        field(53126; "Issue Notes"; Text[100])
+        // Performance Metrics //
+
+        // Financial Details //
+        field(53118; "Approved budget"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Issue Notes';
+            Caption = 'Approved budget';
         }
-        field(53127; "Report ID"; Text[100])
+        field(53119; "Estimated cost breakdown"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Report ID';
+            Caption = 'Estimated cost breakdown';
         }
-        field(53128; "Report Date"; Date)
+        field(53120; "Funding source"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Report Date';
+            Caption = 'Funding source';
         }
-        field(53129; "Report Type"; Option)
-        {
-            OptionCaption = ' ,Weekly Progress,Monthly Progress';
-            OptionMembers = " ",WeeklyProgress,MonthlyProgress;
-            DataClassification = ToBeClassified;
-            Caption = 'Report Type';
-        }
-        field(53130; "Report File"; Blob)
+        field(53121; "Current spends tracking"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Report File';
+            Caption = 'Current spends tracking';
         }
-        field(53131; "Report Notes"; Text[100])
+        // Financial Details //
+
+        // Responsible Parties //
+        field(53122; "Project owner"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Report Notes';
+            Caption = 'Project owner';
         }
+        field(53123; "Primary contractor"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Primary contractor';
+        }
+        field(53124; "Project manager"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Project manager';
+        }
+        // Responsible Parties //
+
+        // Project Documents //
+        field(53125; "DrawingsRevisions"; Blob)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'DrawingsRevisions';
+        }
+        field(53126; "Permit numbers -Relevant documents"; Blob)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Permit numbers -Relevant documents';
+        }
+        field(53127; "Contract documents"; Blob)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Contract documents';
+        }
+        field(53128; "Inspection reports"; Blob)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Inspection reports';
+        }
+        // Project Documents //
+
+        // Construction Specifications //
+        field(53129; "Building type or classification"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Building type or classification';
+        }
+        field(53130; "UOM"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'UOM';
+        }
+        field(53131; "Number of floors"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Number of floors';
+        }
+        field(53132; "Construction materials"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Construction materials';
+        }
+        // Construction Specifications //
+
+        // Stakeholders //
+        field(53133; "Architect/design firm"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Architect/design firm';
+        }
+        field(53134; "Subcontractors list"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Subcontractors list';
+        }
+        field(53135; "Key consultants"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Key consultants';
+        }
+        // Stakeholders //
+
+        // Extended Timeline //
+        field(53136; "Design completion date"; Date)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Design completion date';
+        }
+        field(53137; "Permit approval date"; Date)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Permit approval date';
+        }
+        field(53138; "Substantial completion date"; Date)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Substantial completion date';
+        }
+        field(53139; "Extended Final completion date"; Date)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Extended Final completion date';
+        }
+        // Extended Timeline //
 
     }
 
