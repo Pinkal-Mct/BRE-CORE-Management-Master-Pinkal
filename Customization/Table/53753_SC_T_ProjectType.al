@@ -21,7 +21,7 @@ table 53753 "Project Type"
 
     keys
     {
-        key(PK; "Project Type ID")
+        key(PK; "Project Type ID", "Project Type")
         {
             Clustered = true;
         }
