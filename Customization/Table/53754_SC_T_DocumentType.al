@@ -21,7 +21,7 @@ table 53754 "Document Type"
 
     keys
     {
-        key(PK; "Document Type ID")
+        key(PK; "Document Type ID", "Document Type")
         {
             Clustered = true;
         }
