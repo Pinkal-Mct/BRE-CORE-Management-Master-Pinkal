@@ -152,29 +152,6 @@ table 53100 "Construction Project"
         }
         // Responsible Parties //
 
-        // Project Documents //
-        field(53125; "DrawingsRevisions"; Text[2048])
-        {
-            DataClassification = ToBeClassified;
-            Caption = 'Drawings/Revisions';
-        }
-        field(53126; "Permit No. Relevant Documents"; Text[2048])
-        {
-            DataClassification = ToBeClassified;
-            Caption = 'Permit Numbers & Relevant Documents';
-        }
-        field(53127; "Contract Documents"; Text[2048])
-        {
-            DataClassification = ToBeClassified;
-            Caption = 'Contract dDocuments';
-        }
-        field(53128; "Inspection Reports"; Text[2048])
-        {
-            DataClassification = ToBeClassified;
-            Caption = 'Inspection Reports';
-        }
-        // Project Documents //
-
         // Construction Specifications //
         field(53129; "Building Type/Classification"; Text[100])
         {
