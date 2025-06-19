@@ -59,7 +59,7 @@ codeunit 50304 "Payment Reminder Processor"
      '<html><body>' +
      '<p>Dear ' + PaymentRec."Tenant Name" + ',</p>' +
      '<p>I hope this message finds you well. This is a kind reminder that your payment for <b>(Rent/Charges)</b> is due on <b>' +
-     Format(PaymentRec."Due Date") + '</b>, which is <b>' + Format(PaymentRec."Payment Reminder") + ' days</b> from now.</p>' +
+     Format(PaymentRec."Due Date", 0, '<Day>/<Month>/<Year4>') + '</b>, which is <b>' + Format(PaymentRec."Payment Reminder") + ' days</b> from now.</p>' +
 
      '<p><b>Details of the Payment:</b><br/>' +
      'Contract ID: ' + Format(PaymentRec."Contract ID") + '<br/>' +
@@ -70,7 +70,7 @@ codeunit 50304 "Payment Reminder Processor"
 
      '<p>If you have any questions or require assistance, feel free to reach out to us.</p>' +
      '<p><i>This is a system-generated email.</i></p>' +
-     '<p>Best regards,<br/><b>The BlueRidge Real-Estate Solution Team</b></p>' +
+     //  '<p>Best regards,<br/><b>The BlueRidge Real-Estate Solution Team</b></p>' +
      '</body></html>';
 
         EmailMessage.Create(
