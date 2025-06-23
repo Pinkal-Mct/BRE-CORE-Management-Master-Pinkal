@@ -15,10 +15,22 @@ table 53751 "No. Series Setup"
             Caption = 'Contract Assignment Nos.';
             TableRelation = "No. Series".Code;
         }
-        field(53753; "Construction Project No."; Code[20])
+        field(53753; "Construction Project Nos."; Code[20])
         {
             DataClassification = ToBeClassified;
             Caption = 'Construction Project Nos.';
+            TableRelation = "No. Series".Code;
+        }
+        field(53754; "Milestone Nos."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Milestone Nos.';
+            TableRelation = "No. Series".Code;
+        }
+        field(53755; "Milestone Task Nos."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Milestone Task Nos.';
             TableRelation = "No. Series".Code;
         }
     }

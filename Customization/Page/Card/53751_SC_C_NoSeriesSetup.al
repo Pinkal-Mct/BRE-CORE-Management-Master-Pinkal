@@ -16,7 +16,7 @@ page 53751 "No. Series Setup"
             {
 
                 Caption = 'No. Series Setup';
-                field("Construction Project Nos."; Rec."Construction Project No.")
+                field("Construction Project Nos."; Rec."Construction Project Nos.")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the construction project number series.';
@@ -25,6 +25,16 @@ page 53751 "No. Series Setup"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the contract assignment number series.';
+                }
+                field("Milestone Nos."; Rec."Milestone Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the milestone number series.';
+                }
+                field("Milestone Task Nos."; Rec."Milestone Task Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the milestone task number series.';
                 }
             }
         }
