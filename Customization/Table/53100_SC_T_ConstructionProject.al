@@ -19,6 +19,7 @@ table 53100 "Construction Project"
         {
             DataClassification = ToBeClassified;
             Caption = 'Project type';
+            TableRelation = "Project Type";
         }
         field(53103; "Project status"; Option)
         {
