@@ -1,0 +1,481 @@
+table 52001 "Facility Vendor Profiles"
+{
+    DataClassification = ToBeClassified;
+    DataCaptionFields = "Vendor ID";
+    fields
+    {
+        field(50100; "Vendor ID"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Vendor ID';
+            TableRelation = Vendor."No.";
+            //TableRelation = Vendor."No." WHERE("Vendor Category" = FILTER('Property Management System' | 'Brokers and Commission Agent'));
+
+            trigger OnValidate()
+            var
+                vendor: Record Vendor;
+            begin
+                // vendor.SetRange("No.", Rec."Vendor ID");
+                vendor.SetFilter("No.", 'FM_V_*');
+                if vendor.FindSet() then begin
+                    Rec."Vendor ID" := vendor."No.";
+                    "Vendor Name" := vendor."Name";
+                    "Search Name" := vendor."Search Name";
+                    "Blocked" := Vendor."Blocked";
+                    "Privacy Blocked" := Vendor."Privacy Blocked";
+                    "IC Partner Code" := Vendor."IC Partner Code";
+                    "Purchaser Code" := Vendor."Purchaser Code";
+                    "Responsibility Center" := Vendor."Responsibility Center";
+                    "Disable Search by Name" := Vendor."Disable Search by Name";
+                    "Company Size Code" := Vendor."Company Size Code";
+                    "Last Date Modified" := Vendor."Last Date Modified";
+                    "Document Sending Profile" := Vendor."Document Sending Profile";
+                    "Balance (LCY)" := Vendor."Balance (LCY)";
+                    "Balance Due (LCY)" := Vendor."Balance Due (LCY)";
+                    Address := Vendor.Address;
+                    "Address 2" := Vendor."Address 2";
+                    "Country" := Vendor.County;
+                    "Emirate" := vendor.Emirate;
+                    "Community" := vendor.Community;
+                    "Phone No." := Vendor."Phone No.";
+                    "Mobile Phone No." := Vendor."Mobile Phone No.";
+                    "E-Mail" := Vendor."E-Mail";
+                    "Home Page" := Vendor."Home Page";
+                    "Our Account No." := Vendor."Our Account No.";
+                    "Primary Contact Code" := Vendor."Primary Contact No.";
+                    "VAT Registration No." := Vendor."VAT Registration No.";
+                    "Price Calculation Method" := Vendor."Price Calculation Method";
+                    "Price Including VAT" := Vendor."Prices Including VAT";
+                    "Application Method" := Vendor."Application Method";
+                    "Payment Terms Code" := Vendor."Payment Terms Code";
+                    "Payment Method Code" := Vendor."Payment Method Code";
+                    Priority := Vendor.Priority;
+                    "Block Payment Tolerance" := Vendor."Block Payment Tolerance";
+                    "Preferred Bank Account Code" := Vendor."Preferred Bank Account Code";
+                    "Partner Type" := Vendor."Partner Type";
+                    "Cash Flow Payment Terms Code" := Vendor."Cash Flow Payment Terms Code";
+                    "Creditor No." := Vendor."Creditor No.";
+                    "Location Code" := Vendor."Location Code";
+                    "Shipment Method Code" := Vendor."Shipment Method Code";
+                    "Lead Time Calculation" := Vendor."Lead Time Calculation";
+                    "Base Calendar Code" := Vendor."Base Calendar Code";
+                    "Over-Receipt Code" := Vendor."Over-Receipt Code";
+                end else begin
+                    "Vendor ID" := '';
+                    "Vendor Name" := '';
+                    "Search Name" := '';
+                    "Blocked" := "Blocked"::" ";
+                    "Privacy Blocked" := false;
+                    "IC Partner Code" := '';
+                    "Purchaser Code" := '';
+                    "Responsibility Center" := '';
+                    "Disable Search by Name" := false;
+                    "Company Size Code" := '';
+                    "Last Date Modified" := 0D;
+                    "Document Sending Profile" := '';
+                    "Balance (LCY)" := 0;
+                    "Balance Due (LCY)" := 0;
+                    Address := '';
+                    "Address 2" := '';
+                    "Country" := '';
+                    "Phone No." := '';
+                    "Mobile Phone No." := '';
+                    "E-Mail" := '';
+                    "Home Page" := '';
+                    "Our Account No." := '';
+                    "Primary Contact Code" := '';
+                    "VAT Registration No." := '';
+                    "Price Calculation Method" := "Price Calculation Method"::" ";
+                    "Price Including VAT" := false;
+                    "Application Method" := "Application Method"::"Manual";
+                    "Payment Terms Code" := '';
+                    "Payment Method Code" := '';
+                    Priority := 0;
+                    "Block Payment Tolerance" := false;
+                    "Preferred Bank Account Code" := '';
+                    "Partner Type" := "Partner Type"::" ";
+                    "Cash Flow Payment Terms Code" := '';
+                    "Creditor No." := '';
+                    "Location Code" := '';
+                    "Shipment Method Code" := '';
+                    "Base Calendar Code" := '';
+                    "Over-Receipt Code" := '';
+                end;
+            end;
+        }
+
+        field(50101; "Vendor Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Vendor Name';
+            Editable = false;
+        }
+
+        field(50111; "Blocked"; Enum "Vendor Blocked")
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Blocked';
+            Editable = false;
+        }
+        field(50112; "Balance (LCY)"; Decimal)
+        {
+            Caption = 'Balance (LCY)';
+            Editable = false;
+        }
+
+        field(50114; "Balance Due (LCY)"; Decimal)
+        {
+            Caption = 'Balance Due (LCY)';
+            Editable = false;
+        }
+        field(50115; Address; Text[100])
+        {
+            Caption = 'Address';
+            Editable = false;
+        }
+        field(50116; "Address 2"; Text[50])
+        {
+            Caption = 'Address 2';
+            Editable = false;
+        }
+        field(50163; Country; Text[30])
+        {
+            Caption = 'Country';
+            Editable = false;
+        }
+        field(50164; Emirate; Text[30])
+        {
+            Caption = 'Emirate';
+            Editable = false;
+        }
+        field(50119; Community; Text[30])
+        {
+            Caption = 'Community';
+            Editable = false;
+        }
+        field(50121; "Phone No."; Text[30])
+        {
+            Caption = 'Phone No.';
+            Editable = false;
+        }
+        field(50122; "Mobile Phone No."; Text[30])
+        {
+            Caption = 'Mobile Phone No.';
+            Editable = false;
+        }
+        field(50123; "E-Mail"; Text[80])
+        {
+            Caption = 'Email';
+            Editable = false;
+        }
+        field(50124; "Home Page"; Text[80])
+        {
+            Caption = 'Home Page';
+            Editable = false;
+        }
+        field(50125; "Our Account No."; Text[20])
+        {
+            Caption = 'Our Account No.';
+            Editable = false;
+        }
+        field(50126; "Primary Contact Code"; Code[80])
+        {
+            Caption = 'Primary Contact Code';
+            Editable = false;
+        }
+
+        field(50128; "VAT Registration No."; Text[20])
+        {
+            Caption = 'VAT Registration No.';
+            Editable = false;
+        }
+        field(50129; "Price Calculation Method"; Enum "Price Calculation Method")
+        {
+            Caption = 'Price Calculation Method';
+            Editable = false;
+        }
+        field(50130; "Price Including VAT"; Boolean)
+        {
+            Caption = 'Price Including VAT';
+            Editable = false;
+        }
+
+        field(50131; "Application Method"; Enum "Application Method")
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Application Method';
+            Editable = false;
+        }
+        field(50132; "Payment Terms Code"; Code[10])
+        {
+            Caption = 'Payment Terms Code';
+            Editable = false;
+        }
+        field(50133; "Payment Method Code"; Code[10])
+        {
+            Caption = 'Payment Method Code';
+            Editable = false;
+        }
+        field(50134; Priority; Integer)
+        {
+            Caption = 'Priority';
+            Editable = false;
+        }
+        field(50135; "Block Payment Tolerance"; Boolean)
+        {
+            Caption = 'Block Payment Tolerance';
+            Editable = false;
+        }
+        field(50136; "Preferred Bank Account Code"; Code[100])
+        {
+            Caption = 'Preferred Bank Account Code';
+            Editable = false;
+        }
+        field(50137; "Partner Type"; Enum "Partner Type")
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Partner Type';
+            Editable = false;
+        }
+        field(50138; "Cash Flow Payment Terms Code"; Code[100])
+        {
+            Caption = 'Cash Flow Payment Terms Code';
+            Editable = false;
+        }
+        field(50139; "Creditor No."; Code[100])
+        {
+            Caption = 'Creditor No.';
+            Editable = false;
+        }
+        field(50140; "Location Code"; Code[10])
+        {
+            Caption = 'Location Code';
+            Editable = false;
+        }
+        field(50141; "Shipment Method Code"; Code[10])
+        {
+            Caption = 'Shipment Method Code';
+            Editable = false;
+        }
+        field(50142; "Lead Time Calculation"; DateFormula)
+        {
+            Caption = 'Lead Time Calculation';
+            Editable = false;
+        }
+        field(50143; "Base Calendar Code"; Code[10])
+        {
+            Caption = 'Base Calendar Code';
+            Editable = false;
+        }
+        field(50144; "Over-Receipt Code"; Code[20])
+        {
+            Caption = 'Over-Receipt Code';
+            Editable = false;
+        }
+        field(50145; "Receive E-Document To"; Option)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Receive E-Document To';
+            OptionMembers = " ","Purchase Order","Purchase Invoice";
+            Editable = false;
+        }
+
+        field(50147; "Privacy Blocked"; Boolean)
+        {
+            Caption = 'Privacy Blocked';
+            Editable = false;
+        }
+        field(50148; "Last Date Modified"; Date)
+        {
+            Caption = 'Last Date Modified';
+            Editable = false;
+        }
+
+        field(50149; "Document Sending Profile"; Code[20])
+        {
+            Caption = 'Document Sending Profile';
+            Editable = false;
+        }
+
+        field(50150; "Search Name"; Code[100])
+        {
+            Caption = 'Search Name';
+            Editable = false;
+        }
+        field(50151; "IC Partner Code"; Code[20])
+        {
+            Caption = 'IC Partner Code';
+            Editable = false;
+        }
+        field(50152; "Purchaser Code"; Code[20])
+        {
+            Caption = 'Purchaser Code';
+            Editable = false;
+        }
+
+        field(50153; "Responsibility Center"; Code[10])
+        {
+            Caption = 'Responsibility Center';
+            Editable = false;
+        }
+
+        field(50154; "Disable Search by Name"; Boolean)
+        {
+            Caption = 'Disable Search by Name';
+            Editable = false;
+        }
+        field(50155; "Company Size Code"; Code[20])
+        {
+            Caption = 'Company Size Code';
+            Editable = false;
+        }
+
+        field(50156; "Address 3"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Address 3';
+        }
+        field(50157; "P.O.Box"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'P.O.Box';
+        }
+        field(50158; "Profile ID"; code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Profile ID';
+            TableRelation = Contact."No.";
+
+            trigger OnValidate()
+            var
+                contact: Record Contact;
+            begin
+                contact.SetRange("No.", Rec."Profile ID");
+                if contact.FindSet() then begin
+                    Rec."Profile ID" := contact."No.";
+                    "Profile Name" := contact."Name";
+                end else begin
+                    Rec."Profile ID" := '';
+                    "Profile Name" := '';
+                end;
+            end;
+        }
+        field(50159; "Profile Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Profile Name';
+        }
+        field(50105; "Designation"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Designation';
+        }
+        field(50106; "Mobile No."; Integer)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Mobile No.';
+        }
+        field(50107; "Nationality"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Nationality';
+        }
+        field(50108; "Email Address"; Code[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Email Address';
+        }
+        field(50160; "TradeLicense IssuingAuthority"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Trade License Issuing Authority';
+        }
+        field(50110; "Trade License Number"; Code[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Trade License Number';
+        }
+        field(50161; "Trade License Issue Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Trade License Issue Date';
+        }
+        field(50162; "Trade License Expiry Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Trade License Expiry Date';
+        }
+        field(50113; "VAT Registration Number"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'VAT Registration Number';
+        }
+        field(50165; "Corporate Tax Registration"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Corporate Tax Registration';
+        }
+        field(50120; "EC Number"; Integer)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'EC Number';
+        }
+        field(50166; "Issuing Authority"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Issuing Authority';
+        }
+        field(50117; "Issue Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Issue Date';
+        }
+        field(50118; "Expiry Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Expiry Date';
+        }
+        field(50169; "Owners Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Name';
+        }
+        field(50170; "Owners Designation"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Designation';
+        }
+        field(50171; "Emirates ID"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Emirates ID';
+        }
+        field(50172; "Passport Number"; Code[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Passport Number';
+        }
+        field(50173; "Vendor Type"; Option)
+        {
+            OptionMembers = " ","Domestic","Non-Domestic";
+            Caption = 'Vendor Type';
+        }
+
+    }
+    keys
+    {
+        key(PK; "Vendor ID", "Vendor Name")
+        {
+            Clustered = true;
+        }
+    }
+
+    fieldgroups
+    {
+        fieldgroup(DropDown; "Vendor ID", "Vendor Name")
+        {
+
+        }
+    }
+
+}
