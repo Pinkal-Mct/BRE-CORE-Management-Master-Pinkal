@@ -4,19 +4,19 @@ table 52001 "Facility Vendor Profiles"
     DataCaptionFields = "Vendor ID";
     fields
     {
-        field(50100; "Vendor ID"; Code[20])
+        field(52001; "Vendor ID"; Code[20])
         {
             DataClassification = ToBeClassified;
             Caption = 'Vendor ID';
-            TableRelation = Vendor."No.";
+            TableRelation = "Vendor" WHERE("No." = FILTER('FM_V_*'));
+            // TableRelation = Vendor."No.";
             //TableRelation = Vendor."No." WHERE("Vendor Category" = FILTER('Property Management System' | 'Brokers and Commission Agent'));
 
             trigger OnValidate()
             var
                 vendor: Record Vendor;
             begin
-                // vendor.SetRange("No.", Rec."Vendor ID");
-                vendor.SetFilter("No.", 'FM_V_*');
+                vendor.SetRange("No.", Rec."Vendor ID");
                 if vendor.FindSet() then begin
                     Rec."Vendor ID" := vendor."No.";
                     "Vendor Name" := vendor."Name";
@@ -104,175 +104,175 @@ table 52001 "Facility Vendor Profiles"
             end;
         }
 
-        field(50101; "Vendor Name"; Text[100])
+        field(52002; "Vendor Name"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Vendor Name';
             Editable = false;
         }
 
-        field(50111; "Blocked"; Enum "Vendor Blocked")
+        field(52003; "Blocked"; Enum "Vendor Blocked")
         {
             DataClassification = ToBeClassified;
             Caption = 'Blocked';
             Editable = false;
         }
-        field(50112; "Balance (LCY)"; Decimal)
+        field(52004; "Balance (LCY)"; Decimal)
         {
             Caption = 'Balance (LCY)';
             Editable = false;
         }
 
-        field(50114; "Balance Due (LCY)"; Decimal)
+        field(52005; "Balance Due (LCY)"; Decimal)
         {
             Caption = 'Balance Due (LCY)';
             Editable = false;
         }
-        field(50115; Address; Text[100])
+        field(52006; Address; Text[100])
         {
             Caption = 'Address';
             Editable = false;
         }
-        field(50116; "Address 2"; Text[50])
+        field(52007; "Address 2"; Text[50])
         {
             Caption = 'Address 2';
             Editable = false;
         }
-        field(50163; Country; Text[30])
+        field(52008; Country; Text[30])
         {
             Caption = 'Country';
             Editable = false;
         }
-        field(50164; Emirate; Text[30])
+        field(52009; Emirate; Text[30])
         {
             Caption = 'Emirate';
             Editable = false;
         }
-        field(50119; Community; Text[30])
+        field(52010; Community; Text[30])
         {
             Caption = 'Community';
             Editable = false;
         }
-        field(50121; "Phone No."; Text[30])
+        field(52011; "Phone No."; Text[30])
         {
             Caption = 'Phone No.';
             Editable = false;
         }
-        field(50122; "Mobile Phone No."; Text[30])
+        field(52012; "Mobile Phone No."; Text[30])
         {
             Caption = 'Mobile Phone No.';
             Editable = false;
         }
-        field(50123; "E-Mail"; Text[80])
+        field(52013; "E-Mail"; Text[80])
         {
             Caption = 'Email';
             Editable = false;
         }
-        field(50124; "Home Page"; Text[80])
+        field(52014; "Home Page"; Text[80])
         {
             Caption = 'Home Page';
             Editable = false;
         }
-        field(50125; "Our Account No."; Text[20])
+        field(52015; "Our Account No."; Text[20])
         {
             Caption = 'Our Account No.';
             Editable = false;
         }
-        field(50126; "Primary Contact Code"; Code[80])
+        field(52016; "Primary Contact Code"; Code[80])
         {
             Caption = 'Primary Contact Code';
             Editable = false;
         }
 
-        field(50128; "VAT Registration No."; Text[20])
+        field(52017; "VAT Registration No."; Text[20])
         {
             Caption = 'VAT Registration No.';
             Editable = false;
         }
-        field(50129; "Price Calculation Method"; Enum "Price Calculation Method")
+        field(52018; "Price Calculation Method"; Enum "Price Calculation Method")
         {
             Caption = 'Price Calculation Method';
             Editable = false;
         }
-        field(50130; "Price Including VAT"; Boolean)
+        field(52019; "Price Including VAT"; Boolean)
         {
             Caption = 'Price Including VAT';
             Editable = false;
         }
 
-        field(50131; "Application Method"; Enum "Application Method")
+        field(52020; "Application Method"; Enum "Application Method")
         {
             DataClassification = ToBeClassified;
             Caption = 'Application Method';
             Editable = false;
         }
-        field(50132; "Payment Terms Code"; Code[10])
+        field(52021; "Payment Terms Code"; Code[10])
         {
             Caption = 'Payment Terms Code';
             Editable = false;
         }
-        field(50133; "Payment Method Code"; Code[10])
+        field(52022; "Payment Method Code"; Code[10])
         {
             Caption = 'Payment Method Code';
             Editable = false;
         }
-        field(50134; Priority; Integer)
+        field(52023; Priority; Integer)
         {
             Caption = 'Priority';
             Editable = false;
         }
-        field(50135; "Block Payment Tolerance"; Boolean)
+        field(52024; "Block Payment Tolerance"; Boolean)
         {
             Caption = 'Block Payment Tolerance';
             Editable = false;
         }
-        field(50136; "Preferred Bank Account Code"; Code[100])
+        field(52025; "Preferred Bank Account Code"; Code[100])
         {
             Caption = 'Preferred Bank Account Code';
             Editable = false;
         }
-        field(50137; "Partner Type"; Enum "Partner Type")
+        field(52026; "Partner Type"; Enum "Partner Type")
         {
             DataClassification = ToBeClassified;
             Caption = 'Partner Type';
             Editable = false;
         }
-        field(50138; "Cash Flow Payment Terms Code"; Code[100])
+        field(52027; "Cash Flow Payment Terms Code"; Code[100])
         {
             Caption = 'Cash Flow Payment Terms Code';
             Editable = false;
         }
-        field(50139; "Creditor No."; Code[100])
+        field(52028; "Creditor No."; Code[100])
         {
             Caption = 'Creditor No.';
             Editable = false;
         }
-        field(50140; "Location Code"; Code[10])
+        field(52029; "Location Code"; Code[10])
         {
             Caption = 'Location Code';
             Editable = false;
         }
-        field(50141; "Shipment Method Code"; Code[10])
+        field(52030; "Shipment Method Code"; Code[10])
         {
             Caption = 'Shipment Method Code';
             Editable = false;
         }
-        field(50142; "Lead Time Calculation"; DateFormula)
+        field(52031; "Lead Time Calculation"; DateFormula)
         {
             Caption = 'Lead Time Calculation';
             Editable = false;
         }
-        field(50143; "Base Calendar Code"; Code[10])
+        field(52032; "Base Calendar Code"; Code[10])
         {
             Caption = 'Base Calendar Code';
             Editable = false;
         }
-        field(50144; "Over-Receipt Code"; Code[20])
+        field(52033; "Over-Receipt Code"; Code[20])
         {
             Caption = 'Over-Receipt Code';
             Editable = false;
         }
-        field(50145; "Receive E-Document To"; Option)
+        field(52034; "Receive E-Document To"; Option)
         {
             DataClassification = ToBeClassified;
             Caption = 'Receive E-Document To';
@@ -280,67 +280,68 @@ table 52001 "Facility Vendor Profiles"
             Editable = false;
         }
 
-        field(50147; "Privacy Blocked"; Boolean)
+        field(52035; "Privacy Blocked"; Boolean)
         {
             Caption = 'Privacy Blocked';
             Editable = false;
         }
-        field(50148; "Last Date Modified"; Date)
+        field(52036; "Last Date Modified"; Date)
         {
             Caption = 'Last Date Modified';
             Editable = false;
         }
 
-        field(50149; "Document Sending Profile"; Code[20])
+        field(52037; "Document Sending Profile"; Code[20])
         {
             Caption = 'Document Sending Profile';
             Editable = false;
         }
 
-        field(50150; "Search Name"; Code[100])
+        field(52038; "Search Name"; Code[100])
         {
             Caption = 'Search Name';
             Editable = false;
         }
-        field(50151; "IC Partner Code"; Code[20])
+        field(52039; "IC Partner Code"; Code[20])
         {
             Caption = 'IC Partner Code';
             Editable = false;
         }
-        field(50152; "Purchaser Code"; Code[20])
+        field(52040; "Purchaser Code"; Code[20])
         {
             Caption = 'Purchaser Code';
             Editable = false;
         }
 
-        field(50153; "Responsibility Center"; Code[10])
+        field(52041; "Responsibility Center"; Code[10])
         {
             Caption = 'Responsibility Center';
             Editable = false;
         }
 
-        field(50154; "Disable Search by Name"; Boolean)
+        field(52042; "Disable Search by Name"; Boolean)
         {
             Caption = 'Disable Search by Name';
             Editable = false;
         }
-        field(50155; "Company Size Code"; Code[20])
+        field(52043; "Company Size Code"; Code[20])
         {
             Caption = 'Company Size Code';
             Editable = false;
         }
 
-        field(50156; "Address 3"; Text[100])
+        //////////////////////////////////// FACILITY FIELDS///////////////////////////////////////////////////////////
+        field(52044; "Address 3"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Address 3';
         }
-        field(50157; "P.O.Box"; Text[100])
+        field(52045; "P.O.Box"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'P.O.Box';
         }
-        field(50158; "Profile ID"; code[20])
+        field(52046; "Profile ID"; code[20])
         {
             DataClassification = ToBeClassified;
             Caption = 'Profile ID';
@@ -354,113 +355,122 @@ table 52001 "Facility Vendor Profiles"
                 if contact.FindSet() then begin
                     Rec."Profile ID" := contact."No.";
                     "Profile Name" := contact."Name";
+                    "Profile Mobile No." := contact."Mobile Phone No.";
+                    "Email Address" := contact."E-Mail";
                 end else begin
                     Rec."Profile ID" := '';
                     "Profile Name" := '';
+                    "Profile Mobile No." := '';
+                    "Email Address" := '';
                 end;
             end;
         }
-        field(50159; "Profile Name"; Text[100])
+        field(52047; "Profile Name"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Profile Name';
         }
-        field(50105; "Designation"; Text[100])
+        field(52048; "Designation"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Designation';
         }
-        field(50106; "Mobile No."; Integer)
+        field(52049; "Profile Mobile No."; Text[30])
         {
             DataClassification = ToBeClassified;
             Caption = 'Mobile No.';
         }
-        field(50107; "Nationality"; Text[100])
+        field(52050; "Profile Nationality"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Nationality';
         }
-        field(50108; "Email Address"; Code[100])
+        field(52051; "Email Address"; Code[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Email Address';
         }
-        field(50160; "TradeLicense IssuingAuthority"; Text[100])
+        field(52052; "TradeLicense IssuingAuthority"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Trade License Issuing Authority';
         }
-        field(50110; "Trade License Number"; Code[100])
+        field(52053; "Trade License Number"; Code[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Trade License Number';
         }
-        field(50161; "Trade License Issue Date"; Date)
+        field(52054; "Trade License Issue Date"; Date)
         {
             DataClassification = ToBeClassified;
             Caption = 'Trade License Issue Date';
         }
-        field(50162; "Trade License Expiry Date"; Date)
+        field(52055; "Trade License Expiry Date"; Date)
         {
             DataClassification = ToBeClassified;
             Caption = 'Trade License Expiry Date';
         }
-        field(50113; "VAT Registration Number"; Text[100])
+        field(52056; "VAT Registration Number"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'VAT Registration Number';
         }
-        field(50165; "Corporate Tax Registration"; Text[100])
+        field(52057; "Corporate Tax Registration"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Corporate Tax Registration';
         }
-        field(50120; "EC Number"; Integer)
+        field(52058; "EC Number"; Integer)
         {
             DataClassification = ToBeClassified;
             Caption = 'EC Number';
         }
-        field(50166; "Issuing Authority"; Text[100])
+        field(52059; "Issuing Authority"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Issuing Authority';
         }
-        field(50117; "Issue Date"; Date)
+        field(52060; "Issue Date"; Date)
         {
             DataClassification = ToBeClassified;
             Caption = 'Issue Date';
         }
-        field(50118; "Expiry Date"; Date)
+        field(52061; "Expiry Date"; Date)
         {
             DataClassification = ToBeClassified;
             Caption = 'Expiry Date';
         }
-        field(50169; "Owners Name"; Text[100])
+        field(52062; "Owners Name"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Name';
         }
-        field(50170; "Owners Designation"; Text[100])
+        field(52063; "Owners Designation"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Designation';
         }
-        field(50171; "Emirates ID"; Text[100])
+        field(52064; "Emirates ID"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Emirates ID';
         }
-        field(50172; "Passport Number"; Code[100])
+        field(52065; "Passport Number"; Code[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Passport Number';
         }
-        field(50173; "Vendor Type"; Option)
+        field(52066; "Vendor Type"; Option)
         {
             OptionMembers = " ","Domestic","Non-Domestic";
             Caption = 'Vendor Type';
         }
-
+        field(52067; "Status"; Option)
+        {
+            OptionMembers = "Pending","Approve","Reject";
+            Caption = 'Status';
+        }
+        //////////////////////////////////// FACILITY FIELDS///////////////////////////////////////////////////////////
     }
     keys
     {

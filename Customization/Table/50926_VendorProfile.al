@@ -9,7 +9,8 @@ table 50926 "Vendor Profile"
             DataClassification = ToBeClassified;
             Caption = 'Vendor ID';
             // TableRelation = Vendor."No.";
-            TableRelation = Vendor."No." WHERE("Vendor Category" = FILTER('Property Management System' | 'Brokers and Commission Agent'));
+            TableRelation = Vendor."No." WHERE("Vendor Category" = FILTER('Property Management System' | 'Brokers and Commission Agent'),
+             "No." = FILTER('PM_V_*'));
 
             trigger OnValidate()
             var
