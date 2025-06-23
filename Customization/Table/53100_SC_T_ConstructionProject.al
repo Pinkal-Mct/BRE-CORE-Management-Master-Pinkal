@@ -214,6 +214,10 @@ table 53100 "Construction Project"
             DataClassification = ToBeClassified;
             Caption = 'Extended Final completion date';
         }
+        field(53140; SelectedMilestoneId; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
         // Extended Timeline //
 
     }
@@ -233,7 +237,7 @@ table 53100 "Construction Project"
         noseries: Codeunit "No. Series";
     begin
         if noSeriesSetup.Get() then begin
-            Rec."Project ID" := noseries.GetNextNo(noSeriesSetup."Construction Project No.");
+            Rec."Project ID" := noseries.GetNextNo(noSeriesSetup."Construction Project Nos.");
         end else
             Error('No. Series Setup not found for Construction Project Nos.');
     end;
