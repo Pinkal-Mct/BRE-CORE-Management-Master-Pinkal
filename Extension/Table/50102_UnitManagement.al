@@ -247,7 +247,22 @@ tableextension 50102 ItemExtension extends Item
             Caption = 'Primary Classification Type';
             DataClassification = ToBeClassified;
             TableRelation = "Primary Classification"."Classification Name";
-
+        }
+        field(50140; "Item Type"; Enum "Item Type Enum")
+        {
+            Caption = 'Item Type';
+            DataClassification = ToBeClassified;
+        }
+        field(50141; "Service category"; code[20])
+        {
+            Caption = 'Service category';
+            DataClassification = ToBeClassified;
+            TableRelation = "Service Category Master"."Service Category ID";
+        }
+        field(50142; "Item Template"; Enum "Item Template Enum")
+        {
+            Caption = 'Item Template';
+            DataClassification = ToBeClassified;
         }
 
         // field(50126; "Merged Property ID"; Code[20])

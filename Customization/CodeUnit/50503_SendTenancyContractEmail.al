@@ -39,8 +39,6 @@ codeunit 50503 "Send Contract Email"
         end else begin
             Error('Unsupported emirate: %1', Rec.Emirate);
         end;
-
-        // આ બદલાવ - direct current record use કરો, બીજા records find નહીં કરવા
         if Rec."Tenant ID" <> '' then begin
             // Explicitly set the Emirate value to ensure it's correct
             Rec.Emirate := CurrentEmirateValue;
