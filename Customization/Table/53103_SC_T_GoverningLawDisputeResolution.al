@@ -1,4 +1,4 @@
-table 53103 "Governing Law & Dispute Resl."
+table 53103 "GoverningLawDisputeResolution"
 {
     DataClassification = ToBeClassified;
     Caption = 'Governing Law & Dispute Resolution';
