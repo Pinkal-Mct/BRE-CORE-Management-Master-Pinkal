@@ -21,6 +21,26 @@ table 53104 "Vendor Category Master"
             DataClassification = ToBeClassified;
             Caption = 'Description';
         }
+        field(53103; Property; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Property';
+        }
+        field(53104; Sales; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Sales';
+        }
+        field(53105; Facility; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Facility';
+        }
+        field(53106; Legal; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Legal';
+        }
     }
 
     keys
