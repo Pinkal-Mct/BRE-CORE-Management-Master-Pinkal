@@ -471,6 +471,80 @@ table 52001 "Facility Vendor Profiles"
             Caption = 'Status';
         }
         //////////////////////////////////// FACILITY FIELDS///////////////////////////////////////////////////////////
+
+        // ✅ New Bank Info Fields
+        field(51001; "Bank Account No."; Text[30])
+        {
+            Caption = 'Bank Account No.';
+            DataClassification = ToBeClassified;
+        }
+        field(51002; "Account Name"; Text[100])
+        {
+            Caption = 'Account Name';
+            DataClassification = ToBeClassified;
+        }
+        field(51003; "Bank Name"; Text[100])
+        {
+            Caption = 'Bank Name';
+            DataClassification = ToBeClassified;
+        }
+        field(51004; "Bank Branch"; Text[100])
+        {
+            Caption = 'Bank Branch';
+            DataClassification = ToBeClassified;
+        }
+        field(51005; "IBAN"; Text[34])
+        {
+            Caption = 'IBAN';
+            DataClassification = ToBeClassified;
+
+            trigger OnValidate()
+            begin
+                if CopyStr(Rec."IBAN", 1, 2) = 'AE' then
+                    if StrLen(Rec."IBAN") <> 23 then
+                        Error('UAE IBAN must be 23 characters and start with "UAE".');
+
+                if not (StrLen(Rec."IBAN") in [15 .. 34]) then
+                    Error('IBAN must be between 15 and 34 characters.');
+            end;
+        }
+        field(51006; "SWIFT Code"; Text[11])
+        {
+            Caption = 'SWIFT Code';
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+                if (StrLen("SWIFT Code") <> 8) and (StrLen("SWIFT Code") <> 11) then
+                    Error('SWIFT/BIC must be 8 or 11 characters.');
+            end;
+
+        }
+        field(51007; "Bank Doc Container ID"; Guid)
+        {
+            Caption = 'Bank Doc Container ID';
+            DataClassification = ToBeClassified;
+        }
+        field(51008; "Bank Info Verified"; Boolean)
+        {
+            Caption = 'Bank Info Verified';
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+                if "Bank Info Verified" then
+                    "Verification Date" := Today();
+            end;
+        }
+        field(51009; "Verification Date"; Date)
+        {
+            Caption = 'Verification Date';
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
+        field(51010; "IBAN Certificate"; Text[250])
+        {
+            Caption = 'IBAN Certificate';
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {
