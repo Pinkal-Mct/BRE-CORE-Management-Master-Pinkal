@@ -23,7 +23,7 @@ table 53503 "Vendor Profile Document Grid"
         {
             DataClassification = ToBeClassified;
             Editable = false;
-            InitValue = 'View';
+
         }
         field(53507; "Document URL"; Text[2048])
         {

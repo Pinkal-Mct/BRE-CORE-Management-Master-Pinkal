@@ -3,8 +3,9 @@ page 53507 "Vendor Profile Document Grid"
     PageType = ListPart;
     SourceTable = "Vendor Profile Document Grid";
     Caption = 'Vendor Profile Document Grid';
-    ApplicationArea = All;
-    UsageCategory = Lists;
+    // ApplicationArea = All;
+    // UsageCategory = Lists;
+    InsertAllowed = true;
 
     layout
     {
@@ -54,6 +55,14 @@ page 53507 "Vendor Profile Document Grid"
                     ApplicationArea = All;
                     Caption = 'View & Download';
                     Editable = false;
+                    trigger OnDrillDown()
+                    begin
+                        // Check if the file URL is not empty
+                        if Rec."Document URL" = '' then
+                            Error('No document is available to view.')
+                        else
+                            Hyperlink(Rec."Document URL");
+                    end;
                 }
                 field("Document URL"; Rec."Document URL")
                 {

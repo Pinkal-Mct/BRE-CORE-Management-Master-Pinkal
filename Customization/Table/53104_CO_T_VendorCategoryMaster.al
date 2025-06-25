@@ -50,4 +50,11 @@ table 53104 "Vendor Category Master"
             Clustered = true;
         }
     }
+    fieldgroups
+    {
+        fieldgroup(DropDown; "ID", "Name", "Description")
+        {
+            Caption = 'Vendor Category Master';
+        }
+    }
 }
