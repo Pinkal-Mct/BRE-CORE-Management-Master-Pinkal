@@ -69,7 +69,7 @@ codeunit 50950 "Azure AD Blob Storage"
             FullBlobPath := FileName;
 
         BlobUrl := StrSubstNo('https://%1.blob.core.windows.net/%2/%3', StorageAccount, ContainerName, FullBlobPath);
-        Message('Uploading to URL: %1', BlobUrl);
+        // Message('Uploading to URL: %1', BlobUrl);
 
         HttpRequest.Method := 'PUT';
         HttpRequest.SetRequestUri(BlobUrl);
@@ -183,14 +183,14 @@ codeunit 50950 "Azure AD Blob Storage"
             Error('Azure configuration is missing. Please set up the configuration.');
 
         TokenEndpoint := StrSubstNo('https://login.microsoftonline.com/%1/oauth2/v2.0/token', ConfigRecord."Tenant ID");
-        Message('Token request body: %1', TokenEndpoint);
+        // Message('Token request body: %1', TokenEndpoint);
         RequestBody :=
             'grant_type=client_credentials' +
             '&client_id=' + ManualUrlEncode(ConfigRecord."Client ID") +
             '&client_secret=' + ManualUrlEncode(ConfigRecord."Client Secret") +
             '&scope=' + ManualUrlEncode('https://storage.azure.com/.default');
 
-        Message('Token request body: %1', RequestBody);
+        // Message('Token request body: %1', RequestBody);
         RequestContent.WriteFrom(RequestBody);
 
         RequestContent.GetHeaders(Headers);
@@ -233,7 +233,7 @@ codeunit 50950 "Azure AD Blob Storage"
         if not Client.Get('https://login.microsoftonline.com', Response) then
             Error('❌ Failed to send GET request to Azure AD.');
 
-        Message('✅ Azure AD reachable. Status code: %1', Response.HttpStatusCode());
+        // Message('✅ Azure AD reachable. Status code: %1', Response.HttpStatusCode());
     end;
 
     procedure GetMimeTypeFromFileName(FileName: Text): Text

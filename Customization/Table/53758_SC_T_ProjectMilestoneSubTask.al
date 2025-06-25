@@ -70,7 +70,7 @@ table 53758 "Project Milestone Sub Task"
                     until projectMilestoneSubTask.Next() = 0;
 
                     if TotalWeight > 100 then
-                        Error('Total Sub Task Weight for Task "%1" exceeds 100%% (Current: %2%%)', "Task ID", TotalWeight);
+                        Error('Total Sub Task Weight for Task "%1" exceeds 100% (Current: %2%)', "Task ID", TotalWeight);
                 end;
             end;
         }
@@ -103,5 +103,15 @@ table 53758 "Project Milestone Sub Task"
             Rec."Sub Task ID" := noseries.GetNextNo(noSeriesSetup."Milestone Sub Task Nos.");
         end else
             Error('No. Series Setup not found for Milestone Sub Task Nos.');
+    end;
+
+    trigger OnModify()
+    begin
+        if Rec."Progress" = 0 then
+            Rec.Status := "Status"::Pending
+        else if Rec."Progress" < 100 then
+            Rec.Status := "Status"::"InProgress"
+        else
+            Rec.Status := "Status"::Completed;
     end;
 }
