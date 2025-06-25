@@ -222,10 +222,7 @@ table 53100 "Construction Project"
             DataClassification = ToBeClassified;
             Caption = 'Extended Final Completion Date';
         }
-        field(53140; SelectedMilestoneId; Code[20])
-        {
-            DataClassification = ToBeClassified;
-        }
+
         // Extended Timeline //
 
     }
