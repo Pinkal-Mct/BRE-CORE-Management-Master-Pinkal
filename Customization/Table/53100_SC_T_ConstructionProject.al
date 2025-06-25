@@ -15,13 +15,13 @@ table 53100 "Construction Project"
             DataClassification = ToBeClassified;
             Caption = 'Project Name';
         }
-        field(53102; "Project type"; Text[100])
+        field(53102; "Project Type"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Project type';
-            TableRelation = "Project Type";
+            Caption = 'Project Type';
+            TableRelation = "Project Type"."Project Type";
         }
-        field(53103; "Project status"; Option)
+        field(53103; "Project Status"; Option)
         {
             OptionCaption = ' ,Planned,In progress,Completed,On Hold,Cancelled';
             OptionMembers = " ",Planned,InProgress,Completed,OnHold,Cancelled;
@@ -59,97 +59,98 @@ table 53100 "Construction Project"
             DataClassification = ToBeClassified;
             Caption = 'Address Line 2';
         }
-        field(53109; "Postal code"; Text[100])
+        field(53109; "Postal Code"; Code[20])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Postal code';
+            Caption = 'Postal Code';
         }
-        field(53110; "latitude"; Text[100])
+        field(53110; "Latitude"; Decimal)
         {
             DataClassification = ToBeClassified;
-            Caption = 'latitude';
+            Caption = 'Latitude';
         }
-        field(53111; "longitude"; Text[100])
+        field(53111; "Longitude"; Decimal)
         {
             DataClassification = ToBeClassified;
-            Caption = 'longitude';
+            Caption = 'Longitude';
         }
-        field(53112; "Location link"; Text[100])
+        field(53112; "Location Link"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Location link';
+            Caption = 'Location Link';
         }
         // Project Location //
 
         // Timeline //
-        field(53113; "Planned start date"; Date)
+        field(53113; "Planned Start Date"; Date)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Planned start date';
+            Caption = 'Planned Start Date';
         }
-        field(53114; "Planned end Date"; Date)
+        field(53114; "Planned End Date"; Date)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Planned end Date';
+            Caption = 'Planned End Date';
         }
-        field(53115; "Actual start date"; Date)
+        field(53115; "Actual Start Date"; Date)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Actual start date';
+            Caption = 'Actual Start Date';
         }
-        field(53116; "Final completion date"; Date)
+        field(53116; "Final Completion Date"; Date)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Final completion date';
+            Caption = 'Final Completion Date';
         }
         // Timeline //
 
         // Performance Metrics //
-        field(53117; "Progress percentages"; Text[100])
+        field(53117; "Progress Percentages"; Decimal)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Progress percentages';
+            Caption = 'Progress Percentages';
+            MaxValue = 100;
         }
         // Performance Metrics //
 
         // Financial Details //
-        field(53118; "Approved budget"; Text[100])
+        field(53118; "Approved Budget"; Decimal)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Approved budget';
+            Caption = 'Approved Budget';
         }
-        field(53119; "Estimated cost breakdown"; Text[100])
+        field(53119; "Estimated Cost Breakdown"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Estimated cost breakdown';
+            Caption = 'Estimated Cost Breakdown';
         }
-        field(53120; "Funding source"; Text[100])
+        field(53120; "Funding Source"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Funding source';
+            Caption = 'Funding Source';
         }
-        field(53121; "Current spends tracking"; Text[100])
+        field(53121; "Current Spends Tracking"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Current spends tracking';
+            Caption = 'Current Spends Tracking';
         }
         // Financial Details //
 
         // Responsible Parties //
-        field(53122; "Project owner"; Text[100])
+        field(53122; "Project Owner"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Project owner';
+            Caption = 'Project Owner';
         }
-        field(53123; "Primary contractor"; Text[100])
+        field(53123; "Primary Contractor"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Primary contractor';
+            Caption = 'Primary Contractor';
         }
-        field(53124; "Project manager"; Text[100])
+        field(53124; "Project Manager"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Project manager';
+            Caption = 'Project Manager';
         }
         // Responsible Parties //
 
@@ -164,56 +165,62 @@ table 53100 "Construction Project"
             DataClassification = ToBeClassified;
             Caption = 'UOM';
         }
-        field(53131; "Number of floors"; Text[100])
+        field(53131; "Number of Floors"; Integer)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Number of floors';
+            Caption = 'Number of Floors';
         }
-        field(53132; "Construction materials"; Text[100])
+        field(53132; "Construction Materials"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Construction materials';
+            Caption = 'Construction Materials';
         }
         // Construction Specifications //
 
         // Stakeholders //
-        field(53133; "Architect/design firm"; Text[100])
+        field(53133; "Architect/Design Firm"; Option)
         {
+            OptionCaption = ' ,Vendor,Related party,Internal Team';
+            OptionMembers = " ",Vendor,Relatedparty,InternalTeam;
             DataClassification = ToBeClassified;
-            Caption = 'Architect/design firm';
+            Caption = 'Architect/Design Firm';
         }
-        field(53134; "Subcontractors list"; Text[100])
+        field(53134; "Subcontractors List"; Option)
         {
+            OptionCaption = ' ,Vendor,Related party';
+            OptionMembers = " ",Vendor,Relatedparty;
             DataClassification = ToBeClassified;
-            Caption = 'Subcontractors list';
+            Caption = 'Subcontractors List';
         }
-        field(53135; "Key consultants"; Text[100])
+        field(53135; "Key Consultants"; Option)
         {
+            OptionCaption = ' ,Vendor,Related party,Internal Team';
+            OptionMembers = " ",Vendor,Relatedparty,InternalTeam;
             DataClassification = ToBeClassified;
-            Caption = 'Key consultants';
+            Caption = 'Key Consultants';
         }
         // Stakeholders //
 
         // Extended Timeline //
-        field(53136; "Design completion date"; Date)
+        field(53136; "Design Completion Date"; Date)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Design completion date';
+            Caption = 'Design Completion Date';
         }
-        field(53137; "Permit approval date"; Date)
+        field(53137; "Permit Approval Date"; Date)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Permit approval date';
+            Caption = 'Permit Approval Date';
         }
-        field(53138; "Substantial completion date"; Date)
+        field(53138; "Substantial Completion Date"; Date)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Substantial completion date';
+            Caption = 'Substantial Completion Date';
         }
-        field(53139; "Extended Final completion date"; Date)
+        field(53139; "Extended Final Completion Date"; Date)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Extended Final completion date';
+            Caption = 'Extended Final Completion Date';
         }
         field(53140; SelectedMilestoneId; Code[20])
         {
@@ -242,4 +249,28 @@ table 53100 "Construction Project"
         end else
             Error('No. Series Setup not found for Construction Project Nos.');
     end;
+
+    // Recalculate Progress //
+    procedure RecalculateProgress()
+    var
+        projectMilestone: Record "Project Milestone";
+        TotalProgress, TotalWeight : Decimal;
+    begin
+        projectMilestone.Reset();
+        projectMilestone.SetRange("Project ID", "Project ID");
+        if projectMilestone.FindSet() then begin
+            repeat
+                TotalProgress += projectMilestone."Progress" * projectMilestone."Weight";
+                TotalWeight += projectMilestone."Weight";
+            until projectMilestone.Next() = 0;
+
+            if TotalWeight > 0 then begin
+                Rec."Progress percentages" := TotalProgress / 100;
+                Rec.Modify();
+            end
+            else
+                Rec."Progress percentages" := 0;
+        end;
+    end;
+    // Recalculate Progress //
 }
