@@ -52,6 +52,29 @@ table 53756 "Project Milestone"
             DataClassification = ToBeClassified;
             Caption = 'Weight (%)';
             MaxValue = 100.0;
+
+            trigger OnValidate()
+            var
+                projectMilestone: Record "Project Milestone";
+                TotalWeight: Decimal;
+            begin
+                projectMilestone.Reset();
+                projectMilestone.SetRange("Milestone ID", "Milestone ID");
+                if projectMilestone.FindSet() then begin
+                    TotalWeight := 0;
+                    repeat
+                        if projectMilestone."Milestone ID" = "Milestone ID" then
+                            TotalWeight += Rec.Weight
+                        else
+                            TotalWeight += projectMilestone.Weight;
+                    until projectMilestone.Next() = 0;
+
+                    if TotalWeight > 100 then
+                        Error('Total Milestone Weight for Project "%1" exceeds 100% (Current: %2%)', "Milestone ID", TotalWeight)
+                    else
+                        Rec.RecalculateProgress();
+                end;
+            end;
         }
         field(53108; "Description"; Text[250])
         {
@@ -84,8 +107,19 @@ table 53756 "Project Milestone"
             Error('No. Series Setup not found for Milestone Nos.');
     end;
 
+    trigger OnModify()
+    begin
+        if Rec."Progress" = 0 then
+            Rec.Status := "Status"::Pending
+        else if Rec."Progress" < 100 then
+            Rec.Status := "Status"::"InProgress"
+        else
+            Rec.Status := "Status"::Completed;
+    end;
+
     procedure RecalculateProgress()
     var
+        project: Record "Construction Project";
         projectMilestoneTask: Record "Project Milestone Task";
         TotalProgress, TotalWeight : Decimal;
     begin
@@ -99,10 +133,14 @@ table 53756 "Project Milestone"
 
             if TotalWeight > 0 then begin
                 Rec."Progress" := TotalProgress / 100;
-                Rec.Modify();
+                Rec.Modify(true);
             end
             else
                 Rec."Progress" := 0;
+
+            if project.Get("Project ID") then begin
+                project.RecalculateProgress();
+            end;
         end;
     end;
 }
