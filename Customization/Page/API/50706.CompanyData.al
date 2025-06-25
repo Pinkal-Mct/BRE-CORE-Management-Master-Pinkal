@@ -68,6 +68,10 @@ page 50706 CompanyData
                 {
                     Caption = 'Access Validity';
                 }
+                field("APIURL"; Rec."API URL")
+                {
+                    Caption = 'API URL';
+                }
             }
         }
     }

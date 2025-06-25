@@ -25,72 +25,28 @@ page 50701 "Company Data"
 
                     trigger OnDrillDown()
                     var
-                        // AzureBlobUploader: Codeunit "Azure Blob Management";
-                        InStream: InStream;
-                        FileName: Text;
-                        SASUrlBase: Text;
-                        SASUrlWithFileName: Text;
-                        UploadResult: Text;
-                        ValidFormats: List of [Text];
-                        FileExtension: Text[10];
-                        ConfigRecord: Record AzureConfiguration;
+                        azureBlobUploader: Codeunit "Azure AD Blob Storage";
+                        fileName: Text;
+                        uploadResult: Text;
+                        folderName: Text;
                     begin
-                        if not ConfigRecord.FindFirst() then
-                            Error('Azure configuration is missing. Please set up the SAS URL in the Azure Configuration table.');
-                        // Error('formate validate enter');
-                        // Message('formate validate enter');
-                        // Allowed file formats
-                        ValidFormats.Add('.png');
-                        ValidFormats.Add('.jpg');
-                        ValidFormats.Add('.jpeg');
-                        // Error('formate validate');
-                        // Message('formate validate');
 
-                        SASUrlBase := ConfigRecord."SAS URL";
-                        // Error('SASUrlBase validate');
-                        // Message('SASUrlBase validate');
-
-                        if UploadIntoStream('Select Company Logo', '', '(*.png, *.jpg, *.jpeg)|*.png;*.jpg;*.jpeg', FileName, InStream) then begin
-                            FileExtension := LowerCase(CopyStr(FileName, StrPos(FileName, '.'), StrLen(FileName) - StrPos(FileName, '.') + 1));
-
-                            if not ValidFormats.Contains(FileExtension) then
-                                Error('Unsupported file format. Only PNG, JPG, and JPEG allowed.');
-
-                            // Dynamically set the full SAS URL
-                            //SASUrlWithFileName := StrSubstNo('%1/%2/%3', SASUrlBase, 'companylogo', FileName);
-                            SASUrlWithFileName := StrSubstNo('%1/%2?%3', CopyStr(SASUrlBase, 1, StrPos(SASUrlBase, '?') - 1), FileName, CopyStr(SASUrlBase, StrPos(SASUrlBase, '?') + 1));
-                            //Error('Generated SAS URL: %1', SASUrlWithFileName);
-
-
-                            // Call the image upload procedure
-                            UploadResult := documentattachment.UploadDocumentToBlobStorage(SASUrlWithFileName, FileName, InStream);
-                            //Error('Generated UploadResult URL: %1', UploadResult);
-
-                            // Optionally, store metadata about the uploaded document in the table
-                            Rec."Company Logo" := FileName;
-                            Rec."Logo URL" := UploadResult;
+                        folderName := 'CompanyLogos';
+                        fileName := azureBlobUploader.ValidateDocument(uploadResult, folderName);
+                        if fileName <> '' then begin
+                            Rec."Company Logo" := fileName;
+                            Rec."Logo URL" := uploadResult;
                             Rec.Modify();
-                            Message('Document uploaded successfully: %1', FileName);
-                        end else
-                            Message('No document was selected for upload.');
+                            Message('File uploaded successfully: %1', fileName);
+                        end;
                     end;
 
-                    //         if UploadResult <> '' then begin
-                    //             Rec."Logo URL" := UploadResult;
-                    //             Rec.Modify();
-                    //             Error('Upload successful to Azure Blob URL: %1', UploadResult);
-                    //         end else
-                    //             Error('Upload failed. No URL returned.');
-                    //     end;
-                    // end;
+
                 }
 
                 field("Azure Blob URL"; Rec."Logo URL")
                 {
-                    // ApplicationArea = All;
-                    // Editable = false;
-                    // Caption = 'Azure Blob URL';
-                    // ToolTip = 'This field displays the Azure Blob URL after uploading the image.';
+
                     ApplicationArea = All;
                     Editable = true;
                     DrillDown = true;
@@ -119,6 +75,12 @@ page 50701 "Company Data"
                 {
                     ApplicationArea = All;
                     Caption = 'Environment Name';
+                }
+                field("API URL"; Rec."API URL")
+                {
+                    ApplicationArea = All;
+                    Caption = 'API URL';
+                    ToolTip = 'This is the API URL of portal';
                 }
             }
 
@@ -150,8 +112,7 @@ page 50701 "Company Data"
             Error('The file URL is invalid.');
     end;
 
-    var
-        documentattachment: Codeunit UploadAttachment;
+
 
     trigger OnNewRecord(BelowxRec: Boolean)
     var
