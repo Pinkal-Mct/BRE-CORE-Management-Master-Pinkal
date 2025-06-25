@@ -70,7 +70,9 @@ table 53757 "Project Milestone Task"
                     until projectMilestoneTask.Next() = 0;
 
                     if TotalWeight > 100 then
-                        Error('Total Task Weight for Milestone "%1" exceeds 100%% (Current: %2%%)', "Milestone ID", TotalWeight);
+                        Error('Total Task Weight for Milestone "%1" exceeds 100% (Current: %2%)', "Milestone ID", TotalWeight)
+                    else
+                        Rec.RecalculateProgress();
                 end;
             end;
         }
@@ -105,8 +107,19 @@ table 53757 "Project Milestone Task"
             Error('No. Series Setup not found for Milestone Task Nos.');
     end;
 
+    trigger OnModify()
+    begin
+        if Rec."Progress" = 0 then
+            Rec.Status := "Status"::Pending
+        else if Rec."Progress" < 100 then
+            Rec.Status := "Status"::"InProgress"
+        else
+            Rec.Status := "Status"::Completed;
+    end;
+
     procedure RecalculateProgress()
     var
+        milestone: Record "Project Milestone";
         projectMilestoneSubTask: Record "Project Milestone Sub Task";
         TotalProgress, TotalWeight : Decimal;
     begin
@@ -120,10 +133,15 @@ table 53757 "Project Milestone Task"
 
             if TotalWeight > 0 then begin
                 Rec."Progress" := TotalProgress / 100;
-                Rec.Modify();
+                Rec.Modify(true);
             end
             else
                 Rec."Progress" := 0;
+
+            milestone.SetRange("Milestone ID", Rec."Milestone ID");
+            if milestone.FindSet() then begin
+                milestone.RecalculateProgress();
+            end;
         end;
     end;
 }
