@@ -545,6 +545,37 @@ table 52001 "Facility Vendor Profiles"
             Caption = 'IBAN Certificate';
             DataClassification = ToBeClassified;
         }
+        field(51011; Code; Text[30])
+        {
+            DataClassification = ToBeClassified;
+            ToolTip = 'Landline Code';
+
+        }
+        field(51012; "Area Code"; Text[30])
+        {
+            DataClassification = ToBeClassified;
+            ToolTip = 'Area Code';
+        }
+        field(51013; "Number"; Text[30])
+        {
+            DataClassification = ToBeClassified;
+            ToolTip = 'Number';
+        }
+        field(51014; City; Text[100])
+        {
+            DataClassification = ToBeClassified;
+
+        }
+        field(51015; "Landline Number"; Text[30])
+        {
+            DataClassification = ToBeClassified;
+            ToolTip = 'Landline Number';
+        }
+
+        field(51016; "Primary Email Address"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {

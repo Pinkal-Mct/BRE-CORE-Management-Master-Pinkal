@@ -41,6 +41,11 @@ page 53751 "No. Series Setup"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the milestone sub-task number series.';
                 }
+                field("Vendor Profile Nos."; Rec."Vendor Profile Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the vendor profile number series.';
+                }
             }
         }
     }
