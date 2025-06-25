@@ -10,8 +10,8 @@ codeunit 51501 "Barcode Generator"
         TempAsset: Record "Fixed Asset";
         BarcodePrefix: Text[10];
     begin
-        BarcodePrefix := 'AST_'; // Can make configurable
-        Asset."Barcode ID" := BarcodePrefix + Format(Asset."No.");
+        BarcodePrefix := 'FMAM'; // Can make configurable
+        Asset."Barcode ID" := Asset."No.";
         Asset."Barcode Generated?" := true;
         // if Asset."Barcode ID" = '' then
         //     Asset."Barcode ID" := 'Asset-' + Asset."No.";

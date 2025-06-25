@@ -108,6 +108,7 @@ tableextension 51501 "Fixed Asset" extends "Fixed Asset"
         {
             DataClassification = ToBeClassified;
             ExtendedDatatype = Barcode;
+
         }
         field(51525; "Barcode Generated?"; Boolean)
         {
