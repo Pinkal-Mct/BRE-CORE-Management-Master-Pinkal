@@ -349,5 +349,12 @@ permissionset 50100 TablePermission
         page "Vendor Document List" = X,
         page "Vendor Profile Document Grid" = X,
         page VendorProfile = X,
-        page "Workflow Frequency Card" = X;
+        page "Workflow Frequency Card" = X,
+        tabledata GoverningLawDisputeResolution = RIMD,
+        tabledata "Vendor Proposal" = RIMD,
+        table GoverningLawDisputeResolution = X,
+        table "Vendor Proposal" = X,
+        table Customer = X;
+
+
 }

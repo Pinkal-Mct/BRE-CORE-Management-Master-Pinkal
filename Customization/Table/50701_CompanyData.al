@@ -52,6 +52,12 @@ table 50701 "testData"
             Caption = 'Access Validity (Days)';
             Editable = true;
         }
+        field(50112; "API URL"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'API URL';
+            Editable = true;
+        }
     }
 
     keys
