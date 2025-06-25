@@ -68,7 +68,7 @@ codeunit 50306 "Contract Renewal Notifier"
         EmailBody :=
       '<html><body>' +
       '<p>Dear ' + TenancyContract."Customer Name" + ',</p>' +
-      '<p>I hope this email finds you well. This is a kind reminder that your contract with <b>Contract ID :- ' +
+      '<p>I hope this email finds you well. This is a kind reminder that your contract with <b>Contract ID - ' +
       Format(TenancyContract."Contract ID") + '</b> is set to expire in the next <b>' +
       Format(TenancyContract."Renewal Notification to Tenant") + ' days</b>. To ensure continuity, we would like to know if you are interested in renewing your contract.</p>' +
 
