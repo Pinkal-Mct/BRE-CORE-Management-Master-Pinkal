@@ -33,6 +33,12 @@ table 53751 "No. Series Setup"
             Caption = 'Milestone Task Nos.';
             TableRelation = "No. Series".Code;
         }
+        field(53756; "Milestone Sub Task Nos."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Milestone Sub Task Nos.';
+            TableRelation = "No. Series".Code;
+        }
     }
     keys
     {
