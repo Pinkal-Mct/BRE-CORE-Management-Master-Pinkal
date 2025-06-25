@@ -45,6 +45,15 @@ table 53751 "No. Series Setup"
             Caption = 'Vendor Profile Nos.';
             TableRelation = "No. Series".Code;
         }
+
+        // This field is used to store the vendor proposal number series. Table 53105 "Vendor Proposal" has a field for vendor proposal numbers.
+        field(53758; "Vendor Proposal Nos."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Vendor Proposal Nos.';
+            TableRelation = "No. Series".Code;
+        }
+        // This field is used to store the vendor proposal number series. Table 53105 "Vendor Proposal" has a field for vendor proposal numbers.
     }
     keys
     {

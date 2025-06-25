@@ -46,6 +46,14 @@ page 53751 "No. Series Setup"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the vendor profile number series.';
                 }
+
+                // This field is used to store the vendor proposal number series. Table 53105 "Vendor Proposal" has a field for vendor proposal numbers.
+                field("Vendor Proposal Nos."; Rec."Vendor Proposal Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the vendor proposal number series.';
+                }
+                // This field is used to store the vendor proposal number series. Table 53105 "Vendor Proposal" has a field for vendor proposal numbers.
             }
         }
     }
