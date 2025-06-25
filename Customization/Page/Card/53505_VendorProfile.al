@@ -298,10 +298,13 @@ page 53505 VendorProfile
                 Visible = true;
                 SubPageLink = "Profile ID" = field("Profile ID");
             }
-            //    part()
-            //    {
-
-            //    }
+            part("Vendor Document Upload Grid"; "Vendor Document Upload Grid")
+            {
+                ApplicationArea = All;
+                Caption = 'Vendor Document Upload Grid';
+                Visible = true;
+                SubPageLink = "Profile ID" = field("Profile ID");
+            }
         }
     }
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean

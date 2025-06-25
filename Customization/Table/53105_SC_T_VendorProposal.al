@@ -17,7 +17,7 @@ table 53105 "Vendor Proposal"
         }
         field(53102; "Vendor ID"; code[20])
         {
-            TableRelation = "Vendor Profile"."Vendor ID";
+            TableRelation = "Facility Vendor Profiles"."Vendor ID";
             DataClassification = ToBeClassified;
             Caption = 'Vendor ID';
         }
