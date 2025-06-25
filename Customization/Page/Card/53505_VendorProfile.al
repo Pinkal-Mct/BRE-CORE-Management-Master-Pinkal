@@ -17,6 +17,7 @@ page 53505 VendorProfile
                 {
                     Caption = 'Vendor ID';
                     ApplicationArea = All;
+                    ShowMandatory = true;
 
                     trigger OnValidate()
                     var
@@ -39,18 +40,21 @@ page 53505 VendorProfile
                     ApplicationArea = All;
                     Caption = 'Vendor Name';
                     Editable = false;
+                    ShowMandatory = true;
                 }
                 field("Vendor Type"; Rec."Vendor Type")
                 {
                     ApplicationArea = All;
                     Caption = 'Vendor Type';
                     Editable = false;
+                    ShowMandatory = true;
                 }
                 field("Email Address"; Rec."Email Address")
                 {
                     ApplicationArea = All;
                     Caption = 'Email Address';
                     Editable = false;
+                    ShowMandatory = true;
                 }
                 group(Address)
                 {
@@ -303,6 +307,10 @@ page 53505 VendorProfile
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean
     var
     begin
+        Rec.TestField("Vendor ID");
+        Rec.TestField("Vendor Name");
+        Rec.TestField("Vendor Type");
+        Rec.TestField("Email Address");
         CurrPage.VendorProfileDocumentGrid.Page.SetProfileID(Rec."Profile ID");
         CurrPage.VendorBusinessProfile.Page.SetProfileID(Rec."Profile ID");
     end;
@@ -312,7 +320,7 @@ page 53505 VendorProfile
         CurrPage.VendorProfileDocumentGrid.Page.SetProfileID(Rec."Profile ID");
         CurrPage.VendorBusinessProfile.Page.SetProfileID(Rec."Profile ID");
 
-        CurrPage.Update(true);
+        CurrPage.Update(false);
     end;
 
     trigger OnAfterGetRecord()

@@ -8,7 +8,7 @@ table 52001 "Facility Vendor Profiles"
         {
             DataClassification = ToBeClassified;
             Caption = 'Vendor ID';
-            TableRelation = "Vendor" WHERE("No." = FILTER('FM_V_*'));
+            TableRelation = Vendor."No.";
             // TableRelation = Vendor."No.";
             //TableRelation = Vendor."No." WHERE("Vendor Category" = FILTER('Property Management System' | 'Brokers and Commission Agent'));
 
@@ -345,25 +345,8 @@ table 52001 "Facility Vendor Profiles"
         {
             DataClassification = ToBeClassified;
             Caption = 'Profile ID';
-            TableRelation = Contact."No.";
 
-            trigger OnValidate()
-            var
-                contact: Record Contact;
-            begin
-                contact.SetRange("No.", Rec."Profile ID");
-                if contact.FindSet() then begin
-                    Rec."Profile ID" := contact."No.";
-                    "Profile Name" := contact."Name";
-                    "Profile Mobile No." := contact."Mobile Phone No.";
-                    "Email Address" := contact."E-Mail";
-                end else begin
-                    Rec."Profile ID" := '';
-                    "Profile Name" := '';
-                    "Profile Mobile No." := '';
-                    "Email Address" := '';
-                end;
-            end;
+
         }
         field(52047; "Profile Name"; Text[100])
         {
@@ -385,7 +368,7 @@ table 52001 "Facility Vendor Profiles"
             DataClassification = ToBeClassified;
             Caption = 'Nationality';
         }
-        field(52051; "Email Address"; Code[100])
+        field(52051; "Email Address"; Text[30])
         {
             DataClassification = ToBeClassified;
             Caption = 'Email Address';
@@ -395,7 +378,7 @@ table 52001 "Facility Vendor Profiles"
             DataClassification = ToBeClassified;
             Caption = 'Trade License Issuing Authority';
         }
-        field(52053; "Trade License Number"; Code[100])
+        field(52053; "Trade License Number"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Trade License Number';
@@ -592,5 +575,45 @@ table 52001 "Facility Vendor Profiles"
 
         }
     }
+
+    trigger OnInsert()
+
+    var
+        noSeriesSetup: Record "No. Series Setup";
+        noseries: Codeunit "No. Series";
+    begin
+        if noSeriesSetup.Get() then begin
+            Rec."Profile ID" := noseries.GetNextNo(noSeriesSetup."Vendor Profile Nos.");
+        end else
+            Error('No. Series Setup not found for Construction Project Nos.');
+    end;
+
+    trigger OnDelete()
+    var
+    begin
+        DeleteVendorprofiledocumentgrid();
+        DeleteVendorbusinessprofilegrid();
+    end;
+
+    procedure DeleteVendorprofiledocumentgrid()
+    var
+        Vendorprofiledocumentgrid: Record "Vendor Profile Document Grid";
+    begin
+        Vendorprofiledocumentgrid.SetRange("Profile ID", Rec."Profile ID");
+        if Vendorprofiledocumentgrid.FindSet() then begin
+            Vendorprofiledocumentgrid.DeleteAll();
+        end
+    end;
+
+    procedure DeleteVendorbusinessprofilegrid()
+    var
+        vendorbusinessprofilegrid: Record "vendor Business Profile";
+    begin
+        vendorbusinessprofilegrid.SetRange("Profile ID", Rec."Profile ID");
+        if vendorbusinessprofilegrid.FindSet() then begin
+            vendorbusinessprofilegrid.DeleteAll();
+        end
+    end;
+
 
 }

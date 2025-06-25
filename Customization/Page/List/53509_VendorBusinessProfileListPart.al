@@ -3,8 +3,8 @@ page 53509 "Vendor Business Profile"
     PageType = ListPart;
     SourceTable = "Vendor Business Profile";
     Caption = 'Vendor Business Profile';
-    ApplicationArea = All;
-    UsageCategory = Lists;
+    //UsageCategory = Lists;
+    InsertAllowed = true;
     layout
     {
         area(Content)
@@ -25,11 +25,12 @@ page 53509 "Vendor Business Profile"
                 {
                     ApplicationArea = All;
                     Caption = 'Vendor Category';
+
                 }
                 field("Service Type"; Rec."Service Type")
                 {
                     ApplicationArea = All;
-                    Caption = 'Business Type';
+                    Caption = 'Service Type';
                 }
                 field("Key Products"; Rec."Key Products")
                 {

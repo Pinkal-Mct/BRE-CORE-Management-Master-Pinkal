@@ -9,6 +9,7 @@ table 53504 "Vendor Business Profile"
         {
             DataClassification = ToBeClassified;
             Caption = 'Vendor Category';
+            TableRelation = "Vendor Category Master".Name;
         }
         field(53510; "Service Type"; Text[100])
         {
@@ -60,6 +61,13 @@ table 53504 "Vendor Business Profile"
         {
             DataClassification = ToBeClassified;
             Caption = 'Profile ID';
+        }
+    }
+    keys
+    {
+        key(PK; "Entry No.", "Profile ID")
+        {
+            Clustered = true;
         }
     }
 }

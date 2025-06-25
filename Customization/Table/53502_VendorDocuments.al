@@ -27,4 +27,11 @@ table 53502 "Vendor Documents"
             Clustered = true;
         }
     }
+    fieldgroups
+    {
+        fieldgroup(DropDown; ID, "Vendor Document Name")
+        {
+            Caption = 'Vendor Documents';
+        }
+    }
 }
