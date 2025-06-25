@@ -1,22 +1,22 @@
-table 53757 "Project Milestone Task"
+table 53758 "Project Milestone Sub Task"
 {
     DataClassification = ToBeClassified;
 
     fields
     {
-        field(53100; "Milestone ID"; Code[20])
+        field(53100; "Task ID"; Code[20])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Milestone ID';
+            Caption = 'Task ID';
         }
-        field(53101; "Task ID"; Code[20])
+        field(53101; "Sub Task ID"; Code[20])
         {
             DataClassification = ToBeClassified;
         }
-        field(53102; "Task Name"; Text[100])
+        field(53102; "Sub Task Name"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Task Name';
+            Caption = 'Sub Task Name';
         }
         field(53103; "Status"; Option)
         {
@@ -55,22 +55,22 @@ table 53757 "Project Milestone Task"
 
             trigger OnValidate()
             var
-                projectMilestoneTask: Record "Project Milestone Task";
+                projectMilestoneSubTask: Record "Project Milestone Sub Task";
                 TotalWeight: Decimal;
             begin
-                projectMilestoneTask.Reset();
-                projectMilestoneTask.SetRange("Milestone ID", "Milestone ID");
-                if projectMilestoneTask.FindSet() then begin
+                projectMilestoneSubTask.Reset();
+                projectMilestoneSubTask.SetRange("Task ID", "Task ID");
+                if projectMilestoneSubTask.FindSet() then begin
                     TotalWeight := 0;
                     repeat
-                        if projectMilestoneTask."Task ID" = "Task ID" then
+                        if projectMilestoneSubTask."Sub Task ID" = "Sub Task ID" then
                             TotalWeight += Rec.Weight
                         else
-                            TotalWeight += projectMilestoneTask.Weight;
-                    until projectMilestoneTask.Next() = 0;
+                            TotalWeight += projectMilestoneSubTask.Weight;
+                    until projectMilestoneSubTask.Next() = 0;
 
                     if TotalWeight > 100 then
-                        Error('Total Task Weight for Milestone "%1" exceeds 100%% (Current: %2%%)', "Milestone ID", TotalWeight);
+                        Error('Total Sub Task Weight for Task "%1" exceeds 100%% (Current: %2%%)', "Task ID", TotalWeight);
                 end;
             end;
         }
@@ -88,7 +88,7 @@ table 53757 "Project Milestone Task"
 
     keys
     {
-        key(PK; "Task ID", "Milestone ID")
+        key(PK; "Sub Task ID", "Task ID")
         {
             Clustered = true;
         }
@@ -100,30 +100,8 @@ table 53757 "Project Milestone Task"
         noseries: Codeunit "No. Series";
     begin
         if noSeriesSetup.Get() then begin
-            Rec."Task ID" := noseries.GetNextNo(noSeriesSetup."Milestone Task Nos.");
+            Rec."Sub Task ID" := noseries.GetNextNo(noSeriesSetup."Milestone Sub Task Nos.");
         end else
-            Error('No. Series Setup not found for Milestone Task Nos.');
-    end;
-
-    procedure RecalculateProgress()
-    var
-        projectMilestoneSubTask: Record "Project Milestone Sub Task";
-        TotalProgress, TotalWeight : Decimal;
-    begin
-        projectMilestoneSubTask.Reset();
-        projectMilestoneSubTask.SetRange("Task ID", "Task ID");
-        if projectMilestoneSubTask.FindSet() then begin
-            repeat
-                TotalProgress += projectMilestoneSubTask."Progress" * projectMilestoneSubTask."Weight";
-                TotalWeight += projectMilestoneSubTask."Weight";
-            until projectMilestoneSubTask.Next() = 0;
-
-            if TotalWeight > 0 then begin
-                Rec."Progress" := TotalProgress / 100;
-                Rec.Modify();
-            end
-            else
-                Rec."Progress" := 0;
-        end;
+            Error('No. Series Setup not found for Milestone Sub Task Nos.');
     end;
 }

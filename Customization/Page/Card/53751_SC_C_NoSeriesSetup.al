@@ -36,6 +36,11 @@ page 53751 "No. Series Setup"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the milestone task number series.';
                 }
+                field("Milestone Sub Task Nos."; Rec."Milestone Sub Task Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the milestone sub-task number series.';
+                }
             }
         }
     }

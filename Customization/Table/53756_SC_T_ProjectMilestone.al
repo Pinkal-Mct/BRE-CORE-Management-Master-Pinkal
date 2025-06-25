@@ -40,6 +40,12 @@ table 53756 "Project Milestone"
         {
             DataClassification = ToBeClassified;
             Caption = 'End Date';
+
+            trigger OnValidate()
+            begin
+                if "End Date" < "Start Date" then
+                    Error('End Date cannot be earlier than Start Date.');
+            end;
         }
         field(53107; "Weight"; Decimal)
         {
