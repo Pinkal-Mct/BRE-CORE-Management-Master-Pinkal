@@ -225,6 +225,25 @@ table 53100 "Construction Project"
 
         // Extended Timeline //
 
+        field(53149; "Created By"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Created By';
+            Editable = false;
+        }
+        field(53141; "Reason for Rejection"; Text[1000])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Reason for Rejection';
+        }
+        field(53142; "Approval Status"; Option)
+        {
+            OptionCaption = ' ,Approved,Rejected';
+            OptionMembers = " ",Approved,Rejected;
+            DataClassification = ToBeClassified;
+            Caption = 'Approval Status';
+        }
+
     }
 
     keys
