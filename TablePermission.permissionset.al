@@ -344,7 +344,6 @@ permissionset 50100 TablePermission
         page "Item Dialog Box" = X,
         page testpagelist = X,
         page "Unit Document SubPage" = X,
-        page "Vendor Business Profile" = X,
         page "Vendor Category Master List" = X,
         page "Vendor Document List" = X,
         page "Vendor Profile Document Grid" = X,
@@ -354,7 +353,18 @@ permissionset 50100 TablePermission
         tabledata "Vendor Proposal" = RIMD,
         table GoverningLawDisputeResolution = X,
         table "Vendor Proposal" = X,
-        table Customer = X;
-
-
+        table Customer = X,
+        tabledata "FM Service Request Header" = RIMD,
+        tabledata "Pricing Breakdown" = RIMD,
+        tabledata "Vendor Document Upload" = RIMD,
+        tabledata "Vendor Proposal Approval" = RIMD,
+        table "FM Service Request Header" = X,
+        table "Pricing Breakdown" = X,
+        table "Vendor Document Upload" = X,
+        table "Vendor Proposal Approval" = X,
+        codeunit "Approval Vendor Proposal" = X,
+        page "Vendor Business Profile FM" = X,
+        page "Vendor Business Profile SM" = X,
+        page "Vendor Document Upload Grid" = X,
+        page "Vendor Profile Api" = X;
 }
