@@ -58,6 +58,14 @@ page 53505 VendorProfile
                     Editable = false;
                     ShowMandatory = true;
                 }
+
+                field("Status"; Rec.Status)
+                {
+                    ApplicationArea = All;
+                    Caption = 'Status';
+                    Editable = false;
+                }
+
                 group(Address)
                 {
                     Caption = 'Address';
@@ -318,6 +326,72 @@ page 53505 VendorProfile
         }
     }
 
+
+    actions
+    {
+        area(Processing)
+        {
+            action(Vendorprofile)
+            {
+                ApplicationArea = All;
+                Caption = 'Vendor Profile Approval';
+                Image = PostDocument;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+
+
+                trigger OnAction()
+                var
+                    ApprovalVendorprofile: Record "Approval Vendor Profile";
+                begin
+                    // Ensure current record is fetched
+                    if not Rec.Get(Rec."Profile ID") then
+                        Error('Vendor profile for Vendor ID %1 not found.', Rec."Profile ID");
+
+                    // Validate required fields
+                    if Rec."Profile ID" = '' then
+                        Error('Vendor ID must be specified');
+
+                    ApprovalVendorprofile.SetRange("Profile ID", Rec."Profile ID");
+                    if ApprovalVendorprofile.FindSet() then begin
+                        // Modify existing approval record
+                        ApprovalVendorprofile."Profile ID" := Rec."Profile ID";
+                        ApprovalVendorprofile."Vendor ID" := Rec."Vendor ID";
+                        ApprovalVendorprofile."Status" := Rec."Status";
+                        ApprovalVendorprofile."Vendor Name" := Rec."Vendor Name";
+                        ApprovalVendorprofile."Country" := Rec."Country";
+                        ApprovalVendorprofile."Emirate" := Rec."Emirate";
+                        ApprovalVendorprofile."Community" := Rec."Community";
+                        ApprovalVendorprofile."Phone No." := Rec."Phone No.";
+                        ApprovalVendorprofile."Mobile Phone No." := Rec."Mobile Phone No.";
+                        ApprovalVendorprofile."E-Mail" := Rec."E-Mail";
+                        ApprovalVendorprofile."Location Code" := Rec."Location Code";
+                        ApprovalVendorprofile."Vendor Type" := Rec."Vendor Type";
+                        ApprovalVendorprofile.Modify();
+                        Message('Approval Request Modified successfully!');
+                    end else begin
+                        // Insert new approval record
+                        ApprovalVendorprofile.Init();
+                        ApprovalVendorprofile."Profile ID" := Rec."Profile ID";
+                        ApprovalVendorprofile."Vendor ID" := Rec."Vendor ID";
+                        ApprovalVendorprofile."Status" := Rec."Status";
+                        ApprovalVendorprofile."Vendor Name" := Rec."Vendor Name";
+                        ApprovalVendorprofile."Country" := Rec."Country";
+                        ApprovalVendorprofile."Emirate" := Rec."Emirate";
+                        ApprovalVendorprofile."Community" := Rec."Community";
+                        ApprovalVendorprofile."Phone No." := Rec."Phone No.";
+                        ApprovalVendorprofile."Mobile Phone No." := Rec."Mobile Phone No.";
+                        ApprovalVendorprofile."E-Mail" := Rec."E-Mail";
+                        ApprovalVendorprofile."Location Code" := Rec."Location Code";
+                        ApprovalVendorprofile."Vendor Type" := Rec."Vendor Type";
+                        ApprovalVendorprofile.Insert(true);
+                        Message('Approval Request Sent successfully!');
+                    end;
+                end;
+            }
+        }
+    }
 
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
