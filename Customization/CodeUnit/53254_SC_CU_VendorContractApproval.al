@@ -1,8 +1,8 @@
-codeunit 53251 "Approval Vendor Proposal"
+codeunit 53254 "Approval Vendor Contract"
 {
-    procedure SubmitVendorProposal(var VendorProposalRec: Record "Vendor Proposal")
+    procedure SubmitVendorContract(var VendorProposalRec: Record "Vendor Contract")
     var
-        ApprovalStatusList: Record "Vendor Proposal Approval";
+        ApprovalStatusList: Record "Vendor Contract Approval";
         EmailMessage: Codeunit "Email Message";
         Email: Codeunit "Email";
         UserPersonalizationRec: Record "User Personalization";
@@ -14,7 +14,7 @@ codeunit 53251 "Approval Vendor Proposal"
     begin
         // Insert new record in Approval Request list
         ApprovalStatusList.Init();
-        ApprovalStatusList."Vendor Proposal ID" := VendorProposalRec."Proposal ID";
+        ApprovalStatusList."Vendor Contract ID" := VendorProposalRec."Contract ID";
         ApprovalStatusList."Vendor ID" := VendorProposalRec."Vendor ID";
 
         ApprovalStatusList.Status := 'Pending';
@@ -48,7 +48,7 @@ codeunit 53251 "Approval Vendor Proposal"
                 '<html><body>' +
                 '<p>Dear PROJECT MANAGER,</p>' +
                 '<p>This is an automated notification from the system.</p>' +
-                '<p>A new vendor proposal has been submitted for <b>Vendor Proposal ID: ' + Format(VendorProposalRec."Proposal ID") + '</b>.</p>' +
+                '<p>A New Vendor Contract has been submitted for <b>Vendor ID: ' + Format(VendorProposalRec."Vendor ID") + '</b>.</p>' +
                 '<p>Please review the <b>Vendor Proposal Approval List</b> and take the necessary action.</p>' +
                 '<p>This is a system-generated email. Please do not reply.</p>' +
                 '<p>Thank you,</p>' +
