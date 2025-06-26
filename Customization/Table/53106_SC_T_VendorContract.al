@@ -1,73 +1,63 @@
-table 53105 "Vendor Proposal"
+table 53106 "Vendor Contract"
 {
     DataClassification = ToBeClassified;
-    Caption = 'Vendor Proposal';
+    Caption = 'Vendor Contract';
     fields
     {
-        field(53100; "Proposal ID"; code[20])
+        field(53100; "Contract ID"; code[20])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Proposal ID';
+            Caption = 'Contract ID';
         }
-        field(53101; "Project ID"; code[20])
+        field(53101; "Proposal ID"; code[20])
+        {
+            TableRelation = "Vendor Proposal"."Proposal ID";
+            DataClassification = ToBeClassified;
+            Caption = 'Proposal ID';
+
+        }
+        field(53102; "Project ID"; code[20])
         {
             TableRelation = "Construction Project"."Project ID";
             DataClassification = ToBeClassified;
             Caption = 'Project ID';
         }
-        field(53102; "Vendor ID"; code[20])
+        field(53103; "Vendor ID"; code[20])
         {
-            TableRelation = "Facility Vendor Profiles"."Vendor ID";
+            // TableRelation = "Facility Vendor Profiles"."Vendor ID";
             DataClassification = ToBeClassified;
             Caption = 'Vendor ID';
-            trigger OnValidate()
-            var
-                vendorProfile: Record "Facility Vendor Profiles";
-            begin
-                vendorProfile.SetRange("Vendor ID", Rec."Vendor ID");
-                if vendorProfile.FindSet() then begin
-                    Rec."Vendor Email" := vendorProfile."Email Address";
-                end else
-                    Rec."Vendor Email" := '';
-
-                // Additional validation can be added here if needed
-            end;
         }
-        field(53103; "Proposal Date"; Date)
+        field(53104; "Contract Date"; Date)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Proposal Date';
+            Caption = 'Contract Date';
         }
-        field(53104; "Work Scope"; Text[250])
+        field(53105; "Work Scope"; Text[250])
         {
             DataClassification = ToBeClassified;
             Caption = 'Work Scope';
         }
-        field(53105; "Start Date"; Date)
+        field(53106; "Contract Start Date"; Date)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Start Date';
+            Caption = 'Contract Start Date';
 
             trigger OnValidate()
             begin
-                if ("End Date" <> 0D) and ("Start Date" > "End Date") then
+                if ("Contract End Date" <> 0D) and ("Contract Start Date" > "Contract End Date") then
                     Error('Start Date cannot be after End Date.');
             end;
         }
-        field(53106; "End Date"; Date)
+        field(53107; "Contract End Date"; Date)
         {
             DataClassification = ToBeClassified;
-            Caption = 'End Date';
+            Caption = 'Contract End Date';
             trigger OnValidate()
             begin
-                if ("Start Date" <> 0D) and ("End Date" < "Start Date") then
+                if ("Contract Start Date" <> 0D) and ("Contract End Date" < "Contract Start Date") then
                     Error('End Date cannot be before Start Date.');
             end;
-        }
-        field(53107; "Quoted Price"; Decimal)
-        {
-            DataClassification = ToBeClassified;
-            Caption = '';
         }
         field(53108; "Payment Terms"; Text[100])
         {
@@ -108,22 +98,17 @@ table 53105 "Vendor Proposal"
             DataClassification = ToBeClassified;
             Caption = 'Created By';
         }
-        field(53115; "Created DateTime"; DateTime)
-        {
-            DataClassification = ToBeClassified;
-            Caption = 'Created DateTime';
-        }
-        field(53116; "Vendor Email"; Text[50])
+        field(53115; "Vendor Email"; Text[50])
         {
             DataClassification = ToBeClassified;
             Caption = 'Vendor Email';
         }
-        field(53117; "Vendor Name"; Text[50])
+        field(53116; "Vendor Name"; Text[50])
         {
             DataClassification = ToBeClassified;
             Caption = 'Vendor Name';
         }
-        field(53118; "Vendor Designation"; Text[50])
+        field(53117; "Vendor Designation"; Text[50])
         {
             DataClassification = ToBeClassified;
             Caption = 'Vendor Designation';
@@ -145,11 +130,8 @@ table 53105 "Vendor Proposal"
         noseries: Codeunit "No. Series";
     begin
         if noSeriesSetup.Get() then begin
-            Rec."Proposal ID" := noseries.GetNextNo(noSeriesSetup."Vendor Proposal Nos.");
+            Rec."Contract ID" := noseries.GetNextNo(noSeriesSetup."Vendor Contract Nos.");
         end else
-            Error('No. Series Setup not found for Vendor Proposal Nos.');
-        Rec."Created By" := UserId();
+            Error('No. Series Setup not found for Vendor Contract Nos.');
     end;
-
-
 }

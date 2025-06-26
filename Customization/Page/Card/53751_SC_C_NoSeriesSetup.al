@@ -54,6 +54,15 @@ page 53751 "No. Series Setup"
                     ToolTip = 'Specifies the vendor proposal number series.';
                 }
                 // This field is used to store the vendor proposal number series. Table 53105 "Vendor Proposal" has a field for vendor proposal numbers.
+
+                // This field is used to store the vendor contract number series. Table 53106 "Vendor Contract" has a field for vendor contract numbers.
+                field("Vendor Contract Nos."; Rec."Vendor Contract Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the vendor contract number series.';
+                }
+                // This field is used to store the vendor contract number series. Table 53106 "Vendor Contract" has a field for vendor contract numbers.
+
             }
         }
     }
