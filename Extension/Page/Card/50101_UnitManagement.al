@@ -10,11 +10,11 @@ pageextension 50101 Items extends "Item Card"
         }
         modify("Item Category Code")
         {
-            Visible = false;
+            Visible = isVenderService;
         }
         modify(Description)
         {
-            Visible = false;
+            Visible = isVenderService;
         }
         modify("Automatic Ext. Texts")
         {
@@ -43,31 +43,31 @@ pageextension 50101 Items extends "Item Card"
         }
         modify(InventoryGrp)
         {
-            Visible = false;
+            Visible = isVenderService;
         }
         modify("Costs & Posting")
         {
-            Visible = false;
+            Visible = isVenderService;
         }
         modify("Prices & Sales")
         {
-            Visible = false;
+            Visible = isVenderService;
         }
         modify(Replenishment)
         {
-            Visible = false;
+            Visible = isVenderService;
         }
         modify(Planning)
         {
-            Visible = false;
+            Visible = isVenderService;
         }
         modify(ItemTracking)
         {
-            Visible = false;
+            Visible = isVenderService;
         }
         modify(Warehouse)
         {
-            Visible = false;
+            Visible = isVenderService;
         }
         modify(GTIN)
         {
@@ -77,14 +77,14 @@ pageextension 50101 Items extends "Item Card"
         {
             ShowMandatory = false;
             Editable = hideshowfields;
-            Visible = hideshowfields;
+            Visible = hideshowfields and isVenderService;
 
         }
         modify("VAT Prod. Posting Group")
         {
             ShowMandatory = false;
             Editable = hideshowfields;
-            Visible = hideshowfields;
+            Visible = hideshowfields and isVenderService;
         }
         modify("Service Item Group")
         {
@@ -95,12 +95,6 @@ pageextension 50101 Items extends "Item Card"
         {
             caption = 'Unit';
         }
-
-
-
-
-
-
         // addafter("Last Date Modified")
         // {
         //     field(GTIN_; rec.GTIN_)
@@ -113,23 +107,34 @@ pageextension 50101 Items extends "Item Card"
         // }
         addafter("Base Unit of Measure")
         {
-            field("Market Rate per Sq. Ft."; rec."Market Rate per Sq. Ft.")
+            group("BaseUnitofMeasure")
             {
-                ApplicationArea = All;
-                //Editable = true;
-                Editable = editablefalsefieldNonInventoryType;
+                ShowCaption = false;
+                Visible = isUnitService;
+                field("Market Rate per Sq. Ft."; rec."Market Rate per Sq. Ft.")
+                {
+                    ApplicationArea = All;
+                    //Editable = true;
+                    Editable = editablefalsefieldNonInventoryType;
+                }
             }
         }
 
         addafter("Market Rate per Sq. Ft.")
         {
-            field("Unit Size"; rec."Unit Size")
+            group("MarketRateperSq.Ft.")
             {
-                ApplicationArea = All;
-                Caption = 'Unit Size';
-                // Editable = true;
-                Editable = editablefalsefieldNonInventoryType;
+                ShowCaption = false;
+                Visible = isUnitService;
+                field("Unit Size"; rec."Unit Size")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Unit Size';
+                    // Editable = true;
+                    Editable = editablefalsefieldNonInventoryType;
+                }
             }
+
         }
         // addafter(Type)
         // {
@@ -145,27 +150,38 @@ pageextension 50101 Items extends "Item Card"
         // }
         addafter("Unit Size")
         {
-            field("Amount"; rec."Amount")
+            group("UnitSize")
             {
-                ApplicationArea = All;
-                Caption = 'Amount';
-                Editable = false;
+                ShowCaption = false;
+                Visible = isUnitService;
+                field("Amount"; rec."Amount")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Amount';
+                    Editable = false;
+                }
             }
         }
         addafter("Gen. Prod. Posting Group")
         {
-            field("Primary Classification Type"; Rec."Primary Classification Type")
+            group("Gen.Prod.PostingGroup")
             {
-                ApplicationArea = All;
-                Caption = 'Primary Classification Type';
-                Editable = ISPrimaryType;
-                //Visible = hideshowfields;
+                ShowCaption = false;
+                Visible = isUnitService;
+                field("Primary Classification Type"; Rec."Primary Classification Type")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Primary Classification Type';
+                    Editable = ISPrimaryType;
+                    //Visible = hideshowfields;
+                }
             }
         }
         addafter(Item)
         {
             group(UnitManagement)
             {
+                Visible = isUnitService;
                 Caption = 'Unit Management';
                 // Visible = IsUnitManagementVisible;
                 field(FixedNumber; Rec.FixedNumber)
@@ -303,29 +319,66 @@ pageextension 50101 Items extends "Item Card"
                     ApplicationArea = All;
                     Lookup = true;
                 }
-
-
             }
-
-
-
             part("Document Attachments"; "Unit Document SubPage")
             {
                 SubPageLink = UnitID = FIELD("No."); // Link to filter attachments for this owner only
                 ApplicationArea = All;
                 // Visible = isVisible;
                 Editable = editablefalsefieldNonInventoryType;
-                Visible = ShowFinancialFields;
-
+                Visible = ShowFinancialFields and isUnitService;
             }
         }
+        addafter("Item Category Code")
+        {
+            group("Facility Management")
+            {
+                ShowCaption = false;
+                Visible = isVenderService;
+                field("Service category"; Rec."Service category")
+                {
+                    ApplicationArea = All;
+                    Lookup = true;
+                    NotBlank = true;
+                    ShowMandatory = true;
+                    trigger OnLookup(var Text: Text): Boolean
+                    var
+                        VendorCategory: Record "Vendor Category Master";
+                        VendorCategoryList: Page "Vendor Category Master List";
+                    begin
+                        // Set the lookup page to show dropdown style
+                        VendorCategoryList.LookupMode(true);
+                        VendorCategoryList.SetRecord(VendorCategory);
 
+                        // If current value exists, position on that record
+                        if Rec."Service category" <> '' then begin
+                            VendorCategory.SetRange(Name, Rec."Service category");
+                            if VendorCategory.FindFirst() then
+                                VendorCategoryList.SetRecord(VendorCategory);
+                        end;
+
+                        if VendorCategoryList.RunModal() = Action::LookupOK then begin
+                            VendorCategoryList.GetRecord(VendorCategory);
+                            Text := VendorCategory.Name;
+                            exit(true);
+                        end;
+                        exit(false);
+                    end;
+                }
+                field("Service Type"; Rec."Service Type")
+                {
+                    ApplicationArea = All;
+                    Lookup = true;
+                    NotBlank = true;
+                    ShowMandatory = true;
+                }
+            }
+        }
 
     }
 
     actions
     {
-
         modify(CopyItem)
         {
             trigger OnAfterAction()
@@ -341,7 +394,7 @@ pageextension 50101 Items extends "Item Card"
             {
                 ApplicationArea = All;
                 // Promoted = true;
-
+                Visible = isService;
                 trigger OnAction()
                 var
                     CustomLinesPage: Record "Revenue Structure Subpage";
@@ -434,9 +487,32 @@ pageextension 50101 Items extends "Item Card"
         exit(Code); // Return the formatted code
     end;
 
-
+    //-------------------------------------- Unit Management Page Extension ------------------------------------------//
     var
         isVisible: Boolean;
+        isUnitService: Boolean;
+        isVenderService: Boolean;
+
+
+    procedure EvaluateFastTabVisibility(): Boolean
+    begin
+        if Rec."Item Template" = Enum::"Item Template Enum"::Service then begin
+            if (Format(Rec."No.") <> '') and (StrPos(Format(Rec."No."), 'SEUN') = 1) then
+                exit(true)
+            else
+                exit(false);
+        end;
+    end;
+
+    procedure EvaluateFastTabVisibilityService(): Boolean
+    begin
+        if Rec."Item Template" = Enum::"Item Template Enum"::Service then begin
+            if (Format(Rec."No.") <> '') and (StrPos(Format(Rec."No."), 'SEVE') = 1) then
+                exit(true)
+            else
+                exit(false);
+        end;
+    end;
 
     // trigger OnQueryClosePage(CloseAction: Action): Boolean
     // begin
@@ -461,7 +537,8 @@ pageextension 50101 Items extends "Item Card"
         ISPrimaryType := SetPrimaryType();
         hideshowfields := hidefields();
         editablefalsefieldNonInventoryType := editablefalseNonInventory();
-
+        isUnitService := EvaluateFastTabVisibility();
+        isVenderService := EvaluateFastTabVisibilityService();
     end;
 
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean
@@ -489,7 +566,8 @@ pageextension 50101 Items extends "Item Card"
         ISPrimaryType := SetPrimaryType();
         hideshowfields := hidefields();
         editablefalsefieldNonInventoryType := editablefalseNonInventory();
-
+        isUnitService := EvaluateFastTabVisibility();
+        isVenderService := EvaluateFastTabVisibilityService();
 
     end;
 
@@ -500,9 +578,6 @@ pageextension 50101 Items extends "Item Card"
         editablefalsefieldNonInventoryType := editablefalseNonInventory();
 
     end;
-
-
-
 
     procedure SetPrimaryType(): Boolean
     var
@@ -548,9 +623,6 @@ pageextension 50101 Items extends "Item Card"
 
         hideshowfields: Boolean;
         editablefalsefieldNonInventoryType: Boolean;
-
-
-
 
     local procedure IsUserInProfile(ProfileID: Code[20]): Boolean
     var

@@ -1,40 +1,41 @@
 table 51252 "OEM Master"
 {
     DataClassification = ToBeClassified;
+    DataCaptionFields = "OEM ID";
 
     fields
     {
-        field(50100; "OEM ID"; Code[20])
+        field(51251; "OEM ID"; Code[20])
         {
             Caption = 'OEM ID';
             DataClassification = ToBeClassified;
         }
-        field(50101; "OEM Name"; Text[100])
+        field(51252; "OEM Name"; Text[100])
         {
             Caption = 'OEM Name';
             DataClassification = ToBeClassified;
         }
 
-        field(50102; "OEM Description"; Text[250])
+        field(51253; "OEM Description"; Text[250])
         {
             Caption = 'OEM Description';
             DataClassification = ToBeClassified;
         }
 
-        field(50103; "Equipment Category"; Text[50])
+        field(51254; "Equipment Category"; Text[50])
         {
             Caption = 'Equipment Category';
             DataClassification = ToBeClassified;
             TableRelation = "Equipment Category"."Equipment Type";
         }
 
-        field(50104; "Contact Person"; Text[100])
+        field(51255; "Contact Person"; Text[100])
         {
             Caption = 'Contact Person';
             DataClassification = ToBeClassified;
         }
 
-        field(50105; Email; Text[100])
+        field(51256; Email; Text[100])
         {
             Caption = 'Email';
             ExtendedDatatype = EMail;
@@ -48,14 +49,14 @@ table 51252 "OEM Master"
             end;
         }
 
-        field(50106; Phone; Text[30])
+        field(51257; Phone; Text[30])
         {
             Caption = 'Phone';
             ExtendedDatatype = PhoneNo;
             DataClassification = ToBeClassified;
         }
 
-        field(50107; Website; Text[100])
+        field(51258; Website; Text[100])
         {
             Caption = 'Website';
             ExtendedDatatype = URL;
@@ -64,7 +65,7 @@ table 51252 "OEM Master"
     }
     keys
     {
-        key(PK; "OEM ID", "Equipment Category")
+        key(PK; "OEM ID", "OEM Name", "Equipment Category")
         {
             Clustered = true;
         }

@@ -123,15 +123,19 @@ tableextension 51501 "Fixed Asset" extends "Fixed Asset"
         {
             DataClassification = ToBeClassified;
         }
+        field(51528; "Asset ID"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
 
 
     }
 
     keys
-    {
-        key(Key1; "Property Code")
-        {
 
+    {
+        key(Key1; "Asset ID", "Property Code")
+        {
         }
     }
 
@@ -144,23 +148,14 @@ tableextension 51501 "Fixed Asset" extends "Fixed Asset"
         myInt: Integer;
 
     trigger OnInsert()
+    var
+        NoSeriesManagement: Codeunit "No. Series";
+        NewNo: Code[20];
     begin
-
-    end;
-
-    trigger OnModify()
-    begin
-
-    end;
-
-    trigger OnDelete()
-    begin
-
-    end;
-
-    trigger OnRename()
-    begin
-
+        if ("Asset ID" = '') then begin
+            NewNo := NoSeriesManagement.GetNextNo('ASSETID', 0D, true); // Use the number series code you created
+            "Asset ID" := NewNo;
+        end;
     end;
 
 }

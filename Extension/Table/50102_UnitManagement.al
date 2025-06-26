@@ -253,9 +253,9 @@ tableextension 50102 ItemExtension extends Item
             Caption = 'Item Type';
             DataClassification = ToBeClassified;
         }
-        field(50141; "Service category"; code[20])
+        field(50141; "Service Type"; code[20])
         {
-            Caption = 'Service category';
+            Caption = 'Service Type';
             DataClassification = ToBeClassified;
             TableRelation = "Service Category Master"."Service Category ID";
         }
@@ -263,6 +263,12 @@ tableextension 50102 ItemExtension extends Item
         {
             Caption = 'Item Template';
             DataClassification = ToBeClassified;
+        }
+        field(50143; "Service category"; code[20])
+        {
+            Caption = 'Service category';
+            DataClassification = ToBeClassified;
+            TableRelation = "Vendor Category Master".ID;
         }
 
         // field(50126; "Merged Property ID"; Code[20])
