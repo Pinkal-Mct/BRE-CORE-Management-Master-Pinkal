@@ -26,11 +26,13 @@ page 53505 VendorProfile
                         vendorrecord.SetRange("No.", Rec."Vendor ID");
                         if vendorrecord.FindSet() then begin
                             Rec."Vendor Name" := vendorrecord.Name;
-
                             Rec."Email Address" := vendorrecord."E-Mail";
+                            Rec.Address := vendorrecord.Address;
+                            Rec."Landline Number" := vendorrecord."Phone No.";
                         end else begin
                             Rec."Vendor Name" := '';
-
+                            Rec.Address := '';
+                            Rec."Landline Number" := '';
                             Rec."Email Address" := '';
                         end;
                     end;
