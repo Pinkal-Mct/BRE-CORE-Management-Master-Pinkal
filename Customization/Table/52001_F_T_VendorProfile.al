@@ -392,6 +392,15 @@ table 52001 "Facility Vendor Profiles"
         {
             DataClassification = ToBeClassified;
             Caption = 'Trade License Expiry Date';
+
+            trigger OnValidate()
+            var
+                emailrec: Codeunit "Send Expiry Date Email";
+            begin
+
+                if Rec."Trade License Expiry Date" > Today then
+                    emailrec.SendEmail(Rec);
+            end;
         }
         field(52056; "VAT Registration Number"; Text[100])
         {
@@ -422,6 +431,15 @@ table 52001 "Facility Vendor Profiles"
         {
             DataClassification = ToBeClassified;
             Caption = 'Expiry Date';
+
+            trigger OnValidate()
+            var
+                emailrec: Codeunit "Send Expiry Date Email";
+            begin
+
+                if (Rec."Expiry Date" - 30) = Today then
+                    emailrec.SendEmailss(Rec);
+            end;
         }
         field(52062; "Owners Name"; Text[100])
         {
@@ -448,11 +466,12 @@ table 52001 "Facility Vendor Profiles"
             OptionMembers = " ","Domestic","Non-Domestic";
             Caption = 'Vendor Type';
         }
-        field(52067; "Status"; Option)
+        field(52067; "Status"; Enum "Approval Status Enum")
         {
-            OptionMembers = "Pending","Approve","Reject";
+            DataClassification = ToBeClassified;
             Caption = 'Status';
         }
+
         //////////////////////////////////// FACILITY FIELDS///////////////////////////////////////////////////////////
 
         // ✅ New Bank Info Fields
