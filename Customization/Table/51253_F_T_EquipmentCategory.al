@@ -2,28 +2,29 @@ table 51253 "Equipment Category"
 {
     Caption = 'Equipment Category';
     DataClassification = ToBeClassified;
+    DataCaptionFields = ID;
 
     fields
     {
-        field(1; ID; Code[20])
+        field(51251; ID; Code[20])
         {
             Caption = 'ID';
             DataClassification = ToBeClassified;
         }
 
-        field(2; Description; Text[100])
+        field(51252; Description; Text[100])
         {
             Caption = 'Description';
             DataClassification = ToBeClassified;
         }
 
-        field(3; "Equipment Type"; Text[50])
+        field(51253; "Equipment Type"; Text[50])
         {
             Caption = 'Equipment Type';
             DataClassification = ToBeClassified;
         }
 
-        field(10; Blocked; Boolean)
+        field(51254; Blocked; Boolean)
         {
             Caption = 'Blocked';
             DataClassification = ToBeClassified;
