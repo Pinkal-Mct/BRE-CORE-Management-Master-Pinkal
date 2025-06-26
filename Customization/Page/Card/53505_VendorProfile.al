@@ -26,11 +26,13 @@ page 53505 VendorProfile
                         vendorrecord.SetRange("No.", Rec."Vendor ID");
                         if vendorrecord.FindSet() then begin
                             Rec."Vendor Name" := vendorrecord.Name;
-
                             Rec."Email Address" := vendorrecord."E-Mail";
+                            Rec.Address := vendorrecord.Address;
+                            Rec."Landline Number" := vendorrecord."Phone No.";
                         end else begin
                             Rec."Vendor Name" := '';
-
+                            Rec.Address := '';
+                            Rec."Landline Number" := '';
                             Rec."Email Address" := '';
                         end;
                     end;
@@ -291,7 +293,7 @@ page 53505 VendorProfile
                 Visible = true;
                 SubPageLink = "Profile ID" = field("Profile ID");
             }
-            part(VendorBusinessProfile; "Vendor Business Profile")
+            part(VendorBusinessProfile; "Vendor Business Profile SM")
             {
                 ApplicationArea = All;
                 Caption = 'Vendor Business Profile';

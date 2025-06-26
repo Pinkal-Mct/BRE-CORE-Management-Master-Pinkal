@@ -238,8 +238,8 @@ table 53100 "Construction Project"
         }
         field(53142; "Approval Status"; Option)
         {
-            OptionCaption = ' ,Approved,Rejected';
-            OptionMembers = " ",Approved,Rejected;
+            OptionCaption = ' ,Pending,Approved,Rejected';
+            OptionMembers = " ",Pending,Approved,Rejected;
             DataClassification = ToBeClassified;
             Caption = 'Approval Status';
         }
@@ -264,6 +264,8 @@ table 53100 "Construction Project"
             Rec."Project ID" := noseries.GetNextNo(noSeriesSetup."Construction Project Nos.");
         end else
             Error('No. Series Setup not found for Construction Project Nos.');
+
+        Rec."Created By" := UserId();
     end;
 
     // Recalculate Progress //

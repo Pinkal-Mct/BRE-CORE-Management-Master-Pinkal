@@ -1,4 +1,4 @@
-page 53509 "Vendor Business Profile"
+page 53509 "Vendor Business Profile SM"
 {
     PageType = ListPart;
     SourceTable = "Vendor Business Profile";
