@@ -248,7 +248,7 @@ tableextension 50102 ItemExtension extends Item
             DataClassification = ToBeClassified;
             TableRelation = "Primary Classification"."Classification Name";
         }
-        field(50140; "Item Type"; Enum "Item Type Enum")
+        field(50140; "Item Type"; Enum "Module Enum")
         {
             Caption = 'Item Type';
             DataClassification = ToBeClassified;

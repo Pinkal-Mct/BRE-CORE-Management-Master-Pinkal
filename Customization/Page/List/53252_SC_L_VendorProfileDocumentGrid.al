@@ -15,6 +15,7 @@ page 53252 "Vendor Document Upload Grid"
                 {
                     ApplicationArea = All;
                     Caption = 'Entry No.';
+                    Visible = false;
                 }
                 field("Profile ID"; Rec."Profile ID")
                 {
@@ -37,6 +38,7 @@ page 53252 "Vendor Document Upload Grid"
                 {
                     ApplicationArea = All;
                     Caption = 'Upload Document';
+                    Editable = false;
                     trigger OnDrillDown()
                     var
                         azureBlobUploader: Codeunit "Azure AD Blob Storage";
@@ -44,10 +46,10 @@ page 53252 "Vendor Document Upload Grid"
                         folderName: Text;
                         uploadResult: Text;
                     begin
-                        folderName := 'ConstructionContracts';
+                        folderName := 'VendorDocuments';
                         fileName := azureBlobUploader.ValidateDocument(uploadResult, folderName);
                         if fileName <> '' then begin
-                            Rec."Upload Document" := fileName;
+                            Rec."Document Name" := fileName;
                             Rec."Document URL" := uploadResult;
                             Rec.Modify();
                             Message('File uploaded successfully: %1', fileName);

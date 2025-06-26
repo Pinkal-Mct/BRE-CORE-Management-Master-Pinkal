@@ -559,10 +559,14 @@ table 52001 "Facility Vendor Profiles"
         {
             DataClassification = ToBeClassified;
         }
+        field(51017; Module; Enum "Module Enum")
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {
-        key(PK; "Vendor ID", "Vendor Name")
+        key(PK; "Profile ID")
         {
             Clustered = true;
         }
@@ -570,23 +574,11 @@ table 52001 "Facility Vendor Profiles"
 
     fieldgroups
     {
-        fieldgroup(DropDown; "Vendor ID", "Vendor Name")
+        fieldgroup(DropDown; "Profile ID", "Profile Name")
         {
 
         }
     }
-
-    trigger OnInsert()
-
-    var
-        noSeriesSetup: Record "No. Series Setup";
-        noseries: Codeunit "No. Series";
-    begin
-        if noSeriesSetup.Get() then begin
-            Rec."Profile ID" := noseries.GetNextNo(noSeriesSetup."Vendor Profile Nos.");
-        end else
-            Error('No. Series Setup not found for Construction Project Nos.');
-    end;
 
     trigger OnDelete()
     var

@@ -1,22 +1,22 @@
-enum 51252 "Item Type Enum"
+enum 51252 "Module Enum"
 {
     Extensible = true;
     Caption = 'Item Type';
 
     value(0; "PM")
     {
-        Caption = 'PM';
+        Caption = 'Property Management';
     }
     value(1; "FM")
     {
-        Caption = 'FM';
+        Caption = 'Facility Management';
     }
     value(2; "PS")
     {
-        Caption = 'PS';
+        Caption = 'Property Sales';
     }
     value(3; "LC")
     {
-        Caption = 'LC';
+        Caption = 'Legal Case';
     }
 }
