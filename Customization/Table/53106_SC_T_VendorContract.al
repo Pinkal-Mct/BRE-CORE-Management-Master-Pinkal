@@ -137,5 +137,6 @@ table 53106 "Vendor Contract"
             Rec."Contract ID" := noseries.GetNextNo(noSeriesSetup."Vendor Contract Nos.");
         end else
             Error('No. Series Setup not found for Vendor Contract Nos.');
+        rec."Created By" := UserId();
     end;
 }
