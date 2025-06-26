@@ -15,6 +15,7 @@ page 53510 "Vendor Business Profile FM"
                 {
                     ApplicationArea = All;
                     Caption = 'Entry No.';
+                    visible = false;
                 }
                 field("Profile ID"; Rec."Profile ID")
                 {
@@ -25,17 +26,11 @@ page 53510 "Vendor Business Profile FM"
                 {
                     ApplicationArea = All;
                     Caption = 'Vendor Category';
-
                 }
                 field("Service Type"; Rec."Service Type")
                 {
                     ApplicationArea = All;
                     Caption = 'Service Type';
-                }
-                field("Key Products"; Rec."Key Products")
-                {
-                    ApplicationArea = All;
-                    Caption = 'Business Registration No.';
                 }
                 field("Team Size"; Rec."Team Size")
                 {
@@ -45,12 +40,12 @@ page 53510 "Vendor Business Profile FM"
                 field("Number of years of experience"; Rec."Number of years of experience")
                 {
                     ApplicationArea = All;
-                    Caption = 'Number of years of experience';
+                    Caption = 'No. of years of experience';
                 }
                 field("Compliance Requirements"; Rec."Compliance Requirements")
                 {
                     ApplicationArea = All;
-                    Caption = 'Business Registration Date';
+                    Caption = 'Compliance Requirements';
                 }
 
                 field("Additional note"; Rec."Additional note")

@@ -48,7 +48,7 @@ page 53505 VendorProfile
                 {
                     ApplicationArea = All;
                     Caption = 'Vendor Type';
-                    Editable = false;
+                    // Editable = false;
                     ShowMandatory = true;
                 }
                 field("Email Address"; Rec."Email Address")
@@ -109,6 +109,7 @@ page 53505 VendorProfile
                 {
                     ApplicationArea = All;
                     Caption = 'Profile ID';
+                    Editable = false;
                 }
 
                 field("Primary Contact Name"; Rec."Profile Name")
@@ -293,22 +294,36 @@ page 53505 VendorProfile
                 Visible = true;
                 SubPageLink = "Profile ID" = field("Profile ID");
             }
-            part(VendorBusinessProfile; "Vendor Business Profile SM")
+            part(VendorBusinessProfileSM; "Vendor Business Profile SM")
             {
                 ApplicationArea = All;
                 Caption = 'Vendor Business Profile';
-                Visible = true;
+                Visible = not isFacilityVendor;
+                SubPageLink = "Profile ID" = field("Profile ID");
+            }
+            part(VendorBusinessProfileFM; "Vendor Business Profile FM")
+            {
+                ApplicationArea = All;
+                Caption = 'Vendor Business Profile';
+                Visible = isFacilityVendor;
                 SubPageLink = "Profile ID" = field("Profile ID");
             }
             part("Vendor Document Upload Grid"; "Vendor Document Upload Grid")
             {
                 ApplicationArea = All;
-                Caption = 'Vendor Document Upload Grid';
+                Caption = 'Vendor Documents';
                 Visible = true;
                 SubPageLink = "Profile ID" = field("Profile ID");
             }
         }
     }
+
+
+    trigger OnNewRecord(BelowxRec: Boolean)
+    begin
+        SelectTemplate(Rec);
+    end;
+
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean
     var
     begin
@@ -317,13 +332,13 @@ page 53505 VendorProfile
         Rec.TestField("Vendor Type");
         Rec.TestField("Email Address");
         CurrPage.VendorProfileDocumentGrid.Page.SetProfileID(Rec."Profile ID");
-        CurrPage.VendorBusinessProfile.Page.SetProfileID(Rec."Profile ID");
+        CurrPage.VendorBusinessProfileSM.Page.SetProfileID(Rec."Profile ID");
     end;
 
     trigger OnModifyRecord(): Boolean
     begin
         CurrPage.VendorProfileDocumentGrid.Page.SetProfileID(Rec."Profile ID");
-        CurrPage.VendorBusinessProfile.Page.SetProfileID(Rec."Profile ID");
+        CurrPage.VendorBusinessProfileSM.Page.SetProfileID(Rec."Profile ID");
 
         CurrPage.Update(false);
     end;
@@ -331,9 +346,43 @@ page 53505 VendorProfile
     trigger OnAfterGetRecord()
     begin
         CurrPage.VendorProfileDocumentGrid.Page.SetProfileID(Rec."Profile ID");
-        CurrPage.VendorBusinessProfile.Page.SetProfileID(Rec."Profile ID");
-
+        CurrPage.VendorBusinessProfileSM.Page.SetProfileID(Rec."Profile ID");
     end;
 
+    trigger OnAfterGetCurrRecord()
+    begin
+        if Rec.Module = Rec.Module::FM then
+            isFacilityVendor := true
+        else
+            isFacilityVendor := false;
+    end;
+
+    var
+        isFacilityVendor: Boolean;
+
+
+    procedure SelectTemplate(var pVendorProfile: Record "Facility Vendor Profiles")
+    var
+        VendorProfileTemplate: Record "Vendor Profile Template";
+    begin
+        if VendorProfileTemplate.FindSet() then begin
+            if VendorProfileTemplate.Count() > 1 then begin
+                if Page.RunModal(53761, VendorProfileTemplate) = Action::LookupOK then begin
+                    CreateVendorProfile(pVendorProfile, VendorProfileTemplate);
+                end;
+            end
+            else begin
+                CreateVendorProfile(pVendorProfile, VendorProfileTemplate);
+            end;
+        end;
+    end;
+
+    procedure CreateVendorProfile(var pVendorProfile: Record "Facility Vendor Profiles"; pVendorProfileTemplate: Record "Vendor Profile Template")
+    var
+        noSeries: Codeunit "No. Series";
+    begin
+        pVendorProfile."Profile ID" := noSeries.GetNextNo(pVendorProfileTemplate."No. Series", Today(), true);
+        pVendorProfile.Module := pVendorProfileTemplate.Module;
+    end;
 
 }

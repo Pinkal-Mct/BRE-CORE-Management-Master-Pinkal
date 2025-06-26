@@ -7,7 +7,6 @@ page 53508 "Common Vendor Profile List"
     CardPageId = 53505; // "Vendor Profile"
     UsageCategory = Lists;
     ModifyAllowed = false;
-    InsertAllowed = false;
 
     layout
     {
@@ -15,6 +14,17 @@ page 53508 "Common Vendor Profile List"
         {
             repeater(Group)
             {
+
+                field("Profile ID"; Rec."Profile ID")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Profile ID';
+                }
+                field("Profile Name"; Rec."Profile Name")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Profile Name';
+                }
                 field("Vendor ID"; Rec."Vendor ID")
                 {
                     ApplicationArea = All;
@@ -26,16 +36,6 @@ page 53508 "Common Vendor Profile List"
                     ApplicationArea = All;
                     Caption = 'Vendor Name';
 
-                }
-                field("Profile ID"; Rec."Profile ID")
-                {
-                    ApplicationArea = All;
-                    Caption = 'Profile ID';
-                }
-                field("Profile Name"; Rec."Profile Name")
-                {
-                    ApplicationArea = All;
-                    Caption = 'Profile Name';
                 }
                 field("Primary Email Address"; Rec."Primary Email Address")
                 {

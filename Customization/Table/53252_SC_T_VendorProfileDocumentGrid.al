@@ -16,11 +16,11 @@ table 53252 "Vendor Document Upload"
             AutoIncrement = true;
         }
 
-        field(53102; "Document Category"; Option)
+        field(53102; "Document Category"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Document Category';
-            OptionMembers = "Trade License","VAT Certificate","Safety Certificate","Other";
+            TableRelation = "Document Type"."Document Type";
         }
 
         field(53103; "Document Name"; Text[100])
@@ -39,6 +39,7 @@ table 53252 "Vendor Document Upload"
         {
             DataClassification = ToBeClassified;
             Caption = 'Upload';
+            InitValue = 'Upload';
         }
 
         field(53106; "Document URL"; Text[250])

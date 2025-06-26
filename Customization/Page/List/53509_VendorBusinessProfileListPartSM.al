@@ -15,6 +15,7 @@ page 53509 "Vendor Business Profile SM"
                 {
                     ApplicationArea = All;
                     Caption = 'Entry No.';
+                    Visible = false;
                 }
                 field("Profile ID"; Rec."Profile ID")
                 {
@@ -35,7 +36,7 @@ page 53509 "Vendor Business Profile SM"
                 field("Key Products"; Rec."Key Products")
                 {
                     ApplicationArea = All;
-                    Caption = 'Business Registration No.';
+                    Caption = 'Key Products';
                 }
                 field("Team Size"; Rec."Team Size")
                 {
@@ -45,12 +46,12 @@ page 53509 "Vendor Business Profile SM"
                 field("Number of years of experience"; Rec."Number of years of experience")
                 {
                     ApplicationArea = All;
-                    Caption = 'Number of years of experience';
+                    Caption = 'No. of years of experience';
                 }
                 field("Compliance Requirements"; Rec."Compliance Requirements")
                 {
                     ApplicationArea = All;
-                    Caption = 'Business Registration Date';
+                    Caption = 'Compliance Requirements';
                 }
                 field("Previous Projects in UAE"; Rec."Previous Projects in UAE")
                 {
