@@ -55,11 +55,17 @@ table 53251 "Pricing Breakdown"
             Caption = 'Total Cost';
 
         }
+
+        field(53108; "Profile ID"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Profile ID';
+        }
     }
 
     keys
     {
-        key(PK; "Entry No.")
+        key(PK; "Entry No.", "Profile ID")
         {
             Clustered = true;
         }

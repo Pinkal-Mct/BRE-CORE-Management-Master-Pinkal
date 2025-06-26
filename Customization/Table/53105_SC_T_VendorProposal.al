@@ -1,6 +1,8 @@
 table 53105 "Vendor Proposal"
 {
     DataClassification = ToBeClassified;
+    DataCaptionFields = "Proposal ID";
+
     Caption = 'Vendor Proposal';
     fields
     {
