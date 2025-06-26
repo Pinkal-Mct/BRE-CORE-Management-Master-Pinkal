@@ -368,7 +368,7 @@ table 52001 "Facility Vendor Profiles"
             DataClassification = ToBeClassified;
             Caption = 'Nationality';
         }
-        field(52051; "Email Address"; Text[30])
+        field(52051; "Email Address"; Text[50])
         {
             DataClassification = ToBeClassified;
             Caption = 'Email Address';
