@@ -1,6 +1,8 @@
 table 53106 "Vendor Contract"
 {
     DataClassification = ToBeClassified;
+    DataCaptionFields = "Contract ID";
+
     Caption = 'Vendor Contract';
     fields
     {
@@ -11,9 +13,11 @@ table 53106 "Vendor Contract"
         }
         field(53101; "Proposal ID"; code[20])
         {
-            TableRelation = "Vendor Proposal"."Proposal ID";
+
+
             DataClassification = ToBeClassified;
             Caption = 'Proposal ID';
+            TableRelation = "Vendor Proposal"."Proposal ID" WHERE("Internal Approval Status" = CONST(Approved), "Vendor Approval Status" = CONST(Approved));
 
         }
         field(53102; "Project ID"; code[20])

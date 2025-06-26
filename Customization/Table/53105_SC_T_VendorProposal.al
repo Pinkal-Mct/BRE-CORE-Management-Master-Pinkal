@@ -1,6 +1,8 @@
 table 53105 "Vendor Proposal"
 {
     DataClassification = ToBeClassified;
+    DataCaptionFields = "Proposal ID";
+
     Caption = 'Vendor Proposal';
     fields
     {
@@ -132,7 +134,7 @@ table 53105 "Vendor Proposal"
 
     keys
     {
-        key(PK; "Proposal ID", "Project ID", "Vendor ID")
+        key(PK; "Proposal ID")
         {
             Clustered = true;
         }
