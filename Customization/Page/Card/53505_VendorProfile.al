@@ -293,7 +293,7 @@ page 53505 VendorProfile
                 Visible = true;
                 SubPageLink = "Profile ID" = field("Profile ID");
             }
-            part(VendorBusinessProfile; "Vendor Business Profile")
+            part(VendorBusinessProfile; "Vendor Business Profile SM")
             {
                 ApplicationArea = All;
                 Caption = 'Vendor Business Profile';
