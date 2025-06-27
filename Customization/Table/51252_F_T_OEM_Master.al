@@ -80,12 +80,12 @@ table 51252 "OEM Master"
 
     trigger OnInsert()
     var
-        NoSeriesManagement: Codeunit "No. Series";
-        NewNo: Code[20];
+        noSeriesSetup: Record "No. Series Setup";
+        noseries: Codeunit "No. Series";
     begin
-        if ("OEM ID" = '') then begin
-            NewNo := NoSeriesManagement.GetNextNo('OEMID', 0D, true); // Use the number series code you created
-            "OEM ID" := NewNo;
-        end;
+        if noSeriesSetup.Get() then begin
+            Rec."OEM ID" := noseries.GetNextNo(noSeriesSetup."OEM ID Nos.");
+        end else
+            Error('No. Series Setup not found for Construction Project Nos.');
     end;
 }

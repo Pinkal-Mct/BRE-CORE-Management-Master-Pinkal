@@ -12,7 +12,7 @@ page 53751 "No. Series Setup"
     {
         area(Content)
         {
-            group(Group)
+            group("Sales Management")
             {
 
                 Caption = 'No. Series Setup';
@@ -62,7 +62,34 @@ page 53751 "No. Series Setup"
                     ToolTip = 'Specifies the vendor contract number series.';
                 }
                 // This field is used to store the vendor contract number series. Table 53106 "Vendor Contract" has a field for vendor contract numbers.
-
+            }
+            group("Facility Management")
+            {
+                field("OEM ID Nos."; Rec."OEM ID Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the OEM Master number series.';
+                }
+                field("Equipment ID Nos."; Rec."Equipment ID Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the OEM Master number series.';
+                }
+                field("Part ID Nos."; Rec."Part ID Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the OEM Master number series.';
+                }
+                field("Sub-Equipment ID Nos."; Rec."Sub-Equipment ID Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the OEM Master number series.';
+                }
+                field("Service Request ID Nos."; Rec."Service Request ID Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the OEM Master number series.';
+                }
             }
         }
     }
