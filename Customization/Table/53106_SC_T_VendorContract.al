@@ -22,9 +22,10 @@ table 53106 "Vendor Contract"
         }
         field(53102; "Project ID"; code[20])
         {
-            TableRelation = "Construction Project"."Project ID";
+
             DataClassification = ToBeClassified;
             Caption = 'Project ID';
+            Editable = false;
         }
         field(53103; "Vendor ID"; code[20])
         {
@@ -117,6 +118,12 @@ table 53106 "Vendor Contract"
             DataClassification = ToBeClassified;
             Caption = 'Vendor Designation';
         }
+        field(53118; "Project Name"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Project Name';
+        }
+
     }
 
     keys
@@ -125,6 +132,15 @@ table 53106 "Vendor Contract"
         {
             Clustered = true;
         }
+
+    }
+    fieldgroups
+    {
+        fieldgroup(DropDown; "Contract ID", "Proposal ID", "Project ID", "Vendor ID")
+        {
+
+        }
+
     }
 
     trigger OnInsert()

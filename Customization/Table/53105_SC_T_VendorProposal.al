@@ -119,6 +119,12 @@ table 53105 "Vendor Proposal"
             DataClassification = ToBeClassified;
             Caption = 'Vendor Designation';
         }
+        field(53119; "Project Name"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Project Name';
+        }
+
     }
 
     keys
