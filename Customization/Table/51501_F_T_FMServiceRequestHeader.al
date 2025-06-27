@@ -121,6 +121,17 @@ table 51501 "FM Service Request Header"
         {
             DataClassification = ToBeClassified;
         }
+        field(51527; "Image"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+
+        }
+
+        field(51528; "Image URL"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Image URL';
+        }
     }
 
     keys
