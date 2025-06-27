@@ -323,6 +323,13 @@ page 53505 VendorProfile
                 Visible = true;
                 SubPageLink = "Profile ID" = field("Profile ID");
             }
+            part("Vendor Signed Contract Document"; "Vendor Signed ContractDocument")
+            {
+                ApplicationArea = All;
+                Caption = 'Vendor Signed Contract Document';
+                Visible = not isFacilityVendor;
+                SubPageLink = "Vendor Profile ID" = field("Profile ID");
+            }
         }
     }
 
@@ -407,12 +414,14 @@ page 53505 VendorProfile
         Rec.TestField("Email Address");
         CurrPage.VendorProfileDocumentGrid.Page.SetProfileID(Rec."Profile ID");
         CurrPage.VendorBusinessProfileSM.Page.SetProfileID(Rec."Profile ID");
+        CurrPage."Vendor Signed Contract Document".Page.SetProfileID(Rec."Profile ID");
     end;
 
     trigger OnModifyRecord(): Boolean
     begin
         CurrPage.VendorProfileDocumentGrid.Page.SetProfileID(Rec."Profile ID");
         CurrPage.VendorBusinessProfileSM.Page.SetProfileID(Rec."Profile ID");
+        CurrPage."Vendor Signed Contract Document".Page.SetProfileID(Rec."Profile ID");
 
         CurrPage.Update(false);
     end;
@@ -421,6 +430,7 @@ page 53505 VendorProfile
     begin
         CurrPage.VendorProfileDocumentGrid.Page.SetProfileID(Rec."Profile ID");
         CurrPage.VendorBusinessProfileSM.Page.SetProfileID(Rec."Profile ID");
+        CurrPage."Vendor Signed Contract Document".Page.SetProfileID(Rec."Profile ID");
     end;
 
     trigger OnAfterGetCurrRecord()
