@@ -25,9 +25,17 @@ table 52003 "Service Type"
 
     keys
     {
-        key(PK; "ID")
+        key(PK; "ID", "Service Type")
         {
             Clustered = true;
         }
+    }
+    fieldgroups
+    {
+        fieldgroup(DropDown; ID, "Service Type", "Description")
+        {
+
+        }
+
     }
 }
