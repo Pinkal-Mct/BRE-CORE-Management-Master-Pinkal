@@ -121,7 +121,7 @@ table 53106 "Vendor Contract"
 
     keys
     {
-        key(PK; "Proposal ID", "Project ID", "Vendor ID")
+        key(PK; "Contract ID")
         {
             Clustered = true;
         }

@@ -33,6 +33,8 @@ page 53507 "Vendor Profile Document Grid"
                 {
                     ApplicationArea = All;
                     Caption = 'Upload Document';
+                    Editable = false;
+
                     trigger OnDrillDown()
                     var
                         azureBlobUploader: Codeunit "Azure AD Blob Storage";

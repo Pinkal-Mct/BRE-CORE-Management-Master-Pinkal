@@ -15,6 +15,7 @@ table 53504 "Vendor Business Profile"
         {
             DataClassification = ToBeClassified;
             Caption = 'Business Type';
+            TableRelation = "Service Type"."Service Type";
         }
         field(53511; "Key Products"; Text[50])
         {

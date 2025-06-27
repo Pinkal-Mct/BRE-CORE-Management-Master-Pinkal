@@ -23,7 +23,10 @@ page 52004 "Service Type List"
                     ApplicationArea = All;
                     Caption = 'Description';
                 }
+
             }
+
         }
     }
+
 }

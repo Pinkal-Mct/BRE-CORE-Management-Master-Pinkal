@@ -19,21 +19,10 @@ table 53105 "Vendor Proposal"
         }
         field(53102; "Vendor ID"; code[20])
         {
-            TableRelation = "Facility Vendor Profiles"."Vendor ID";
+            TableRelation = "Facility Vendor Profiles"."Profile ID";
             DataClassification = ToBeClassified;
             Caption = 'Vendor ID';
-            trigger OnValidate()
-            var
-                vendorProfile: Record "Facility Vendor Profiles";
-            begin
-                vendorProfile.SetRange("Vendor ID", Rec."Vendor ID");
-                if vendorProfile.FindSet() then begin
-                    Rec."Vendor Email" := vendorProfile."Email Address";
-                end else
-                    Rec."Vendor Email" := '';
 
-                // Additional validation can be added here if needed
-            end;
         }
         field(53103; "Proposal Date"; Date)
         {
@@ -110,10 +99,10 @@ table 53105 "Vendor Proposal"
             DataClassification = ToBeClassified;
             Caption = 'Created By';
         }
-        field(53115; "Created DateTime"; DateTime)
+        field(53115; "Created DateTime"; Date)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Created DateTime';
+            Caption = 'Created Date';
         }
         field(53116; "Vendor Email"; Text[50])
         {
@@ -151,6 +140,7 @@ table 53105 "Vendor Proposal"
         end else
             Error('No. Series Setup not found for Vendor Proposal Nos.');
         Rec."Created By" := UserId();
+        Rec."Created DateTime" := Today;
     end;
 
 
