@@ -144,6 +144,14 @@ page 51752 "Service Request Api"
                 {
                     Caption = 'Urgency Level';
                 }
+                field(Image; Rec.Image)
+                {
+                    Caption = 'Image';
+                }
+                field("ImageURL"; Rec."Image URL")
+                {
+                    Caption = 'Image URL';
+                }
             }
         }
     }
