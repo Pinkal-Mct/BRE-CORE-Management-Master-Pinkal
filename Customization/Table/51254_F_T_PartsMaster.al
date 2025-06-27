@@ -71,12 +71,12 @@ table 51254 "Parts Master"
 
     trigger OnInsert()
     var
-        NoSeriesManagement: Codeunit "No. Series";
-        NewNo: Code[20];
+        noSeriesSetup: Record "No. Series Setup";
+        noseries: Codeunit "No. Series";
     begin
-        if ("Part ID" = '') then begin
-            NewNo := NoSeriesManagement.GetNextNo('PARTID', 0D, true); // Use the number series code you created
-            "Part ID" := NewNo;
-        end;
+        if noSeriesSetup.Get() then begin
+            Rec."Part ID" := noseries.GetNextNo(noSeriesSetup."Part ID Nos.");
+        end else
+            Error('No. Series Setup not found for Construction Project Nos.');
     end;
 }

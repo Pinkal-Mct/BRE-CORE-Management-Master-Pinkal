@@ -66,12 +66,12 @@ table 51255 "Sub-Equipment"
 
     trigger OnInsert()
     var
-        NoSeriesManagement: Codeunit "No. Series";
-        NewNo: Code[20];
+        noSeriesSetup: Record "No. Series Setup";
+        noseries: Codeunit "No. Series";
     begin
-        if ("Sub-Equipment ID" = '') then begin
-            NewNo := NoSeriesManagement.GetNextNo('SUBEQID', 0D, true); // Use the number series code you created
-            "Sub-Equipment ID" := NewNo;
-        end;
+        if noSeriesSetup.Get() then begin
+            Rec."Sub-Equipment ID" := noseries.GetNextNo(noSeriesSetup."Sub-Equipment ID Nos.");
+        end else
+            Error('No. Series Setup not found for Construction Project Nos.');
     end;
 }

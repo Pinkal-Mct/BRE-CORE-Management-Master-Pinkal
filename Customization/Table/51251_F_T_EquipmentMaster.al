@@ -74,12 +74,14 @@ table 51251 "Equipment Master"
     }
     trigger OnInsert()
     var
-        NoSeriesManagement: Codeunit "No. Series";
-        NewNo: Code[20];
+        noSeriesSetup: Record "No. Series Setup";
+        noseries: Codeunit "No. Series";
     begin
-        if ("Equipment ID" = '') then begin
-            NewNo := NoSeriesManagement.GetNextNo('EQUID', 0D, true); // Use the number series code you created
-            "Equipment ID" := NewNo;
-        end;
+        if noSeriesSetup.Get() then begin
+            Rec."Equipment ID" := noseries.GetNextNo(noSeriesSetup."Equipment ID Nos.");
+        end else
+            Error('No. Series Setup not found for Construction Project Nos.');
+
+        // Rec."Created By" := UserId();
     end;
 }

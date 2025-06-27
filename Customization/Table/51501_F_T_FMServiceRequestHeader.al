@@ -153,11 +153,13 @@ table 51501 "FM Service Request Header"
 
     trigger OnInsert()
     var
-        NoSeriesMgt: Codeunit "No. Series";
+        noSeriesSetup: Record "No. Series Setup";
+        noseries: Codeunit "No. Series";
     begin
-        if "Service Request ID" = '' then
-            "Service Request ID" := NoSeriesMgt.GetNextNo('FM-SER-REQ-ID', Today(), true);
-
+        if noSeriesSetup.Get() then begin
+            Rec."Service Request ID" := noseries.GetNextNo(noSeriesSetup."Service Request ID Nos.");
+        end else
+            Error('No. Series Setup not found for Construction Project Nos.');
         "Requested Date" := CurrentDateTime();
         "Created DateTime" := CurrentDateTime();
         "Created By" := UserId();

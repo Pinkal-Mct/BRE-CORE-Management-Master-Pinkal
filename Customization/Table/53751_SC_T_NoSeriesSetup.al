@@ -63,6 +63,37 @@ table 53751 "No. Series Setup"
             TableRelation = "No. Series".Code;
         }
         // This field is used to store the vendor contract number series. Table 53106 "Vendor Contract" has a field for vendor contract numbers.
+
+        field(53760; "OEM ID Nos."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'OEM ID';
+            TableRelation = "No. Series".Code;
+        }
+        field(53761; "Equipment ID Nos."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Equipment ID';
+            TableRelation = "No. Series".Code;
+        }
+        field(53762; "Part ID Nos."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Part ID';
+            TableRelation = "No. Series".Code;
+        }
+        field(53763; "Sub-Equipment ID Nos."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Sub-Equipment ID';
+            TableRelation = "No. Series".Code;
+        }
+        field(53764; "Service Request ID Nos."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Service Request ID';
+            TableRelation = "No. Series".Code;
+        }
     }
     keys
     {
