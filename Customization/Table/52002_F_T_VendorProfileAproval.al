@@ -78,11 +78,11 @@ table 52002 "Approval Vendor Profile"
     }
 
 
-    // trigger OnInsert()
-    // var
-    //     approvalrequest: Codeunit "Approval Vendor Profile";
-    // begin
-    //     approvalrequest.Approvalrequest(Rec);
-    // end;
+    trigger OnInsert()
+    var
+        approvalrequest: Codeunit "Approval Vendor Profile";
+    begin
+        approvalrequest.SendApprovalrequest(Rec);
+    end;
 
 }

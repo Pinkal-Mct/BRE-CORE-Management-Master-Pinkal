@@ -315,6 +315,7 @@ page 53505 VendorProfile
                 Caption = 'Vendor Business Profile';
                 Visible = isFacilityVendor;
                 SubPageLink = "Profile ID" = field("Profile ID");
+                UpdatePropagation = Both;
             }
             part("Vendor Document Upload Grid"; "Vendor Document Upload Grid")
             {
