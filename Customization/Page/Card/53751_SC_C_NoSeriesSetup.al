@@ -21,10 +21,10 @@ page 53751 "No. Series Setup"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the construction project number series.';
                 }
-                field("Contract Assignment Nos."; Rec."Contract Assignment Nos.")
+                field("Vendor Assignment Nos."; Rec."Vendor Assignment Nos.")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Specifies the contract assignment number series.';
+                    ToolTip = 'Specifies the vendor assignment number series.';
                 }
                 field("Milestone Nos."; Rec."Milestone Nos.")
                 {

@@ -1,7 +1,7 @@
-table 53752 "Contract Assignment"
+table 53752 "Vendor Assignment"
 {
     DataClassification = ToBeClassified;
-    Caption = 'Contract Assignment';
+    Caption = 'Vendor Assignment';
     fields
     {
         field(53750; "Assignment ID"; Code[20])
@@ -243,8 +243,8 @@ table 53752 "Contract Assignment"
         noseries: Codeunit "No. Series";
     begin
         if noSeriesSetup.Get() then begin
-            Rec."Assignment ID" := noseries.GetNextNo(noSeriesSetup."Contract Assignment Nos.");
+            Rec."Assignment ID" := noseries.GetNextNo(noSeriesSetup."Vendor Assignment Nos.");
         end else
-            Error('No. Series Setup not found for Contract Assignment Nos.');
+            Error('No. Series Setup not found for Vendor Assignment Nos.');
     end;
 }

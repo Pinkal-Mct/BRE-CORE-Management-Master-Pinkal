@@ -9,10 +9,10 @@ table 53751 "No. Series Setup"
             AllowInCustomizations = Never;
             Caption = 'Primary Key';
         }
-        field(53752; "Contract Assignment Nos."; Code[20])
+        field(53752; "Vendor Assignment Nos."; Code[20])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Contract Assignment Nos.';
+            Caption = 'Vendor Assignment Nos.';
             TableRelation = "No. Series".Code;
         }
         field(53753; "Construction Project Nos."; Code[20])

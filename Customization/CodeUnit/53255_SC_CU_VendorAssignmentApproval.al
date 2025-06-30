@@ -2,7 +2,7 @@ codeunit 53255 "Vendor Assignment Approval"
 {
 
 
-    procedure SubmitVendorAssignment(var VendorProposalRec: Record "Contract Assignment")
+    procedure SubmitVendorAssignment(var VendorProposalRec: Record "Vendor Assignment")
     var
         ApprovalStatusList: Record "Vendor Assignment Approval";
         EmailMessage: Codeunit "Email Message";
