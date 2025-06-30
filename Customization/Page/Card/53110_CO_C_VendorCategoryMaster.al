@@ -1,46 +1,39 @@
-page 53104 "Vendor Category Master List"
+page 53110 "VendorCategoryMaster"
 {
-    PageType = List;
+    PageType = Card;
     SourceTable = "Vendor Category Master";
     ApplicationArea = All;
-    Caption = 'Vendor Category Master List';
-    UsageCategory = Lists;
-    CardPageId = 53110;
-
+    Caption = 'Vendor Category Master Card';
+    UsageCategory = Administration;
 
     layout
     {
         area(Content)
         {
-            repeater(Group)
+            group("")
             {
-                field(ID; Rec.ID)
-                {
-                    ApplicationArea = All;
-                    Editable = false;
-                    Visible = false;
-                }
-                field(Name; Rec.Name)
+                field("Name"; Rec."Name")
                 {
                     ApplicationArea = All;
                 }
-                field(Description; Rec.Description)
+                field("Description"; Rec."Description")
+                {
+                    ApplicationArea = All;
+                    MultiLine = true;
+                }
+                field("Property"; Rec."Property")
                 {
                     ApplicationArea = All;
                 }
-                field(Property; Rec.Property)
+                field("Sales"; Rec."Sales")
                 {
                     ApplicationArea = All;
                 }
-                field(Sales; Rec.Sales)
+                field("Facility"; Rec."Facility")
                 {
                     ApplicationArea = All;
                 }
-                field(Facility; Rec.Facility)
-                {
-                    ApplicationArea = All;
-                }
-                field(Legal; Rec.Legal)
+                field("Legal"; Rec."Legal")
                 {
                     ApplicationArea = All;
                 }
