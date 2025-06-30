@@ -123,6 +123,16 @@ table 53106 "Vendor Contract"
             DataClassification = ToBeClassified;
             Caption = 'Project Name';
         }
+        field(53119; "Duration"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Duration';
+        }
+        field(53120; "Contract Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Contract Amount';
+        }
 
     }
 

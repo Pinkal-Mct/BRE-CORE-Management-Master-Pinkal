@@ -64,6 +64,7 @@ table 53105 "Vendor Proposal"
         {
             DataClassification = ToBeClassified;
             Caption = 'Payment Terms';
+            // OptionMembers = " ",Monthly,Quarterly,"Half-Yearly",Yearly;
         }
         field(53109; "Compliance Required"; Boolean)
         {
@@ -123,6 +124,11 @@ table 53105 "Vendor Proposal"
         {
             DataClassification = ToBeClassified;
             Caption = 'Project Name';
+        }
+        field(53120; "Duration"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Duration';
         }
 
     }
