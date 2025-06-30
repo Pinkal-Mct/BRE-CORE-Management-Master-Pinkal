@@ -130,7 +130,39 @@ table 53105 "Vendor Proposal"
             DataClassification = ToBeClassified;
             Caption = 'Duration';
         }
+        field(53121; "Task ID"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Task ID';
+            TableRelation = "Project Milestone Task"."Task ID" where("Project ID" = field("Project ID"));
+        }
+        field(53122; "Task Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Task Name';
+            // TableRelation = "Project Milestone Task"."Task Name" where("Project ID" = field("Project ID"));
+        }
+        field(53123; "Task Start Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Task Start Date';
+        }
+        field(53124; "Task End Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Task End Date';
 
+        }
+        field(53125; "Task Description"; Text[1000])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Task Description';
+        }
+        field(53126; Notes; Text[1000])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Notes';
+        }
     }
 
     keys
