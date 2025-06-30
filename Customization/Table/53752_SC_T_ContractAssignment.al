@@ -191,6 +191,42 @@ table 53752 "Contract Assignment"
             DataClassification = ToBeClassified;
             Caption = 'Remark On Rejection';
         }
+        field(53778; "Delivery Schedule"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53779; "Work SPecifications"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53780; "Penalty Clauses"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53781; Incoterms; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = Incoterms.Name;
+        }
+        field(53782; "UAE Regulatory Requirements"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "UAE Regulatory Requirements".Name;
+        }
+        field(53783; "Industry Standards"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Industry Standards".Name;
+        }
+        field(53784; "Warranty Period"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53785; "Governing Law & Dispute Rsln."; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = GoverningLawDisputeResolution.Name;
+        }
     }
 
     keys
