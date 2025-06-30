@@ -76,12 +76,12 @@ table 53757 "Project Milestone Task"
                 end;
             end;
         }
-        field(53108; "Description"; Text[250])
+        field(53108; "Description"; Text[1000])
         {
             DataClassification = ToBeClassified;
             Caption = 'Description';
         }
-        field(53109; "Notes"; Text[250])
+        field(53109; "Notes"; Text[1000])
         {
             DataClassification = ToBeClassified;
             Caption = 'Notes';

@@ -31,17 +31,17 @@ table 53100 "Construction Project"
         // Project Details // 
 
         // Project scope //
-        field(53104; "Description"; Text[100])
+        field(53104; "Description"; Text[1000])
         {
             DataClassification = ToBeClassified;
             Caption = 'Description';
         }
-        field(53105; "Objectives"; Text[100])
+        field(53105; "Objectives"; Text[1000])
         {
             DataClassification = ToBeClassified;
             Caption = 'Objectives';
         }
-        field(53106; "Additional Notes"; Text[100])
+        field(53106; "Additional Notes"; Text[1000])
         {
             DataClassification = ToBeClassified;
             Caption = 'Additional Notes';
