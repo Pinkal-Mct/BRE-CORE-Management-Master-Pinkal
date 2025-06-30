@@ -85,6 +85,21 @@ table 53752 "Contract Assignment"
         {
             DataClassification = ToBeClassified;
             Caption = 'Contract ID';
+            TableRelation = "Vendor Contract";
+
+            trigger OnValidate()
+            var
+                vendor: Record "Vendor Contract";
+            begin
+                if not vendor.Get(Rec."Contract ID") then
+                    Error('Contract with ID %1 does not exist.', Rec."Contract ID")
+                else begin
+                    Rec."Contract Date" := vendor."Contract Date";
+                    Rec."Payment Method" := vendor."Payment Terms";
+                    // Rec."Vendor Contact" := vendor.contr;
+                    // Rec."Vendor Email" := vendor."E-Mail";
+                end;
+            end;
             //TODO: Add TableRelation (after Vendor Contract table is created)
         }
         field(53761; "Contract Date"; Date)
@@ -102,7 +117,7 @@ table 53752 "Contract Assignment"
         {
             DataClassification = ToBeClassified;
             Caption = 'Contract Status';
-            OptionMembers = " ",Active,Inactive;
+            OptionMembers = Draft,Active,Inactive,Approved,Rejected,"Pending Approval",Suspended,;
         }
         field(53764; "Contract Template"; Text[100])
         {
@@ -169,6 +184,12 @@ table 53752 "Contract Assignment"
         {
             DataClassification = ToBeClassified;
             Caption = 'Vendor Email';
+        }
+
+        field(53777; "Remark On Rejection"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Remark On Rejection';
         }
     }
 

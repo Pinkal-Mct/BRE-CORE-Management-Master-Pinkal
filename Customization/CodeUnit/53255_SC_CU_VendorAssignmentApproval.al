@@ -1,8 +1,10 @@
-codeunit 53254 "Approval Vendor Contract"
+codeunit 53255 "Vendor Assignment Approval"
 {
-    procedure SubmitVendorContract(var VendorProposalRec: Record "Vendor Contract")
+
+
+    procedure SubmitVendorAssignment(var VendorProposalRec: Record "Contract Assignment")
     var
-        ApprovalStatusList: Record "Vendor Contract Approval";
+        ApprovalStatusList: Record "Vendor Assignment Approval";
         EmailMessage: Codeunit "Email Message";
         Email: Codeunit "Email";
         UserPersonalizationRec: Record "User Personalization";
@@ -14,14 +16,14 @@ codeunit 53254 "Approval Vendor Contract"
     begin
         // Insert new record in Approval Request list
         ApprovalStatusList.Init();
-        ApprovalStatusList."Vendor Contract ID" := VendorProposalRec."Contract ID";
-        ApprovalStatusList."Vendor ID" := VendorProposalRec."Vendor ID";
-
+        ApprovalStatusList."Vendor Assignment ID" := VendorProposalRec."Assignment ID";
+        ApprovalStatusList."Vendor ID" := VendorProposalRec."Vendor/Subcontractor ID";
+        ApprovalStatusList."Contract ID" := VendorProposalRec."Contract ID";
         ApprovalStatusList.Status := 'Pending';
         ApprovalStatusList.Insert();
 
         // 🔄 Update status of Vendor Contract to Pending
-        VendorProposalRec."Internal Approval Status" := VendorProposalRec."Internal Approval Status"::Pending;
+        VendorProposalRec."Contract Status" := VendorProposalRec."Contract Status"::"Pending Approval";
         VendorProposalRec.Modify();
 
         // Prepare email to Lease Managers
@@ -48,15 +50,15 @@ codeunit 53254 "Approval Vendor Contract"
                 '<html><body>' +
                 '<p>Dear PROJECT MANAGER,</p>' +
                 '<p>This is an automated notification from the system.</p>' +
-                '<p>A New Vendor Contract has been submitted for <b>Vendor Contract ID: ' + Format(VendorProposalRec."Contract ID") + '</b>.</p>' +
-                '<p>Please review the <b>Vendor Contract Approval List</b> and take the necessary action.</p>' +
+                '<p>A New Vendor Assignment has been submitted for <b>Vendor Assignment ID: ' + Format(VendorProposalRec."Assignment ID") + '</b>.</p>' +
+                '<p>Please review the <b>Vendor Assignment Approval List</b> and take the necessary action.</p>' +
                 '<p>This is a system-generated email. Please do not reply.</p>' +
                 '<p>Thank you,</p>' +
                 '</body></html>';
 
             EmailMessage.Create(
                 EmailList,
-                'System Notification: Action Required - Review Vendor Contract For Approval - Vendor Contract ID ' + Format(VendorProposalRec."Contract ID"),
+                'System Notification: Action Required - Review Vendor Assignment For Approval - Vendor Assignment ID ' + Format(VendorProposalRec."Assignment ID"),
                 EmailBody,
                 true
             );

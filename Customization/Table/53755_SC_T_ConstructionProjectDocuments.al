@@ -34,6 +34,12 @@ table 53755 "Construction Project Documents"
         {
             DataClassification = ToBeClassified;
         }
+
+        field(53107; "Document Name"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Document Name';
+        }
     }
 
     keys
