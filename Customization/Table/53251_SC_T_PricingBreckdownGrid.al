@@ -61,11 +61,22 @@ table 53251 "Pricing Breakdown"
             DataClassification = ToBeClassified;
             Caption = 'Profile ID';
         }
+        field(53109; "Vendor Proposal ID"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Vendor Proposal ID';
+        }
+        field(53110; "Vendor Contract ID"; Code[20])
+
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Vendor Contract ID';
+        }
     }
 
     keys
     {
-        key(PK; "Entry No.", "Profile ID")
+        key(PK; "Entry No.")
         {
             Clustered = true;
         }
