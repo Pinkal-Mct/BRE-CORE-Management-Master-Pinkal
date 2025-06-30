@@ -86,6 +86,10 @@ table 53757 "Project Milestone Task"
             DataClassification = ToBeClassified;
             Caption = 'Notes';
         }
+        field(53110; "Project ID"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
@@ -100,11 +104,17 @@ table 53757 "Project Milestone Task"
     var
         noSeriesSetup: Record "No. Series Setup";
         noseries: Codeunit "No. Series";
+        milestone: Record "Project Milestone";
     begin
         if noSeriesSetup.Get() then begin
             Rec."Task ID" := noseries.GetNextNo(noSeriesSetup."Milestone Task Nos.");
         end else
             Error('No. Series Setup not found for Milestone Task Nos.');
+
+        milestone.SetRange("Milestone ID", Rec."Milestone ID");
+        if milestone.FindSet() then begin
+            Rec."Project ID" := milestone."Project ID";
+        end;
     end;
 
     trigger OnModify()
