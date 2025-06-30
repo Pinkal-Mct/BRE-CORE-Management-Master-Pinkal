@@ -56,10 +56,10 @@ page 53510 "Vendor Business Profile FM"
             }
         }
     }
-    trigger OnInsertRecord(BelowxRec: Boolean): Boolean
-    begin
-        Rec."Profile ID" := profileid;
-    end;
+    // trigger OnInsertRecord(BelowxRec: Boolean): Boolean
+    // begin
+    //     Rec."Profile ID" := profileid;
+    // end;
 
     var
         profileid: Code[20];
