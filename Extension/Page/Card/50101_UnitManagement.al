@@ -95,16 +95,7 @@ pageextension 50101 Items extends "Item Card"
         {
             caption = 'Unit';
         }
-        // addafter("Last Date Modified")
-        // {
-        //     field(GTIN_; rec.GTIN_)
-        //     {
-        //         ApplicationArea = All;
-        //         // Editable = true;
-        //         Editable = editablefalsefieldNonInventoryType;
-        //         Caption = 'GTIN';
-        //     }
-        // }
+
         addafter("Base Unit of Measure")
         {
             group("BaseUnitofMeasure")
@@ -293,21 +284,6 @@ pageextension 50101 Items extends "Item Card"
                     ApplicationArea = All;
                     Editable = editablefalsefieldNonInventoryType;
                 }
-
-                // field("Registration Date"; rec."Unit Address")
-                // {
-                //     ApplicationArea = All;
-                // }
-
-                // field("Tenant ID"; Rec."Tenant ID") // OOB Field (or create custom if not OOB)
-                // {
-                //     ApplicationArea = All;
-                //     Lookup = true;
-                //     Caption = 'Tenant ID';
-                //     ShowMandatory = true;
-                //     NotBlank = true;
-
-                // }
                 field("Merging/Splitting"; rec."MergeSplitOption")
                 {
                     ApplicationArea = All;
@@ -514,22 +490,7 @@ pageextension 50101 Items extends "Item Card"
         end;
     end;
 
-    // trigger OnQueryClosePage(CloseAction: Action): Boolean
-    // begin
-    //     // Validate Property ID before the page closes
-    //     if Rec."Property ID" = '' then begin
-    //         Message('Please fill in the Property ID field.');
-    //         exit(false); // Prevents page from closing
-    //     end;
 
-    //     exit(true); // Allows page to close if validation passes
-    // end;
-
-    // trigger OnClosePage()
-    // var
-    // begin
-    //     Rec.TestField("Property ID");
-    // end;
 
     trigger OnModifyRecord(): Boolean
     begin
@@ -635,41 +596,4 @@ pageextension 50101 Items extends "Item Card"
 
 
 
-
-    // trigger OnOpenPage()
-    // begin
-    //     // Initialize visibility when page opens
-    //     UpdateGroupVisibility();
-    // end;
-
-    // trigger OnAfterGetCurrRecord()
-    // begin
-    //     UpdateGroupVisibility();
-    // end;
-
-    // local procedure UpdateGroupVisibility()
-    // begin
-    //     // Defalt to hiding both groups
-    //     IsUnitManagementVisible := false;
-    //     IsMergedUnitsVisible := false;
-
-    //     // Set visibility based on Select Unit Type
-    //     case Rec."Select Unit Type" of
-    //         Rec."Select Unit Type"::"Single Unit":
-    //             begin
-    //                 IsUnitManagementVisible := true;
-    //             end;
-    //         Rec."Select Unit Type"::"Merge Unit":
-    //             begin
-    //                 IsMergedUnitsVisible := true;
-    //             end;
-    //     end;
-
-    //     // Force page to refresh
-    //     CurrPage.Update(false);
-    // end;
-
-    // var
-    //     IsUnitManagementVisible: Boolean;
-    //     IsMergedUnitsVisible: Boolean;
 }
