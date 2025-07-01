@@ -1,6 +1,6 @@
-codeunit 52002 "Approval Vendor Profile"
+codeunit 52003 "Service Request Approval"
 {
-    procedure SendApprovalrequest(Rec: Record "Approval Vendor Profile"): Text;
+    procedure Sendservicerequest(Rec: Record "FM Service Request Approval"): Text;
     var
         Email: Codeunit "Email";
         EmailMessage: Codeunit "Email Message";
@@ -22,14 +22,16 @@ codeunit 52002 "Approval Vendor Profile"
 
         EmailMessage.Create(
              EmailAddress,
-             'New Vendor Profile Created - Approval Required',
+             'New Service Request Created - Approval Required',
              '<html><body>' +
              '<p>Dear Finance Manager,</p>' +
-             '<p>A new vendor profile has been created and requires your approval.</p>' +
-             '<h3>Vendor Details:</h3>' +
-             '<b>Vendor ID:</b> ' + Format(Rec."Vendor ID") + '<br/>' +
-             '<b>Vendor Name:</b> ' + Rec."Vendor Name" + '<br/>' +
-             '<b>Vendor Email:</b> ' + Rec."E-mail" + '<br/>' +
+             '<p>A new Service Request has been created and requires your approval.</p>' +
+             '<h3>Service Request Details:</h3>' +
+             '<b>Service Request ID:</b> ' + Format(Rec."Service Request ID") + '<br/>' +
+               '<b>Request Date:</b> ' + Format(Rec."Requested Date", 0, '<Day,2>-<Month,2>-<Year4>') + '<br/>' +
+             '<b>Contact Name:</b> ' + Rec."Contact Name" + '<br/>' +
+              '<b>Contact Phone:</b> ' + Rec."Contact Phone" + '<br/>' +
+             '<b>Contact Email:</b> ' + Rec."Contact Email" + '<br/>' +
              '<p>Please log in to Business Central to review and take the necessary action.</p>' +
              '<p>Best regards,<br/>' + CompanyInfo.Name + '</p>' +
              '</body></html>',
@@ -43,7 +45,7 @@ codeunit 52002 "Approval Vendor Profile"
     end;
 
 
-    procedure Approvalrequest(Rec: Record "Approval Vendor Profile"): Text;
+    procedure Approvalservicerequest(Rec: Record "FM Service Request Approval"): Text;
     var
         Email: Codeunit "Email";
         EmailMessage: Codeunit "Email Message";
@@ -53,20 +55,22 @@ codeunit 52002 "Approval Vendor Profile"
         Username: Text;
         EmailAddress: List of [Text];
     begin
-        if Rec.Status = Rec.Status::Approved then begin
+        if Rec."Status" = Rec."Status"::Approved then begin
             // Ensure that the correct record is passed and exists
             if CompanyInfo.Get() then begin
                 // Create the email message
                 EmailMessage.Create(
-     Rec."E-mail", // Or the person who submitted the vendor profile
-     'Vendor Profile Approved',
+     Rec."Contact Email", // Or the person who submitted the Service Request
+     'Service Request Approved',
      '<html><body>' +
-     '<p>Dear ' + Rec."Vendor Name" + ',</p>' +
-     '<p>We are pleased to inform you that your vendor profile has been reviewed and <b>approved</b>.</p>' +
-     '<h3>Vendor Details:</h3>' +
-     '<b>Vendor ID:</b> ' + Format(Rec."Vendor ID") + '<br/>' +
-     '<b>Vendor Name:</b> ' + Rec."Vendor Name" + '<br/>' +
-     '<b>Approval Date:</b> ' + Format(CurrentDateTime, 0, '<Day,2>-<Month,2>-<Year4>') + '<br/>' +
+     '<p>Dear ' + Rec."Contact Name" + ',</p>' +
+     '<p>We are pleased to inform you that your Service Request has been reviewed and <b>approved</b>.</p>' +
+    '<h3>Service Request Details:</h3>' +
+     '<b>Service Request ID:</b> ' + Format(Rec."Service Request ID") + '<br/>' +
+               '<b>Request Date:</b> ' + Format(Rec."Requested Date", 0, '<Day,2>-<Month,2>-<Year4>') + '<br/>' +
+             '<b>Contact Name:</b> ' + Rec."Contact Name" + '<br/>' +
+              '<b>Contact Phone:</b> ' + Rec."Contact Phone" + '<br/>' +
+             '<b>Contact Email:</b> ' + Rec."Contact Email" + '<br/>' +
      '<p>You can now proceed with transactions in Business Central.</p>' +
      '<p>Best regards,<br/>' + CompanyInfo.Name + '</p>' +
      '</body></html>',
@@ -82,7 +86,7 @@ codeunit 52002 "Approval Vendor Profile"
     end;
 
 
-    procedure Rejectrequest(Rec: Record "Approval Vendor Profile"): Text;
+    procedure Rejectservicerequest(Rec: Record "FM Service Request Approval"): Text;
     var
         Email: Codeunit "Email";
         EmailMessage: Codeunit "Email Message";
@@ -92,22 +96,24 @@ codeunit 52002 "Approval Vendor Profile"
         Username: Text;
         EmailAddress: List of [Text];
     begin
-        if Rec.Status = Rec.Status::Rejected then begin
+        if Rec."Status" = Rec."Status"::Rejected then begin
             // Ensure that the correct record is passed and exists
             if CompanyInfo.Get() then begin
                 // Create the email message
 
                 EmailMessage.Create(
-     Rec."E-mail", // Or the person who submitted the vendor profile
-     'Vendor Profile Rejected',
+       Rec."Contact Email", // Or the person who submitted the Service Request
+     'Service Request Rejected',
      '<html><body>' +
-     '<p>Dear ' + Rec."Vendor Name" + ',</p>' +
-     '<p>We regret to inform you that your vendor profile has been <b>rejected</b> after review.</p>' +
-     '<h3>Vendor Details:</h3>' +
-     '<b>Vendor ID:</b> ' + Format(Rec."Vendor ID") + '<br/>' +
-     '<b>Vendor Name:</b> ' + Rec."Vendor Name" + '<br/>' +
-     '<b>Rejection Date:</b> ' + Format(CurrentDateTime, 0, '<Day,2>-<Month,2>-<Year4>') + '<br/>' +
-     '<p>Please review the feedback and resubmit your profile if applicable.</p>' +
+     '<p>Dear ' + Rec."Contact Name" + ',</p>' +
+     '<p>We regret to inform you that your Service Request has been <b>rejected</b> after review.</p>' +
+    '<h3>Service Request Details:</h3>' +
+     '<b>Service Request ID:</b> ' + Format(Rec."Service Request ID") + '<br/>' +
+               '<b>Request Date:</b> ' + Format(Rec."Requested Date", 0, '<Day,2>-<Month,2>-<Year4>') + '<br/>' +
+             '<b>Contact Name:</b> ' + Rec."Contact Name" + '<br/>' +
+              '<b>Contact Phone:</b> ' + Rec."Contact Phone" + '<br/>' +
+             '<b>Contact Email:</b> ' + Rec."Contact Email" + '<br/>' +
+     '<p>Please review the feedback and resubmit your request if applicable.</p>' +
      '<p>Best regards,<br/>' + CompanyInfo.Name + '</p>' +
      '</body></html>',
      true

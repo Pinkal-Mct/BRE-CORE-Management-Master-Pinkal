@@ -398,7 +398,7 @@ table 52001 "Facility Vendor Profiles"
                 emailrec: Codeunit "Send Expiry Date Email";
             begin
 
-                if Rec."Trade License Expiry Date" > Today then
+                if (Rec."Trade License Expiry Date" - 30) = Today then
                     emailrec.SendEmail(Rec);
             end;
         }
