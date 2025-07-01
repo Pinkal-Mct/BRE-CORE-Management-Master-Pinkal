@@ -15,7 +15,7 @@ table 53505 "VendorSignedContractDocument"
         {
             DataClassification = ToBeClassified;
             Caption = 'Contract ID';
-            TableRelation = "Vendor Contract"."Contract ID";
+
         }
         field(53521; "Vendor Profile ID"; Code[30])
         {
@@ -34,7 +34,7 @@ table 53505 "VendorSignedContractDocument"
             DataClassification = ToBeClassified;
             Caption = 'Project Name';
         }
-        field(53524; "Milestone"; Text[100])
+        field(53524; "Milestone"; Code[20])
         {
             DataClassification = ToBeClassified;
             Caption = 'Milestone';
@@ -59,6 +59,13 @@ table 53505 "VendorSignedContractDocument"
             DataClassification = ToBeClassified;
             Caption = 'Document URL';
         }
+        field(53529; "Task ID"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Task ID';
+
+        }
+
     }
 
     keys
