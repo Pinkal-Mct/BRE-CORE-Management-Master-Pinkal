@@ -133,7 +133,45 @@ table 53106 "Vendor Contract"
             DataClassification = ToBeClassified;
             Caption = 'Contract Amount';
         }
+        field(53128; "Task ID"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Task ID';
 
+        }
+        field(53129; "Task Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Task Name';
+            // TableRelation = "Project Milestone Task"."Task Name" where("Project ID" = field("Project ID"));
+        }
+        field(53130; "Task Start Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Task Start Date';
+        }
+        field(53131; "Task End Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Task End Date';
+
+        }
+        field(53132; "Task Description"; Text[1000])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Task Description';
+        }
+        field(53133; Notes; Text[1000])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Notes';
+        }
+        field(53134; "Milestone ID"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Milestone ID';
+
+        }
     }
 
     keys
