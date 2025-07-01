@@ -163,6 +163,12 @@ table 53105 "Vendor Proposal"
             DataClassification = ToBeClassified;
             Caption = 'Notes';
         }
+        field(53127; "Milestone ID"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Milestone ID';
+
+        }
     }
 
     keys
