@@ -30,7 +30,7 @@ codeunit 52001 "Send Expiry Date Email"
 
                 // Send the email
                 if Email.Send(EmailMessage) then
-                    Message('Email sent successfully for Payment Mode: %1', Rec."E-mail")
+                    Message('Email sent successfully')
                 else
                     Error('Failed to send email. Please verify SMTP settings and email addresses.');
             end;
@@ -67,7 +67,7 @@ codeunit 52001 "Send Expiry Date Email"
 
                 // Send the email
                 if Email.Send(EmailMessage) then
-                    Message('Email sent successfully for Payment Mode: %1', Rec."E-mail")
+                    Message('Email sent successfully')
                 else
                     Error('Failed to send email. Please verify SMTP settings and email addresses.');
             end;

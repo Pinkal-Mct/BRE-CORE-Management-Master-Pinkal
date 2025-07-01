@@ -26,10 +26,21 @@ table 51016 "FM Service Request Approval"
             OptionMembers = Pending,Approved,Rejected;
             DataClassification = ToBeClassified;
         }
+        field(52001; "Requested Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
 
     }
     keys
     {
         key(PK; "Service Request ID") { Clustered = true; }
     }
+
+    trigger OnInsert()
+    var
+        sendapprovalrequest: Codeunit "Service Request Approval";
+    begin
+        sendapprovalrequest.Sendservicerequest(Rec);
+    end;
 }
