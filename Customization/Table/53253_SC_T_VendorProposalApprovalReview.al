@@ -34,7 +34,7 @@ table 53253 "Vendor Proposal Approval"
         field(50105; Remark; Text[250])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Remark On Rejected';
+            Caption = 'Remark';
         }
 
         field(50106; "Vendor ID"; Code[20])

@@ -95,7 +95,14 @@ table 53752 "Vendor Assignment"
                     Error('Contract with ID %1 does not exist.', Rec."Contract ID")
                 else begin
                     Rec."Contract Date" := vendor."Contract Date";
-                    Rec."Payment Method" := vendor."Payment Terms";
+                    // Rec."Payment Method" := vendor."Payment Terms";
+                    Rec."Task ID" := vendor."Task ID";
+                    Rec."Task Name" := vendor."Task Name";
+                    Rec."Task Start Date" := vendor."Task Start Date";
+                    Rec."Task End Date" := vendor."Task End Date";
+                    Rec."Task Description" := vendor."Task Description";
+                    Rec.Notes := vendor.Notes;
+                    Rec."Milestone ID" := vendor."Milestone ID";
                     // Rec."Vendor Contact" := vendor.contr;
                     // Rec."Vendor Email" := vendor."E-Mail";
                 end;
@@ -226,6 +233,46 @@ table 53752 "Vendor Assignment"
         {
             DataClassification = ToBeClassified;
             TableRelation = GoverningLawDisputeResolution.Name;
+        }
+
+        field(53786; "Task ID"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Task ID';
+
+        }
+        field(53787; "Task Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Task Name';
+            // TableRelation = "Project Milestone Task"."Task Name" where("Project ID" = field("Project ID"));
+        }
+        field(53788; "Task Start Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Task Start Date';
+        }
+        field(53789; "Task End Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Task End Date';
+
+        }
+        field(53790; "Task Description"; Text[1000])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Task Description';
+        }
+        field(53791; Notes; Text[1000])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Notes';
+        }
+        field(53792; "Milestone ID"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Milestone ID';
+
         }
     }
 
