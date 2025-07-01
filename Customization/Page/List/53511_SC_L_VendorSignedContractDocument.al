@@ -38,6 +38,8 @@ page 53511 "Vendor Signed ContractDocument"
                         if vendorContract.FindFirst() then begin
                             Rec."Project ID" := vendorContract."Project ID";
                             Rec."Project Name" := vendorContract."Project Name";
+                            Rec.Milestone := vendorContract."Milestone ID";
+                            Rec."Task ID" := vendorContract."Task ID";
 
                         end else
                             Error('No contract found for the selected Contract ID.');
@@ -53,6 +55,14 @@ page 53511 "Vendor Signed ContractDocument"
                 {
                     ApplicationArea = All;
                     Caption = 'Milestone';
+                    Editable = false;
+                }
+                field("Task ID"; Rec."Task ID")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Task ID';
+                    Editable = false;
+
                 }
                 field("Service Provided"; Rec."Service Provided")
                 {
