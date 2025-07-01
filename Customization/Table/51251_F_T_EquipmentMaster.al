@@ -38,7 +38,6 @@ table 51251 "Equipment Master"
                     "Equipment Category" := '';
                     "OEM Name" := '';
                 end;
-                ;
             end;
         }
         field(51255; "OEM Name"; Text[100])
