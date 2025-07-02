@@ -36,11 +36,4 @@ table 51016 "FM Service Request Approval"
     {
         key(PK; "Service Request ID") { Clustered = true; }
     }
-
-    trigger OnInsert()
-    var
-        sendapprovalrequest: Codeunit "Service Request Approval";
-    begin
-        sendapprovalrequest.Sendservicerequest(Rec);
-    end;
 }

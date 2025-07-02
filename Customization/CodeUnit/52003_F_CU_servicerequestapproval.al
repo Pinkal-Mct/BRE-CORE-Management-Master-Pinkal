@@ -1,6 +1,6 @@
 codeunit 52003 "Service Request Approval"
 {
-    procedure Sendservicerequest(Rec: Record "FM Service Request Approval"): Text;
+    procedure Sendservicerequest(Rec: Record "FM Service Request Header"): Text;
     var
         Email: Codeunit "Email";
         EmailMessage: Codeunit "Email Message";
@@ -39,7 +39,7 @@ codeunit 52003 "Service Request Approval"
          );
 
         if Email.Send(EmailMessage) then
-            Message('Email sent successfully: %1')
+            Message('Email sent successfully')
         else
             Error('Failed to send email. Please verify SMTP settings and email addresses.');
     end;

@@ -138,6 +138,14 @@ table 51501 "FM Service Request Header"
             OptionMembers = " ","Send for Approval",Approved,Rejected;
             Caption = 'Approval Action';
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            var
+                sendapprovalrequest: Codeunit "Service Request Approval";
+            begin
+                if Rec."Approval Action" = Rec."Approval Action"::"Send for Approval" then begin
+                    sendapprovalrequest.Sendservicerequest(Rec);
+                end
+            end;
         }
     }
 
