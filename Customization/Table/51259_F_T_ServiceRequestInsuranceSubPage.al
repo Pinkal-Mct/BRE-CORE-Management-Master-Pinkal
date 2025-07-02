@@ -47,11 +47,15 @@ table 51259 "Service Request Insurance"
             Caption = 'Insured Value';
             DataClassification = ToBeClassified;
         }
+        field(51258; "Service Request ID"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
     {
-        key(PK; "Policy ID")
+        key(PK; "Service Request ID", "Policy ID")
         {
             Clustered = true;
         }
