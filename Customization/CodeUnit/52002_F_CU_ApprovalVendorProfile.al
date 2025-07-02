@@ -37,7 +37,7 @@ codeunit 52002 "Approval Vendor Profile"
          );
 
         if Email.Send(EmailMessage) then
-            Message('Email sent successfully: %1')
+            Message('Email sent successfully')
         else
             Error('Failed to send email. Please verify SMTP settings and email addresses.');
     end;
