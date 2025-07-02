@@ -85,7 +85,7 @@ table 53752 "Vendor Assignment"
         {
             DataClassification = ToBeClassified;
             Caption = 'Contract ID';
-            TableRelation = "Vendor Contract";
+            // TableRelation = "Vendor Contract";
 
             trigger OnValidate()
             var
@@ -96,13 +96,13 @@ table 53752 "Vendor Assignment"
                 else begin
                     Rec."Contract Date" := vendor."Contract Date";
                     // Rec."Payment Method" := vendor."Payment Terms";
-                    Rec."Task ID" := vendor."Task ID";
-                    Rec."Task Name" := vendor."Task Name";
-                    Rec."Task Start Date" := vendor."Task Start Date";
-                    Rec."Task End Date" := vendor."Task End Date";
-                    Rec."Task Description" := vendor."Task Description";
-                    Rec.Notes := vendor.Notes;
-                    Rec."Milestone ID" := vendor."Milestone ID";
+                    // Rec."Task ID" := vendor."Task ID";
+                    // Rec."Task Name" := vendor."Task Name";
+                    // Rec."Task Start Date" := vendor."Task Start Date";
+                    // Rec."Task End Date" := vendor."Task End Date";
+                    // Rec."Task Description" := vendor."Task Description";
+                    // Rec.Notes := vendor.Notes;
+                    // Rec."Milestone ID" := vendor."Milestone ID";
                     // Rec."Vendor Contact" := vendor.contr;
                     // Rec."Vendor Email" := vendor."E-Mail";
                 end;

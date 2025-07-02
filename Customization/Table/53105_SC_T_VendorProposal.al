@@ -130,45 +130,94 @@ table 53105 "Vendor Proposal"
             DataClassification = ToBeClassified;
             Caption = 'Duration';
         }
-        field(53121; "Task ID"; Code[20])
+        field(53121; "Project Location"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Task ID';
-            TableRelation = "Project Milestone Task"."Task ID" where("Project ID" = field("Project ID"));
+            Caption = 'Project Location';
         }
-        field(53122; "Task Name"; Text[100])
+        field(53122; "Description"; Text[1000])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Task Name';
-            // TableRelation = "Project Milestone Task"."Task Name" where("Project ID" = field("Project ID"));
+            Caption = 'Description';
         }
-        field(53123; "Task Start Date"; Date)
+        field(53123; "Delivery Location"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Task Start Date';
+            Caption = 'Delivery Location';
         }
-        field(53124; "Task End Date"; Date)
-        {
-            DataClassification = ToBeClassified;
-            Caption = 'Task End Date';
 
-        }
-        field(53125; "Task Description"; Text[1000])
+        field(53124; "Delivery Date"; Date)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Task Description';
+            Caption = 'Delivery Date';
         }
-        field(53126; Notes; Text[1000])
+        field(53125; "Late Delivery Penalty %"; Decimal)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Notes';
+            Caption = 'Late Delivery Penalty %';
         }
-        field(53127; "Milestone ID"; Code[20])
+        field(53126; "Total Contract Value (AED)"; Decimal)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Milestone ID';
+            Caption = 'Total Contract Value (AED)';
+        }
 
+        field(53127; "VAT %"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'VAT %';
         }
+
+        field(53128; "Advance Payment (%)"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Advance Payment (%)';
+        }
+
+        field(53129; "Interim Payment (%)"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Interim Payment (%)';
+        }
+
+        field(53130; "Final Payment (%)"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Final Payment (%)';
+        }
+        field(53131; "Payment Method"; Option)
+        {
+            OptionCaption = 'Bank Transfer,Cash,Cheque';
+            OptionMembers = "Bank Transfer",Cash,Cheque;
+            DataClassification = ToBeClassified;
+            Caption = 'Payment Method';
+        }
+        field(53132; "UAE Compliance Requirements"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'UAE Compliance Requirements';
+        }
+        field(53133; "Industry Standards"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Industry Standards';
+        }
+        field(53134; "Warranty Period (Months)"; Integer)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Warranty Period (Months)';
+        }
+        field(53135; "Dispute Resolution"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Dispute Resolution';
+        }
+        field(50136; Incoterms; Text[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Incoterms';
+        }
+
     }
 
     keys

@@ -38,8 +38,8 @@ page 53511 "Vendor Signed ContractDocument"
                         if vendorContract.FindFirst() then begin
                             Rec."Project ID" := vendorContract."Project ID";
                             Rec."Project Name" := vendorContract."Project Name";
-                            Rec.Milestone := vendorContract."Milestone ID";
-                            Rec."Task ID" := vendorContract."Task ID";
+                            // Rec.Milestone := vendorContract."Milestone ID";
+                            // Rec."Task ID" := vendorContract."Task ID";
 
                         end else
                             Error('No contract found for the selected Contract ID.');
