@@ -57,19 +57,7 @@ table 53752 "Vendor Assignment"
         {
             DataClassification = ToBeClassified;
             Caption = 'Vendor/Subcontractor ID';
-            TableRelation = Vendor;
-            trigger OnValidate()
-            var
-                vendor: Record Vendor;
-            begin
-                if not vendor.Get(Rec."Vendor/Subcontractor ID") then
-                    Error('Vendor/Subcontractor with ID %1 does not exist.', Rec."Vendor/Subcontractor ID")
-                else begin
-                    Rec."Vendor/Subcontractor Name" := vendor.Name;
-                    Rec."Vendor Contact" := vendor."Phone No.";
-                    Rec."Vendor Email" := vendor."E-Mail";
-                end;
-            end;
+
         }
         field(53758; "Vendor/Subcontractor Name"; Text[100])
         {
@@ -85,16 +73,16 @@ table 53752 "Vendor Assignment"
         {
             DataClassification = ToBeClassified;
             Caption = 'Contract ID';
-            // TableRelation = "Vendor Contract";
+            TableRelation = "Vendor Contract"."Contract ID" where("Project ID" = field("Project ID"));
 
             trigger OnValidate()
             var
-                vendor: Record "Vendor Contract";
+                vendorContract: Record "Vendor Contract";
             begin
-                if not vendor.Get(Rec."Contract ID") then
+                if not vendorContract.Get(Rec."Contract ID") then
                     Error('Contract with ID %1 does not exist.', Rec."Contract ID")
                 else begin
-                    Rec."Contract Date" := vendor."Contract Date";
+                    Rec."Contract Date" := vendorContract."Contract Date";
                     // Rec."Payment Method" := vendor."Payment Terms";
                     // Rec."Task ID" := vendor."Task ID";
                     // Rec."Task Name" := vendor."Task Name";
@@ -105,6 +93,10 @@ table 53752 "Vendor Assignment"
                     // Rec."Milestone ID" := vendor."Milestone ID";
                     // Rec."Vendor Contact" := vendor.contr;
                     // Rec."Vendor Email" := vendor."E-Mail";
+                    Rec."Vendor/Subcontractor ID" := vendorContract."Vendor ID";
+                    Rec."Vendor/Subcontractor Name" := vendorContract."Vendor Name";
+                    // Rec."Vendor Contact" := vendorContract.;
+                    Rec."Vendor Email" := vendorContract."Vendor Email";
                 end;
             end;
             //TODO: Add TableRelation (after Vendor Contract table is created)

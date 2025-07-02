@@ -54,8 +54,20 @@ page 53511 "Vendor Signed ContractDocument"
                 field(Milestone; Rec.Milestone)
                 {
                     ApplicationArea = All;
-                    Caption = 'Milestone';
+                    Caption = 'Milestone Details';
                     Editable = false;
+
+                    trigger OnDrillDown()
+                    var
+                        projectMilestoneTask: Record "Project Milestone Task";
+                        projectMilestoneTaskPage: Page "Project Milestone Tasks";
+                    begin
+                        projectMilestoneTask.SetRange("Project ID", Rec."Project ID");
+                        projectMilestoneTask.SetRange("Contract ID", Rec."Contract ID");
+
+                        projectMilestoneTaskPage.SetTableView(projectMilestoneTask);
+                        projectMilestoneTaskPage.RunModal();
+                    end;
                 }
                 field("Service Provided"; Rec."Service Provided")
                 {

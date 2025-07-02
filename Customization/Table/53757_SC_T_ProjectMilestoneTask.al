@@ -100,7 +100,42 @@ table 53757 "Project Milestone Task"
             DataClassification = ToBeClassified;
             Caption = 'Vendor Profile ID';
         }
-
+        field(53113; "Milestone Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Milestone Name';
+        }
+        field(53114; "Milestone Progress"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53115; "Milestone Start Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53116; "Milestone End Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53117; "Milestone Weight"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53118; "Milestone Description"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53119; "Milestone Notes"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53120; "Milestone Status"; Option)
+        {
+            OptionCaption = ' ,Pending,In Progress,Completed';
+            OptionMembers = " ",Pending,InProgress,Completed;
+            DataClassification = ToBeClassified;
+            Caption = 'Status';
+        }
     }
 
     keys
@@ -115,17 +150,13 @@ table 53757 "Project Milestone Task"
     var
         noSeriesSetup: Record "No. Series Setup";
         noseries: Codeunit "No. Series";
-        milestone: Record "Project Milestone";
     begin
         if noSeriesSetup.Get() then begin
             Rec."Task ID" := noseries.GetNextNo(noSeriesSetup."Milestone Task Nos.");
         end else
             Error('No. Series Setup not found for Milestone Task Nos.');
 
-        milestone.SetRange("Milestone ID", Rec."Milestone ID");
-        if milestone.FindSet() then begin
-            Rec."Project ID" := milestone."Project ID";
-        end;
+        PopulateMilestoneDetails(Rec."Milestone ID");
     end;
 
     trigger OnModify()
@@ -163,6 +194,24 @@ table 53757 "Project Milestone Task"
             if milestone.FindSet() then begin
                 milestone.RecalculateProgress();
             end;
+        end;
+    end;
+
+    procedure PopulateMilestoneDetails(pMilestoneId: Code[20])
+    var
+        milestone: Record "Project Milestone";
+    begin
+        milestone.SetRange("Milestone ID", Rec."Milestone ID");
+        if milestone.FindSet() then begin
+            Rec."Project ID" := milestone."Project ID";
+            Rec."Milestone Name" := milestone."Milestone Name";
+            Rec."Milestone Status" := milestone.Status;
+            Rec."Milestone Description" := milestone.Description;
+            Rec."Milestone End Date" := milestone."End Date";
+            Rec."Milestone Notes" := milestone.Notes;
+            Rec."Milestone Start Date" := milestone."Start Date";
+            Rec."Milestone Progress" := milestone.Progress;
+            Rec."Milestone Weight" := milestone.Weight;
         end;
     end;
 }
