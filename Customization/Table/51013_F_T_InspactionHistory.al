@@ -26,7 +26,7 @@ table 51013 "FM Inspection History"
         field(51005; "Inspection Type"; Option)
         {
             OptionMembers = Routine,Safety,Warranty,PM;
-            OptionCaption = 'Routine, Safety, Warranty, Preventive';
+            OptionCaption = '  , Routine, Safety, Warranty, Preventive';
             DataClassification = ToBeClassified;
         }
 
