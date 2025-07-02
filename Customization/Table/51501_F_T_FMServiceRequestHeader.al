@@ -4,6 +4,7 @@ table 51501 "FM Service Request Header"
 
     Caption = 'FM Service Request Header';
     DataClassification = ToBeClassified;
+    DataCaptionFields = "Service Request ID";
 
     fields
     {
@@ -133,11 +134,11 @@ table 51501 "FM Service Request Header"
             Caption = 'Image URL';
         }
         field(50000; "Approval Action"; Option)
-{
-    OptionMembers = " ", "Send for Approval", Approved, Rejected;
-    Caption = 'Approval Action';
-    DataClassification = CustomerContent;
-}
+        {
+            OptionMembers = " ","Send for Approval",Approved,Rejected;
+            Caption = 'Approval Action';
+            DataClassification = CustomerContent;
+        }
     }
 
     keys

@@ -1,4 +1,4 @@
-table 50130 "FM Work Order Header"
+table 51257 "FM Work Order Header"
 {
     DataClassification = ToBeClassified;
     Caption = 'FM Work Order Header';
@@ -87,7 +87,7 @@ table 50130 "FM Work Order Header"
 
     keys
     {
-        key(PK; "Service Request ID","Work Order ID")
+        key(PK; "Service Request ID", "Work Order ID")
         {
             Clustered = true;
         }

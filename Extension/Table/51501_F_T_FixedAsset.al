@@ -8,9 +8,10 @@ tableextension 51501 "Fixed Asset" extends "Fixed Asset"
             DataClassification = ToBeClassified;
             TableRelation = "Property Registration"."Property ID";
         }
-        field(51502; "Unit No."; Text[50])
+        field(51502; "Unit No."; Code[20])
         {
             DataClassification = ToBeClassified;
+            TableRelation = Item."No." where("Property ID" = field("Property Code"));
         }
         field(51503; "Contact Name"; text[100])
         {
