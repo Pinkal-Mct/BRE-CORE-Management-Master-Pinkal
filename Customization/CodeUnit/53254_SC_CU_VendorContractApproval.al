@@ -1,6 +1,6 @@
 codeunit 53254 "Approval Vendor Contract"
 {
-    procedure SubmitVendorContract(var VendorProposalRec: Record "Vendor Contract")
+    procedure SubmitVendorContract(var VendorContractRec: Record "Vendor Contract")
     var
         ApprovalStatusList: Record "Vendor Contract Approval";
         EmailMessage: Codeunit "Email Message";
@@ -14,15 +14,15 @@ codeunit 53254 "Approval Vendor Contract"
     begin
         // Insert new record in Approval Request list
         ApprovalStatusList.Init();
-        ApprovalStatusList."Vendor Contract ID" := VendorProposalRec."Contract ID";
-        ApprovalStatusList."Vendor ID" := VendorProposalRec."Vendor ID";
+        ApprovalStatusList."Vendor Contract ID" := VendorContractRec."Contract ID";
+        ApprovalStatusList."Vendor ID" := VendorContractRec."Vendor ID";
 
         ApprovalStatusList.Status := 'Pending';
         ApprovalStatusList.Insert();
 
         // 🔄 Update status of Vendor Contract to Pending
-        VendorProposalRec."Internal Approval Status" := VendorProposalRec."Internal Approval Status"::Pending;
-        VendorProposalRec.Modify();
+        VendorContractRec."Internal Approval Status" := VendorContractRec."Internal Approval Status"::Pending;
+        VendorContractRec.Modify();
 
         // Prepare email to Lease Managers
         LeaseManagerName := '';
@@ -50,12 +50,13 @@ codeunit 53254 "Approval Vendor Contract"
                 '<p>This is an automated notification from the system.</p>' +
                 '<p>A new vendor contract has been submitted with the following details:</p>' +
                 '<p>' +
-                '<b>Vendor Contract ID:</b> ' + Format(VendorProposalRec."Contract ID") + '<br/>' +
-                // '<b>Task ID:</b> ' + Format(VendorProposalRec."Task ID") + '<br/>' +
-                // '<b>Task Name:</b> ' + VendorProposalRec."Task Name" + '<br/>' +
-                // '<b>Task Start Date:</b> ' + Format(VendorProposalRec."Task Start Date") + '<br/>' +
-                // '<b>Task End Date:</b> ' + Format(VendorProposalRec."Task End Date") + '<br/>' +
-                // '<b>Milestone ID:</b> ' + Format(VendorProposalRec."Milestone ID") + '<br/>' +
+                '<b>Vendor Contract ID:</b> ' + Format(VendorContractRec."Contract ID") + '<br/>' +
+                 '<b>Project ID:</b> ' + Format(VendorContractRec."Project ID") + '<br/>' +
+                '<b>Project Name:</b> ' + VendorContractRec."Project Name" + '<br/>' +
+                '<b>Project Location:</b> ' + VendorContractRec."Project Location" + '<br/>' +
+                '<b>Contract Start Date:</b> ' + Format(VendorContractRec."Contract Start Date") + '<br/>' +
+                '<b>Contract End Date:</b> ' + Format(VendorContractRec."Contract End Date") + '<br/>' +
+                '<b>Total Contract Value </b> ' + Format(VendorContractRec."Total Contract Value (AED)") + '<br/>' +
                 '</p>' +
                 '<p>Please review the <b>Vendor Contract Approval List</b> and take the necessary action.</p>' +
                 '<p>This is a system-generated email. Please do not reply.</p>' +
@@ -66,7 +67,7 @@ codeunit 53254 "Approval Vendor Contract"
 
             EmailMessage.Create(
                     EmailList,
-                    'System Notification: Action Required - Review Vendor Contract For Approval - Vendor Contract ID ' + Format(VendorProposalRec."Contract ID"),
+                    'System Notification: Action Required - Review Vendor Contract For Approval - Vendor Contract ID ' + Format(VendorContractRec."Contract ID"),
                     EmailBody,
                     true
                 );

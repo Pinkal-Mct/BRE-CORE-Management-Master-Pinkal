@@ -57,13 +57,6 @@ page 53511 "Vendor Signed ContractDocument"
                     Caption = 'Milestone';
                     Editable = false;
                 }
-                field("Task ID"; Rec."Task ID")
-                {
-                    ApplicationArea = All;
-                    Caption = 'Task ID';
-                    Editable = false;
-
-                }
                 field("Service Provided"; Rec."Service Provided")
                 {
                     ApplicationArea = All;
