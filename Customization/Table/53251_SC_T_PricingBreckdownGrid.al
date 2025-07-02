@@ -12,61 +12,44 @@ table 53251 "Pricing Breakdown"
             AutoIncrement = true;
         }
 
-        field(53101; "Document No."; Code[20])
-        {
-            DataClassification = ToBeClassified;
-            Caption = 'Document No.';
-
-        }
-
-        field(53102; "Line No."; Code[20])
-        {
-            DataClassification = ToBeClassified;
-            Caption = 'Line No.';
-        }
-
-        field(53103; "Item Description"; Text[100])
+        field(53101; "Item Description"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Item Description';
         }
 
-        field(53104; "Quantity"; Decimal)
+        field(53102; "Quantity"; Decimal)
         {
             DataClassification = ToBeClassified;
             Caption = 'Quantity';
         }
 
-        field(53105; "Unit"; Text[20])
+        field(53103; "Unit"; Text[20])
         {
             DataClassification = ToBeClassified;
             Caption = 'Unit';
         }
-
-        field(53106; "Price Per Unit"; Decimal)
+        field(53104; "Price Per Unit"; Decimal)
         {
             DataClassification = ToBeClassified;
             Caption = 'Price Per Unit';
         }
-
-        field(53107; "Total Cost"; Decimal)
+        field(53105; "Total Cost"; Decimal)
         {
             DataClassification = ToBeClassified;
             Caption = 'Total Cost';
-
         }
-
-        field(53108; "Profile ID"; Code[20])
+        field(53106; "Profile ID"; Code[20])
         {
             DataClassification = ToBeClassified;
             Caption = 'Profile ID';
         }
-        field(53109; "Vendor Proposal ID"; Code[20])
+        field(53107; "Vendor Proposal ID"; Code[20])
         {
             DataClassification = ToBeClassified;
             Caption = 'Vendor Proposal ID';
         }
-        field(53110; "Vendor Contract ID"; Code[20])
+        field(53108; "Vendor Contract ID"; Code[20])
 
         {
             DataClassification = ToBeClassified;
@@ -76,7 +59,7 @@ table 53251 "Pricing Breakdown"
 
     keys
     {
-        key(PK; "Entry No.")
+        key(PK; "Entry No.", "Vendor Proposal ID")
         {
             Clustered = true;
         }
