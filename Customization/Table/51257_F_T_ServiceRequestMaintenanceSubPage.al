@@ -79,11 +79,15 @@ table 50130 "FM Work Order Header"
             Caption = 'Requested Date';
             DataClassification = ToBeClassified;
         }
+        field(51263; "Service Request ID"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
     {
-        key(PK; "Work Order ID")
+        key(PK; "Service Request ID","Work Order ID")
         {
             Clustered = true;
         }

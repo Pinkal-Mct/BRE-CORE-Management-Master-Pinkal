@@ -4,64 +4,69 @@ table 51013 "FM Inspection History"
 
     fields
     {
-        field(1; "Inspection ID"; Code[20])
+        field(51001; "Service Request ID"; Code[20])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
+        }
+        field(51002; "Inspection ID"; Code[20])
+        {
+            DataClassification = ToBeClassified;
         }
 
-        field(2; "Inspection Date"; Date)
+        field(51003; "Inspection Date"; Date)
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
 
-        field(3; "Inspector Name"; Text[100])
+        field(51004; "Inspector Name"; Text[100])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
 
-        field(4; "Inspection Type"; Option)
+        field(51005; "Inspection Type"; Option)
         {
             OptionMembers = Routine,Safety,Warranty,PM;
             OptionCaption = 'Routine, Safety, Warranty, Preventive';
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
 
-        field(5; "Inspection Status"; Option)
+        field(51006; "Inspection Status"; Option)
         {
             OptionMembers = Pending,"Passed","Failed";
             OptionCaption = 'Pending, Passed, Failed';
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
 
-        field(6; "Observation Status"; Text[250])
+        field(51007; "Observation Status"; Text[250])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
 
-        field(7; "Reference Document"; Text[250])
+        field(51008; "Reference Document"; Text[250])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
 
-        field(8; "Attachment Link"; Text[250])
+        field(51009; "Attachment Link"; Text[250])
         {
-            DataClassification = CustomerContent;
+            DataClassification = ToBeClassified;
         }
 
-        field(9; "Asset ID"; Code[20])
+        field(51010; "Asset ID"; Code[20])
         {
             DataClassification = CustomerContent;
             Caption = 'Linked Asset ID';
         }
+
     }
 
     keys
     {
-        key(PK; "Inspection ID")
-        {
-            Clustered = true;
-        }
+
+        key(PK; "Service Request ID", "Inspection ID") { Clustered = true; }
+
 
         key(AssetKey; "Asset ID", "Inspection Date") { }
+
     }
 }

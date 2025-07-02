@@ -5,6 +5,8 @@ table 51011 "Service Request Line"
 
     fields
     {
+
+
         field(51001; "No."; Code[20])
         {
             DataClassification = ToBeClassified;
@@ -95,9 +97,11 @@ table 51011 "Service Request Line"
 
     keys
     {
-        key(PK; "No.", "Service Request ID")
+        key(PK; "Service Request ID", "No.")
         {
             Clustered = true;
         }
+
     }
+
 }
