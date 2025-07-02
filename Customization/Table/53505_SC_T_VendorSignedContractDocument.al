@@ -34,10 +34,11 @@ table 53505 "VendorSignedContractDocument"
             DataClassification = ToBeClassified;
             Caption = 'Project Name';
         }
-        field(53524; "Milestone"; Code[20])
+        field(53524; "Milestone"; Text[20])
         {
             DataClassification = ToBeClassified;
             Caption = 'Milestone';
+            InitValue = 'Click here';
         }
         field(53525; "Service Provided"; Text[200])
         {
