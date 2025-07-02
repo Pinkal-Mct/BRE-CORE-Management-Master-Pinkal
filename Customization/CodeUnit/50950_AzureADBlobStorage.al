@@ -106,63 +106,77 @@ codeunit 50950 "Azure AD Blob Storage"
     procedure GetRFC1123FormattedDateTime(): Text
     var
         CurrentDT: DateTime;
-        DayOfWeekInt: Integer;
+        FormattedDate: Text;
         DayOfWeek: Text;
-        Day: Integer;
-        Month: Integer;
-        MonthName: Text;
-        Year: Integer;
-        Hour: Integer;
-        Minute: Integer;
-        Second: Integer;
-        TempDate: Date;
-        TempTime: Time;
-        DayNames: array[7] of Text;
-        MonthNames: array[12] of Text;
+        Month: Text;
+        WeekDayNumber: Integer;
+        MonthNumber: Integer;
     begin
-        DayNames[1] := 'Mon';
-        DayNames[2] := 'Tue';
-        DayNames[3] := 'Wed';
-        DayNames[4] := 'Thu';
-        DayNames[5] := 'Fri';
-        DayNames[6] := 'Sat';
-        DayNames[7] := 'Sun';
-        MonthNames[1] := 'Jan';
-        MonthNames[2] := 'Feb';
-        MonthNames[3] := 'Mar';
-        MonthNames[4] := 'Apr';
-        MonthNames[5] := 'May';
-        MonthNames[6] := 'Jun';
-        MonthNames[7] := 'Jul';
-        MonthNames[8] := 'Aug';
-        MonthNames[9] := 'Sep';
-        MonthNames[10] := 'Oct';
-        MonthNames[11] := 'Nov';
-        MonthNames[12] := 'Dec';
+        CurrentDT := CurrentDateTime();
 
-        CurrentDT := CurrentDateTime(); // or use CurrentDateTimeUTC() if needed
-        TempDate := DT2Date(CurrentDT);
-        TempTime := DT2Time(CurrentDT);
+        // Convert to UTC if needed
+        CurrentDT := CurrentDT; // Assume system is already in UTC or adjust accordingly
 
-        Day := Date2DMY(TempDate, 1);
-        Month := Date2DMY(TempDate, 2);
-        Year := Date2DMY(TempDate, 3);
-        DayOfWeekInt := Date2DWY(TempDate, 1);
-        DayOfWeek := DayNames[DayOfWeekInt];
-        MonthName := MonthNames[Month];
+        // Get day of week (1=Monday, 7=Sunday, but RFC1123 uses Sun=0, Mon=1...)
+        WeekDayNumber := Date2DWY(DT2Date(CurrentDT), 1);
+        case WeekDayNumber of
+            1:
+                DayOfWeek := 'Mon';
+            2:
+                DayOfWeek := 'Tue';
+            3:
+                DayOfWeek := 'Wed';
+            4:
+                DayOfWeek := 'Thu';
+            5:
+                DayOfWeek := 'Fri';
+            6:
+                DayOfWeek := 'Sat';
+            7:
+                DayOfWeek := 'Sun';
+        end;
 
-        Evaluate(Hour, Format(TempTime, 0, '<Hours24,2>'));
-        Evaluate(Minute, Format(TempTime, 0, '<Minutes,2>'));
-        Evaluate(Second, Format(TempTime, 0, '<Seconds,2>'));
+        // Get month
+        MonthNumber := Date2DMY(DT2Date(CurrentDT), 2);
+        case MonthNumber of
+            1:
+                Month := 'Jan';
+            2:
+                Month := 'Feb';
+            3:
+                Month := 'Mar';
+            4:
+                Month := 'Apr';
+            5:
+                Month := 'May';
+            6:
+                Month := 'Jun';
+            7:
+                Month := 'Jul';
+            8:
+                Month := 'Aug';
+            9:
+                Month := 'Sep';
+            10:
+                Month := 'Oct';
+            11:
+                Month := 'Nov';
+            12:
+                Month := 'Dec';
+        end;
 
-        exit(StrSubstNo('%1, %2 %3 %4 %5:%6:%7 GMT',
+        // Format: "Wed, 02 Jul 2025 12:30:45 GMT"
+        FormattedDate := StrSubstNo('%1, %2 %3 %4 %5:%6:%7 GMT',
             DayOfWeek,
-            Format(Day, 0, '<Integer,2>'),
-            MonthName,
-            Format(Year),
-            Format(Hour, 0, '<Integer,2>'),
-            Format(Minute, 0, '<Integer,2>'),
-            Format(Second, 0, '<Integer,2>')));
+            Format(Date2DMY(DT2Date(CurrentDT), 1), 2, '<Integer,2><Filler Character,0>'),
+            Month,
+            Format(Date2DMY(DT2Date(CurrentDT), 3)),
+            Format(DT2Time(CurrentDT), 0, '<Hours24,2>'),
+            Format(DT2Time(CurrentDT), 0, '<Minutes,2>'),
+            Format(DT2Time(CurrentDT), 0, '<Seconds,2>')
+        );
+
+        exit(FormattedDate);
     end;
 
     local procedure GetAzureADToken(): Text
