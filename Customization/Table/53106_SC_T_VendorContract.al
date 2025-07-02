@@ -128,50 +128,132 @@ table 53106 "Vendor Contract"
             DataClassification = ToBeClassified;
             Caption = 'Duration';
         }
-        field(53120; "Contract Amount"; Decimal)
-        {
-            DataClassification = ToBeClassified;
-            Caption = 'Contract Amount';
-        }
-        field(53128; "Task ID"; Code[20])
-        {
-            DataClassification = ToBeClassified;
-            Caption = 'Task ID';
 
-        }
-        field(53129; "Task Name"; Text[100])
+        field(53121; "Project Location"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Task Name';
-            // TableRelation = "Project Milestone Task"."Task Name" where("Project ID" = field("Project ID"));
+            Caption = 'Project Location';
         }
-        field(53130; "Task Start Date"; Date)
+        field(53122; "Description"; Text[1000])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Task Start Date';
+            Caption = 'Description';
         }
-        field(53131; "Task End Date"; Date)
+        field(53123; "Delivery Location"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Task End Date';
+            Caption = 'Delivery Location';
+        }
 
-        }
-        field(53132; "Task Description"; Text[1000])
+        field(53124; "Delivery Date"; Date)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Task Description';
+            Caption = 'Delivery Date';
         }
-        field(53133; Notes; Text[1000])
+        field(53125; "Late Delivery Penalty %"; Decimal)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Notes';
+            Caption = 'Late Delivery Penalty %';
         }
-        field(53134; "Milestone ID"; Code[20])
+        field(53126; "Total Contract Value (AED)"; Decimal)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Milestone ID';
+        }
 
+        field(53127; "VAT %"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'VAT %';
         }
+
+        field(53128; "Advance Payment (%)"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Advance Payment (%)';
+        }
+
+        field(53129; "Interim Payment (%)"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Interim Payment (%)';
+        }
+
+        field(53130; "Final Payment (%)"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Final Payment (%)';
+        }
+        field(53131; "Payment Method"; Option)
+        {
+            OptionCaption = 'Bank Transfer,Cash,Cheque';
+            OptionMembers = "Bank Transfer",Cash,Cheque;
+            DataClassification = ToBeClassified;
+            Caption = 'Payment Method';
+        }
+        field(53132; "UAE Compliance Requirements"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'UAE Compliance Requirements';
+        }
+        field(53133; "Industry Standards"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Industry Standards';
+        }
+        field(53134; "Warranty Period (Months)"; Integer)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Warranty Period (Months)';
+        }
+        field(53135; "Dispute Resolution"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Dispute Resolution';
+        }
+        field(50136; Incoterms; Text[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Incoterms';
+        }
+        // field(53128; "Task ID"; Code[20])
+        // {
+        //     DataClassification = ToBeClassified;
+        //     Caption = 'Task ID';
+
+        // }
+        // field(53129; "Task Name"; Text[100])
+        // {
+        //     DataClassification = ToBeClassified;
+        //     Caption = 'Task Name';
+        //     // TableRelation = "Project Milestone Task"."Task Name" where("Project ID" = field("Project ID"));
+        // }
+        // field(53130; "Task Start Date"; Date)
+        // {
+        //     DataClassification = ToBeClassified;
+        //     Caption = 'Task Start Date';
+        // }
+        // field(53131; "Task End Date"; Date)
+        // {
+        //     DataClassification = ToBeClassified;
+        //     Caption = 'Task End Date';
+
+        // }
+        // field(53132; "Task Description"; Text[1000])
+        // {
+        //     DataClassification = ToBeClassified;
+        //     Caption = 'Task Description';
+        // }
+        // field(53133; Notes; Text[1000])
+        // {
+        //     DataClassification = ToBeClassified;
+        //     Caption = 'Notes';
+        // }
+        // field(53134; "Milestone ID"; Code[20])
+        // {
+        //     DataClassification = ToBeClassified;
+        //     Caption = 'Milestone ID';
+
+        // }
     }
 
     keys
@@ -202,6 +284,7 @@ table 53106 "Vendor Contract"
         end else
             Error('No. Series Setup not found for Vendor Contract Nos.');
         rec."Created By" := UserId();
+        Rec."Contract Date" := Today;
         UpdatePricingBreakdownGrid(Rec."Proposal ID", Rec."Contract ID");
     end;
 
@@ -215,5 +298,4 @@ table 53106 "Vendor Contract"
                 pricingBreakDown.ModifyAll("Vendor Contract ID", pContractID);
             until pricingBreakDown.Next() = 0;
     end;
-
 }
