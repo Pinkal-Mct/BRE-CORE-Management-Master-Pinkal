@@ -202,5 +202,18 @@ table 53106 "Vendor Contract"
         end else
             Error('No. Series Setup not found for Vendor Contract Nos.');
         rec."Created By" := UserId();
+        UpdatePricingBreakdownGrid(Rec."Proposal ID", Rec."Contract ID");
     end;
+
+    procedure UpdatePricingBreakdownGrid(pProposalID: Code[20]; pContractID: Code[20])
+    var
+        pricingBreakDown: Record "Pricing Breakdown";
+    begin
+        pricingBreakDown.SetRange("Vendor Proposal ID", pProposalID);
+        if pricingBreakDown.FindSet() then
+            repeat
+                pricingBreakDown.ModifyAll("Vendor Contract ID", pContractID);
+            until pricingBreakDown.Next() = 0;
+    end;
+
 }
