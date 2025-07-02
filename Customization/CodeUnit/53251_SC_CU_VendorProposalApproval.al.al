@@ -51,11 +51,12 @@ codeunit 53251 "Approval Vendor Proposal"
                 '<p>A new vendor proposal has been submitted with the following details:</p>' +
                 '<p>' +
                 '<b>Vendor Proposal ID:</b> ' + Format(VendorProposalRec."Proposal ID") + '<br/>' +
-                // '<b>Task ID:</b> ' + Format(VendorProposalRec."Task ID") + '<br/>' +
-                // '<b>Task Name:</b> ' + VendorProposalRec."Task Name" + '<br/>' +
-                // '<b>Task Start Date:</b> ' + Format(VendorProposalRec."Task Start Date") + '<br/>' +
-                // '<b>Task End Date:</b> ' + Format(VendorProposalRec."Task End Date") + '<br/>' +
-                // '<b>Milestone ID:</b> ' + Format(VendorProposalRec."Milestone ID") + '<br/>' +
+                '<b>Project ID:</b> ' + Format(VendorProposalRec."Project ID") + '<br/>' +
+                '<b>Project Name:</b> ' + VendorProposalRec."Project Name" + '<br/>' +
+                '<b>Project Location:</b> ' + VendorProposalRec."Project Location" + '<br/>' +
+                '<b>Proposed Contract Start Date:</b> ' + Format(VendorProposalRec."Start Date") + '<br/>' +
+                '<b>Proposed Contract End Date:</b> ' + Format(VendorProposalRec."End Date") + '<br/>' +
+                '<b>Total Contract Value </b> ' + Format(VendorProposalRec."Total Contract Value (AED)") + '<br/>' +
                 '</p>' +
                 '<p>Please review the <b>Vendor Proposal Approval List</b> and take the necessary action.</p>' +
                 '<p>This is a system-generated email. Please do not reply.</p>' +

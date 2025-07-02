@@ -94,7 +94,11 @@ table 53757 "Project Milestone Task"
         {
             DataClassification = ToBeClassified;
             Caption = 'Contract ID';
-            TableRelation = "Vendor Contract"."Contract ID" where("Project ID" = field("Project ID"));
+        }
+        field(53112; "Vendor Profile ID"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Vendor Profile ID';
         }
 
     }
