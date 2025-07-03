@@ -17,6 +17,16 @@ table 51501 "FM Service Request Header"
         field(51502; "Request Status"; Enum "FM Request Status")
         {
             DataClassification = ToBeClassified;
+
+            trigger OnValidate()
+            var
+                sendapprovalrequest: Codeunit "Service Request Approval";
+                approvalstatus: Enum "FM Request Status";
+            begin
+                if Rec."Request Status" = approvalstatus::"Sending Approval" then begin
+                    sendapprovalrequest.Sendservicerequest(Rec);
+                end
+            end;
         }
         field(51503; "Requested Date"; DateTime)
         {
@@ -133,20 +143,6 @@ table 51501 "FM Service Request Header"
         {
             DataClassification = ToBeClassified;
             Caption = 'Image URL';
-        }
-        field(50000; "Approval Action"; Option)
-        {
-            OptionMembers = " ","Send for Approval",Approved,Rejected;
-            Caption = 'Approval Action';
-            DataClassification = CustomerContent;
-            trigger OnValidate()
-            var
-                sendapprovalrequest: Codeunit "Service Request Approval";
-            begin
-                if Rec."Approval Action" = Rec."Approval Action"::"Send for Approval" then begin
-                    sendapprovalrequest.Sendservicerequest(Rec);
-                end
-            end;
         }
     }
 
