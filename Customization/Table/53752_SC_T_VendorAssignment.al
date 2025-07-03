@@ -268,6 +268,21 @@ table 53752 "Vendor Assignment"
             Caption = 'Milestone ID';
 
         }
+
+        field(53793; "Vendor Assignment Status"; Option)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Vendor Assignment Status';
+            OptionMembers = Draft,Active,Inactive,Approved,Rejected,"Pending Approval",Suspended,;
+
+        }
+
+        field(53794; "Remark"; Code[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Remark';
+
+        }
     }
 
     keys

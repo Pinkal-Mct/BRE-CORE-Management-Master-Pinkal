@@ -23,7 +23,7 @@ codeunit 53255 "Vendor Assignment Approval"
         ApprovalStatusList.Insert();
 
         // 🔄 Update status of Vendor Contract to Pending
-        VendorProposalRec."Contract Status" := VendorProposalRec."Contract Status"::"Pending Approval";
+        VendorProposalRec."Vendor Assignment Status" := VendorProposalRec."Vendor Assignment Status"::"Pending Approval";
         VendorProposalRec.Modify();
 
         // Prepare email to Lease Managers
