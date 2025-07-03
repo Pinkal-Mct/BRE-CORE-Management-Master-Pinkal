@@ -34,7 +34,7 @@ table 52001 "Facility Vendor Profiles"
                     "Balance Due (LCY)" := Vendor."Balance Due (LCY)";
                     Address := Vendor.Address;
                     "Address 2" := Vendor."Address 2";
-                    "Country" := Vendor.County;
+                    "Country" := Vendor.Country;
                     "Emirate" := vendor.Emirate;
                     "Community" := vendor.Community;
                     "Phone No." := Vendor."Phone No.";
