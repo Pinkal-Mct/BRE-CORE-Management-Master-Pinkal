@@ -12,6 +12,10 @@ pageextension 51252 ItemTemplate extends "Item Templ. Card"
             {
                 ApplicationArea = All;
             }
+            field("Item type template"; Rec."Item type template")
+            {
+                ApplicationArea = All;
+            }
         }
     }
 }

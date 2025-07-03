@@ -12,5 +12,10 @@ tableextension 51251 ItemTemplate extends "Item Templ."
             Caption = 'Type';
             DataClassification = ToBeClassified;
         }
+        field(50144; "Item type template"; Enum "Item Type Template Enum")
+        {
+            Caption = 'Item type template';
+            DataClassification = ToBeClassified;
+        }
     }
 }
