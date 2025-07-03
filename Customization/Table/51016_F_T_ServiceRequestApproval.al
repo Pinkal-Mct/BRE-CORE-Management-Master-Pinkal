@@ -26,7 +26,7 @@ table 51016 "FM Service Request Approval"
             OptionMembers = Pending,Approved,Rejected;
             DataClassification = ToBeClassified;
         }
-        field(52001; "Requested Date"; Date)
+        field(52001; "Requested Date"; DateTime)
         {
             DataClassification = ToBeClassified;
         }
