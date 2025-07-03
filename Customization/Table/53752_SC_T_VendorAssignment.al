@@ -190,7 +190,7 @@ table 53752 "Vendor Assignment"
         field(53777; "Remark On Rejection"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Remark On Rejection';
+            Caption = 'Remark';
         }
         field(53778; "Delivery Schedule"; Text[250])
         {
