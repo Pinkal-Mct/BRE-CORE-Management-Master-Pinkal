@@ -15,7 +15,7 @@ table 51257 "FM Work Order Header"
         {
             Caption = 'Asset ID';
             DataClassification = ToBeClassified;
-            TableRelation = "Fixed Asset"."No.";
+            // TableRelation = "Fixed Asset"."No.";
         }
 
         field(51253; "Work Order Type"; Enum "FM Work Order Type")
@@ -87,7 +87,7 @@ table 51257 "FM Work Order Header"
 
     keys
     {
-        key(PK; "Service Request ID", "Work Order ID")
+        key(PK; "Service Request ID", "Work Order ID", "Asset ID")
         {
             Clustered = true;
         }

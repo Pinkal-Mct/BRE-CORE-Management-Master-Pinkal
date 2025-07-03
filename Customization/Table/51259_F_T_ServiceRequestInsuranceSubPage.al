@@ -15,7 +15,7 @@ table 51259 "Service Request Insurance"
         {
             Caption = 'Asset ID';
             DataClassification = ToBeClassified;
-            TableRelation = "Fixed Asset"."No.";
+            // TableRelation = "Fixed Asset"."No.";
         }
 
         field(51253; "Name of Insurer"; Text[100])
@@ -55,7 +55,7 @@ table 51259 "Service Request Insurance"
 
     keys
     {
-        key(PK; "Service Request ID", "Policy ID")
+        key(PK; "Service Request ID", "Policy ID", "Asset ID")
         {
             Clustered = true;
         }

@@ -55,7 +55,7 @@ table 51013 "FM Inspection History"
         field(51010; "Asset ID"; Code[20])
         {
             DataClassification = CustomerContent;
-            Caption = 'Linked Asset ID';
+            Caption = 'Asset ID';
         }
 
     }
@@ -63,7 +63,7 @@ table 51013 "FM Inspection History"
     keys
     {
 
-        key(PK; "Service Request ID", "Inspection ID") { Clustered = true; }
+        key(PK; "Service Request ID", "Inspection ID", "Asset ID") { Clustered = true; }
 
 
         key(AssetKey; "Asset ID", "Inspection Date") { }
