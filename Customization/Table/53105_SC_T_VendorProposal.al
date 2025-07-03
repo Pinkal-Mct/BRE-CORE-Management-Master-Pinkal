@@ -192,12 +192,12 @@ table 53105 "Vendor Proposal"
             DataClassification = ToBeClassified;
             Caption = 'Payment Method';
         }
-        field(53132; "UAE Compliance Requirements"; Text[250])
+        field(53132; "UAE Compliance Requirements"; Text[500])
         {
             DataClassification = ToBeClassified;
             Caption = 'UAE Compliance Requirements';
         }
-        field(53133; "Industry Standards"; Text[250])
+        field(53133; "Industry Standards"; Text[500])
         {
             DataClassification = ToBeClassified;
             Caption = 'Industry Standards';
@@ -212,7 +212,7 @@ table 53105 "Vendor Proposal"
             DataClassification = ToBeClassified;
             Caption = 'Dispute Resolution';
         }
-        field(50136; Incoterms; Text[20])
+        field(50136; Incoterms; Text[500])
         {
             DataClassification = ToBeClassified;
             Caption = 'Incoterms';
