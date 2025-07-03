@@ -94,6 +94,12 @@ table 53751 "No. Series Setup"
             Caption = 'Service Request ID';
             TableRelation = "No. Series".Code;
         }
+        // field(53765; "Fixed Asset ID Nos."; Code[20])
+        // {
+        //     DataClassification = ToBeClassified;
+        //     Caption = 'Fixed Asset ID';
+        //     TableRelation = "No. Series".Code;
+        // }
     }
     keys
     {

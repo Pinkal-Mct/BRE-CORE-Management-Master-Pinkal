@@ -73,23 +73,28 @@ page 53751 "No. Series Setup"
                 field("Equipment ID Nos."; Rec."Equipment ID Nos.")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Specifies the OEM Master number series.';
+                    ToolTip = 'Specifies the Equipment Master number series.';
                 }
                 field("Part ID Nos."; Rec."Part ID Nos.")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Specifies the OEM Master number series.';
+                    ToolTip = 'Specifies the Part Master number series.';
                 }
                 field("Sub-Equipment ID Nos."; Rec."Sub-Equipment ID Nos.")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Specifies the OEM Master number series.';
+                    ToolTip = 'Specifies the Sub-Equipmen Master number series.';
                 }
                 field("Service Request ID Nos."; Rec."Service Request ID Nos.")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Specifies the OEM Master number series.';
+                    ToolTip = 'Specifies the Service Request Master number series.';
                 }
+                // field("Fixed Asset ID Nos."; Rec."Fixed Asset ID Nos.")
+                // {
+                //     ApplicationArea = All;
+                //     ToolTip = 'Specifies the Fixed Asset Master number series.';
+                // }
             }
         }
     }

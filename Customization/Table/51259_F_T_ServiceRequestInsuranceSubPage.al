@@ -15,7 +15,7 @@ table 51259 "Service Request Insurance"
         {
             Caption = 'Asset ID';
             DataClassification = ToBeClassified;
-            TableRelation = "Fixed Asset"."Asset ID";
+            TableRelation = "Fixed Asset"."No.";
         }
 
         field(51253; "Name of Insurer"; Text[100])

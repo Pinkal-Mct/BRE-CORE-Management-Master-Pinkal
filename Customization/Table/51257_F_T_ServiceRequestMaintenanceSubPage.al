@@ -15,7 +15,7 @@ table 51257 "FM Work Order Header"
         {
             Caption = 'Asset ID';
             DataClassification = ToBeClassified;
-            TableRelation = "Fixed Asset"."Asset ID";
+            TableRelation = "Fixed Asset"."No.";
         }
 
         field(51253; "Work Order Type"; Enum "FM Work Order Type")
