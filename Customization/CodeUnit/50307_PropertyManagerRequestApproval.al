@@ -51,7 +51,7 @@ codeunit 50307 "Property Manager Approval"
                         '<html><body>' +
                         '<p>Dear Property Manager,</p>' +
                         '<p>This is an automated notification from the system.</p>' +
-                        '<p>A recent update has been made to the tenancy contract with <b>Contract ID: ' + Format(Rec."Contract ID") + '</b>.</p>' +
+                        '<p>A recent update has been made to the tenancy contract with <b>Contract ID -' + Format(Rec."Contract ID") + '</b>.</p>' +
                         '<p>Please review the <b>Approval Contract Status List</b> and take the necessary action as required.</p>' +
                         '<p>To proceed, please log in to the system and review the pending status under the <b>Approval Contract Status List</b> section.</p>' +
                         '<p>This is a system-generated email. Please do not reply to this message.</p>' +
@@ -60,7 +60,7 @@ codeunit 50307 "Property Manager Approval"
 
                 EmailMessage.Create(
                     EmailList,
-                    'System Notification: Action Required - Review Approval Contract Status For Activation - Contract ID ' + Format(Rec."Contract ID"),
+                    'System Notification: Action Required - Review Approval Contract Status For Activation - Contract ID - ' + Format(Rec."Contract ID"),
                     EmailBody,
                     true
                 );

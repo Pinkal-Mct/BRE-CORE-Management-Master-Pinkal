@@ -51,7 +51,7 @@ codeunit 50309 "Contract Renewal Request"
                         '<html><body>' +
                         '<p>Dear Property Manager,</p>' +
                         '<p>This is an automated notification from the system.</p>' +
-                        '<p>A recent update has been made to the Contract Renewal with <b>Renewal Contract ID: ' + Format(Rec.Id) + '</b>.</p>' +
+                        '<p>A recent update has been made to the Contract Renewal with <b>Renewal Contract ID - ' + Format(Rec.Id) + '</b>.</p>' +
                         '<p>Please review the <b>Approval Contract Status List</b> and take the necessary action as required.</p>' +
                         '<p>To proceed, please log in to the system and review the pending status under the <b>Approval Contract Status List</b> section.</p>' +
                         '<p>This is a system-generated email. Please do not reply to this message.</p>' +
@@ -60,7 +60,7 @@ codeunit 50309 "Contract Renewal Request"
 
                 EmailMessage.Create(
                     EmailList,
-                    'System Notification: Action Required - Review Approval Contract Renewal Status For Approval - Contract ID ' + Format(Rec."Contract ID"),
+                    'System Notification: Action Required - Review Approval Contract Renewal Status For Approval - Contract ID - ' + Format(Rec."Contract ID"),
                     EmailBody,
                     true
                 );
