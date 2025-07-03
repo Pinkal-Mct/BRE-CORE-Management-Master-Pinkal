@@ -13,7 +13,8 @@ table 53752 "Vendor Assignment"
         {
             DataClassification = ToBeClassified;
             Caption = 'Project ID';
-            TableRelation = "Construction Project"."Project ID";
+            TableRelation = "Construction Project"."Project ID" where("Approval Status" = CONST(Approved));
+
 
             trigger OnValidate()
             var
@@ -25,6 +26,7 @@ table 53752 "Vendor Assignment"
                     Rec."Project Name" := constructionProject."Project Name";
                     Rec."Project Start Date" := constructionProject."Planned start date";
                     Rec."Project End Date" := constructionProject."Planned end Date";
+                    Rec."Project Location" := constructionProject."Address Line 2";
                 end;
             end;
         }
@@ -32,11 +34,13 @@ table 53752 "Vendor Assignment"
         {
             DataClassification = ToBeClassified;
             Caption = 'Project Name';
+            Editable = false;
         }
         field(53753; "Project Location"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Project Location';
+            Editable = false;
         }
         field(53754; "Project Scope"; Text[100])
         {
@@ -97,7 +101,14 @@ table 53752 "Vendor Assignment"
                     Rec."Vendor/Subcontractor Name" := vendorContract."Vendor Name";
                     // Rec."Vendor Contact" := vendorContract.;
                     Rec."Vendor Email" := vendorContract."Vendor Email";
-                    Rec."Contract Status" := vendorContract."Vendor Approval Status";
+                    Rec."Contract Status" := Format(vendorContract."Vendor Approval Status");
+                    Rec."Total Contract Amount" := vendorContract."Total Contract Value (AED)";
+                    Rec."Warranty Period" := Format(vendorContract."Warranty Period (Months)");
+                    Rec."Payment Method" := Format(vendorContract."Payment Method");
+                    Rec."UAE Regulatory Requirements" := Format("UAE Regulatory Requirements");
+                    Rec."Industry Standards" := Format("Industry Standards");
+                    Rec."Governing Law & Dispute Rsln." := Format("Governing Law & Dispute Rsln.");
+                    Rec.Incoterms := Format(Incoterms);
                 end;
             end;
             //TODO: Add TableRelation (after Vendor Contract table is created)
@@ -113,11 +124,10 @@ table 53752 "Vendor Assignment"
             Caption = 'Contract Type';
             OptionMembers = "Residential","Commercial";
         }
-        field(53763; "Contract Status"; Option)
+        field(53763; "Contract Status"; Text[20])
         {
             DataClassification = ToBeClassified;
             Caption = 'Contract Status';
-            OptionMembers = Draft,Active,Inactive,Approved,Rejected,"Pending Approval",Suspended,;
             Editable = false;
         }
         field(53764; "Contract Template"; Text[100])
@@ -196,7 +206,7 @@ table 53752 "Vendor Assignment"
         {
             DataClassification = ToBeClassified;
         }
-        field(53779; "Work SPecifications"; Text[250])
+        field(53779; "Work Specifications"; Text[250])
         {
             DataClassification = ToBeClassified;
         }
@@ -207,17 +217,17 @@ table 53752 "Vendor Assignment"
         field(53781; Incoterms; Text[100])
         {
             DataClassification = ToBeClassified;
-            TableRelation = Incoterms.Name;
+
         }
         field(53782; "UAE Regulatory Requirements"; Text[100])
         {
             DataClassification = ToBeClassified;
-            TableRelation = "UAE Regulatory Requirements".Name;
+
         }
         field(53783; "Industry Standards"; Text[100])
         {
             DataClassification = ToBeClassified;
-            TableRelation = "Industry Standards".Name;
+
         }
         field(53784; "Warranty Period"; Text[50])
         {
@@ -226,7 +236,7 @@ table 53752 "Vendor Assignment"
         field(53785; "Governing Law & Dispute Rsln."; Text[100])
         {
             DataClassification = ToBeClassified;
-            TableRelation = GoverningLawDisputeResolution.Name;
+
         }
 
         field(53786; "Task ID"; Code[20])
