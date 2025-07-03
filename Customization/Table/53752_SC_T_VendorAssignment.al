@@ -105,10 +105,10 @@ table 53752 "Vendor Assignment"
                     Rec."Total Contract Amount" := vendorContract."Total Contract Value (AED)";
                     Rec."Warranty Period" := Format(vendorContract."Warranty Period (Months)");
                     Rec."Payment Method" := Format(vendorContract."Payment Method");
-                    Rec."UAE Regulatory Requirements" := Format("UAE Regulatory Requirements");
-                    Rec."Industry Standards" := Format("Industry Standards");
-                    Rec."Governing Law & Dispute Rsln." := Format("Governing Law & Dispute Rsln.");
-                    Rec.Incoterms := Format(Incoterms);
+                    Rec."UAE Regulatory Requirements" := Format(vendorContract."UAE Compliance Requirements");
+                    Rec."Industry Standards" := Format(vendorContract."Industry Standards");
+                    Rec."Governing Law & Dispute Rsln." := Format(vendorContract."Dispute Resolution");
+                    Rec.Incoterms := Format(vendorContract.Incoterms);
                 end;
             end;
             //TODO: Add TableRelation (after Vendor Contract table is created)
@@ -117,6 +117,7 @@ table 53752 "Vendor Assignment"
         {
             DataClassification = ToBeClassified;
             Caption = 'Contract Date';
+            Editable = false;
         }
         field(53762; "Contract Type"; Option)
         {
@@ -150,6 +151,7 @@ table 53752 "Vendor Assignment"
         {
             DataClassification = ToBeClassified;
             Caption = 'Total Contract Amount';
+            Editable = false;
         }
         field(53768; "Payment Schedule"; Text[100])
         {
@@ -160,6 +162,7 @@ table 53752 "Vendor Assignment"
         {
             DataClassification = ToBeClassified;
             Caption = 'Payment Method';
+            Editable = false;
         }
         field(53770; "Work Scope"; Text[100])
         {
@@ -217,25 +220,30 @@ table 53752 "Vendor Assignment"
         field(53781; Incoterms; Text[100])
         {
             DataClassification = ToBeClassified;
+            Editable = false;
 
         }
         field(53782; "UAE Regulatory Requirements"; Text[100])
         {
             DataClassification = ToBeClassified;
+            Editable = false;
 
         }
         field(53783; "Industry Standards"; Text[100])
         {
             DataClassification = ToBeClassified;
+            Editable = false;
 
         }
         field(53784; "Warranty Period"; Text[50])
         {
             DataClassification = ToBeClassified;
+            Editable = false;
         }
         field(53785; "Governing Law & Dispute Rsln."; Text[100])
         {
             DataClassification = ToBeClassified;
+            Editable = false;
 
         }
 
