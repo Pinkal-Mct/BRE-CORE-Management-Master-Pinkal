@@ -73,7 +73,7 @@ table 53752 "Vendor Assignment"
         {
             DataClassification = ToBeClassified;
             Caption = 'Contract ID';
-            TableRelation = "Vendor Contract"."Contract ID" where("Project ID" = field("Project ID"));
+            TableRelation = "Vendor Contract"."Contract ID" where("Project ID" = field("Project ID"), "Vendor Approval Status" = CONST(Approved));
 
             trigger OnValidate()
             var
@@ -97,6 +97,7 @@ table 53752 "Vendor Assignment"
                     Rec."Vendor/Subcontractor Name" := vendorContract."Vendor Name";
                     // Rec."Vendor Contact" := vendorContract.;
                     Rec."Vendor Email" := vendorContract."Vendor Email";
+                    Rec."Contract Status" := vendorContract."Vendor Approval Status";
                 end;
             end;
             //TODO: Add TableRelation (after Vendor Contract table is created)
@@ -117,6 +118,7 @@ table 53752 "Vendor Assignment"
             DataClassification = ToBeClassified;
             Caption = 'Contract Status';
             OptionMembers = Draft,Active,Inactive,Approved,Rejected,"Pending Approval",Suspended,;
+            Editable = false;
         }
         field(53764; "Contract Template"; Text[100])
         {
