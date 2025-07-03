@@ -270,6 +270,11 @@ tableextension 50102 ItemExtension extends Item
             DataClassification = ToBeClassified;
             TableRelation = "Vendor Category Master".ID;
         }
+        field(50144; "Item type template"; Enum "Item Type Template Enum")
+        {
+            Caption = 'Item type template';
+            DataClassification = ToBeClassified;
+        }
 
         // field(50126; "Merged Property ID"; Code[20])
         // {

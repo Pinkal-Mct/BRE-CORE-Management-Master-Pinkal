@@ -473,7 +473,7 @@ pageextension 50101 Items extends "Item Card"
     procedure EvaluateFastTabVisibility(): Boolean
     begin
         if Rec."Item Template" = Enum::"Item Template Enum"::Service then begin
-            if (Format(Rec."No.") <> '') and (StrPos(Format(Rec."No."), 'SEUN') = 1) then
+            if Rec."Item type template" = Enum::"Item Type Template Enum"::"Unit Service" then
                 exit(true)
             else
                 exit(false);
@@ -483,7 +483,7 @@ pageextension 50101 Items extends "Item Card"
     procedure EvaluateFastTabVisibilityService(): Boolean
     begin
         if Rec."Item Template" = Enum::"Item Template Enum"::Service then begin
-            if (Format(Rec."No.") <> '') and (StrPos(Format(Rec."No."), 'SEVE') = 1) then
+            if Rec."Item type template" = Enum::"Item Type Template Enum"::"Vendor Service" then
                 exit(true)
             else
                 exit(false);
