@@ -65,6 +65,7 @@ table 51501 "FM Service Request Header"
         field(51514; "Asset ID"; Code[20])
         {
             DataClassification = ToBeClassified;
+            TableRelation = "Fixed Asset"."No.";
         }
         field(51515; "Problem Description"; Text[500])
         {
