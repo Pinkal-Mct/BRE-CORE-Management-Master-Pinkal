@@ -10,23 +10,27 @@ enum 51501 "FM Request Status"
     {
         Caption = 'Open';
     }
-    value(2; "Pending Approval")
+    value(2; "Sending Approval")
+    {
+        Caption = 'Sending Approval';
+    }
+    value(3; "Pending Approval")
     {
         Caption = 'Pending Approval';
     }
-    value(3; Approved)
+    value(4; Approved)
     {
         Caption = 'Approved';
     }
-    value(4; Rejected)
+    value(5; Rejected)
     {
         Caption = 'Rejected';
     }
-    value(5; "Work Order Created")
+    value(6; "Work Order Created")
     {
         Caption = 'Work Order Created';
     }
-    value(6; Closed)
+    value(7; Closed)
     {
         Caption = 'Closed';
     }
