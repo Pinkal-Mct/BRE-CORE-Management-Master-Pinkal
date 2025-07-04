@@ -56,17 +56,25 @@ page 53252 "Vendor Document Upload Grid"
                         end;
                     end;
                 }
-                field("View/Download"; rec."Document URL")
+                field("View & Download"; Rec."View & Download")
                 {
                     ApplicationArea = All;
-                    Caption = 'View/Download';
+                    Caption = 'View & Download';
+                    Editable = false;
                     trigger OnDrillDown()
                     begin
-                        if rec."Document URL" = '' then
-                            Error('No document uploaded.')
+                        // Check if the file URL is not empty
+                        if Rec."Document URL" = '' then
+                            Error('No document is available to view.')
                         else
                             Hyperlink(Rec."Document URL");
                     end;
+                }
+                field("Document URL"; Rec."Document URL")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Document URL';
+                    Editable = false;
                 }
             }
         }
