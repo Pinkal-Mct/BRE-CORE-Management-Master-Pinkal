@@ -327,7 +327,7 @@ permissionset 50100 TablePermission
         table "Vendor Documents" = X,
         table "Vendor Profile Document Grid" = X,
         codeunit "Azure AD Blob Storage" = X,
-        codeunit "Barcode Generator" = X,
+        codeunit "QR-Code Generator" = X,
         codeunit "Contract Renewal Notifier" = X,
         codeunit "Contract Renewal Request" = X,
         codeunit "Contract Renewal Response" = X,

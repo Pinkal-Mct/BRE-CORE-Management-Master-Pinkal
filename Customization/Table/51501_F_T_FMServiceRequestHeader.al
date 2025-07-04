@@ -67,10 +67,23 @@ table 51501 "FM Service Request Header"
         field(51512; "Service Category"; Code[20])
         {
             DataClassification = ToBeClassified;
+            TableRelation = "Service Type Master"."Service Type ID";
+            trigger onValidate()
+            begin
+                Clear("Service Sub-Type");
+            end;
         }
         field(51513; "Service Sub-Type"; Code[20])
         {
             DataClassification = ToBeClassified;
+            TableRelation = "Service Sub-Type Master"."Service Sub-Type ID" where("Service type ID" = field("Service Category"));
+            trigger onValidate()
+            var
+                SubTypeRec: Record "Service Sub-Type Master";
+            begin
+                if not SubTypeRec.Get("Service Category", "Service Sub-Type") then
+                    Error('Selected Sub-Type does not belong to selected Category.');
+            end;
         }
         field(51514; "Asset ID"; Code[20])
         {

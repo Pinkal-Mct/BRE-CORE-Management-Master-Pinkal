@@ -100,6 +100,18 @@ table 53751 "No. Series Setup"
         //     Caption = 'Fixed Asset ID';
         //     TableRelation = "No. Series".Code;
         // }
+        field(53766; "Service Type ID Nos."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Service Type ID';
+            TableRelation = "No. Series".Code;
+        }
+        field(53767; "Service Sub-Type ID Nos."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Service Sub-Type ID';
+            TableRelation = "No. Series".Code;
+        }
     }
     keys
     {

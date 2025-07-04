@@ -106,13 +106,13 @@ tableextension 51501 "Fixed Asset" extends "Fixed Asset"
         {
             DataClassification = ToBeClassified;
         }
-        field(51524; "Barcode ID"; Code[20])
+        field(51524; "QR-Code ID"; Code[20])
         {
             DataClassification = ToBeClassified;
             ExtendedDatatype = Barcode;
 
         }
-        field(51525; "Barcode Generated?"; Boolean)
+        field(51525; "QR-Code Generated?"; Boolean)
         {
             DataClassification = ToBeClassified;
         }
@@ -121,7 +121,7 @@ tableextension 51501 "Fixed Asset" extends "Fixed Asset"
             DataClassification = ToBeClassified;
             OptionMembers = " ","QR Code","Code128";
         }
-        field(51527; "Barcode Image"; Media)
+        field(51527; "QR-Code Image"; Media)
         {
             DataClassification = ToBeClassified;
         }
