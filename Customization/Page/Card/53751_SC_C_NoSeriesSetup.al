@@ -95,6 +95,16 @@ page 53751 "No. Series Setup"
                 //     ApplicationArea = All;
                 //     ToolTip = 'Specifies the Fixed Asset Master number series.';
                 // }
+                field("Service Type ID Nos."; Rec."Service Type ID Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the Service Type Master number series.';
+                }
+                field("Service Sub-Type ID Nos."; Rec."Service Sub-Type ID Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the Service Sub-Type Master number series.';
+                }
             }
         }
     }

@@ -64,7 +64,7 @@ table 51011 "Service Request Line"
             DataClassification = ToBeClassified;
         }
 
-        field(51012; "Barcode ID"; Code[30])
+        field(51012; "QR-Code ID"; Code[30])
         {
             DataClassification = ToBeClassified;
         }
