@@ -185,6 +185,7 @@ tableextension 51501 "Fixed Asset" extends "Fixed Asset"
             trigger OnValidate()
             var
                 SubEquipmentMaster: Record "Sub-Equipment";
+                EquipmentMaster: Record "Equipment Master";
             begin
                 SubEquipmentMaster.SetRange("Sub-Equipment ID", "Sub-Equipment ID");
                 if SubEquipmentMaster.FindFirst() then begin
@@ -195,6 +196,17 @@ tableextension 51501 "Fixed Asset" extends "Fixed Asset"
                     "Sub-Equipment Name" := '';
                     "Equipment Id" := '';
                     "Equipment Name" := '';
+                end;
+
+                EquipmentMaster.SetRange("Equipment ID", "Equipment Id");
+                if EquipmentMaster.FindFirst() then begin
+                    "OEM Id" := EquipmentMaster."OEM ID";
+                    "OEM Name" := EquipmentMaster."OEM Name";
+                    "Equipment Category" := EquipmentMaster."Equipment Category";
+                end else begin
+                    "OEM Id" := '';
+                    "OEM Name" := '';
+                    "Equipment Category" := '';
                 end;
             end;
         }
@@ -220,33 +232,33 @@ tableextension 51501 "Fixed Asset" extends "Fixed Asset"
         {
             Caption = 'OEM Id';
             DataClassification = ToBeClassified;
-            TableRelation = "OEM Master"."OEM ID";
+            TableRelation = "Equipment Master"."OEM ID";
 
-            trigger OnValidate()
-            var
-                OEMMaster: Record "OEM Master";
-            begin
-                OEMMaster.SetRange("OEM ID", "OEM ID");
-                if OEMMaster.FindFirst() then begin
-                    "OEM Name" := OEMMaster."OEM Name";
-                    "Equipment Category" := OEMMaster."Equipment Category";
-                end else begin
-                    "Equipment Category" := '';
-                    "OEM Name" := '';
-                end;
-            end;
+            // trigger OnValidate()
+            // var
+            //     OEMMaster: Record "OEM Master";
+            // begin
+            //     OEMMaster.SetRange("OEM ID", "OEM ID");
+            //     if OEMMaster.FindFirst() then begin
+            //         "OEM Name" := OEMMaster."OEM Name";
+            //         "Equipment Category" := OEMMaster."Equipment Category";
+            //     end else begin
+            //         "Equipment Category" := '';
+            //         "OEM Name" := '';
+            //     end;
+            // end;
         }
         field(51270; "OEM Name"; Text[100])
         {
             Caption = 'OEM Name';
             DataClassification = ToBeClassified;
-            TableRelation = "OEM Master"."OEM Name";
+            TableRelation = "Equipment Master"."OEM Name";
         }
         field(51271; "Equipment Category"; Text[50])
         {
             Caption = 'Equipment Category';
             DataClassification = ToBeClassified;
-            TableRelation = "OEM Master"."Equipment Category";
+            TableRelation = "Equipment Master"."Equipment Category";
         }
 
 
