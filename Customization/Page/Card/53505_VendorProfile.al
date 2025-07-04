@@ -246,6 +246,7 @@ page 53505 VendorProfile
                 {
                     ApplicationArea = All;
                     Caption = 'Emirates ID';
+                    TableRelation = Emirate."Emirate Name";
                     ToolTip = 'Mandatory if vendor agreement is initiated by the company.';
                 }
 

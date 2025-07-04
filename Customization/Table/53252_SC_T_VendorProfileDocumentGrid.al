@@ -42,6 +42,13 @@ table 53252 "Vendor Document Upload"
             InitValue = 'Upload';
         }
 
+        field(52100; "View & Download"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'View & Download';
+            InitValue = 'View & Download';
+        }
+
         field(53106; "Document URL"; Text[250])
         {
             DataClassification = ToBeClassified;

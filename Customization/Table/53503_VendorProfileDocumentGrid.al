@@ -18,12 +18,13 @@ table 53503 "Vendor Profile Document Grid"
         {
             DataClassification = ToBeClassified;
             Caption = 'Upload Document';
+            InitValue = 'Upload Document';
         }
         field(53506; "View & Download"; Text[20])
         {
             DataClassification = ToBeClassified;
             Editable = false;
-
+            InitValue = 'View & Download';
         }
         field(53507; "Document URL"; Text[2048])
         {
