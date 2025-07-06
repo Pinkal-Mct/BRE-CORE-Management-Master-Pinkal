@@ -20,12 +20,11 @@ table 53255 "Vendor Assignment Approval"
             DataClassification = ToBeClassified;
             Caption = 'Status';
         }
-        // field(50103; "Lease ID"; Text[50])
-        // {
-        //     DataClassification = ToBeClassified;
-        //     Caption = 'Project Manager';
-        // }
-
+        field(50103; "Created By"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Created By';
+        }
         field(50104; "Vendor Assignment ID"; Code[20])
         {
             DataClassification = ToBeClassified;

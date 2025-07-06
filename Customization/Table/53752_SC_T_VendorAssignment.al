@@ -301,6 +301,12 @@ table 53752 "Vendor Assignment"
             Caption = 'Remark';
 
         }
+
+        field(53795; "Created By"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Created By';
+        }
     }
 
     keys
@@ -320,5 +326,6 @@ table 53752 "Vendor Assignment"
             Rec."Assignment ID" := noseries.GetNextNo(noSeriesSetup."Vendor Assignment Nos.");
         end else
             Error('No. Series Setup not found for Vendor Assignment Nos.');
+        rec."Created By" := UserId();
     end;
 }

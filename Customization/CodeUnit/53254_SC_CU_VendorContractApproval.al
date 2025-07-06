@@ -16,6 +16,7 @@ codeunit 53254 "Approval Vendor Contract"
         ApprovalStatusList.Init();
         ApprovalStatusList."Vendor Contract ID" := VendorContractRec."Contract ID";
         ApprovalStatusList."Vendor ID" := VendorContractRec."Vendor ID";
+        ApprovalStatusList."Created By" := VendorContractRec."Created By";
 
         ApprovalStatusList.Status := 'Pending';
         ApprovalStatusList.Insert();

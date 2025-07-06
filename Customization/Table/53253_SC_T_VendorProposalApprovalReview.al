@@ -20,11 +20,11 @@ table 53253 "Vendor Proposal Approval"
             DataClassification = ToBeClassified;
             Caption = 'Status';
         }
-        // field(50103; "Lease ID"; Text[50])
-        // {
-        //     DataClassification = ToBeClassified;
-        //     Caption = 'Lease Manager';
-        // }
+        field(50103; "Created By"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Created By';
+        }
 
         field(50104; "Vendor Proposal ID"; Code[20])
         {
