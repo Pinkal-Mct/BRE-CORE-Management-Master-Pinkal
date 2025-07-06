@@ -16,6 +16,7 @@ codeunit 53251 "Approval Vendor Proposal"
         ApprovalStatusList.Init();
         ApprovalStatusList."Vendor Proposal ID" := VendorProposalRec."Proposal ID";
         ApprovalStatusList."Vendor ID" := VendorProposalRec."Vendor ID";
+        ApprovalStatusList."Created By" := VendorProposalRec."Created By";
 
         ApprovalStatusList.Status := 'Pending';
         ApprovalStatusList.Insert();

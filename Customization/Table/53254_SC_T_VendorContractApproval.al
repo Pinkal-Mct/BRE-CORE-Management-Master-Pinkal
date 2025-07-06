@@ -20,11 +20,11 @@ table 53254 "Vendor Contract Approval"
             DataClassification = ToBeClassified;
             Caption = 'Status';
         }
-        // field(50103; "Lease ID"; Text[50])
-        // {
-        //     DataClassification = ToBeClassified;
-        //     Caption = 'Lease Manager';
-        // }
+        field(50103; "Created By"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Created By';
+        }
 
         field(50104; "Vendor Contract ID"; Code[20])
         {

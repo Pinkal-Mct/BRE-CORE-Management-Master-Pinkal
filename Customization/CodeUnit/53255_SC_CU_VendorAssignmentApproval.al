@@ -19,6 +19,7 @@ codeunit 53255 "Vendor Assignment Approval"
         ApprovalStatusList."Vendor Assignment ID" := VendorProposalRec."Assignment ID";
         ApprovalStatusList."Vendor ID" := VendorProposalRec."Vendor/Subcontractor ID";
         ApprovalStatusList."Contract ID" := VendorProposalRec."Contract ID";
+        ApprovalStatusList."Created By" := VendorProposalRec."Created By";
         ApprovalStatusList.Status := 'Pending';
         ApprovalStatusList.Insert();
 
