@@ -51,7 +51,7 @@ codeunit 53255 "Vendor Assignment Approval"
                 '<html><body>' +
                 '<p>Dear PROJECT MANAGER,</p>' +
                 '<p>This is an automated notification from the system.</p>' +
-                '<p>A New Vendor Assignment has been submitted for <b>Vendor Assignment ID: ' + Format(VendorProposalRec."Assignment ID") + '</b>.</p>' +
+                '<p>A New Vendor Assignment has been submitted for <b>Vendor Assignment ID - ' + Format(VendorProposalRec."Assignment ID") + '</b>.</p>' +
                 '<p>Please review the <b>Vendor Assignment Approval List</b> and take the necessary action.</p>' +
                 '<p>This is a system-generated email. Please do not reply.</p>' +
                 '<p>Thank you,</p>' +
