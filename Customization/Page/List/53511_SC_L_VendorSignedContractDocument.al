@@ -38,6 +38,7 @@ page 53511 "Vendor Signed ContractDocument"
                         if vendorContract.FindFirst() then begin
                             Rec."Project ID" := vendorContract."Project ID";
                             Rec."Project Name" := vendorContract."Project Name";
+                            Rec."Service Provided" := vendorContract."Service Type";
                             // Rec.Milestone := vendorContract."Milestone ID";
                             // Rec."Task ID" := vendorContract."Task ID";
 
@@ -73,6 +74,7 @@ page 53511 "Vendor Signed ContractDocument"
                 {
                     ApplicationArea = All;
                     Caption = 'Service Provided';
+                    Editable = false;
                 }
                 field("Signed Upload Document"; Rec."Signed Upload Document")
                 {

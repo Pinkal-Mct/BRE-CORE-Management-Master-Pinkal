@@ -24,10 +24,11 @@ table 53251 "Pricing Breakdown"
             Caption = 'Quantity';
         }
 
-        field(53103; "Unit"; Text[20])
+        field(53103; "Unit"; Code[10])
         {
             DataClassification = ToBeClassified;
             Caption = 'Unit';
+            TableRelation = "Unit of Measure".Code;
         }
         field(53104; "Price Per Unit"; Decimal)
         {

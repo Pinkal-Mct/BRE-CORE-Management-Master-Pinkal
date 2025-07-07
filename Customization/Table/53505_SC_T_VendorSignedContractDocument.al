@@ -40,7 +40,7 @@ table 53505 "VendorSignedContractDocument"
             Caption = 'Milestone';
             InitValue = 'Click here';
         }
-        field(53525; "Service Provided"; Text[200])
+        field(53525; "Service Provided"; Text[2000])
         {
             DataClassification = ToBeClassified;
             Caption = 'Service Provided';
