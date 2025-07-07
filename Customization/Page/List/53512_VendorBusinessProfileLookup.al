@@ -1,23 +1,19 @@
-page 53509 "Vendor Business Profile SM"
+page 53512 "Vendor Business Profile Lookup"
 {
-    PageType = ListPart;
+    PageType = List;
     SourceTable = "Vendor Business Profile";
-    Caption = 'Vendor Business Profile';
+    Caption = 'Vendor Business Profile Lookup';
     //  UsageCategory = Lists;
-    InsertAllowed = true;
-    // ModifyAllowed = true;
+    InsertAllowed = false;
+    ModifyAllowed = false;
+    DeleteAllowed = false;
+
     layout
     {
         area(Content)
         {
             repeater(Group)
             {
-                field("Entry No."; Rec."Entry No.")
-                {
-                    ApplicationArea = All;
-                    Caption = 'Entry No.';
-                    Visible = false;
-                }
                 field("Profile ID"; Rec."Profile ID")
                 {
                     ApplicationArea = All;
@@ -67,19 +63,25 @@ page 53509 "Vendor Business Profile SM"
             }
         }
     }
-    trigger OnInsertRecord(BelowxRec: Boolean): Boolean
-    begin
-        Rec."Profile ID" := profileid;
-    end;
-
+    procedure GetLookUpValues(pVendorBusinessprofilelist: Page "Vendor Business Profile Lookup"; pvendorbusinessprofile: Record "Vendor Business Profile"): Text
     var
-        profileid: Code[20];
-
-    procedure SetProfileID(pProfileID: Code[20])
+        isFirst: Boolean;
+        lookUpValues: Text;
+        Vendorproposal: Record "Vendor Proposal";
     begin
-        profileid := pProfileID;
+
+
+        pvendorbusinessprofilelist.SetSelectionFilter(pvendorbusinessprofile);
+        if pvendorbusinessprofile.FindSet() then begin
+            isFirst := true;
+            repeat
+                if isFirst then begin
+                    lookUpValues := pvendorbusinessprofile."Service Type";
+                    isFirst := false;
+                end else
+                    lookUpValues += ', ' + pvendorbusinessprofile."Service Type";
+            until pvendorbusinessprofile.Next() = 0;
+        end;
+        exit(lookUpValues);
     end;
-
-
-
 }

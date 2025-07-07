@@ -215,6 +215,11 @@ table 53106 "Vendor Contract"
             DataClassification = ToBeClassified;
             Caption = 'Incoterms';
         }
+        field(50137; "Service Type"; Text[1000])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Service Type';
+        }
         // field(53128; "Task ID"; Code[20])
         // {
         //     DataClassification = ToBeClassified;

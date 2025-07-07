@@ -303,13 +303,18 @@ page 53505 VendorProfile
                 Visible = true;
                 SubPageLink = "Profile ID" = field("Profile ID");
             }
-            part(VendorBusinessProfileSM; "Vendor Business Profile SM")
+            group("Vendor Business Profile")
             {
-                ApplicationArea = All;
                 Caption = 'Vendor Business Profile';
-                Visible = not isFacilityVendor;
-                SubPageLink = "Profile ID" = field("Profile ID");
+                part(VendorBusinessProfileSM; "Vendor Business Profile SM")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Vendor Business Profile';
+                    Visible = not isFacilityVendor;
+                    SubPageLink = "Profile ID" = field("Profile ID");
+                }
             }
+
             part(VendorBusinessProfileFM; "Vendor Business Profile FM")
             {
                 ApplicationArea = All;

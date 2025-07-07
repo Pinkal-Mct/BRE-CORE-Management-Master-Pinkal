@@ -217,6 +217,11 @@ table 53105 "Vendor Proposal"
             DataClassification = ToBeClassified;
             Caption = 'Incoterms';
         }
+        field(50137; "Service Type"; Text[1000])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Service Type';
+        }
 
     }
 
