@@ -291,4 +291,54 @@ table 53100 "Construction Project"
         end;
     end;
     // Recalculate Progress //
+
+    trigger OnDelete()
+    var
+    begin
+        DeleteProjectDocuments();
+        DeleteMilestone();
+        DeleteTasks();
+        DeleteSUbtasks();
+    end;
+
+    procedure DeleteProjectDocuments()
+    var
+        Vendorprofiledocumentgrid: Record "Construction Project Documents";
+    begin
+        Vendorprofiledocumentgrid.SetRange("Project ID", Rec."Project ID");
+        if Vendorprofiledocumentgrid.FindSet() then begin
+            Vendorprofiledocumentgrid.DeleteAll();
+        end
+    end;
+
+    procedure DeleteMilestone()
+    var
+        MilestoneRec: Record "Project Milestone";
+    begin
+        MilestoneRec.SetRange("Project ID", Rec."Project ID");
+        if MilestoneRec.FindSet() then begin
+            MilestoneRec.DeleteAll();
+        end
+    end;
+
+    procedure DeleteTasks()
+    var
+        ProjectTasks: Record "Project Milestone Task";
+    begin
+        ProjectTasks.SetRange("Project ID", Rec."Project ID");
+        if ProjectTasks.FindSet() then begin
+            ProjectTasks.DeleteAll();
+        end
+    end;
+
+    procedure DeleteSUbtasks()
+    var
+        Projectsubtasks: Record "Construction Project Documents";
+    begin
+        Projectsubtasks.SetRange("Project ID", Rec."Project ID");
+        if Projectsubtasks.FindSet() then begin
+            Projectsubtasks.DeleteAll();
+        end
+    end;
+
 }

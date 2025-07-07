@@ -604,6 +604,7 @@ table 52001 "Facility Vendor Profiles"
     begin
         DeleteVendorprofiledocumentgrid();
         DeleteVendorbusinessprofilegrid();
+        DeleteVendorSignedContractDocument();
     end;
 
     procedure DeleteVendorprofiledocumentgrid()
@@ -624,6 +625,17 @@ table 52001 "Facility Vendor Profiles"
         if vendorbusinessprofilegrid.FindSet() then begin
             vendorbusinessprofilegrid.DeleteAll();
         end
+    end;
+
+    procedure DeleteVendorSignedContractDocument()
+    var
+        VendorSignedDocument: Record VendorSignedContractDocument;
+    begin
+        VendorSignedDocument.SetRange("Vendor Profile ID", Rec."Profile ID");
+        if VendorSignedDocument.FindSet() then begin
+            VendorSignedDocument.DeleteAll();
+        end;
+
     end;
 
 

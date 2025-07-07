@@ -328,4 +328,6 @@ table 53752 "Vendor Assignment"
             Error('No. Series Setup not found for Vendor Assignment Nos.');
         rec."Created By" := UserId();
     end;
+
+
 }

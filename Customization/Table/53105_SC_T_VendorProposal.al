@@ -13,7 +13,7 @@ table 53105 "Vendor Proposal"
         }
         field(53101; "Project ID"; code[20])
         {
-            TableRelation = "Construction Project"."Project ID";
+            TableRelation = "Construction Project"."Project ID" where("Approval Status" = CONST(Approved));
             DataClassification = ToBeClassified;
             Caption = 'Project ID';
         }
@@ -245,6 +245,22 @@ table 53105 "Vendor Proposal"
             Error('No. Series Setup not found for Vendor Proposal Nos.');
         Rec."Created By" := UserId();
         Rec."Created DateTime" := Today;
+    end;
+
+    trigger OnDelete()
+    var
+    begin
+        DeletePricingBreakdowngrid();
+    end;
+
+    procedure DeletePricingBreakdowngrid()
+    var
+        Vendorprofiledocumentgrid: Record "Pricing Breakdown";
+    begin
+        Vendorprofiledocumentgrid.SetRange("Vendor Proposal ID", Rec."Proposal ID");
+        if Vendorprofiledocumentgrid.FindSet() then begin
+            Vendorprofiledocumentgrid.DeleteAll();
+        end
     end;
 
 
