@@ -115,6 +115,8 @@ table 53756 "Project Milestone"
             Rec.Status := "Status"::"InProgress"
         else
             Rec.Status := "Status"::Completed;
+
+        updateRelatedTasks(Rec."Milestone ID");
     end;
 
     procedure RecalculateProgress()
@@ -141,6 +143,28 @@ table 53756 "Project Milestone"
             if project.Get("Project ID") then begin
                 project.RecalculateProgress();
             end;
+        end;
+    end;
+
+    procedure updateRelatedTasks(MilestoneID: Code[20])
+    var
+        projectMilestoneTask: Record "Project Milestone Task";
+    begin
+        projectMilestoneTask.Reset();
+        projectMilestoneTask.SetRange("Milestone ID", MilestoneID);
+        if projectMilestoneTask.FindSet() then begin
+            repeat
+                projectMilestoneTask."Project ID" := Rec."Project ID";
+                projectMilestoneTask."Milestone Name" := Rec."Milestone Name";
+                projectMilestoneTask."Milestone Status" := Rec.Status;
+                projectMilestoneTask."Milestone Description" := Rec.Description;
+                projectMilestoneTask."Milestone End Date" := Rec."End Date";
+                projectMilestoneTask."Milestone Notes" := Rec.Notes;
+                projectMilestoneTask."Milestone Start Date" := Rec."Start Date";
+                projectMilestoneTask."Milestone Progress" := Rec.Progress;
+                projectMilestoneTask."Milestone Weight" := Rec.Weight;
+                projectMilestoneTask.Modify(true);
+            until projectMilestoneTask.Next() = 0;
         end;
     end;
 }
