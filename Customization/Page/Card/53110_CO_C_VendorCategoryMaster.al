@@ -57,21 +57,24 @@ page 53110 "VendorCategoryMaster"
     trigger OnOpenPage()
     var
         InstalledApp: Record "NAV App Installed App";
+    // AppNames: Text;
     begin
-
         if InstalledApp.FindSet() then
             repeat
                 if InstalledApp.Name = 'Property-RealEstate' then begin
                     ShowPropertyField := true;
-                end else if InstalledApp.Name = 'Sales-RealEstate' then begin
+                end;
+                if InstalledApp.Name = 'Sales-RealEstate' then begin
                     ShowSalesField := true;
-                end else if InstalledApp.Name = 'Facility-RealEstate' then begin
+                end;
+                if InstalledApp.Name = 'Facility-RealEstate' then begin
                     ShowFacilityField := true;
-                end else if InstalledApp.Name = 'Legal-RealEstate' then begin
+                end;
+                if InstalledApp.Name = 'Legal-RealEstate' then begin
                     ShowLegalField := true;
                 end;
             until InstalledApp.Next() = 0;
+        // Message('Installed Apps: %1', AppNames);
     end;
     // Triggers to control visibility of fields based on installed apps
-
 }
