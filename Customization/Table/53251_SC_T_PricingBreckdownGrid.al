@@ -60,7 +60,7 @@ table 53251 "Pricing Breakdown"
 
     keys
     {
-        key(PK; "Entry No.", "Vendor Proposal ID")
+        key(PK; "Entry No.", "Vendor Proposal ID", "Vendor Contract ID")
         {
             Clustered = true;
         }

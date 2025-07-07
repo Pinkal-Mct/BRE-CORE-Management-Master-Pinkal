@@ -303,4 +303,20 @@ table 53106 "Vendor Contract"
                 pricingBreakDown.ModifyAll("Vendor Contract ID", pContractID);
             until pricingBreakDown.Next() = 0;
     end;
+
+    trigger OnDelete()
+    var
+    begin
+        DeletePricingBreakdowngrid();
+    end;
+
+    procedure DeletePricingBreakdowngrid()
+    var
+        Vendorprofiledocumentgrid: Record "Pricing Breakdown";
+    begin
+        Vendorprofiledocumentgrid.SetRange("Vendor Contract ID", Rec."Contract ID");
+        if Vendorprofiledocumentgrid.FindSet() then begin
+            Vendorprofiledocumentgrid.DeleteAll();
+        end
+    end;
 }
