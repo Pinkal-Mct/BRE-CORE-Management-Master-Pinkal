@@ -5,7 +5,6 @@ table 53251 "Pricing Breakdown"
     fields
     {
 
-
         field(53100; "Entry No."; Integer)
         {
             DataClassification = ToBeClassified;
@@ -60,7 +59,7 @@ table 53251 "Pricing Breakdown"
 
     keys
     {
-        key(PK; "Entry No.", "Vendor Proposal ID", "Vendor Contract ID")
+        key(PK; "Entry No.", "Vendor Proposal ID")
         {
             Clustered = true;
         }
