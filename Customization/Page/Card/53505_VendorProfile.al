@@ -29,11 +29,14 @@ page 53505 VendorProfile
                             Rec."Email Address" := vendorrecord."E-Mail";
                             Rec.Address := vendorrecord.Address;
                             Rec."Landline Number" := vendorrecord."Phone No.";
+                            Rec.City := vendorrecord.City;
+                            Rec."Landline Number" := vendorrecord."Phone No.";
                         end else begin
                             Rec."Vendor Name" := '';
                             Rec.Address := '';
                             Rec."Landline Number" := '';
                             Rec."Email Address" := '';
+                            Rec.City := '';
                         end;
                     end;
                 }
