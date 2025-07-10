@@ -12,10 +12,12 @@ pageextension 50101 Items extends "Item Card"
         {
             Visible = isVenderService;
         }
-        modify(Description)
-        {
-            Visible = isVenderService;
-        }
+
+        // modify(Description)
+        // {
+        //     //  Visible = isVenderService or Unitcharges;
+        //     Visible = Unitcharges;
+        // }
         modify("Automatic Ext. Texts")
         {
             Visible = false;
@@ -73,19 +75,31 @@ pageextension 50101 Items extends "Item Card"
         {
             Visible = false;
         }
-        modify("Gen. Prod. Posting Group")
+        // modify("Gen. Prod. Posting Group")
+        // {
+        //     ShowMandatory = false;
+        //     // Editable = hideshowfields;
+        //     Visible = hideshowfields and isVenderService;
+
+        // }
+        addafter(Description)
         {
-            ShowMandatory = false;
-            Editable = hideshowfields;
-            Visible = hideshowfields and isVenderService;
+            group("Posting setup")
+            {
+                ShowCaption = false;
+                Visible = hideshowfields and isVenderService or Unitcharges;
+
+            }
 
         }
-        modify("VAT Prod. Posting Group")
-        {
-            ShowMandatory = false;
-            Editable = hideshowfields;
-            Visible = hideshowfields and isVenderService;
-        }
+        movefirst("Posting setup"; "Gen. Prod. Posting Group", "VAT Prod. Posting Group")
+
+        // modify("VAT Prod. Posting Group")
+        // {
+        //     ShowMandatory = false;
+        //     //  Editable = hideshowfields;
+        //     Visible = hideshowfields and isVenderService or Unitcharges;
+        // }
         modify("Service Item Group")
         {
             Editable = editablefalsefieldNonInventoryType;
@@ -95,6 +109,21 @@ pageextension 50101 Items extends "Item Card"
         {
             caption = 'Unit';
         }
+        addafter(Type)
+        {
+            group("Unit Charges Description")
+            {
+                ShowCaption = false;
+                Visible = Unitcharges or isVenderService;
+                // field("Charges Description"; Rec.Description)
+                // {
+                //     ApplicationArea = All;
+                //     Caption = 'Description';
+
+                // }
+            }
+        }
+        movefirst("Unit Charges Description"; Description)
 
         addafter("Base Unit of Measure")
         {
@@ -490,6 +519,15 @@ pageextension 50101 Items extends "Item Card"
         end;
     end;
 
+    procedure UnitChargesFieldsVisiblity(): Boolean
+    begin
+        if Rec."Item Template" = Enum::"Item Template Enum"::Service then begin
+            if Rec."Item type template" = Enum::"Item Type Template Enum"::"Unit Charges" then
+                exit(true)
+            else
+                exit(false);
+        end;
+    end;
 
 
     trigger OnModifyRecord(): Boolean
@@ -500,6 +538,7 @@ pageextension 50101 Items extends "Item Card"
         editablefalsefieldNonInventoryType := editablefalseNonInventory();
         isUnitService := EvaluateFastTabVisibility();
         isVenderService := EvaluateFastTabVisibilityService();
+        Unitcharges := UnitChargesFieldsVisiblity();
     end;
 
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean
@@ -529,6 +568,7 @@ pageextension 50101 Items extends "Item Card"
         editablefalsefieldNonInventoryType := editablefalseNonInventory();
         isUnitService := EvaluateFastTabVisibility();
         isVenderService := EvaluateFastTabVisibilityService();
+        Unitcharges := UnitChargesFieldsVisiblity();
 
     end;
 
@@ -584,6 +624,8 @@ pageextension 50101 Items extends "Item Card"
 
         hideshowfields: Boolean;
         editablefalsefieldNonInventoryType: Boolean;
+
+        Unitcharges: Boolean;
 
     local procedure IsUserInProfile(ProfileID: Code[20]): Boolean
     var

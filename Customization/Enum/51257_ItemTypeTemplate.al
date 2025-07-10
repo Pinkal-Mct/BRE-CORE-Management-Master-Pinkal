@@ -23,5 +23,9 @@ enum 51257 "Item Type Template Enum"
     {
         Caption = 'Vendor Service';
     }
+    value(5; "Unit Charges")
+    {
+        Caption = 'Unit Charges';
+    }
 
 }
