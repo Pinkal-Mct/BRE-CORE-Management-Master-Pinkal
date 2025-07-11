@@ -169,6 +169,24 @@ table 50110 "Revenue Allocation SubGrid"
             Caption = 'Grace End Date';
             Editable = false;
         }
+        field(50127; "Per Month Rent"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Per Month Rent';
+            Editable = false;
+        }
+        field(50128; "Single Unit Names"; Text[500])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Single Unit Name';
+            Editable = false;
+        }
+        field(50129; "Description"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Description';
+            Editable = false;
+        }
 
     }
 
