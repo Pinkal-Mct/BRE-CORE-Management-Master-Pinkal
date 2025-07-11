@@ -6,6 +6,7 @@ codeunit 50303 "SendTenantMail"
         EmailMessage: Codeunit "Email Message";
         CompanyInfo: Record "Company Information";
         RemainingDays: Integer;
+        TenancyRec: Record "Tenancy Contract"; // Add this to update the Renewal Contract Status
     begin
 
         RemainingDays := Rec."End Date" - Today;
@@ -32,9 +33,15 @@ codeunit 50303 "SendTenantMail"
                 );
 
                 // Send the email
-                if Email.Send(EmailMessage) then
-                    Message('Email sent successfully for Contract Renewal Confirmation: %1', Rec."Tenant Email")
-                else
+                if Email.Send(EmailMessage) then begin
+                    Message('Email sent successfully for Contract Renewal Confirmation: %1', Rec."Tenant Email");
+
+                    // ✅ Update the Renewal Contract Status in Tenancy Contract table
+                    if TenancyRec.Get(Rec."Contract ID") then begin
+                        TenancyRec."Renewal Contract Status" := TenancyRec."Renewal Contract Status"::"Notify Tenant For Renewal";
+                        TenancyRec.Modify();
+                    end;
+                end else
                     Error('Failed to send email. Please verify SMTP settings and email addresses.');
             end;
         end;
