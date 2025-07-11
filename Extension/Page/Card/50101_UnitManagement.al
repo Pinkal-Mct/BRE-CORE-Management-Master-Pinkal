@@ -331,7 +331,7 @@ pageextension 50101 Items extends "Item Card"
                 ApplicationArea = All;
                 // Visible = isVisible;
                 Editable = editablefalsefieldNonInventoryType;
-                Visible = ShowFinancialFields and isUnitService;
+                Visible = ShowFinancialFields and isUnitService and isVisible;
             }
         }
         addafter("Item Category Code")

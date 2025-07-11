@@ -58,6 +58,11 @@ table 50701 "testData"
             Caption = 'API URL';
             Editable = true;
         }
+        field(50113; "Revenue Methods"; Option)
+        {
+            OptionMembers = " ","Fixed Monthly Rent","Per Day Rent";
+            Caption = 'Revenue Methods';
+        }
     }
 
     keys
