@@ -82,6 +82,11 @@ page 50701 "Company Data"
                     Caption = 'API URL';
                     ToolTip = 'This is the API URL of portal';
                 }
+                field("Revenue Methods"; Rec."Revenue Methods")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Revenue Methods';
+                }
             }
 
             group("WorkflowFrequency")
