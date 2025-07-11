@@ -47,6 +47,9 @@ codeunit 50305 "Tenant Loyalty Reminder"
                             ContractEndApproval."Start Date" := TenantContract."Contract Start Date";
                             ContractEndApproval."End Date" := TenantContract."Contract End Date";
                             ContractEndApproval."Tenant Email" := TenantContract."Email Address";
+                            ContractEndApproval."Renewal Notification to Tenant" := TenantContract."Renewal Notification to Tenant";
+                            // ContractEndApproval.Value := 'True';
+
                             ContractEndApproval.Insert();
                             Clear(ContractEndApproval);
 

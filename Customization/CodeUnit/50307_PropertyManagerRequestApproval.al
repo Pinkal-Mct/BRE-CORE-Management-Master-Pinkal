@@ -167,7 +167,7 @@ codeunit 50307 "Property Manager Approval"
 
             EmailMessage.Create(
                 EmailList,
-                'System Notification: Action Required - Review Approval Contract Status For Activation - Contract ID ' + Format(Rec."Contract ID"),
+                'System Notification: Action Required - Review Approval Contract Status - Contract ID ' + Format(Rec."Contract ID"),
                 EmailBody,
                 true
             );

@@ -90,7 +90,7 @@ page 50504 "Unit Document SubPage"
                         uploadResult: Text;
                         folderName: Text;
                     begin
-                        folderName := 'TenantDocuments';
+                        folderName := 'UnitDocuments';
                         fileName := azureBlobUploader.ValidateDocument(uploadResult, folderName);
                         if fileName <> '' then begin
                             Rec."Upload Document" := fileName;

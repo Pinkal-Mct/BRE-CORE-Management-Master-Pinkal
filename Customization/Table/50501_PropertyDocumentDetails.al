@@ -21,7 +21,7 @@ table 50501 "Property Document Details"
             Caption = 'Document Name';
         }
 
-        field(50103; "Upload Document"; Text[50])
+        field(50103; "Upload Document"; Text[250])
         {
             DataClassification = ToBeClassified;
             Caption = 'Upload Document';
@@ -34,7 +34,7 @@ table 50501 "Property Document Details"
             Caption = 'Entry No';
         }
 
-        field(50105; "View & Download"; Text[20])
+        field(50105; "View & Download"; Text[220])
         {
             DataClassification = ToBeClassified;
 

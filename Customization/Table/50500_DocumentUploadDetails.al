@@ -22,7 +22,7 @@ table 50500 "DocumentUploadDetails"
             Caption = 'Document Name';
         }
 
-        field(50103; "Upload Document"; Text[50])
+        field(50103; "Upload Document"; Text[250])
         {
             DataClassification = ToBeClassified;
             Caption = 'Upload Document';
