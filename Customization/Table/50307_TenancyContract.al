@@ -104,6 +104,7 @@ table 50307 "Tenancy Contract"
 
                 LineNoCounter: Integer;
             begin
+
                 // Check for existing Proposal ID
                 TenantContractRec.Reset();
                 TenantContractRec.SetRange("Proposal ID", "Proposal ID");
@@ -166,6 +167,8 @@ table 50307 "Tenancy Contract"
                     rentdatafetch();
                     brokerdata();
                 end else begin
+
+
                     // Clear fields if no record is found
                     "Tenant ID" := '';
                     "Customer Name" := '';
@@ -584,8 +587,8 @@ table 50307 "Tenancy Contract"
             begin
                 TenancyContractSubpage();
                 TenancyContractSubpage2();
-                rentdatafetch();
-                rentdatafetched();
+                // rentdatafetch();
+                // rentdatafetched();
             end;
         }
 
@@ -1009,6 +1012,11 @@ table 50307 "Tenancy Contract"
             DataClassification = ToBeClassified;
             Caption = 'Contract Type';
             OptionMembers = " ","New Contract","Renewal Contract";
+
+            trigger OnValidate()
+            begin
+                rec.Insert();
+            end;
         }
 
 
@@ -1736,14 +1744,19 @@ table 50307 "Tenancy Contract"
 
     keys
     {
-        key(PK; "Proposal ID", "Contract ID", "Renewal Proposal ID")
+        key(PK; "Contract ID")
         {
-            Clustered = true;
+            Clustered = false;
         }
 
         key(PK1; SystemId)
         {
             Clustered = false;
+        }
+
+        key(PK2; "Proposal ID", "Renewal Proposal ID")
+        {
+            Clustered = true;
         }
 
     }
@@ -2608,6 +2621,8 @@ table 50307 "Tenancy Contract"
     begin
         // Set the Created By field to the login user ID
         "Created By" := UserId;
+        // rentdatafetch();
+        // rentdatafetched();
     end;
 
 
