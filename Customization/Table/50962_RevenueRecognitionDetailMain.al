@@ -185,6 +185,13 @@ table 50962 "Revenue Recognition Details"
             Caption = 'Item Type';
             Editable = false;
         }
+
+        field(50131; "Description"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Description';
+            Editable = false;
+        }
     }
 
     keys
