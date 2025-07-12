@@ -597,6 +597,19 @@ table 50925 "Payment Mode2"
 
         }
 
+        field(50935; "Credit Note Amount"; Decimal)
+        {
+            //OptionMembers = "0%","5%";
+            DataClassification = ToBeClassified;
+            Caption = 'Credit Note Amount';
+        }
+        field(50936; "Final Rent Amount"; Decimal)
+        {
+            //OptionMembers = "0%","5%";
+            DataClassification = ToBeClassified;
+            Caption = 'Final Rent Amount';
+        }
+
 
     }
 

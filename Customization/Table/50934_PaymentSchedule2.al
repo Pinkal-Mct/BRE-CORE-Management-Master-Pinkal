@@ -214,6 +214,24 @@ table 50934 "Payment Schedule2"
             DataClassification = ToBeClassified;
             Caption = 'VAT%';
         }
+        field(50929; "Credit Note No."; Code[100])
+        {
+            //OptionMembers = "0%","5%";
+            DataClassification = ToBeClassified;
+            Caption = 'Credit Note No.';
+        }
+        field(50930; "Credit Note Amount"; Decimal)
+        {
+            //OptionMembers = "0%","5%";
+            DataClassification = ToBeClassified;
+            Caption = 'Credit Note Amount';
+        }
+        field(50931; "Final Rent Amount"; Decimal)
+        {
+            //OptionMembers = "0%","5%";
+            DataClassification = ToBeClassified;
+            Caption = 'Final Rent Amount';
+        }
 
     }
 

@@ -188,6 +188,13 @@ table 50110 "Revenue Allocation SubGrid"
             Editable = false;
         }
 
+        field(50130; "Unit Type"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Unit Type';
+            Editable = false;
+        }
+
     }
 
     keys
