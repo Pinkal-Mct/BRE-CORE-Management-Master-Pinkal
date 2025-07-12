@@ -12,7 +12,7 @@ codeunit 50514 "Cash Receipt Journal Entry"
         GenJournalLineRec: Record "Gen. Journal Line";
         // GenJournalBatchRec: Record "Gen. Journal Batch";
         GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line";
-        COACode: Record "COA Setup";
+        COACode: Record "COA Setup Line";
         BankAccountRec: Record "Bank Account";
         LineNumber: Integer;
         ContractRec: Record "Tenancy Contract";
@@ -132,7 +132,7 @@ codeunit 50514 "Cash Receipt Journal Entry"
         GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line";
         BankAccountRec: Record "Bank Account";
         LineNo: Integer;
-        COACode: Record "COA Setup";
+        COACode: Record "COA Setup Line";
         CustRec: Record Customer;
         ContractRec: Record "Tenancy Contract";
         TenantReceivableGL: Code[20];
