@@ -111,7 +111,7 @@ codeunit 50515 "Create Sales Credit Memo"
         saleline: Record "Sales Line";
         newSaleslines: Record "Sales Line";
         item: Record Item;
-        COASetup: Record "COA Setup";
+        COASetup: Record "COA Setup Line";
         CreditNoteRec: Record "Credit Note";
         BillingCalculationCNRec: Record "Billing Calculation CN";
         GenPostingSetup: Record "General Posting Setup";
