@@ -130,6 +130,18 @@ page 50709 paymentSchedule2
                 {
                     Caption = 'No of Days';
                 }
+                field("CreditNoteNo"; Rec."Credit Note No.")
+                {
+                    Caption = 'Credit Note No.';
+                }
+                field("CreditNoteAmount"; Rec."Credit Note Amount")
+                {
+                    Caption = 'Credit Note Amount';
+                }
+                field("FinalRentAmount"; Rec."Final Rent Amount")
+                {
+                    Caption = 'Final Rent Amount';
+                }
                 // field("TotalAmountIncludingVAT"; Rec."Total Amount Including VAT")
                 // {
                 //     Caption = 'Total Amount Including Vat';
