@@ -1,3 +1,5 @@
+
+
 // codeunit 50307 "Property Manager Approval"
 // {
 
@@ -88,6 +90,7 @@
 //     end;
 // }
 
+
 codeunit 50307 "Property Manager Approval"
 {
     // Public method to update contract status with trigger logic
@@ -120,23 +123,27 @@ codeunit 50307 "Property Manager Approval"
         LeaseManagerName: Text;
         CompanyInfo: Record "Company Information";
         EmailBody: Text;
+        EmailSubject: Text;
+        StatusText: Text;
     begin
-        // Check if already inserted for same contract
+        // Prevent duplicate approval entry
         if ApprovalStatusList.Get(Rec."Contract ID") then
-            exit; // Prevent duplicate approval entries
+            exit;
 
-        // Insert new record in Approval Request list
+        // Determine status from Update Contract Status text
+        StatusText := GetTenancyStatusFromUpdateStatus(Format(Rec."Update Contract Status"));
+
+        // Insert record in Approval Status List
         ApprovalStatusList.Init();
         ApprovalStatusList."Contract ID" := Rec."Contract ID";
         ApprovalStatusList.Status := 'Pending';
         ApprovalStatusList."Renewal Contract ID" := 0;
         ApprovalStatusList."Lease ID" := Rec."Created By";
-        ApprovalStatusList."Tenancy Contract Status" := GetTenancyStatusFromUpdateStatus(Format(Rec."Update Contract Status"));
+        ApprovalStatusList."Tenancy Contract Status" := StatusText;
         ApprovalStatusList.Insert();
 
-        // Prepare email to Lease Managers
+        // Get Property Manager emails
         LeaseManagerName := '';
-
         UserPersonalizationRec.SetRange("Profile ID", 'PROPERTY MANAGER');
         if UserPersonalizationRec.FindSet() then
             repeat
@@ -154,6 +161,21 @@ codeunit 50307 "Property Manager Approval"
             Error('No valid email addresses found for PROPERTY MANAGER.');
 
         if CompanyInfo.Get() then begin
+            // Use subject based on status
+            case StatusText of
+                'Activation':
+                    EmailSubject := 'System Notification: Action Required - Review Approval Contract Status For Activation - Contract ID - ' + Format(Rec."Contract ID");
+                'Termination':
+                    EmailSubject := 'System Notification: Action Required - Review Approval Contract Status For Termination - Contract ID - ' + Format(Rec."Contract ID");
+                'Suspension':
+                    EmailSubject := 'System Notification: Action Required - Review Approval Contract Status For Suspension - Contract ID - ' + Format(Rec."Contract ID");
+                'Suspended-Unit Released':
+                    EmailSubject := 'System Notification: Action Required - Review Approval Contract Status For Suspension - Contract ID - ' + Format(Rec."Contract ID");
+                else
+                    EmailSubject := 'System Notification: Action Required - Review Approval Contract Status - Contract ID - ' + Format(Rec."Contract ID");
+            end;
+
+            // Shared email body format
             EmailBody :=
                 '<html><body>' +
                 '<p>Dear Property Manager,</p>' +
@@ -167,7 +189,7 @@ codeunit 50307 "Property Manager Approval"
 
             EmailMessage.Create(
                 EmailList,
-                'System Notification: Action Required - Review Approval Contract Status - Contract ID ' + Format(Rec."Contract ID"),
+                EmailSubject,
                 EmailBody,
                 true
             );
