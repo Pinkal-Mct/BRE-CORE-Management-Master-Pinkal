@@ -596,6 +596,12 @@ table 50925 "Payment Mode2"
             Editable = false;
 
         }
+        field(50929; "Credit Note No."; Code[100])
+        {
+            //OptionMembers = "0%","5%";
+            DataClassification = ToBeClassified;
+            Caption = 'Credit Note No.';
+        }
 
         field(50935; "Credit Note Amount"; Decimal)
         {
