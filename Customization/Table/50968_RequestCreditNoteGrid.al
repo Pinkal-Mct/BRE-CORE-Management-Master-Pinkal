@@ -50,7 +50,7 @@ table 50968 "Request Credit Note Grid"
         field(50965; "Line No."; Integer)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Entry No.';
+            Caption = 'Line No.';
             AutoIncrement = true;
         }
         field(50966; "Credit Note No."; Code[20])
@@ -63,6 +63,22 @@ table 50968 "Request Credit Note Grid"
             DataClassification = ToBeClassified;
             Caption = 'Total Pay Rent Amount';
         }
+        field(50968; "Property Classification"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Property Classification';
+        }
+        field(50969; "Credit Memo Generated"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Credit Memo Generated';
+        }
+        field(50970; "Secondary Item Type"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Secondary Item Type';
+        }
+
 
 
 
@@ -76,6 +92,7 @@ table 50968 "Request Credit Note Grid"
             Clustered = true;
         }
 
+
     }
     trigger OnInsert()
 
@@ -87,6 +104,7 @@ table 50968 "Request Credit Note Grid"
         if requestcreditnote.FindFirst() then begin
             Rec."Customer Name" := requestcreditnote."Customer Name";
             Rec."Tenant No." := requestcreditnote."Tenant No.";
+            Rec."Property Classification" := requestcreditnote."Property Classification";
         end else begin
             Error('No Request Credit Note found for the specified Request No.');
         end;
