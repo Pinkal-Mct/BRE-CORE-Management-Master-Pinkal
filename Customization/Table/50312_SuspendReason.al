@@ -162,37 +162,36 @@ table 50312 SuspendReasonTable
             Caption = 'Tenant Contract Status';
             OptionMembers = " ",Suspended,Active,Terminate;
 
-
             trigger OnValidate()
             var
                 TenancyContract: Record "Tenancy Contract";
                 PropertyManagerApproval: Codeunit "Property Manager Approval";
             begin
-                if ("Proposal ID" = 0) or ("Contract ID" = 0) then
-                    Error('Proposal ID and Contract ID must be specified.');
+                if "Contract ID" = 0 then
+                    Error('Contract ID must be specified.');
 
-                if TenancyContract.Get("Proposal ID", "Contract ID") then begin
+                if TenancyContract.Get("Contract ID") then begin
                     case "Tenant Contract Status" of
                         "Tenant Contract Status"::Suspended:
-                            TenancyContract."Update Contract Status" := TenancyContract."Update Contract Status"::"Initiate Suspension Process";
+                            TenancyContract."Update Contract Status" :=
+                                TenancyContract."Update Contract Status"::"Initiate Suspension Process";
 
                         "Tenant Contract Status"::Active:
                             begin
-                                TenancyContract."Update Contract Status" := TenancyContract."Update Contract Status"::"Initiate Activation Process";
+                                TenancyContract."Update Contract Status" :=
+                                    TenancyContract."Update Contract Status"::"Initiate Activation Process";
                                 "SuspensionEndDate" := Today;
                             end;
 
                         "Tenant Contract Status"::Terminate:
-                            TenancyContract."Update Contract Status" := TenancyContract."Update Contract Status"::"Initiate Termination Process";
+                            TenancyContract."Update Contract Status" :=
+                                TenancyContract."Update Contract Status"::"Initiate Termination Process";
                     end;
 
-                    // Save the change and call the approval handler
-                    TenancyContract.Modify(true); // Use TRUE to ensure triggers fire
-
-                    // Explicitly call the approval logic in case trigger is missed
+                    TenancyContract.Modify(true); // Trigger any OnModify logic
                     PropertyManagerApproval.HandleContractStatusUpdate(TenancyContract);
                 end else
-                    Error('Tenancy Contract with Proposal ID %1 and Contract ID %2 not found.', "Proposal ID", "Contract ID");
+                    Error('Tenancy Contract with Contract ID %1 not found.', "Contract ID");
             end;
 
             // trigger OnValidate()

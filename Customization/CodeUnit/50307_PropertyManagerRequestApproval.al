@@ -127,8 +127,8 @@ codeunit 50307 "Property Manager Approval"
         StatusText: Text;
     begin
         // Prevent duplicate approval entry
-        if ApprovalStatusList.Get(Rec."Contract ID") then
-            exit;
+        // if ApprovalStatusList.Get(Rec."Contract ID") then
+        //     exit;
 
         // Determine status from Update Contract Status text
         StatusText := GetTenancyStatusFromUpdateStatus(Format(Rec."Update Contract Status"));
