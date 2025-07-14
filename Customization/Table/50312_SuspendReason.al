@@ -252,7 +252,7 @@ table 50312 SuspendReasonTable
         {
             DataClassification = ToBeClassified;
             Caption = 'Proposal ID';
-            TableRelation = "Tenancy Contract"."Proposal ID";
+            TableRelation = "Tenancy Contract";
 
 
 
@@ -262,13 +262,14 @@ table 50312 SuspendReasonTable
             begin
 
 
+                Rec."Contract ID" := Rec."Proposal ID";
                 // Set a filter for the selected Proposal ID
-                TenancyContractRec.SetRange("Proposal ID", Rec."Proposal ID");
+                TenancyContractRec.SetRange("Contract ID", Rec."Proposal ID");
 
                 // Attempt to find the first matching record
                 if TenancyContractRec.FindFirst() then begin
                     // Populate related fields from the retrieved record
-                    Rec."Contract ID" := TenancyContractRec."Contract ID";
+                    Rec."Proposal ID" := TenancyContractRec."Proposal ID";
                     Rec.TenantID := TenancyContractRec."Tenant ID";
                     Rec.TenantName := TenancyContractRec."Customer Name";
                     Rec.EmiratesID := TenancyContractRec."Emirates ID";
