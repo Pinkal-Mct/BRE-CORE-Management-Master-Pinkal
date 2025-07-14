@@ -107,6 +107,12 @@ table 50967 "Request Credit Note"
             Caption = 'Remark';
 
         }
+        field(50976; "Property Classification"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Property Classification';
+        }
+
 
     }
 

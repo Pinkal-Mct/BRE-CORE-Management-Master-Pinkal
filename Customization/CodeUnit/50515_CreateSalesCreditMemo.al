@@ -33,8 +33,9 @@ codeunit 50515 "Create Sales Credit Memo"
             end
         end;
         if NewSalesHeader."Property Classification" <> '' then begin
-            NewSalesHeader."Gen. Bus. Posting Group" := NewSalesHeader."Property Classification";
-            NewSalesHeader."Customer Posting Group" := NewSalesHeader."Property Classification";
+
+            NewSalesHeader.Validate("Gen. Bus. Posting Group", NewSalesHeader."Property Classification");
+            NewSalesHeader.Validate("Customer Posting Group", NewSalesHeader."Property Classification");
             NewSalesHeader.Modify();
         end;
 

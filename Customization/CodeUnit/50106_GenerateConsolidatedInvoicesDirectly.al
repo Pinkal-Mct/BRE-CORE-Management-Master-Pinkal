@@ -59,8 +59,10 @@ codeunit 50106 GenerateConsolidatedInvoices
                             end
                         end;
                         if newsalesheader1."Property Classification" <> '' then begin
-                            newsalesheader1."Gen. Bus. Posting Group" := newsalesheader1."Property Classification";
-                            newsalesheader1."Customer Posting Group" := newsalesheader1."Property Classification";
+                            // newsalesheader1."Gen. Bus. Posting Group" := newsalesheader1."Property Classification";
+                            // newsalesheader1."Customer Posting Group" := newsalesheader1."Property Classification";
+                            newsalesheader1.Validate("Gen. Bus. Posting Group", newsalesheader1."Property Classification");
+                            newsalesheader1.Validate("Customer Posting Group", newsalesheader1."Property Classification");
                             newsalesheader1.Modify();
                         end;
                         createSalesLines(newsalesheader1, paymentScheudle3);
@@ -121,8 +123,8 @@ codeunit 50106 GenerateConsolidatedInvoices
                                     end
                                 end;
                                 if newsalesheader."Property Classification" <> '' then begin
-                                    newsalesheader."Gen. Bus. Posting Group" := newsalesheader."Property Classification";
-                                    newsalesheader."Customer Posting Group" := newsalesheader."Property Classification";
+                                    newsalesheader.Validate("Gen. Bus. Posting Group", newsalesheader."Property Classification");
+                                    newsalesheader.Validate("Customer Posting Group", newsalesheader."Property Classification");
                                     newsalesheader.Modify();
                                 end;
                                 createSalesLines(newsalesheader, paymentScheudle2);
@@ -176,8 +178,8 @@ codeunit 50106 GenerateConsolidatedInvoices
                                         end
                                     end;
                                     if slaesheader1card1."Property Classification" <> '' then begin
-                                        slaesheader1card1."Gen. Bus. Posting Group" := slaesheader1card1."Property Classification";
-                                        slaesheader1card1."Customer Posting Group" := slaesheader1card1."Property Classification";
+                                        slaesheader1card1.Validate("Gen. Bus. Posting Group", slaesheader1card1."Property Classification");
+                                        slaesheader1card1.Validate("Customer Posting Group", slaesheader1card1."Property Classification");
                                         slaesheader1card1.Modify();
                                     end;
                                     createSalesLines(slaesheader1card1, paymentschedule2grid);

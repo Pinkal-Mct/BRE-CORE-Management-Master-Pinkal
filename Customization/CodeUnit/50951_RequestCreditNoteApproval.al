@@ -74,7 +74,6 @@ codeunit 50951 "Approval Request Crdit note "
                 '<b>Request Date: </b> ' + Format(RequestCreditNote."Request Date") + '<br/>' +
                '<b>Total Rent Amount: </b> ' + Format(AcutalRentAmount) + '<br/>' +
                '<b>Total Reduction Amount: </b> ' + Format(Totalreductionamount) + '<br/>' +
-               '<b>Request Date</b> ' + Format(RequestCreditNote."Request Date") + '<br/>' +
                 '</p>' +
                 '<p>Please review the <b>Request Credit Note Approval List</b> and take the necessary action.</p>' +
                 '<p>This is a system-generated email. Please do not reply.</p>' +
