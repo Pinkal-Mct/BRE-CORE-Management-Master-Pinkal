@@ -38,7 +38,7 @@ codeunit 50302 "Send Email To PropertyManager"
                   'Contract Renewal Approved - ' + Format(Rec."Contract ID"),
                     '<html><body>' +
                     '<p>Dear ' + Username + ',</p>' +
-                    '<p>The Leasing Team has approved Contract ID <b>' + Format(Rec."Contract ID") + '</b> for renewal, and it has been successfully verified.</p>' +
+                    '<p>The Leasing Team has approved Contract ID - <b>' + Format(Rec."Contract ID") + '</b> for renewal, and it has been successfully verified.</p>' +
                     '<p>Please verified and approved request for contract renewal.</p>' +
                     '<p>Please review the Contract End Process Approval List in Business central and take the necessary action as required.</p>' +
                     '<h3><u>Contract Details:</u></h3>' +

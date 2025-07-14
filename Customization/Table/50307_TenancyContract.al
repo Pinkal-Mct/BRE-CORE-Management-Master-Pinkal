@@ -690,7 +690,7 @@ table 50307 "Tenancy Contract"
 
         field(50131; "Payment Frequency"; Option)
         {
-            OptionMembers = " ",Monthly,Quarterly,Yearly,"Half-Yearly";
+            OptionMembers = " ",Monthly,Quarterly,"Half-Yearly",Yearly;
             DataClassification = ToBeClassified;
         }
         field(50132; "Payment Method"; Text[100])
@@ -704,52 +704,9 @@ table 50307 "Tenancy Contract"
             DataClassification = ToBeClassified;
             Caption = 'Update Contract Status';
             OptionMembers = " ","Initiate Activation Process","Initiate Suspension Process","Initiate Termination Process","Initiate Under Suspension-Unit Released";
+
+           
         }
-        // field(50134; "Tenant Contract Status"; Option)
-        // {
-        //     DataClassification = ToBeClassified;
-        //     Caption = 'Tenant Contract Status';
-        //     OptionMembers = " ",Active,Terminated,Suspended;
-        //     trigger OnValidate()
-        //     var
-        //         ItemRec: Record Item;
-        //         MergeUnitRec: Record "Merged Units";
-        //     begin
-        //         // Check if the Unit ID is filled
-        //         if "Unit ID" <> '' then begin
-        //             // Retrieve the item record based on the Unit ID
-        //             if ItemRec.Get("Unit ID") then begin
-        //                 case "Tenant Contract Status" of
-        //                     "Tenant Contract Status"::Active:
-        //                         ItemRec."Unit Status" := 'Occupied';
-        //                     "Tenant Contract Status"::Terminated:
-        //                         ItemRec."Unit Status" := 'Free';
-        //                     "Tenant Contract Status"::Suspended:
-        //                         ItemRec."Unit Status" := 'Occupied';
-        //                 end;
-        //                 ItemRec.Modify();
-        //             end;
-        //         end;
-
-        //         // Additional logic for contracts involving a Merge Unit ID
-        //         if "Merge Unit ID" <> '' then begin
-        //             if MergeUnitRec.Get("Merge Unit ID") then begin
-        //                 case "Tenant Contract Status" of
-        //                     "Tenant Contract Status"::Terminated:
-        //                         // Set Merge Unit Status to 'Free' when the contract is terminated
-        //                         MergeUnitRec."Status" := MergeUnitRec."Status"::Free;
-        //                     "Tenant Contract Status"::Active:
-        //                         MergeUnitRec."Status" := MergeUnitRec."Status"::Occupied;
-
-        //                     "Tenant Contract Status"::Suspended:
-        //                         MergeUnitRec."Status" := MergeUnitRec."Status"::Occupied;
-        //                 end;
-        //                 MergeUnitRec.Modify();
-        //             end;
-        //         end;
-        //     end;
-        // }
-
         field(50134; "Tenant Contract Status"; Option)
         {
             Editable = true;
