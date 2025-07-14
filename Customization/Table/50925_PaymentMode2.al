@@ -627,6 +627,15 @@ table 50925 "Payment Mode2"
         }
     }
 
+    fieldgroups
+    {
+        fieldgroup(DropDown; "Payment Series", "Amount")
+        {
+            Caption = 'Dropdown';
+
+        }
+
+    }
 
 
     // procedure UpdateStatusForDueDate()

@@ -5,6 +5,11 @@ table 50967 "Request Credit Note"
 
     fields
     {
+        field(50958; "Request No."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Request No.';
+        }
         field(50960; "Contract ID"; Integer)
         {
             DataClassification = ToBeClassified;
@@ -15,80 +20,105 @@ table 50967 "Request Credit Note"
         {
             DataClassification = ToBeClassified;
             Caption = 'Property Name';
-            Editable = false;
+
         }
-        field(50962; "Tenant No."; Integer)
+        field(50962; "Tenant No."; Code[20])
         {
             DataClassification = ToBeClassified;
             Caption = 'Tenant No.';
-            Editable = false;
+
         }
 
         field(50963; "Customer Name"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Customer Name';
-            Editable = false;
+
         }
         field(50964; "Request Date"; Date)
         {
             DataClassification = ToBeClassified;
             Caption = 'Request Date';
-            Editable = false;
+
         }
         field(50965; "Credit Note Start Month"; Date)
         {
             DataClassification = ToBeClassified;
             Caption = 'Credit Note Start Month';
-            Editable = false;
+
         }
         field(50966; "Credit Note End Month"; Date)
         {
             DataClassification = ToBeClassified;
             Caption = 'Credit Note End Month';
-            Editable = false;
+
         }
         field(50967; "Payment Frequency"; Text[50])
         {
             DataClassification = ToBeClassified;
             Caption = 'Payment Frequency';
-            Editable = false;
+
         }
 
         field(50968; "Monthly Reduction"; Decimal)
         {
             DataClassification = ToBeClassified;
             Caption = 'Monthly Reduction';
-            Editable = false;
-
         }
         field(50969; "Reason"; Text[1000])
         {
             DataClassification = ToBeClassified;
             Caption = 'Reason';
-            Editable = false;
         }
         field(50970; "Status"; Option)
         {
             DataClassification = ToBeClassified;
             OptionMembers = " ",Pending,Approved,Rejected;
             Caption = 'Status';
-            Editable = false;
+
         }
         field(50971; "Request Source"; Text[250])
         {
             DataClassification = ToBeClassified;
             Caption = 'Requsest Source';
-            Editable = false;
+
         }
         field(50972; "Total Reduction"; Decimal)
         {
             DataClassification = ToBeClassified;
             Caption = 'Total Reduction';
-            Editable = false;
+
+        }
+        field(50973; "Payment Series"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Payment Series';
+
+        }
+        field(50974; "Current Rent Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Current Rent Amount';
+
+        }
+        field(50975; "Remark"; Text[1000])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Remark';
+
         }
 
-
-
     }
+
+    trigger OnInsert()
+    var
+        NoSeriesManagement: Codeunit "No. Series";
+
+        Requestno: Code[20];
+    begin
+        Requestno := NoSeriesManagement.GetNextNo('RCNID', 0D, true); // Use the number series code you created
+        "Request No." := Requestno;                                                                // "Request No." := Requestno;
+    end;
+
+
 }
