@@ -181,17 +181,21 @@ table 50925 "Payment Mode2"
             var
                 Email: Codeunit "Send Payment Receipt";
                 emailrec: Codeunit "Send PaymentMode Email";
+                azureBlobUploader: Codeunit "Azure AD Blob Storage";
+                fileName: Text;
+                uploadResult: Text;
+                folderName: Text;
                 // AzureBlobUploader: Codeunit "Azure Blob Management";
-                InStream: InStream;
-                FileName: Text;
-                SASUrlBase: Text;
-                SASUrlWithFileName: Text;
-                UploadResult: Text;
+                // InStream: InStream;
+                // FileName: Text;
+                // SASUrlBase: Text;
+                // SASUrlWithFileName: Text;
+                // // UploadResult: Text;
                 TempBlob: Codeunit "Temp Blob";
-                ValidFormats: List of [Text];
-                FileExtension: Text[10];
-                FileSize: Decimal;
-                ConfigRecord: Record AzureConfiguration;
+                // ValidFormats: List of [Text];
+                // FileExtension: Text[10];
+                // FileSize: Decimal;
+                // ConfigRecord: Record AzureConfiguration;
                 ReportID: Integer; // Your report ID
                 RecRef: RecordRef;
                 FieldRef1: FieldRef;
@@ -201,6 +205,8 @@ table 50925 "Payment Mode2"
                 paymentmode2Grid: Record "Payment Mode2";
                 paymentschedule2: Record "Payment Schedule2";
                 CashReceiptJournalCodeunit: Codeunit 50514;
+                azureConfig: Record AzureConfiguration;
+                inStream: InStream;
             begin
                 if Rec."Payment Status" = Rec."Payment Status"::Received then begin
                     // if Rec."Payment Mode" = 'Bank Transfer' then begin
@@ -223,14 +229,14 @@ table 50925 "Payment Mode2"
                         emailrec.SendEmail(Rec);
 
 
-                        if not ConfigRecord.FindFirst() then
-                            Error('Azure configuration is missing. Please set up the SAS URL in the Azure Configuration table.');
-                        ValidFormats.Add('.png');
-                        ValidFormats.Add('.jpg');
-                        ValidFormats.Add('.jpeg');
+                        // if not ConfigRecord.FindFirst() then
+                        //     Error('Azure configuration is missing. Please set up the SAS URL in the Azure Configuration table.');
+                        // ValidFormats.Add('.png');
+                        // ValidFormats.Add('.jpg');
+                        // ValidFormats.Add('.jpeg');
 
-                        SASUrlBase := ConfigRecord."SAS URL";
-                        FileExtension := '.pdf';
+                        // SASUrlBase := ConfigRecord."SAS URL";
+                        // FileExtension := '.pdf';
                         ReportID := 50112;
                         //  RecRef.Open(DATABASE::"Sales Header"); // Open the table reference
                         // RecRef.GetTable(Rec);
@@ -242,18 +248,27 @@ table 50925 "Payment Mode2"
                         if not paymentmode2Grid.FindFirst() then
                             Error('Not avavilable');
                         RecRef.GetTable(paymentmode2Grid);
-                        // RecRef.GetTable(Rec);
+                        RecRef.GetTable(Rec);
                         TempBlob.CreateOutStream(OutStream);
                         Report.SaveAs(ReportID, '', ReportFormat::Pdf, OutStream, RecRef);
+                        TempBlob.CreateInStream(inStream);
+
+                        // TempBlob.CreateInStream(InStream);
+                        fileName := 'Invoice_' + Format(Rec."Contract ID") + Rec."Payment Series" + '.pdf';
+                        // SASUrlWithFileName := StrSubstNo('%1/%2?%3', CopyStr(SASUrlBase, 1, StrPos(SASUrlBase, '?') - 1), FileName, CopyStr(SASUrlBase, StrPos(SASUrlBase, '?') + 1));
+                        // UploadResult := documentattachment.UploadDocumentToBlobStorage(SASUrlWithFileName, FileName, InStream);
+                        // Rec."View Invoice" := FileName;
+                        // Rec."View Reciept document URL" := UploadResult;
 
 
-
-                        TempBlob.CreateInStream(InStream);
-                        FileName := 'Invoice_' + Format(Rec."Contract ID") + Rec."Payment Series" + FileExtension;
-                        SASUrlWithFileName := StrSubstNo('%1/%2?%3', CopyStr(SASUrlBase, 1, StrPos(SASUrlBase, '?') - 1), FileName, CopyStr(SASUrlBase, StrPos(SASUrlBase, '?') + 1));
-                        UploadResult := documentattachment.UploadDocumentToBlobStorage(SASUrlWithFileName, FileName, InStream);
-                        Rec."View Invoice" := FileName;
-                        Rec."View Reciept document URL" := UploadResult;
+                        folderName := 'Payment Receipt';
+                        uploadResult := azureBlobUploader.UploadDocumentToBlob(inStream, fileName, folderName);
+                        if fileName <> '' then begin
+                            Rec."View Invoice" := fileName;
+                            Rec."View Reciept document URL" := uploadResult;
+                            Rec.Modify();
+                            Message('File uploaded successfully: %1', fileName);
+                        end;
                         Rec.Modify();
                         paymentschedule2.SetRange("payment Series", Rec."Payment Series");
                         paymentschedule2.SetRange("Contract ID", Rec."Contract ID");
