@@ -35,7 +35,7 @@ table 50968 "Request Credit Note Grid"
             DataClassification = ToBeClassified;
             Caption = 'Payment Series';
         }
-        field(50974; "Current Rent Amount"; Decimal)
+        field(50974; "Current Charges Amount"; Decimal)
         {
             DataClassification = ToBeClassified;
             Caption = 'Current Rent Amount';

@@ -90,18 +90,21 @@ tableextension 50506 "Posted Sales Credit Memo" extends "Sales Cr.Memo Header"
                 Requestcreditnotegrid.Modify();
             until Requestcreditnotegrid.Next() = 0;
 
-        paymentschedulegrid.SetRange("Contract ID", "Contract ID");
-        if paymentschedulegrid.FindSet() then
+        paymentmodegrid.SetRange("Contract ID", "Contract ID");
+        if paymentmodegrid.FindSet() then
             repeat
+                paymentmodegrid."Credit Note Amount" := 0;
                 Requestcreditnotegrid1.SetRange("Contract ID", paymentmodegrid."Contract ID");
                 Requestcreditnotegrid1.SetRange("Payment Series", paymentmodegrid."Payment Series");
-                if Requestcreditnotegrid1.FindSet() then begin
-                    paymentmodegrid."Credit Note No." := Requestcreditnotegrid1."Credit Note No.";
-                    paymentmodegrid."Credit Note Amount" += Requestcreditnotegrid1."Total Reduction";
-                    paymentmodegrid.Modify();
-                end;
+                Requestcreditnotegrid1.SetRange("Credit Memo Generated", true);
+                if Requestcreditnotegrid1.FindSet() then
+                    repeat
+                        paymentmodegrid."Credit Note No." := Requestcreditnotegrid1."Credit Note No.";
+                        paymentmodegrid."Credit Note Amount" += Requestcreditnotegrid1."Total Reduction";
+                        paymentmodegrid.Modify();
+                    until Requestcreditnotegrid1.Next() = 0;
             //   until Requestcreditnotegrid1.Next() = 0;
-            until paymentschedulegrid.Next() = 0;
+            until paymentmodegrid.Next() = 0;
 
 
         paymentschedulegrid.SetRange("Contract ID", "Contract ID");
