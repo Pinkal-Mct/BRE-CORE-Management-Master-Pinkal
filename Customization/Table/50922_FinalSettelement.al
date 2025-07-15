@@ -64,17 +64,23 @@ table 50922 "FinalSettlement"
             trigger OnValidate()
             var
                 Email: Codeunit "FS_Receivable Payment Receipt";
+                azureBlobUploader: Codeunit "Azure AD Blob Storage";
+                fileName: Text;
+                uploadResult: Text;
+                folderName: Text;
+                azureConfig: Record AzureConfiguration;
+                inStream: InStream;
                 // AzureBlobUploader: Codeunit "Azure Blob Management";
-                InStream: InStream;
-                FileName: Text;
-                SASUrlBase: Text;
-                SASUrlWithFileName: Text;
-                UploadResult: Text;
+                // InStream: InStream;
+                // FileName: Text;
+                // SASUrlBase: Text;
+                // SASUrlWithFileName: Text;
+                // UploadResult: Text;
                 TempBlob: Codeunit "Temp Blob";
-                ValidFormats: List of [Text];
-                FileExtension: Text[10];
-                FileSize: Decimal;
-                ConfigRecord: Record AzureConfiguration;
+                // ValidFormats: List of [Text];
+                // FileExtension: Text[10];
+                // FileSize: Decimal;
+                // ConfigRecord: Record AzureConfiguration;
                 ReportID: Integer; // Your report ID
                 RecRef: RecordRef;
                 FieldRef1: FieldRef;
@@ -87,14 +93,14 @@ table 50922 "FinalSettlement"
                 if Rec."Receivable Payment Status" = Enum::"Payment Status"::Received then begin
                     Email.SendEmail(Rec);
 
-                    if not ConfigRecord.FindFirst() then
-                        Error('Azure configuration is missing. Please set up the SAS URL in the Azure Configuration table.');
-                    ValidFormats.Add('.png');
-                    ValidFormats.Add('.jpg');
-                    ValidFormats.Add('.jpeg');
+                    // if not ConfigRecord.FindFirst() then
+                    //     Error('Azure configuration is missing. Please set up the SAS URL in the Azure Configuration table.');
+                    // ValidFormats.Add('.png');
+                    // ValidFormats.Add('.jpg');
+                    // ValidFormats.Add('.jpeg');
 
-                    SASUrlBase := ConfigRecord."SAS URL";
-                    FileExtension := '.pdf';
+                    // SASUrlBase := ConfigRecord."SAS URL";
+                    // FileExtension := '.pdf';
                     ReportID := 50114;
                     //  RecRef.Open(DATABASE::"Sales Header"); // Open the table reference
                     // RecRef.GetTable(Rec);
@@ -105,16 +111,26 @@ table 50922 "FinalSettlement"
                     if not paymentmode2Grid.FindFirst() then
                         Error('Not avavilable');
                     RecRef.GetTable(paymentmode2Grid);
-                    // RecRef.GetTable(Rec);
+                    RecRef.GetTable(Rec);
                     TempBlob.CreateOutStream(OutStream);
                     Report.SaveAs(ReportID, '', ReportFormat::Pdf, OutStream, RecRef);
+                    TempBlob.CreateInStream(inStream);
 
-                    TempBlob.CreateInStream(InStream);
-                    FileName := 'Receipt_' + Format(Rec."Contract ID") + Format(Rec."FC ID") + FileExtension;
-                    SASUrlWithFileName := StrSubstNo('%1/%2?%3', CopyStr(SASUrlBase, 1, StrPos(SASUrlBase, '?') - 1), FileName, CopyStr(SASUrlBase, StrPos(SASUrlBase, '?') + 1));
-                    UploadResult := documentattachment.UploadDocumentToBlobStorage(SASUrlWithFileName, FileName, InStream);
-                    Rec."Payment Receipt" := FileName;
-                    Rec."Payment Receipt document URL" := UploadResult;
+                    // TempBlob.CreateInStream(InStream);
+                    fileName := 'Receipt_' + Format(Rec."Contract ID") + Format(Rec."FC ID") + '.pdf';
+                    // SASUrlWithFileName := StrSubstNo('%1/%2?%3', CopyStr(SASUrlBase, 1, StrPos(SASUrlBase, '?') - 1), FileName, CopyStr(SASUrlBase, StrPos(SASUrlBase, '?') + 1));
+                    // UploadResult := documentattachment.UploadDocumentToBlobStorage(SASUrlWithFileName, FileName, InStream);
+                    // Rec."Payment Receipt" := FileName;
+                    // Rec."Payment Receipt document URL" := UploadResult;
+
+                    folderName := 'Payment Receipt';
+                    uploadResult := azureBlobUploader.UploadDocumentToBlob(inStream, fileName, folderName);
+                    if fileName <> '' then begin
+                        Rec."Payment Receipt" := fileName;
+                        Rec."View Reciept document URL" := uploadResult;
+                        Rec.Modify();
+                        Message('File uploaded successfully: %1', fileName);
+                    end;
                     Rec.Modify();
 
                     // Call the Final Settlement Posting codeunit to post the amount
