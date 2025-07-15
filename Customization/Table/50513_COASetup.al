@@ -20,6 +20,18 @@ table 50513 "COA Setup"
             Caption = 'Commercial Rent';
             TableRelation = "G/L Account"."No.";
         }
+        field(50504; "Residential Unearned Rent"; code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Residential-Unearned Rent';
+            TableRelation = "G/L Account"."No.";
+        }
+        field(50505; "Commercial Unearned Rent"; code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Commercial-Unearned Rent';
+            TableRelation = "G/L Account"."No.";
+        }
     }
 
     keys
