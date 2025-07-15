@@ -72,4 +72,40 @@ tableextension 50506 "Posted Sales Credit Memo" extends "Sales Cr.Memo Header"
             Caption = 'Terminated Credit Note';
         }
     }
+
+    trigger OnAfterInsert()
+    var
+        Requestcreditnotegrid: Record "Request Credit Note Grid";
+        Requestcreditnotegrid1: Record "Request Credit Note Grid";
+        paymentmodegrid: Record "Payment Mode2";
+        paymentschedulegrid: Record "Payment Schedule2";
+    begin
+        Requestcreditnotegrid.SetRange("Credit Note No.", "Pre-Assigned No.");
+        Requestcreditnotegrid.SetRange("Contract ID", "Contract ID");
+        Requestcreditnotegrid.SetRange("Credit Memo Generated", true);
+        if Requestcreditnotegrid.FindSet() then
+            repeat
+                Requestcreditnotegrid."Credit Note No." := "No.";
+                Requestcreditnotegrid.Modify();
+            until Requestcreditnotegrid.Next() = 0;
+
+        paymentmodegrid.SetRange("Contract ID", Requestcreditnotegrid1."Contract ID");
+        paymentmodegrid.SetRange("Payment Series", Requestcreditnotegrid1."Payment Series");
+        if paymentmodegrid.FindSet() then
+            repeat
+                paymentmodegrid."Credit Note No." := Requestcreditnotegrid1."Credit Note No.";
+                paymentmodegrid."Credit Note Amount" := Requestcreditnotegrid1."Total Reduction";
+                paymentmodegrid.Modify();
+            until paymentmodegrid.Next() = 0;
+
+        paymentschedulegrid.SetRange("Contract ID", Requestcreditnotegrid1."Contract ID");
+        paymentschedulegrid.SetRange("Payment Series", Requestcreditnotegrid1."Payment Series");
+        if paymentschedulegrid.FindSet() then
+            repeat
+                paymentschedulegrid."Credit Note No." := Requestcreditnotegrid1."Credit Note No.";
+                paymentschedulegrid."Credit Note Amount" := Requestcreditnotegrid1."Total Reduction";
+                paymentschedulegrid.Modify();
+            until paymentschedulegrid.Next() = 0;
+
+    end;
 }
