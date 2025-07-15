@@ -233,6 +233,7 @@ table 50934 "Payment Schedule2"
             Caption = 'Final Rent Amount';
         }
 
+
     }
 
     keys
@@ -242,7 +243,14 @@ table 50934 "Payment Schedule2"
             Clustered = true;
         }
 
+    }
 
+    fieldgroups
+    {
+        fieldgroup(DropDown; "Secondary Item Type", "Amount", "VAT Amount", "Amount Including VAT")
+        {
+            Caption = 'Payment Schedule';
+        }
     }
 
 

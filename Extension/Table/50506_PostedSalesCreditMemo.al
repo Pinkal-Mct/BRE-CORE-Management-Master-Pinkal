@@ -77,6 +77,7 @@ tableextension 50506 "Posted Sales Credit Memo" extends "Sales Cr.Memo Header"
     var
         Requestcreditnotegrid: Record "Request Credit Note Grid";
         Requestcreditnotegrid1: Record "Request Credit Note Grid";
+        Requestcreditnotegrid2: Record "Request Credit Note Grid";
         paymentmodegrid: Record "Payment Mode2";
         paymentschedulegrid: Record "Payment Schedule2";
     begin
@@ -89,23 +90,35 @@ tableextension 50506 "Posted Sales Credit Memo" extends "Sales Cr.Memo Header"
                 Requestcreditnotegrid.Modify();
             until Requestcreditnotegrid.Next() = 0;
 
-        paymentmodegrid.SetRange("Contract ID", Requestcreditnotegrid1."Contract ID");
-        paymentmodegrid.SetRange("Payment Series", Requestcreditnotegrid1."Payment Series");
-        if paymentmodegrid.FindSet() then
-            repeat
-                paymentmodegrid."Credit Note No." := Requestcreditnotegrid1."Credit Note No.";
-                paymentmodegrid."Credit Note Amount" := Requestcreditnotegrid1."Total Reduction";
-                paymentmodegrid.Modify();
-            until paymentmodegrid.Next() = 0;
-
-        paymentschedulegrid.SetRange("Contract ID", Requestcreditnotegrid1."Contract ID");
-        paymentschedulegrid.SetRange("Payment Series", Requestcreditnotegrid1."Payment Series");
+        paymentschedulegrid.SetRange("Contract ID", "Contract ID");
         if paymentschedulegrid.FindSet() then
             repeat
-                paymentschedulegrid."Credit Note No." := Requestcreditnotegrid1."Credit Note No.";
-                paymentschedulegrid."Credit Note Amount" := Requestcreditnotegrid1."Total Reduction";
-                paymentschedulegrid.Modify();
+                Requestcreditnotegrid1.SetRange("Contract ID", paymentmodegrid."Contract ID");
+                Requestcreditnotegrid1.SetRange("Payment Series", paymentmodegrid."Payment Series");
+                if Requestcreditnotegrid1.FindSet() then begin
+                    paymentmodegrid."Credit Note No." := Requestcreditnotegrid1."Credit Note No.";
+                    paymentmodegrid."Credit Note Amount" += Requestcreditnotegrid1."Total Reduction";
+                    paymentmodegrid.Modify();
+                end;
+            //   until Requestcreditnotegrid1.Next() = 0;
             until paymentschedulegrid.Next() = 0;
 
+
+        paymentschedulegrid.SetRange("Contract ID", "Contract ID");
+        if paymentschedulegrid.FindSet() then
+            repeat
+                // paymentschedulegrid."Credit Note No." := "No.";
+                // paymentschedulegrid.Modify();
+                Requestcreditnotegrid2.SetRange("Contract ID", paymentschedulegrid."Contract ID");
+                Requestcreditnotegrid2.SetRange("Payment Series", paymentschedulegrid."Payment Series");
+                // Requestcreditnotegrid2.SetRange("Credit Note No.", paymentschedulegrid."Credit Note No.");
+                Requestcreditnotegrid2.SetRange(Charges, paymentschedulegrid."Secondary Item Type");
+                Requestcreditnotegrid2.SetRange("Credit Memo Generated", true);
+                if Requestcreditnotegrid2.FindSet() then begin
+                    paymentschedulegrid."Credit Note No." := Requestcreditnotegrid2."Credit Note No.";
+                    paymentschedulegrid."Credit Note Amount" := Requestcreditnotegrid2."Total Reduction";
+                    paymentschedulegrid.Modify();
+                end;
+            until paymentschedulegrid.Next() = 0;
     end;
 }

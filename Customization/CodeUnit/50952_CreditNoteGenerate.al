@@ -21,33 +21,30 @@ codeunit 50952 "Credit Memo Generate"
             Error('Customer not found for the given Sales Credit Memo.');
         requestcreditnotegrid.SetRange("Request No.", requestcreditnoteapproval."Request No.");
         requestcreditnotegrid.SetRange("Contract ID", requestcreditnoteapproval."Contract ID");
-        if requestcreditnotegrid.FindSet() then
-            repeat
-                if requestcreditnotegrid."Credit Memo Generated" = false then begin
-                    NewSalesHeader := CreateSalesHeader(requestcreditnotegrid."Contract ID", requestcreditnotegrid."Tenant No.", requestcreditnotegrid."Property Classification");
+        if requestcreditnotegrid.FindSet() then begin
+            if requestcreditnotegrid."Credit Memo Generated" = false then begin
+                NewSalesHeader := CreateSalesHeader(requestcreditnotegrid."Contract ID", requestcreditnotegrid."Tenant No.", requestcreditnotegrid."Property Classification");
 
-                    customercard.SetRange("No.", NewSalesHeader."Sell-to Customer No.");
-                    if customercard.FindSet() then begin
-                        if NewSalesHeader."Property Classification" <> '' then begin
-                            customercard.Validate("Gen. Bus. Posting Group", NewSalesHeader."Property Classification");
-                            customercard.Validate("Customer Posting Group", NewSalesHeader."Property Classification");
-                            customercard.Modify();
-                        end
-                    end;
+                customercard.SetRange("No.", NewSalesHeader."Sell-to Customer No.");
+                if customercard.FindSet() then begin
                     if NewSalesHeader."Property Classification" <> '' then begin
-
-                        NewSalesHeader.Validate("Gen. Bus. Posting Group", NewSalesHeader."Property Classification");
-                        NewSalesHeader.Validate("Customer Posting Group", NewSalesHeader."Property Classification");
-                        NewSalesHeader.Modify();
-                    end;
-                    createSalesLines(NewSalesHeader, requestcreditnotegrid);
-                    SalesPost.Run(NewSalesHeader);
-                    Message('Sales Credit Memo created successfully with No. %1', NewSalesHeader."No.");
-                    requestcreditnotegrid."Credit Memo Generated" := true;
-                    requestcreditnotegrid."Credit Note No." := NewSalesHeader."No.";
-                    requestcreditnotegrid.Modify();
+                        customercard.Validate("Gen. Bus. Posting Group", NewSalesHeader."Property Classification");
+                        customercard.Validate("Customer Posting Group", NewSalesHeader."Property Classification");
+                        customercard.Modify();
+                    end
                 end;
-            until requestcreditnotegrid.Next() = 0;
+                if NewSalesHeader."Property Classification" <> '' then begin
+
+                    NewSalesHeader.Validate("Gen. Bus. Posting Group", NewSalesHeader."Property Classification");
+                    NewSalesHeader.Validate("Customer Posting Group", NewSalesHeader."Property Classification");
+                    NewSalesHeader.Modify();
+                end;
+                createSalesLines(NewSalesHeader, requestcreditnotegrid, requestcreditnoteapproval);
+                //  SalesPost.Run(NewSalesHeader);
+                Message('Sales Credit Memo created successfully with No. %1', NewSalesHeader."No.");
+
+            end;
+        end;
 
     end;
 
@@ -79,7 +76,7 @@ codeunit 50952 "Credit Memo Generate"
         exit(salesHeader);
     end;
 
-    procedure createSalesLines(salesheader1: Record "Sales Header"; requestcreditnotegrid: Record "Request Credit Note Grid")
+    procedure createSalesLines(salesheader1: Record "Sales Header"; requestcreditnotegrid: Record "Request Credit Note Grid"; requestcreditnoteapproval: Record RequestCreditNoteApprovalList)
     var
         saleline: Record "Sales Line";
         newSaleslines: Record "Sales Line";
@@ -87,42 +84,47 @@ codeunit 50952 "Credit Memo Generate"
         salesTaxCalculate: Codeunit "Sales Tax Calculate";
         currency: Record Currency;
         vatpostingsetup: Record "VAT Posting Setup";
+    //  requestcreditnoteapproval: Record RequestCreditNoteApprovalList;
     begin
+        requestcreditnotegrid.SetRange("Request No.", requestcreditnoteapproval."Request No.");
+        requestcreditnotegrid.SetRange("Contract ID", requestcreditnoteapproval."Contract ID");
+        if requestcreditnotegrid.FindSet() then
+            repeat
+                saleline.Init();
+                saleline."Document Type" := saleline."Document Type"::"Credit Memo";
+
+                newSaleslines.SetRange("Document No.", salesheader1."No.");
+                newSaleslines.SetRange("Document Type", Enum::"Sales Document Type"::"Credit Memo");
+                newSaleslines.SetRange("Contract ID", salesheader1."Contract ID");
+                newSaleslines.SetCurrentKey("Line No.");
+                if newSaleslines.FindLast() then begin
+                    saleline."Line No." := newSaleslines."Line No." + 1000;
+                end
+                else begin
+                    saleline."Line No." := 1000;
+                end;
+                saleline.Validate("Document No.", salesheader1."No.");
+                saleline.Validate("Contract ID", salesheader1."Contract ID");
+                saleline.Type := saleline.Type::Item;
+                saleline.Validate("Sell-to Customer No.", salesheader1."Sell-to Customer No.");
+
+                item.SetRange(Description, requestcreditnotegrid.Charges);
+                if item.FindSet() then begin
+                    saleline.Validate("No.", item."No.");
+                end;
+
+                saleline.Validate("Quantity (Base)", 1);
+                saleline.Validate(Quantity, 1);
+                saleline.Validate("Unit Price", Abs(requestcreditnotegrid."Total Reduction"));
+                saleline."Contract ID" := requestcreditnotegrid."Contract ID";
+
+                saleline.Insert();
+                requestcreditnotegrid."Credit Memo Generated" := true;
+                requestcreditnotegrid."Credit Note No." := salesheader1."No.";
+                requestcreditnotegrid.Modify();
+            until requestcreditnotegrid.Next() = 0;
 
 
-        saleline.Init();
-        saleline."Document Type" := saleline."Document Type"::"Credit Memo";
-
-        newSaleslines.SetRange("Document No.", salesheader1."No.");
-        newSaleslines.SetRange("Document Type", Enum::"Sales Document Type"::"Credit Memo");
-        newSaleslines.SetRange("Contract ID", salesheader1."Contract ID");
-        newSaleslines.SetCurrentKey("Line No.");
-        if newSaleslines.FindLast() then begin
-            saleline."Line No." := newSaleslines."Line No." + 1000;
-        end
-        else begin
-            saleline."Line No." := 1000;
-        end;
-        saleline.Validate("Document No.", salesheader1."No.");
-        saleline.Validate("Contract ID", salesheader1."Contract ID");
-        saleline.Type := saleline.Type::Item;
-        saleline.Validate("Sell-to Customer No.", salesheader1."Sell-to Customer No.");
-        item.SetRange(Description, requestcreditnotegrid."Secondary Item Type");
-        if item.FindSet() then begin
-
-            saleline.Validate("No.", item."No.");
-
-        end;
-        saleline.Validate("Quantity (Base)", 1);
-        saleline.Validate(Quantity, 1);
-        saleline.Validate("Unit Price", Abs(requestcreditnotegrid."Total Reduction"));
-        saleline."Contract ID" := requestcreditnotegrid."Contract ID";
-        saleline.Insert();
-
-
-
-
-        Clear(saleline);
     end;
 
 }

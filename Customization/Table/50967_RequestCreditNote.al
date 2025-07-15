@@ -103,10 +103,10 @@ table 50967 "Request Credit Note"
             Caption = 'Current Rent Amount';
 
         }
-        field(50975; "Remark"; Text[1000])
+        field(50975; "Reason for Rejection"; Text[1000])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Remark';
+            Caption = 'Reason for Rejection';
 
         }
         field(50976; "Property Classification"; Text[50])
