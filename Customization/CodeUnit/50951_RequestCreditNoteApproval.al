@@ -19,7 +19,7 @@ codeunit 50951 "Approval Request Crdit note "
         requestcreditnotegrid.SetRange("Contract ID", RequestCreditNote."Contract ID");
         if requestcreditnotegrid.FindSet() then
             repeat
-                AcutalRentAmount += requestcreditnotegrid."Current Rent Amount";
+                AcutalRentAmount += requestcreditnotegrid."Current Charges Amount";
                 Totalreductionamount += requestcreditnotegrid."Total Reduction";
             until requestcreditnotegrid.Next() = 0;
 
