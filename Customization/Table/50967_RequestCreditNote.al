@@ -77,12 +77,14 @@ table 50967 "Request Credit Note"
             Caption = 'Status';
 
         }
-        field(50971; "Request Source"; Text[250])
+        field(50971; "Request Source"; Option)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Requsest Source';
+            OptionMembers = " ",Email,Phone,WalkIn,Other;
+            Caption = 'Request Source';
 
         }
+
         field(50972; "Total Reduction"; Decimal)
         {
             DataClassification = ToBeClassified;

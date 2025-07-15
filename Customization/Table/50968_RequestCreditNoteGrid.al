@@ -78,6 +78,13 @@ table 50968 "Request Credit Note Grid"
             DataClassification = ToBeClassified;
             Caption = 'Secondary Item Type';
         }
+        field(50971; "View Charges Details"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'View Charges Details';
+            InitValue = 'View Charges Details';
+        }
+
 
 
 

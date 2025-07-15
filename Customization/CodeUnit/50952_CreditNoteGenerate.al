@@ -35,9 +35,7 @@ codeunit 50952 "Credit Memo Generate"
                         end
                     end;
                     if NewSalesHeader."Property Classification" <> '' then begin
-                        // NewSalesHeader."Gen. Bus. Posting Group" := NewSalesHeader."Property Classification";
-                        // NewSalesHeader."VAT Bus. Posting Group" := NewSalesHeader."Property Classification";
-                        // NewSalesHeader."Customer Posting Group" := NewSalesHeader."Property Classification";
+
                         NewSalesHeader.Validate("Gen. Bus. Posting Group", NewSalesHeader."Property Classification");
                         NewSalesHeader.Validate("Customer Posting Group", NewSalesHeader."Property Classification");
                         NewSalesHeader.Modify();
@@ -118,8 +116,7 @@ codeunit 50952 "Credit Memo Generate"
         saleline.Validate("Quantity (Base)", 1);
         saleline.Validate(Quantity, 1);
         saleline.Validate("Unit Price", Abs(requestcreditnotegrid."Total Reduction"));
-        // saleline."Contract ID" := additionalchargessub."Contract ID";
-        // saleline."FC ID" := salesheader1."FC ID";
+        saleline."Contract ID" := requestcreditnotegrid."Contract ID";
         saleline.Insert();
 
 
