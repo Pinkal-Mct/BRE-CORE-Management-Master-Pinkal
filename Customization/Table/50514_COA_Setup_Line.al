@@ -34,6 +34,16 @@ table 50514 "COA Setup Line"
             DataClassification = ToBeClassified;
             TableRelation = "G/L Account"."No.";
         }
+        field(50505; "Residential-Unearned"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "G/L Account"."No.";
+        }
+        field(50506; "Commercial-Unearned"; code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "G/L Account"."No.";
+        }
     }
 
     keys

@@ -21,6 +21,16 @@ page 50524 "COA Setup"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the G/L account for commercial rent.';
                 }
+                field("Residential Unearned Rent"; Rec."Residential Unearned Rent")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the G/L account for unearned residential rent.';
+                }
+                field("Commercial Unearned Rent"; Rec."Commercial Unearned Rent")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the G/L account for unearned commercial rent.';
+                }
 
             }
             part(COASetupLines; "COA Setup List")
