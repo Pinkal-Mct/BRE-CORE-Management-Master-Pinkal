@@ -290,18 +290,21 @@ table 50312 SuspendReasonTable
             end;
         }
 
+
         field(50120; "Renewal Proposal ID"; Integer)
         {
             DataClassification = ToBeClassified;
             Caption = 'Contract Renewal ID';
-            TableRelation = "Tenancy Contract"."Renewal Proposal ID";
+            TableRelation = "Tenancy Contract"."Contract ID";
 
             trigger OnValidate()
             var
                 TenancyContractRec: Record "Tenancy Contract";
             begin
-                // Set a filter for the selected Proposal ID
-                TenancyContractRec.SetRange("Renewal Proposal ID", Rec."Renewal Proposal ID");
+                Rec."Contract ID" := Rec."Renewal Proposal ID";
+
+                // Set a filter for the selected Contract ID (same as Proposal ID logic)
+                TenancyContractRec.SetRange("Contract ID", Rec."Renewal Proposal ID");
 
                 // Attempt to find the first matching record
                 if TenancyContractRec.FindFirst() then begin
@@ -327,6 +330,47 @@ table 50312 SuspendReasonTable
                 end;
             end;
         }
+
+        // field(50120; "Renewal Proposal ID"; Integer)
+        // {
+        //     DataClassification = ToBeClassified;
+        //     Caption = 'Contract Renewal ID';
+        //     TableRelation = "Tenancy Contract"."Renewal Proposal ID";
+
+        //     trigger OnValidate()
+        //     var
+        //         TenancyContractRec: Record "Tenancy Contract";
+        //     begin
+
+        //         // Set a filter for the selected Proposal ID
+        //         TenancyContractRec.SetRange("Renewal Proposal ID", Rec."Renewal Proposal ID");
+
+        //         // Attempt to find the first matching record
+        //         if TenancyContractRec.FindFirst() then begin
+        //             // Populate related fields from the retrieved record
+        //             Rec."Contract ID" := TenancyContractRec."Contract ID";
+        //             Rec.TenantID := TenancyContractRec."Tenant ID";
+        //             Rec.TenantName := TenancyContractRec."Customer Name";
+        //             Rec.EmiratesID := TenancyContractRec."Emirates ID";
+        //             Rec.ContactNumber := TenancyContractRec."Contact Number";
+        //             Rec.EmailAddress := TenancyContractRec."Email Address";
+        //             Rec.TradeLicenseNo := TenancyContractRec."Tenant_License No.";
+        //             Rec.LicensingAuthority := TenancyContractRec."Licensing Authority";
+        //         end else begin
+        //             // Clear fields if no record is found
+        //             Rec."Contract ID" := 0;
+        //             Rec.TenantID := '';
+        //             Rec.TenantName := '';
+        //             Rec.EmiratesID := '';
+        //             Rec.ContactNumber := '';
+        //             Rec.EmailAddress := '';
+        //             Rec.TradeLicenseNo := '';
+        //             Rec.LicensingAuthority := '';
+        //         end;
+        //     end;
+        // }
+
+
 
         field(50118; ReleaseUnits; Option)
         {
