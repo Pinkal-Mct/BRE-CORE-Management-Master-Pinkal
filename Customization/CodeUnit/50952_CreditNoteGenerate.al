@@ -59,6 +59,7 @@ codeunit 50952 "Credit Memo Generate"
 
                 // 💡 Pass current series to only fetch matching lines
                 createSalesLines(NewSalesHeader, requestcreditnoteapproval, CurrentSeries);
+                Createdocument(NewSalesHeader);
                 SalesPost.Run(NewSalesHeader);
                 Message('✅ Sales Credit Memo created for Payment Series %1 with No. %2', CurrentSeries, NewSalesHeader."No.");
             end;
@@ -90,7 +91,7 @@ codeunit 50952 "Credit Memo Generate"
     end;
 
     procedure createSalesLines(
-        salesheader1: Record "Sales Header";
+        var salesheader1: Record "Sales Header";
         requestcreditnoteapproval: Record RequestCreditNoteApprovalList;
         paymentSeries: Code[20]
     )
@@ -143,5 +144,67 @@ codeunit 50952 "Credit Memo Generate"
                 requestcreditnotegrid."Credit Note No." := salesheader1."No.";
                 requestcreditnotegrid.Modify();
             until requestcreditnotegrid.Next() = 0;
+    end;
+
+    procedure Createdocument(var SalesheaderRec: Record "Sales Header")
+    var
+        InStream: InStream;
+        FileName: Text;
+        SASUrlBase: Text;
+        SASUrlWithFileName: Text;
+        UploadResult: Text;
+        TempBlob: Codeunit "Temp Blob";
+        ValidFormats: List of [Text];
+        FileExtension: Text[10];
+        FileSize: Decimal;
+        ConfigRecord: Record AzureConfiguration;
+        ReportID: Integer; // Your report ID
+        RecRef: RecordRef;
+        FieldRef1: FieldRef;
+        FieldRef2: FieldRef;
+        OutStream: OutStream;
+        documentattachment: Codeunit UploadAttachment;
+        SalesHeader1: Record "Sales Header";
+        customercard: Record Customer;
+        azureBlobUploader: Codeunit "Azure AD Blob Storage";
+        folderName: Text;
+    begin
+        if SalesheaderRec."Approval Status for CreditNote" <> SalesheaderRec."Approval Status for CreditNote"::Approved then
+            Error('The Sales Credit Memo cannot be posted because the approval status is not "Approved".');
+
+        if not ConfigRecord.FindFirst() then
+            Error('Azure configuration is missing. Please set up the SAS URL in the Azure Configuration table.');
+        ValidFormats.Add('.png');
+        ValidFormats.Add('.jpg');
+        ValidFormats.Add('.jpeg');
+
+
+        FileExtension := '.pdf';
+        ReportID := 50116;
+        //  RecRef.Open(DATABASE::"Sales Header"); // Open the table reference
+        // RecRef.GetTable(Rec);
+        // SalesHeader1.Reset();
+        // SalesHeader1.SetRange("No.", SalesheaderRec."No.");
+        // SalesHeader1.SetRange("Document Type", SalesheaderRec."Document Type"::"Credit Memo");
+        // if not SalesHeader1.FindFirst() then
+        //     Error('Sales Credit memo record not found.');
+
+        // Open the correct record in RecRef
+        RecRef.GetTable(SalesheaderRec);
+        // RecRef.GetTable(Rec);
+        TempBlob.CreateOutStream(OutStream);
+        Report.SaveAs(ReportID, '', ReportFormat::Pdf, OutStream, RecRef);
+
+
+
+        TempBlob.CreateInStream(InStream);
+        FileName := 'CreditNote' + SalesheaderRec."No." + FileExtension;
+        folderName := 'SalesCreditMemoDocuments';
+        UploadResult := azureBlobUploader.UploadDocumentToBlob(InStream, FileName, folderName);
+        SalesheaderRec."Credit Memo Document" := FileName;
+        SalesheaderRec."Credit Memo URL" := UploadResult;
+        SalesheaderRec.Modify();
+
+
     end;
 }
