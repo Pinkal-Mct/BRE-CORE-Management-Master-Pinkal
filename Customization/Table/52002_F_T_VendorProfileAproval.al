@@ -33,7 +33,7 @@ table 52002 "Approval Vendor Profile"
             Caption = 'Country';
             Editable = false;
         }
-        field(52006; Emirate; Text[30])
+        field(52006; Emirate; Enum Emirates)
         {
             Caption = 'Emirate';
             Editable = false;

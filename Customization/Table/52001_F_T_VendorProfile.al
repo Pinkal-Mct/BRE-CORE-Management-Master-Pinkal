@@ -143,7 +143,7 @@ table 52001 "Facility Vendor Profiles"
             Caption = 'Country';
             Editable = false;
         }
-        field(52009; Emirate; Text[30])
+        field(52009; Emirate; Enum Emirates)
         {
             Caption = 'Emirate';
             Editable = false;

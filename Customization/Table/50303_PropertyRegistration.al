@@ -67,11 +67,11 @@ table 50303 "Property Registration"
 
         }
         // Property Location
-        field(50107; "Emirate"; Text[100])
+        field(50107; "Emirate"; Enum Emirates)
         {
             DataClassification = ToBeClassified;
             Caption = 'Emirate';
-            TableRelation = Emirate."Emirate Name";
+            // TableRelation = Emirate."Emirate Name";
             trigger OnValidate()
             begin
                 "Community" := '';

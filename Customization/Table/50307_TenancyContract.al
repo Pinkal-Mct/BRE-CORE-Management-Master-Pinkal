@@ -705,7 +705,7 @@ table 50307 "Tenancy Contract"
             Caption = 'Update Contract Status';
             OptionMembers = " ","Initiate Activation Process","Initiate Suspension Process","Initiate Termination Process","Initiate Under Suspension-Unit Released";
 
-           
+
         }
         field(50134; "Tenant Contract Status"; Option)
         {
@@ -902,7 +902,7 @@ table 50307 "Tenancy Contract"
             DataClassification = ToBeClassified;
 
         }
-        field(50145; "Emirate"; Text[100])
+        field(50145; "Emirate"; Enum Emirates)
         {
             DataClassification = ToBeClassified;
 

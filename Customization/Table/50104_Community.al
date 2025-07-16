@@ -17,11 +17,11 @@ table 50104 "Community"
             Caption = 'Sl No.';
             Editable = false;
         }
-        field(50102; "Emirate Name"; Text[100])
+        field(50102; "Emirate Name"; Enum Emirates)
         {
             DataClassification = ToBeClassified;
             Caption = '"Emirate Name"';
-            TableRelation = Emirate."Emirate Name";
+            // TableRelation = Emirate."Emirate Name";
         }
         field(50103; "Community Code"; Code[30])
         {

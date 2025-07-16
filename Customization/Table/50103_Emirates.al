@@ -23,7 +23,7 @@ table 50103 "Emirate"
             Caption = 'Country Code';
             TableRelation = Country."Country Code";
         }
-        field(50103; "Emirate Name"; Text[100])
+        field(50103; "Emirate Name"; Enum Emirates)
         {
             DataClassification = ToBeClassified;
             Caption = 'Emirate Name';
