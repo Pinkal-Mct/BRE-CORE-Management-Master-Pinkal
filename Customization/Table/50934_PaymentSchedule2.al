@@ -232,6 +232,11 @@ table 50934 "Payment Schedule2"
             DataClassification = ToBeClassified;
             Caption = 'Final Rent Amount';
         }
+        field(50932; "Final RentAmountIncludingVAT"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Final Rent Amount Including VAT';
+        }
 
 
     }

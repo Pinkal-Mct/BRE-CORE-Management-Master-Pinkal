@@ -59,7 +59,7 @@ codeunit 50952 "Credit Memo Generate"
 
                 // 💡 Pass current series to only fetch matching lines
                 createSalesLines(NewSalesHeader, requestcreditnoteapproval, CurrentSeries);
-                //  SalesPost.Run(NewSalesHeader);
+                SalesPost.Run(NewSalesHeader);
                 Message('✅ Sales Credit Memo created for Payment Series %1 with No. %2', CurrentSeries, NewSalesHeader."No.");
             end;
         end;

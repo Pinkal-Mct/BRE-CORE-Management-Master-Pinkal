@@ -630,6 +630,12 @@ table 50925 "Payment Mode2"
             DataClassification = ToBeClassified;
             Caption = 'Final Rent Amount';
         }
+        field(50937; "FinalRentAmountIncludingVAT"; Decimal)
+        {
+            //OptionMembers = "0%","5%";    
+            DataClassification = ToBeClassified;
+            Caption = 'Final Rent Amount Including VAT';
+        }
 
 
     }
