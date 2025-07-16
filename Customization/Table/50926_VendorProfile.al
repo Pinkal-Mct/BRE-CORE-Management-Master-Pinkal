@@ -195,7 +195,7 @@ table 50926 "Vendor Profile"
             Caption = 'Country';
             Editable = false;
         }
-        field(50164; Emirate; Text[30])
+        field(50164; Emirate; Enum Emirates)
         {
             Caption = 'Emirate';
             Editable = false;

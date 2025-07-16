@@ -91,6 +91,11 @@ table 50922 "FinalSettlement"
                 FinalSettlementPosting: Codeunit "Final Settlement Posting Mgt.";
             begin
                 if Rec."Receivable Payment Status" = Enum::"Payment Status"::Received then begin
+                    // Call the Final Settlement Posting codeunit to post the amount
+                    FinalSettlementPosting.PostFinalSettlementAmount(Rec);
+                    // FinalSettlementPosting.receivecashrecipt(Rec);
+                    // FinalSettlementPosting.receivablecashrecipt(Rec);
+
                     Email.SendEmail(Rec);
 
                     // if not ConfigRecord.FindFirst() then
@@ -133,10 +138,6 @@ table 50922 "FinalSettlement"
                     end;
                     Rec.Modify();
 
-                    // Call the Final Settlement Posting codeunit to post the amount
-                    FinalSettlementPosting.PostFinalSettlementAmount(Rec);
-                    // FinalSettlementPosting.receivecashrecipt(Rec);
-                    // FinalSettlementPosting.receivablecashrecipt(Rec);
                 end
             end;
         }

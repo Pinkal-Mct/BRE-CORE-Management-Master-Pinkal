@@ -11,11 +11,11 @@ tableextension 50301 VendorExtention extends Vendor
             TableRelation = Country."Country Code";
             trigger OnValidate()
             begin
-                Emirate := '';
+                Emirate := Emirate::" ";
                 "Community" := '';
             end;
         }
-        field(50115; "Emirate"; Text[100])
+        field(50115; "Emirate"; Enum Emirates)
         {
             DataClassification = ToBeClassified;
             Caption = 'Emirate';

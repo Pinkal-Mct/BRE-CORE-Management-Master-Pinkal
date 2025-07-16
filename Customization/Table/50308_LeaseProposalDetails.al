@@ -834,7 +834,7 @@ table 50308 "Lease Proposal Details"
             DataClassification = ToBeClassified;
 
         }
-        field(50158; "Emirate"; Text[100])
+        field(50158; "Emirate"; Enum Emirates)
         {
             Caption = 'Emirate';
             DataClassification = ToBeClassified;

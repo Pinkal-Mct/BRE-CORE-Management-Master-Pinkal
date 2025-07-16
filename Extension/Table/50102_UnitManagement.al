@@ -147,16 +147,16 @@ tableextension 50102 ItemExtension extends Item
             TableRelation = Country."Country Code";
             trigger OnValidate()
             begin
-                Emirate := '';
+                Emirate := Emirate::" ";
                 "Community" := '';
             end;
         }
-        field(50115; "Emirate"; Text[100])
+        field(50115; "Emirate"; Enum Emirates)
         {
             DataClassification = ToBeClassified;
             Caption = 'Emirate';
-            TableRelation = Emirate."Emirate Name"
-                 where("Country Code" = field(Country));
+            // TableRelation = Emirate."Emirate Name"
+            //     where("Country Code" = field(Country));
 
             trigger OnValidate()
             begin
