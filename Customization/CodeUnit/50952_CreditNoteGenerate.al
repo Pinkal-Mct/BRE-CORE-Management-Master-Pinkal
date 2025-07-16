@@ -178,19 +178,19 @@ codeunit 50952 "Credit Memo Generate"
         ValidFormats.Add('.jpg');
         ValidFormats.Add('.jpeg');
 
-
+        SASUrlBase := ConfigRecord."SAS URL";
         FileExtension := '.pdf';
         ReportID := 50116;
         //  RecRef.Open(DATABASE::"Sales Header"); // Open the table reference
         // RecRef.GetTable(Rec);
-        // SalesHeader1.Reset();
-        // SalesHeader1.SetRange("No.", SalesheaderRec."No.");
-        // SalesHeader1.SetRange("Document Type", SalesheaderRec."Document Type"::"Credit Memo");
-        // if not SalesHeader1.FindFirst() then
-        //     Error('Sales Credit memo record not found.');
+        SalesHeader1.Reset();
+        SalesHeader1.SetRange("No.", SalesheaderRec."No.");
+        SalesHeader1.SetRange("Document Type", SalesheaderRec."Document Type"::"Credit Memo");
+        if not SalesHeader1.FindFirst() then
+            Error('Sales Credit memo record not found.');
 
         // Open the correct record in RecRef
-        RecRef.GetTable(SalesheaderRec);
+        RecRef.GetTable(SalesHeader1);
         // RecRef.GetTable(Rec);
         TempBlob.CreateOutStream(OutStream);
         Report.SaveAs(ReportID, '', ReportFormat::Pdf, OutStream, RecRef);
