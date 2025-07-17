@@ -174,6 +174,14 @@ page 50724 finalbillinggrid
                 {
                     Caption = 'Credit Note Amount';
                 }
+                field("CreditNoteDocument"; Rec."Credit Note Document")
+                {
+                    Caption = 'Credit Note Document';
+                }
+                field("CreditNoteURL"; Rec."Credit Note Document URL")
+                {
+                    Caption = 'Credit Note Document URL';
+                }
 
             }
         }
