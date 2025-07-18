@@ -128,5 +128,27 @@ table 50967 "Request Credit Note"
         "Request No." := Requestno;                                                                // "Request No." := Requestno;
     end;
 
+    trigger OnDelete()
+    var
+    begin
+        Deletepaymetnscheudlesubpage();
+
+    end;
+
+    procedure Deletepaymetnscheudlesubpage()
+    var
+        RequestCreditNoteGrid: Record "Request Credit Note Grid";
+    begin
+        //  Paymentschedulesubpage.SetRange("PS ID", Rec."PS Id");
+        RequestCreditNoteGrid.SetRange("Request No.", Rec."Request No.");
+        ;
+        // RequestCreditNoteGrid.SetRange("Proposal ID", Rec."Proposal ID");
+
+        if RequestCreditNoteGrid.FindSet() then
+            repeat
+                RequestCreditNoteGrid.DeleteAll();
+            until RequestCreditNoteGrid.Next() = 0;
+    end;
+
 
 }
