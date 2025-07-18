@@ -15,15 +15,15 @@ table 50902 "Additional Charges Sub"
         {
             DataClassification = ToBeClassified;
             Caption = 'Secondary Item';
-            TableRelation = "Secondary Item"."Secondary Item Type" WHERE("Charges Status" = CONST("Additional Charges"));
+            TableRelation = "Item".Description WHERE("Item type template" = const("Item Type Template Enum"::"Secondary Item"), "Charges Status" = CONST("Additional Charges"));
             //TableRelation = "Secondary Item"."Secondary Item Type" WHERE("Payment System" = const("Installment"));
 
             trigger OnValidate()
             var
-                SecondaryItemRec: Record "Secondary Item";
+                SecondaryItemRec: Record "Item";
             begin
                 // Check if a record with the selected Secondary Item Type exists
-                SecondaryItemRec.SetRange("Secondary Item Type", Rec."Secondary Item Type");
+                SecondaryItemRec.SetRange(Description, Rec."Secondary Item Type");
                 if SecondaryItemRec.FindFirst() then begin
                     // Retrieve the VAT % from the Secondary Item record
                     "VAT %" := SecondaryItemRec."VAT %";
