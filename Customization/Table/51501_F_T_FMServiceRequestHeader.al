@@ -99,7 +99,7 @@ table 51501 "FM Service Request Header"
             DataClassification = ToBeClassified;
             trigger onValidate()
             begin
-                if Rec."Urgency Level" = 0 then
+                if Rec."Urgency Level" = Rec."Urgency Level"::" " then
                     Error('Urgency Level must be specified.');
             end;
         }

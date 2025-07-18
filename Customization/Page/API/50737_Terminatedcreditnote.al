@@ -260,10 +260,6 @@ page 50737 "Terminated credit note"
                 {
                     Caption = 'Opportunity No.';
                 }
-                field(packageTrackingNo; Rec."Package Tracking No.")
-                {
-                    Caption = 'Package Tracking No.';
-                }
                 field(paid; Rec.Paid)
                 {
                     Caption = 'Paid';
