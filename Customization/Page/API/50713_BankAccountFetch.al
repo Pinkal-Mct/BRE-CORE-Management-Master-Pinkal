@@ -188,10 +188,6 @@ page 50713 BankAccountFetch
                 {
                     Caption = 'Global Dimension 2 Code';
                 }
-                field(homePage; Rec."Home Page")
-                {
-                    Caption = 'Home Page';
-                }
                 field(iban; Rec.IBAN)
                 {
                     Caption = 'IBAN';

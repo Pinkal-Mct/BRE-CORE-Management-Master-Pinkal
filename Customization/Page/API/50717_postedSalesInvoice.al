@@ -438,10 +438,6 @@ page 50717 postedSalesInvoice
                 // {
                 //     Caption = 'PAC Web Service Name';
                 // }
-                field(packageTrackingNo; Rec."Package Tracking No.")
-                {
-                    Caption = 'Package Tracking No.';
-                }
                 field(paymentDiscount; Rec."Payment Discount %")
                 {
                     Caption = 'Payment Discount %';

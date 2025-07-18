@@ -40,7 +40,6 @@ table 52001 "Facility Vendor Profiles"
                     "Phone No." := Vendor."Phone No.";
                     "Mobile Phone No." := Vendor."Mobile Phone No.";
                     "E-Mail" := Vendor."E-Mail";
-                    "Home Page" := Vendor."Home Page";
                     "Our Account No." := Vendor."Our Account No.";
                     "Primary Contact Code" := Vendor."Primary Contact No.";
                     "VAT Registration No." := Vendor."VAT Registration No.";
