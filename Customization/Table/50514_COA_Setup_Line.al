@@ -17,7 +17,7 @@ table 50514 "COA Setup Line"
         field(50502; "Secondary Item"; Text[100])
         {
             DataClassification = ToBeClassified;
-            TableRelation = Item;
+            TableRelation = Item where("Item Type Template" = const("Item Type Template Enum"::"Secondary Item"));
 
             trigger onValidate()
             begin

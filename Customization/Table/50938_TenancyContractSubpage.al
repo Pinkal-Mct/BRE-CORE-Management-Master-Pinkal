@@ -15,16 +15,16 @@ table 50938 "Tenancy Contract Subpage"
         {
             DataClassification = ToBeClassified;
             Caption = 'Secondary Item';
-            TableRelation = "Secondary Item"."Secondary Item Type";
+            TableRelation = Item.Description where("Item Type Template" = const("Item Type Template Enum"::"Secondary Item"));
             Editable = false;
             //TableRelation = "Secondary Item"."Secondary Item Type" WHERE("Payment System" = const("Installment"));
 
             trigger OnValidate()
             var
-                SecondaryItemRec: Record "Secondary Item";
+                SecondaryItemRec: Record Item;
             begin
                 // Check if a record with the selected Secondary Item Type exists
-                SecondaryItemRec.SetRange("Secondary Item Type", Rec."Secondary Item Type");
+                SecondaryItemRec.SetRange(Description, Rec."Secondary Item Type");
                 if SecondaryItemRec.FindFirst() then begin
                     // Retrieve the VAT % from the Secondary Item record
                     "VAT %" := SecondaryItemRec."VAT %";

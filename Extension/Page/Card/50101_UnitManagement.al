@@ -40,8 +40,7 @@ pageextension 50101 Items extends "Item Card"
         }
         modify("Last Date Modified")
         {
-            Caption = 'Unit Registration Date';
-            Editable = true;
+            Visible = false;
         }
         modify(InventoryGrp)
         {
@@ -115,12 +114,32 @@ pageextension 50101 Items extends "Item Card"
             {
                 ShowCaption = false;
                 Visible = Unitcharges or isVenderService;
-                // field("Charges Description"; Rec.Description)
-                // {
-                //     ApplicationArea = All;
-                //     Caption = 'Description';
 
-                // }
+                field("Primary Item Type"; Rec."Primary Item Type")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Primary Item Type';
+                }
+                field("Category Types"; Rec."Category Types")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Category Types';
+                }
+                field("VAT Type"; Rec."VAT Type")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'VAT Type';
+                }
+                field("VAT %"; Rec."VAT %")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'VAT Percentage';
+                }
+                field("Charges Status"; Rec."Charges Status")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Charges Status';
+                }
             }
         }
         movefirst("Unit Charges Description"; Description)
@@ -522,7 +541,7 @@ pageextension 50101 Items extends "Item Card"
     procedure UnitChargesFieldsVisiblity(): Boolean
     begin
         if Rec."Item Template" = Enum::"Item Template Enum"::Service then begin
-            if Rec."Item type template" = Enum::"Item Type Template Enum"::"Unit Charges" then
+            if Rec."Item type template" = Enum::"Item Type Template Enum"::"Secondary Item" then
                 exit(true)
             else
                 exit(false);
@@ -577,6 +596,7 @@ pageextension 50101 Items extends "Item Card"
         ISPrimaryType := SetPrimaryType();
         hideshowfields := hidefields();
         editablefalsefieldNonInventoryType := editablefalseNonInventory();
+        Unitcharges := UnitChargesFieldsVisiblity();
 
     end;
 

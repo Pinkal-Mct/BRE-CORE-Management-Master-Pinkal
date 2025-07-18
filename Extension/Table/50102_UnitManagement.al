@@ -361,7 +361,60 @@ tableextension 50102 ItemExtension extends Item
         //     DataClassification = ToBeClassified;
         //     TableRelation = "Merged Units".FixedNumber;
         // }
+        field(50145; "Primary Item Type"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Primary Item';
+            TableRelation = "Primary Item"."Primary Item Type";
+            Editable = false;
+        }
+        field(50146; "Category Types"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Category';
+            TableRelation = "Category Type"."Category Types";
 
+            trigger OnValidate()
+            var
+                CategoryRec: Record "Category type";
+                PrimaryRec: Record "Primary Item";
+            begin
+                CategoryRec.SetRange("Category Types", Rec."Category Types");
+
+                if CategoryRec.FindFirst() then
+                    "Primary Item Type" := CategoryRec."Primary Item Type"
+                else
+                    "Primary Item Type" := '';
+            end;
+        }
+
+        field(50147; "VAT Type"; Option)
+        {
+            Caption = 'VAT Type';
+            OptionMembers = "Zero-0%","Standard-5%";
+            trigger OnValidate()
+            begin
+                case "VAT Type" of
+                    0:
+                        "VAT %" := 0;
+                    1:
+                        "VAT %" := 1;
+                    else
+                        "VAT %" := 0;
+                end;
+            end;
+        }
+        field(50148; "VAT %"; Option)
+        {
+            OptionMembers = "0","5";
+            Caption = 'VAT %';
+            Editable = false;
+        }
+        field(50149; "Charges Status"; Option)
+        {
+            OptionMembers = " ","Regular Charges","Additional Charges";
+            Caption = 'Charges Status';
+        }
     }
 
 

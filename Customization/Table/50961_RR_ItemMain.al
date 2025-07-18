@@ -16,7 +16,7 @@ table 50961 "Revenue Recognition Item"
         {
             DataClassification = ToBeClassified;
             Caption = 'Item Type';
-            TableRelation = "Secondary Item"."Secondary Item Type" WHERE("Charges Status" = CONST("Regular Charges"));
+            TableRelation = Item.Description WHERE("Item type template" = const("Item Type Template Enum"::"Secondary Item"), "Charges Status" = CONST("Regular Charges"));
         }
         field(50102; "Link"; Integer)
         {
