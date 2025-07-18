@@ -372,38 +372,9 @@ page 53505 VendorProfile
 
                     ApprovalVendorprofile.SetRange("Profile ID", Rec."Profile ID");
                     if ApprovalVendorprofile.FindSet() then begin
-                        // Modify existing approval record
-                        ApprovalVendorprofile."Profile ID" := Rec."Profile ID";
-                        ApprovalVendorprofile."Vendor ID" := Rec."Vendor ID";
-                        ApprovalVendorprofile."Status" := Rec."Status";
-                        ApprovalVendorprofile."Vendor Name" := Rec."Vendor Name";
-                        ApprovalVendorprofile."Country" := Rec."Country";
-                        ApprovalVendorprofile."Emirate" := Rec."Emirate";
-                        ApprovalVendorprofile."Community" := Rec."Community";
-                        ApprovalVendorprofile."Phone No." := Rec."Phone No.";
-                        ApprovalVendorprofile."Mobile Phone No." := Rec."Mobile Phone No.";
-                        ApprovalVendorprofile."E-Mail" := Rec."E-Mail";
-                        ApprovalVendorprofile."Location Code" := Rec."Location Code";
-                        ApprovalVendorprofile."Vendor Type" := Rec."Vendor Type";
-                        ApprovalVendorprofile.Modify();
-                        Message('Approval Request Modified successfully!');
+                        ModifyApprovalRequest(ApprovalVendorprofile);
                     end else begin
-                        // Insert new approval record
-                        ApprovalVendorprofile.Init();
-                        ApprovalVendorprofile."Profile ID" := Rec."Profile ID";
-                        ApprovalVendorprofile."Vendor ID" := Rec."Vendor ID";
-                        ApprovalVendorprofile."Status" := Rec."Status";
-                        ApprovalVendorprofile."Vendor Name" := Rec."Vendor Name";
-                        ApprovalVendorprofile."Country" := Rec."Country";
-                        ApprovalVendorprofile."Emirate" := Rec."Emirate";
-                        ApprovalVendorprofile."Community" := Rec."Community";
-                        ApprovalVendorprofile."Phone No." := Rec."Phone No.";
-                        ApprovalVendorprofile."Mobile Phone No." := Rec."Mobile Phone No.";
-                        ApprovalVendorprofile."E-Mail" := Rec."E-Mail";
-                        ApprovalVendorprofile."Location Code" := Rec."Location Code";
-                        ApprovalVendorprofile."Vendor Type" := Rec."Vendor Type";
-                        ApprovalVendorprofile.Insert(true);
-                        Message('Approval Request Sent successfully!');
+                        InsertApprovalRequest(ApprovalVendorprofile);
                     end;
                 end;
             }
@@ -477,6 +448,37 @@ page 53505 VendorProfile
     begin
         pVendorProfile."Profile ID" := noSeries.GetNextNo(pVendorProfileTemplate."No. Series", Today(), true);
         pVendorProfile.Module := pVendorProfileTemplate.Module;
+    end;
+
+    procedure ModifyApprovalRequest(var pApprovalVendorProfile: Record "Approval Vendor Profile")
+    begin
+        PopulateVendorProfileData(pApprovalVendorProfile);
+        PopulateVendorProfileData(pApprovalVendorProfile);
+        pApprovalVendorProfile.Modify(true);
+        Message('Approval Request modified successfully.');
+    end;
+
+    procedure InsertApprovalRequest(var pApprovalVendorProfile: Record "Approval Vendor Profile")
+    begin
+        PopulateVendorProfileData(pApprovalVendorProfile);
+        pApprovalVendorProfile.Insert(true);
+        Message('Approval Request Sent successfully!');
+    end;
+
+    procedure PopulateVendorProfileData(var pApprovalVendorProfile: Record "Approval Vendor Profile")
+    begin
+        pApprovalVendorProfile."Profile ID" := Rec."Profile ID";
+        pApprovalVendorProfile."Vendor ID" := Rec."Vendor ID";
+        pApprovalVendorProfile."Status" := Rec."Status";
+        pApprovalVendorProfile."Vendor Name" := Rec."Vendor Name";
+        pApprovalVendorProfile."Country" := Rec."Country";
+        pApprovalVendorProfile."Emirate" := Rec."Emirate";
+        pApprovalVendorProfile."Community" := Rec."Community";
+        pApprovalVendorProfile."Phone No." := Rec."Phone No.";
+        pApprovalVendorProfile."Mobile Phone No." := Rec."Mobile Phone No.";
+        pApprovalVendorProfile."E-Mail" := Rec."E-Mail";
+        pApprovalVendorProfile."Location Code" := Rec."Location Code";
+        pApprovalVendorProfile."Vendor Type" := Rec."Vendor Type";
     end;
 
 }
