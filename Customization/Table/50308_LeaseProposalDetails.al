@@ -34,7 +34,7 @@ table 50308 "Lease Proposal Details"
                 if PropertyRec.FindFirst() then begin
                     "Property Name" := PropertyRec."Property Name";
                     "Makani Number" := PropertyRec."Makani Number";
-                    Emirate := PropertyRec.Emirate;
+                    Emirate := PropertyRec."Emirate Name";
                     Community := PropertyRec.Community;
                     "DEWA Number" := PropertyRec."DEWA Number";
                     "Property Size" := PropertyRec."Property Size";
@@ -834,7 +834,7 @@ table 50308 "Lease Proposal Details"
             DataClassification = ToBeClassified;
 
         }
-        field(50158; "Emirate"; Enum Emirates)
+        field(50158; "Emirate"; Text[50])
         {
             Caption = 'Emirate';
             DataClassification = ToBeClassified;

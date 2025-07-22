@@ -67,14 +67,24 @@ table 50303 "Property Registration"
 
         }
         // Property Location
-        field(50107; "Emirate"; Enum Emirates)
+        field(50107; "Emirate Name"; Text[50])
         {
             DataClassification = ToBeClassified;
             Caption = 'Emirate';
-            // TableRelation = Emirate."Emirate Name";
+            TableRelation = Emirate.ID;
             trigger OnValidate()
+            var
+                emirate: Record "Emirate";
+                emirateID: Integer;
             begin
-                "Community" := '';
+                Evaluate(emirateID, "Emirate Name");
+                emirate.SetRange(ID, emirateID);
+                if emirate.FindFirst() then begin
+                    "Emirate Name" := Format(emirate."Emirate Name");
+                    Community := '';
+                end else begin
+                    Error('Invalid Emirate Name: %1', "Emirate Name");
+                end;
             end;
         }
 
@@ -83,7 +93,7 @@ table 50303 "Property Registration"
             DataClassification = ToBeClassified;
             Caption = 'Community';
             TableRelation = Community."Community Name"
-                 where("Emirate Name" = field(Emirate));
+                 where("Emirate Name" = field("Emirate Name"));
         }
 
         // Number of Units

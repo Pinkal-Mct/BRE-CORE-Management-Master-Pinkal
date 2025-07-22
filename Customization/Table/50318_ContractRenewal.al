@@ -488,7 +488,7 @@ table 50318 "Contract Renewal"
             DataClassification = ToBeClassified;
 
         }
-        field(50145; "Emirate"; Enum Emirates)
+        field(50145; "Emirate"; Text[50])
         {
             DataClassification = ToBeClassified;
 

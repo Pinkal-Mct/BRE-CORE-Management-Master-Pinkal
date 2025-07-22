@@ -242,7 +242,7 @@ pageextension 50101 Items extends "Item Card"
                     end;
 
                 }
-                field(Emirate; Rec.Emirate)
+                field(Emirate; Rec."Emirate Name")
                 {
                     ApplicationArea = All;
                     Caption = 'Emirate';
@@ -461,7 +461,7 @@ pageextension 50101 Items extends "Item Card"
 
         // Convert Option fields to Text using Format
         Country := Format(TargetItem.Country); // Assuming Rec has an "Option" field for Country
-        Emirates := Format(TargetItem.Emirate); // Assuming Rec has an "Option" field for Emirates
+        Emirates := Format(TargetItem."Emirate Name"); // Assuming Rec has an "Option" field for Emirates
         Community := Format(TargetItem."Community"); // Assuming Rec has an "Option" field for Community
         Unitnumber := Format(TargetItem."Unit Number"); // Assuming "Unit Number" is a field in the record
 

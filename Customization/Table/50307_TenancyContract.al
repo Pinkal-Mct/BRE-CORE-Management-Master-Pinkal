@@ -902,7 +902,7 @@ table 50307 "Tenancy Contract"
             DataClassification = ToBeClassified;
 
         }
-        field(50145; "Emirate"; Enum Emirates)
+        field(50145; "Emirate"; Text[50])
         {
             DataClassification = ToBeClassified;
 
