@@ -5,13 +5,30 @@ codeunit 50301 "Send PaymentMode Email"
         Email: Codeunit "Email";
         EmailMessage: Codeunit "Email Message";
         CompanyInfo: Record "Company Information";
+        PaymentMode: Record "Payment Mode"; // Add Payment Mode record variable
+        EmailAddress: Text[250]; // Variable to store the email address
     begin
         if Rec."Payment Status" = Rec."Payment Status"::Received then begin
+            // Find matching Payment Mode record by Tenant ID
+            PaymentMode.Reset();
+            PaymentMode.SetRange("Tenant ID", Rec."Tenant ID");
+            PaymentMode.SetRange("Contract ID", Rec."Contract ID");
+
+            if PaymentMode.FindFirst() then begin
+                EmailAddress := PaymentMode."Tenant Email"; // Get email from Payment Mode table
+
+                // Check if email address is not empty
+                if EmailAddress = '' then
+                    Error('Email address not found for Tenant ID: %1', Rec."Tenant ID");
+
+            end else
+                Error('Payment Mode record not found for Tenant ID: %1', Rec."Tenant ID");
+
             // Ensure that the correct record is passed and exists
             if CompanyInfo.Get() then begin
-                // Create the email message
+                // Create the email message with Payment Mode email address
                 EmailMessage.Create(
-                    Rec."Tenant Email", // The recipient's email address
+                    EmailAddress, // Use email from Payment Mode table instead of Rec."Tenant Email"
                     'Payment Mode Details - ' + Format(Rec."Contract ID"),
                     '<html><body>' +
                     '<p>Dear ' + Rec."Tenant Name" + ',</p>' +
@@ -22,7 +39,7 @@ codeunit 50301 "Send PaymentMode Email"
                     '<b>Amount Including VAT:</b> ' + Format(Rec."Amount Including VAT") + '<br/>' +
                     '<b>Due Date:</b> ' + Format(Rec."Due Date", 0, '<Day,2>-<Month,2>-<Year4>') + '<br/>' +
                     '<b>Payment Mode:</b> ' + Rec."Payment Mode" + '<br/>' +
-                      '<b>Payment Status:</b> ' + Format(Rec."Payment Status") + '</p>' +
+                    '<b>Payment Status:</b> ' + Format(Rec."Payment Status") + '</p>' +
                     '<p>Kindly review the information provided and let us know if you have any questions or need further clarification.</p>' +
                     '<p>Best regards,<br/>' + CompanyInfo.Name + '</p>' +
                     '</body></html>',
@@ -31,7 +48,7 @@ codeunit 50301 "Send PaymentMode Email"
 
                 // Send the email
                 if Email.Send(EmailMessage) then
-                    Message('Email sent successfully for Payment Mode: %1', Rec."Tenant Email")
+                    Message('Email sent successfully for Payment Mode: %1', EmailAddress)
                 else
                     Error('Failed to send email. Please verify SMTP settings and email addresses.');
             end;
@@ -43,13 +60,30 @@ codeunit 50301 "Send PaymentMode Email"
         Email: Codeunit "Email";
         EmailMessage: Codeunit "Email Message";
         CompanyInfo: Record "Company Information";
+        PaymentMode: Record "Payment Mode"; // Add Payment Mode record variable
+        EmailAddress: Text[250]; // Variable to store the email address
     begin
         // Similar structure for cancelled status
         if Rec."Payment Status" = Rec."Payment Status"::Cancelled then begin
+            // Find matching Payment Mode record by Tenant ID
+            PaymentMode.Reset();
+            PaymentMode.SetRange("Tenant ID", Rec."Tenant ID");
+            PaymentMode.SetRange("Contract ID", Rec."Contract ID");
+
+            if PaymentMode.FindFirst() then begin
+                EmailAddress := PaymentMode."Tenant Email"; // Get email from Payment Mode table
+
+                // Check if email address is not empty
+                if EmailAddress = '' then
+                    Error('Email address not found for Tenant ID: %1', Rec."Tenant ID");
+
+            end else
+                Error('Payment Mode record not found for Tenant ID: %1', Rec."Tenant ID");
+
             if CompanyInfo.Get() then begin
-                // Create the email message
+                // Create the email message with Payment Mode email address
                 EmailMessage.Create(
-                    Rec."Tenant Email", // The recipient's email address
+                    EmailAddress, // Use email from Payment Mode table instead of Rec."Tenant Email"
                     'Payment Mode Details - ' + Format(Rec."Contract ID"),
                     '<html><body>' +
                     '<p>Dear ' + Rec."Tenant Name" + ',</p>' +
@@ -61,7 +95,6 @@ codeunit 50301 "Send PaymentMode Email"
                     '<b>Due Date:</b> ' + Format(Rec."Due Date", 0, '<Day,2>-<Month,2>-<Year4>') + '<br/>' +
                     '<b>Payment Mode:</b> ' + Rec."Payment Mode" + '<br/>' +
                     '<b>Payment Status:</b> ' + Format(Rec."Payment Status") + '</p>' +
-
                     '<p>Best regards,<br/>' + CompanyInfo.Name + '</p>' +
                     '</body></html>',
                     true
@@ -69,7 +102,7 @@ codeunit 50301 "Send PaymentMode Email"
 
                 // Send the email
                 if Email.Send(EmailMessage) then
-                    Message('Email sent successfully for Payment Mode: %1', Rec."Tenant Email")
+                    Message('Email sent successfully for Payment Mode: %1', EmailAddress)
                 else
                     Error('Failed to send email. Please verify SMTP settings and email addresses.');
             end;
@@ -81,13 +114,30 @@ codeunit 50301 "Send PaymentMode Email"
         Email: Codeunit "Email";
         EmailMessage: Codeunit "Email Message";
         CompanyInfo: Record "Company Information";
+        PaymentMode: Record "Payment Mode"; // Add Payment Mode record variable
+        EmailAddress: Text[250]; // Variable to store the email address
     begin
         // Similar structure for overdue status
         if Rec."Payment Status" = Rec."Payment Status"::Overdue then begin
+            // Find matching Payment Mode record by Tenant ID
+            PaymentMode.Reset();
+            PaymentMode.SetRange("Tenant ID", Rec."Tenant ID");
+            PaymentMode.SetRange("Contract ID", Rec."Contract ID");
+
+            if PaymentMode.FindFirst() then begin
+                EmailAddress := PaymentMode."Tenant Email"; // Get email from Payment Mode table
+
+                // Check if email address is not empty
+                if EmailAddress = '' then
+                    Error('Email address not found for Tenant ID: %1', Rec."Tenant ID");
+
+            end else
+                Error('Payment Mode record not found for Tenant ID: %1', Rec."Tenant ID");
+
             if CompanyInfo.Get() then begin
-                // Create the email message
+                // Create the email message with Payment Mode email address
                 EmailMessage.Create(
-                    Rec."Tenant Email", // The recipient's email address
+                    EmailAddress, // Use email from Payment Mode table instead of Rec."Tenant Email"
                     'Payment Mode Details - ' + Format(Rec."Contract ID"),
                     '<html><body>' +
                     '<p>Dear ' + Rec."Tenant Name" + ',</p>' +
@@ -106,7 +156,7 @@ codeunit 50301 "Send PaymentMode Email"
 
                 // Send the email
                 if Email.Send(EmailMessage) then
-                    Message('Email sent successfully for Payment Mode: %1', Rec."Tenant Email")
+                    Message('Email sent successfully for Payment Mode: %1', EmailAddress)
                 else
                     Error('Failed to send email. Please verify SMTP settings and email addresses.');
             end;

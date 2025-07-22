@@ -12,26 +12,44 @@ codeunit 50102 "Send Payment Receipt"
         EmailMessage: Codeunit "Email Message";
         CompanyInfo: Record "Company Information";
         ConsolidatedInvoiceHeader: Record "Payment Mode2";
+        PaymentMode: Record "Payment Mode"; // Add Payment Mode record variable
         RecRef: RecordRef;
         FileManagement: Codeunit "File Management";
         NoSeriesManagement: Codeunit "No. Series";
         ReceiptNo: Code[20];
+        EmailAddress: Text[250]; // Variable to store the email address
     begin
         ReportID := 50112;
 
         // Apply filters to fetch the specific record
         ConsolidatedInvoiceHeader.Reset();
         ConsolidatedInvoiceHeader.SetRange("Tenant ID", Rec."Tenant ID");
-        ConsolidatedInvoiceHeader.SetRange("Contract ID", Rec."Contract ID"); // Ensure filtering on unique ID
-        ConsolidatedInvoiceHeader.SetRange("Payment Series", Rec."Payment Series"); // Add this line to filter by Payment Series
+        ConsolidatedInvoiceHeader.SetRange("Contract ID", Rec."Contract ID");
+        ConsolidatedInvoiceHeader.SetRange("Payment Series", Rec."Payment Series");
 
         if ConsolidatedInvoiceHeader.FindFirst() then begin
+            // Find matching Payment Mode record by Tenant ID
+            PaymentMode.Reset();
+            PaymentMode.SetRange("Tenant ID", ConsolidatedInvoiceHeader."Tenant ID");
+            PaymentMode.SetRange("Contract ID", ConsolidatedInvoiceHeader."Contract ID");
+
+            if PaymentMode.FindSet() then begin
+                EmailAddress := PaymentMode."Tenant Email"; // Get email from Payment Mode table
+
+                // Check if email address is not empty
+                if EmailAddress = '' then
+                    Error('Email address not found for Tenant ID: %1', ConsolidatedInvoiceHeader."Tenant ID");
+
+            end else
+                Error('Payment Mode record not found for Tenant ID: %1', ConsolidatedInvoiceHeader."Tenant ID");
+
             // Generate auto-incremented receipt number
             if ConsolidatedInvoiceHeader."Receipt #" = '' then begin
                 ReceiptNo := NoSeriesManagement.GetNextNo('RECEIPTNO', WorkDate(), true);
                 ConsolidatedInvoiceHeader."Receipt #" := ReceiptNo;
-                ConsolidatedInvoiceHeader.Modify(); // Save the new receipt number
+                ConsolidatedInvoiceHeader.Modify();
             end;
+
             // Prepare the report output
             RecRef.GetTable(ConsolidatedInvoiceHeader);
             TempBlob.CreateOutStream(OutStream);
@@ -42,13 +60,13 @@ codeunit 50102 "Send Payment Receipt"
             FileName := 'Receipt_' + Format(ConsolidatedInvoiceHeader."Receipt #") + '.pdf';
 
             // Debugging to confirm email creation parameters
-            Message('Preparing to send email to: %1', ConsolidatedInvoiceHeader."Tenant Email");
+            Message('Preparing to send email to: %1', EmailAddress);
 
             // Retrieve company information
             if CompanyInfo.Get() then begin
-                // Create email with detailed contract information
+                // Create email with Payment Mode email address
                 EmailMessage.Create(
-                    ConsolidatedInvoiceHeader."Tenant Email",
+                    EmailAddress, // Use email from Payment Mode table
                     'Payment Receipt Attached_' + Format(ConsolidatedInvoiceHeader."Receipt #"),
                     '<html>' +
                     '<body>' +
@@ -64,13 +82,13 @@ codeunit 50102 "Send Payment Receipt"
 
                 // Send the email
                 if Email.Send(EmailMessage) then
-                    Message('Email sent successfully to: %1', ConsolidatedInvoiceHeader."Tenant Email")
+                    Message('Email sent successfully to: %1', EmailAddress)
                 else
                     Error('Failed to send email. Please verify SMTP settings and email addresses.');
             end;
 
             exit('Email sent successfully');
         end else
-            Error('No Payment Receipt details found for Tenant ID: %1, Contract ID: %2', Rec."Tenant ID", Rec."Contract ID", Rec."Payment Series");
+            Error('No Payment Receipt details found for Tenant ID: %1, Contract ID: %2, Payment Series: %3', Rec."Tenant ID", Rec."Contract ID", Rec."Payment Series");
     end;
 }
