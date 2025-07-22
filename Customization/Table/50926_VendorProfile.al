@@ -38,7 +38,7 @@ table 50926 "Vendor Profile"
                     // "Country/Region Code" := Vendor."Country/Region Code";
                     // "City" := Vendor."City";
                     "Country" := Vendor.County;
-                    "Emirate" := vendor.Emirate;
+                    "Emirate" := vendor."Emirate Name";
                     "Community" := vendor.Community;
                     // "Post Code" := Vendor."Post Code";
                     "Phone No." := Vendor."Phone No.";
@@ -193,7 +193,7 @@ table 50926 "Vendor Profile"
             Caption = 'Country';
             Editable = false;
         }
-        field(50164; Emirate; Enum Emirates)
+        field(50164; Emirate; Text[50])
         {
             Caption = 'Emirate';
             Editable = false;

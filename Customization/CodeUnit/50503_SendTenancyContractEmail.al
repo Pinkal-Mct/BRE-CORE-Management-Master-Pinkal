@@ -1,4 +1,3 @@
-
 codeunit 50503 "Send Contract Email"
 {
     procedure SendEmail(Rec: Record "Tenancy Contract"): Text;
@@ -16,34 +15,30 @@ codeunit 50503 "Send Contract Email"
         RecRef: RecordRef;
     begin
         // Determine the appropriate report ID based on the emirate
-        if Rec.Emirate = Emirate::Dubai then begin
-            ReportID := 50101; // Report ID for Dubai tenancy contract
-            CurrentEmirateValue := Emirate::Dubai;
-        end else if Rec.Emirate = Emirate::"Umm Al Quwain" then begin
-            ReportID := 50115; // Report ID for Abu Dhabi tenancy contract
-            CurrentEmirateValue := Emirate::"Umm Al Quwain";
-        end else if Rec.Emirate = Emirate::"Abu Dhabi" then begin
-            ReportID := 50101; // Report ID for Abu Dhabi tenancy contract
-            CurrentEmirateValue := Emirate::"Abu Dhabi";
-        end else if Rec.Emirate = Emirate::Sharjah then begin
-            ReportID := 50101; // Report ID for Abu Dhabi tenancy contract
-            CurrentEmirateValue := Emirate::Sharjah;
-        end else if Rec.Emirate = Emirate::Ajman then begin
-            ReportID := 50101; // Report ID for Abu Dhabi tenancy contract
-            CurrentEmirateValue := Emirate::Ajman;
-        end else if Rec.Emirate = Emirate::Fujairah then begin
-            ReportID := 50101; // Report ID for Abu Dhabi tenancy contract
-            CurrentEmirateValue := Emirate::Fujairah;
-        end else if Rec.Emirate = Emirate::"Ras Al Khaimah" then begin
-            ReportID := 50101; // Report ID for Abu Dhabi tenancy contract
-            CurrentEmirateValue := Emirate::"Ras Al Khaimah";
+        // Convert Code to Enum for comparison
+        if Evaluate(CurrentEmirateValue, Rec.Emirate) then begin
+            if CurrentEmirateValue = Emirate::Dubai then begin
+                ReportID := 50101; // Report ID for Dubai tenancy contract
+            end else if CurrentEmirateValue = Emirate::"Umm Al Quwain" then begin
+                ReportID := 50115; // Report ID for Umm Al Quwain tenancy contract
+            end else if CurrentEmirateValue = Emirate::"Abu Dhabi" then begin
+                ReportID := 50101; // Report ID for Abu Dhabi tenancy contract
+            end else if CurrentEmirateValue = Emirate::Sharjah then begin
+                ReportID := 50101; // Report ID for Sharjah tenancy contract
+            end else if CurrentEmirateValue = Emirate::Ajman then begin
+                ReportID := 50101; // Report ID for Ajman tenancy contract
+            end else if CurrentEmirateValue = Emirate::Fujairah then begin
+                ReportID := 50101; // Report ID for Fujairah tenancy contract
+            end else if CurrentEmirateValue = Emirate::"Ras Al Khaimah" then begin
+                ReportID := 50101; // Report ID for Ras Al Khaimah tenancy contract
+            end else begin
+                Error('Unsupported emirate: %1', Rec.Emirate);
+            end;
         end else begin
-            Error('Unsupported emirate: %1', Rec.Emirate);
+            Error('Invalid emirate value: %1', Rec.Emirate);
         end;
-        if Rec."Tenant ID" <> '' then begin
-            // Explicitly set the Emirate value to ensure it's correct
-            Rec.Emirate := CurrentEmirateValue;
 
+        if Rec."Tenant ID" <> '' then begin
             // Generate the report with specific record filter
             TempBlob.CreateOutStream(OutStream);
 
@@ -100,12 +95,3 @@ codeunit 50503 "Send Contract Email"
             Error('No tenancy contract details found for Tenant ID: %1', Rec."Tenant ID");
     end;
 }
-
-
-
-
-
-
-
-
-

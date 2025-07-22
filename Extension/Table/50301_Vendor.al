@@ -11,20 +11,29 @@ tableextension 50301 VendorExtention extends Vendor
             TableRelation = Country."Country Code";
             trigger OnValidate()
             begin
-                Emirate := Emirate::" ";
+                "Emirate Name" := '';
                 "Community" := '';
             end;
         }
-        field(50115; "Emirate"; Enum Emirates)
+        field(50115; "Emirate Name"; Text[50])
         {
             DataClassification = ToBeClassified;
             Caption = 'Emirate';
-            TableRelation = Emirate."Emirate Name"
+            TableRelation = Emirate.ID
                  where("Country Code" = field(Country));
-
             trigger OnValidate()
+            var
+                emirate: Record "Emirate";
+                emirateID: Integer;
             begin
-                "Community" := '';
+                Evaluate(emirateID, "Emirate Name");
+                emirate.SetRange(ID, emirateID);
+                if emirate.FindFirst() then begin
+                    "Emirate Name" := Format(emirate."Emirate Name");
+                    Community := '';
+                end else begin
+                    Error('Invalid Emirate Name: %1', "Emirate Name");
+                end;
             end;
         }
         field(50116; "Community"; Text[100])
@@ -33,7 +42,7 @@ tableextension 50301 VendorExtention extends Vendor
             Caption = 'Community';
             // Filter the Property Type values based on the selected Primary Classification
             TableRelation = Community."Community Name"
-                 where("Emirate Name" = field(Emirate));
+                 where("Emirate Name" = field("Emirate Name"));
 
         }
 

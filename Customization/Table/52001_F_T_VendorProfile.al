@@ -35,7 +35,7 @@ table 52001 "Facility Vendor Profiles"
                     Address := Vendor.Address;
                     "Address 2" := Vendor."Address 2";
                     "Country" := Vendor.Country;
-                    "Emirate" := vendor.Emirate;
+                    "Emirate" := vendor."Emirate Name";
                     "Community" := vendor.Community;
                     "Phone No." := Vendor."Phone No.";
                     "Mobile Phone No." := Vendor."Mobile Phone No.";
@@ -142,7 +142,7 @@ table 52001 "Facility Vendor Profiles"
             Caption = 'Country';
             Editable = false;
         }
-        field(52009; Emirate; Enum Emirates)
+        field(52009; Emirate; Text[50])
         {
             Caption = 'Emirate';
             Editable = false;

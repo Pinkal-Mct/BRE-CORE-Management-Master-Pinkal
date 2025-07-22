@@ -17,11 +17,25 @@ table 50104 "Community"
             Caption = 'Sl No.';
             Editable = false;
         }
-        field(50102; "Emirate Name"; Enum Emirates)
+        field(50102; "Emirate Name"; Text[50])
         {
             DataClassification = ToBeClassified;
             Caption = '"Emirate Name"';
-            // TableRelation = Emirate."Emirate Name";
+            TableRelation = Emirate.ID;
+
+            trigger OnValidate()
+            var
+                emirate: Record "Emirate";
+                emirateID: Integer;
+            begin
+                Evaluate(emirateID, "Emirate Name");
+                emirate.SetRange(ID, emirateID);
+                if emirate.FindFirst() then begin
+                    "Emirate Name" := Format(emirate."Emirate Name");
+                end else begin
+                    Error('Invalid Emirate Name: %1', "Emirate Name");
+                end;
+            end;
         }
         field(50103; "Community Code"; Code[30])
         {
