@@ -719,8 +719,24 @@ table 50307 "Tenancy Contract"
                 ItemRec: Record Item;
                 MergeUnitRec: Record "Merged Units";
                 emailrec: Codeunit "Send Contract Email";
+                LeaseProposalRec: Record "Lease Proposal Details";
 
             begin
+
+
+                if ("Tenant Contract Status" = "Tenant Contract Status"::Terminated) or
+    ("Tenant Contract Status" = "Tenant Contract Status"::"Under Suspension-Unit Released") then begin
+
+                    LeaseProposalRec.Reset();
+                    LeaseProposalRec.SetRange("Proposal ID", Rec."Proposal ID"); // assuming field exists
+
+                    if LeaseProposalRec.FindFirst() then begin
+                        LeaseProposalRec."Proposal Status" := LeaseProposalRec."Proposal Status"::Completed;
+                        LeaseProposalRec.Modify();
+                    end;
+                end;
+
+
                 // Handle logic for Unit ID
                 if "Unit ID" <> '' then begin
                     // Retrieve the item record based on the Unit ID
