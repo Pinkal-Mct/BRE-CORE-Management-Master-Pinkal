@@ -104,12 +104,12 @@ table 50951 "Brokerage Master Data"
             Caption = 'Owner Name';
             Editable = false;
         }
-        field(50118; "Unit ID"; Code[20])
-        {
-            DataClassification = ToBeClassified;
-            Caption = 'Unit ID';
-            Editable = false;
-        }
+        // field(50118; "Unit ID"; Code[20])
+        // {
+        //     DataClassification = ToBeClassified;
+        //     Caption = 'Unit ID';
+        //     Editable = false;
+        // }
 
         field(50119; "Unit Number"; Text[100])
         {

@@ -2734,12 +2734,11 @@ table 50307 "Tenancy Contract"
             // Modify existing
             managementfee."Vendor ID" := contractLine."Vendor ID";
             managementfee."Contract ID" := contractLine."Contract ID";
-            managementfee."Property ID" := contractLine."Property ID";
             managementfee."Proposal ID" := contractLine."Proposal ID";
-            managementfee."Owner ID" := contractLine."Owner ID";
             managementfee."Unit Name" := contractLine."Unit Name";
             managementfee."Unit Number" := contractLine."Unit Number";
             managementfee."Vendor Name" := contractLine."Vendor Name";
+            managementfee."Property ID" := contractLine."Property ID";
             managementfee."Property Name" := contractLine."Property Name";
             managementfee."Start Date" := contractLine."Start Date";
             managementfee."End Date" := contractLine."End Date";
@@ -2752,6 +2751,7 @@ table 50307 "Tenancy Contract"
             managementfee.Amount := contractLine.Amount;
             managementfee."Base Amount" := contractLine."Rent Amount";
             managementfee.Percentage := contractLine.Percentage;
+            managementfee."Owner ID" := contractLine."Owner ID";
             managementfee."Owner Name" := contractLine."Owner's Name";
             managementfee."Tenant Name" := contractLine."Customer Name";
             managementfee.Modify();
@@ -2761,7 +2761,6 @@ table 50307 "Tenancy Contract"
             managementfee."Vendor ID" := contractLine."Vendor ID";
             managementfee."Contract ID" := contractLine."Contract ID";
             managementfee."Proposal ID" := contractLine."Proposal ID";
-            managementfee."Unit ID" := contractLine."Unit ID";
             managementfee."Unit Name" := contractLine."Unit Name";
             managementfee."Unit Number" := contractLine."Unit Number";
             managementfee."Vendor Name" := contractLine."Vendor Name";
@@ -2813,12 +2812,11 @@ table 50307 "Tenancy Contract"
             // Modify existing
             managementfee."Vendor ID" := contractLine."Vendor ID";
             managementfee."Contract ID" := contractLine."Contract ID";
-            managementfee."Property ID" := contractLine."Property ID";
-            managementfee."Proposal ID" := contractLine."Renewal Proposal ID";
-            managementfee."Owner ID" := contractLine."Owner ID";
+            managementfee."Proposal ID" := contractLine."Proposal ID";
             managementfee."Unit Name" := contractLine."Unit Name";
             managementfee."Unit Number" := contractLine."Unit Number";
             managementfee."Vendor Name" := contractLine."Vendor Name";
+            managementfee."Property ID" := contractLine."Property ID";
             managementfee."Property Name" := contractLine."Property Name";
             managementfee."Start Date" := contractLine."Start Date";
             managementfee."End Date" := contractLine."End Date";
@@ -2831,6 +2829,7 @@ table 50307 "Tenancy Contract"
             managementfee.Amount := contractLine.Amount;
             managementfee."Base Amount" := contractLine."Rent Amount";
             managementfee.Percentage := contractLine.Percentage;
+            managementfee."Owner ID" := contractLine."Owner ID";
             managementfee."Owner Name" := contractLine."Owner's Name";
             managementfee."Tenant Name" := contractLine."Customer Name";
             managementfee.Modify();
@@ -2839,7 +2838,6 @@ table 50307 "Tenancy Contract"
             managementfee.Init();
             managementfee."Vendor ID" := contractLine."Vendor ID";
             managementfee."Contract ID" := contractLine."Contract ID";
-            managementfee."Unit ID" := contractLine."Unit ID";
             managementfee."Proposal ID" := contractLine."Renewal Proposal ID";
             managementfee."Unit Name" := contractLine."Unit Name";
             managementfee."Unit Number" := contractLine."Unit Number";
