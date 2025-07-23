@@ -141,7 +141,7 @@ table 50307 "Tenancy Contract"
                     "Annual Rent Amount" := LeaseProposalRec."Annual Rent Amount";
                     "Rent Amount" := LeaseProposalRec."Rent Amount";
                     "Security Deposit Amount" := LeaseProposalRec."Security Deposit Amount";
-                    "Security Amount Received" := LeaseProposalRec."Security Deposit Amount";
+                    "Security Amount Pending" := LeaseProposalRec."Security Deposit Amount";
                     "Unit Number" := LeaseProposalRec."Unit Number";
                     "Makani Number" := LeaseProposalRec."Makani Number";
                     Emirate := LeaseProposalRec.Emirate;
@@ -1445,7 +1445,7 @@ table 50307 "Tenancy Contract"
         {
             DataClassification = ToBeClassified;
         }
-        field(50169; "Balance Amount"; Decimal)
+        field(50169; "Security Deposit Amt. Received"; Decimal)
         {
             DataClassification = ToBeClassified;
         }
@@ -1505,7 +1505,7 @@ table 50307 "Tenancy Contract"
             Editable = false;
         }
 
-        field(50176; "Security Amount Received"; Decimal)
+        field(50176; "Security Amount Pending"; Decimal)
         {
             DataClassification = ToBeClassified;
             Editable = false;
@@ -1712,6 +1712,10 @@ table 50307 "Tenancy Contract"
         {
             DataClassification = ToBeClassified;
             Caption = 'Address';
+        }
+        field(50212; IsCarryForwarded; Boolean)
+        {
+            DataClassification = ToBeClassified;
         }
     }
 

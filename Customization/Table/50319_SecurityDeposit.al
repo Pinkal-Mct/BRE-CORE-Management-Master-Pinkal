@@ -134,7 +134,7 @@ table 50319 "Security Deposit"
             Caption = 'New Contract End Date';
         }
 
-        field(50111; "New_Security Deposit Amount"; Decimal)
+        field(50111; "Carry Forward Amount"; Decimal)
         {
             DataClassification = ToBeClassified;
             Caption = 'Enter Amount';
@@ -145,7 +145,7 @@ table 50319 "Security Deposit"
             end;
         }
 
-        field(50112; "Adjusted amount"; Decimal)
+        field(50112; "Security Deposit Amt. Pending"; Decimal)
         {
             DataClassification = ToBeClassified;
             Caption = 'Security Deposit Amount Pending';
@@ -171,7 +171,7 @@ table 50319 "Security Deposit"
 
         }
 
-        field(50178; "New_Balance Amount"; Decimal)
+        field(50178; "Security Deposit Amt. Received"; Decimal)
         {
             DataClassification = ToBeClassified;
             Caption = 'Security Deposit Amount Received';
@@ -257,20 +257,21 @@ table 50319 "Security Deposit"
     local procedure UpdateAdjustedAmount()
     var
         TenancyContractRec: Record "Tenancy Contract";
+        tenancyContractSubPage: Record "Tenancy Contract Subpage";
     begin
 
 
         // Adjust the Balance Amount and Adjusted Amount based on conditions
-        if "Balance Amount" > "New_Security Deposit Amount" then begin
+        if "Balance Amount" > "Carry Forward Amount" then begin
             // "Adjusted amount" := 0; // Adjusted amount is set to 0
-            "Balance Amount" := "Balance Amount" - "New_Security Deposit Amount";
+            "Balance Amount" := "Balance Amount" - "Carry Forward Amount";
 
             // "New_Balance Amount" := "New_Security Deposit Amount";
             // "Adjusted amount" := "New Security Amount" - "New_Balance Amount"; // Update the remaining balance
 
             //last added code //
-            "New_Balance Amount" += "New_Security Deposit Amount";
-            "Adjusted amount" := "New Security Amount" - "New_Balance Amount";
+            "Security Deposit Amt. Received" += "Carry Forward Amount";
+            "Security Deposit Amt. Pending" := "New Security Amount" - "Security Deposit Amt. Received";
         end else begin
             // Difference becomes Adjusted Amount
             "Balance Amount" := 0; // Balance is cleared
@@ -286,10 +287,19 @@ table 50319 "Security Deposit"
 
         TenancyContractRec.SetRange("Contract ID", "New_Contract ID");
         if TenancyContractRec.FindFirst() then begin
-            TenancyContractRec."Balance Amount" := "New_Balance Amount";
-            TenancyContractRec."Security Balanced Amount" := "New_Balance Amount";
-            TenancyContractRec."Security Amount Received" := "Adjusted amount";  // Update the Balance Amount
+            TenancyContractRec."Security Deposit Amt. Received" := "Security Deposit Amt. Received";
+            TenancyContractRec."Security Balanced Amount" := "Security Deposit Amt. Received";
+            TenancyContractRec."Security Amount Pending" := "Security Deposit Amt. Pending";  // Update the Balance Amount
+            TenancyContractRec.IsCarryForwarded := true; // Mark as carry forward
             TenancyContractRec.Modify(); // Save the record
+
+            tenancyContractSubPage.SetRange(ContractID, TenancyContractRec."Contract ID");
+            tenancyContractSubPage.SetRange("Secondary Item Type", 'Security Deposit Amount');
+            if tenancyContractSubPage.FindSet() then begin
+                tenancyContractSubPage.Amount := TenancyContractRec."Security Deposit Amount" - TenancyContractRec."Security Deposit Amt. Received";
+                tenancyContractSubPage.Validate(Amount);
+                tenancyContractSubPage.Modify();
+            end;
         end;
     end;
 
