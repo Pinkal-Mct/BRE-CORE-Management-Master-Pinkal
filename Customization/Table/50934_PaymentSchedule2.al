@@ -314,13 +314,13 @@ table 50934 "Payment Schedule2"
             if (Rec."Secondary Item Type" = 'Security Deposit Amount') and
      (Rec."Payment Status" = 'Received') then begin
                 // Update the Balance Amount with Amount Including VAT from current Payment Schedule record
-                if TenancyContractRec."Balance Amount" <> 0 then begin
-                    TenancyContractRec."Balance Amount" += Rec."Amount Including VAT";
+                if TenancyContractRec."Security Deposit Amt. Received" <> 0 then begin
+                    TenancyContractRec."Security Deposit Amt. Received" += Rec."Amount Including VAT";
                     TenancyContractRec."Security Balanced Amount" += Rec."Amount Including VAT";
                 end
                 else begin
                     // If Balance Amount is 0, set it to Amount Including VAT
-                    TenancyContractRec."Balance Amount" := Rec."Amount Including VAT";
+                    TenancyContractRec."Security Deposit Amt. Received" := Rec."Amount Including VAT";
                     TenancyContractRec."Security Balanced Amount" := Rec."Amount Including VAT";
                 end;
 
