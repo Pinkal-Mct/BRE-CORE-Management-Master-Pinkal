@@ -63,10 +63,10 @@ table 50118 "Sub Unearned Parking Report"
             Caption = 'Suspension Date';
         }
 
-        field(50110; "Contract Value"; Decimal)
+        field(50110; "Other Charges Value"; Decimal)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Contract Value';
+            Caption = 'Other Charges Value';
         }
 
         field(50111; "Contract Status"; Text[50])
