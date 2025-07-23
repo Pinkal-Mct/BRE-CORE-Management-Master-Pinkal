@@ -352,8 +352,8 @@ table 50308 "Lease Proposal Details"
         {
             DataClassification = ToBeClassified;
             Caption = 'Proposal Status';
-            OptionMembers = "    ",ProposalSharedtoTenant,Approved,Declined;
-            OptionCaption = '   ,Proposal Shared to Tenant,  Approved,  Declined';
+            OptionMembers = "    ",ProposalSharedtoTenant,Approved,Declined,Completed;
+            OptionCaption = '   ,Proposal Shared to Tenant,  Approved,  Declined, Completed';
 
 
             // trigger OnValidate()
