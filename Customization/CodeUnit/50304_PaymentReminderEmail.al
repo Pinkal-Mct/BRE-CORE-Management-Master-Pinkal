@@ -20,6 +20,7 @@ codeunit 50304 "Payment Reminder Processor"
         PaymentRec.SetFilter("Due Date", '<>%1', 0D); // Only with due dates
         PaymentRec.SetFilter("Payment Reminder", '>0'); // Only if reminder days > 0
 
+
         if PaymentRec.FindSet() then
             repeat
                 ReminderDays := PaymentRec."Payment Reminder";
@@ -27,11 +28,12 @@ codeunit 50304 "Payment Reminder Processor"
 
                 // Debug message
                 Message(
-                    'Checking Reminder: Due Date = %1 | Reminder Days = %2 | Reminder Date = %3 | Today = %4',
-                    PaymentRec."Due Date", ReminderDays, ReminderDate, TodayDate
+                    'Checking Reminder: Due Date = %1 | Reminder Days = %2 | Reminder Date = %3 | Today = %4 | Status = %5',
+                    PaymentRec."Due Date", ReminderDays, ReminderDate, TodayDate, Format(PaymentRec."Payment Status")
                 );
 
-                if ReminderDate = TodayDate then
+                // Check both Reminder Date and that the status is 'Scheduled'
+                if (ReminderDate = TodayDate) and (PaymentRec."Payment Status" = PaymentRec."Payment Status"::Scheduled) then
                     SendReminderEmail(PaymentRec);
             until PaymentRec.Next() = 0;
     end;
