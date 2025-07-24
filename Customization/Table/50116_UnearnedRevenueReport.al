@@ -37,6 +37,55 @@ table 50116 "Unearned Revenue Report"
                     Error('Ending Date Year cannot be less than Starting Date Year.');
             end;
         }
+
+        field(50; "R_Total Contract Value"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Total Contract Value';
+            Editable = false;
+        }
+
+        field(51; "R_Total Opening Balance"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Total Opening Balance';
+            Editable = false;
+        }
+
+        field(52; "R_T_Invoice Raised During Year"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Total Invoice Raised During Year';
+            Editable = false;
+        }
+
+        field(53; "R_T_Revenue Allocated During Y"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Total Revenue Allocated During Year';
+            Editable = false;
+        }
+
+        field(54; "R_T_Unearned Revenue Balance"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Total Unearned Revenue Balance';
+            Editable = false;
+        }
+
+        field(55; "R_T_Cal Unearned RevBalance"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Total Calculated Unearned Rev Balance';
+            Editable = false;
+        }
+
+        field(56; "R_Total Shortfall Excess"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Total Shortfall/Excess';
+            Editable = false;
+        }
     }
     keys
     {
