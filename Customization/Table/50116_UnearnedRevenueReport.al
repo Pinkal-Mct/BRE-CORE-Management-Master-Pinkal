@@ -91,4 +91,45 @@ table 50116 "Unearned Revenue Report"
     {
         key(PK; "No.") { Clustered = true; }
     }
+
+
+    trigger OnDelete()
+    var
+    begin
+        Deleteunearnedrentrevenue();
+        Deleteunearnedrevenueotherrevenue();
+        Deletesubunearnedrevenuereportitem();
+
+    end;
+
+    procedure Deleteunearnedrentrevenue()
+    var
+        unearnedrevenuerentsubgrid: Record "Sub Unearned Revenue Report";
+    begin
+        unearnedrevenuerentsubgrid.SetRange("Header No.", Rec."No.");
+        if unearnedrevenuerentsubgrid.FindSet() then
+            unearnedrevenuerentsubgrid.DeleteAll();
+
+    end;
+
+    procedure Deletesubunearnedrevenuereportitem()
+    var
+        unearnedrevenuereportitem: Record "Other Charges UnearnedRevenue";
+    begin
+        unearnedrevenuereportitem.SetRange("No.", Rec."No.");
+        if unearnedrevenuereportitem.FindSet() then
+            unearnedrevenuereportitem.DeleteAll();
+
+    end;
+
+
+    procedure Deleteunearnedrevenueotherrevenue()
+    var
+        unearnedrevenueothercharges: Record "Sub Unearned Parking Report";
+    begin
+        unearnedrevenueothercharges.SetRange("Header No.", Rec."No.");
+        if unearnedrevenueothercharges.FindSet() then
+            unearnedrevenueothercharges.DeleteAll();
+
+    end;
 }
