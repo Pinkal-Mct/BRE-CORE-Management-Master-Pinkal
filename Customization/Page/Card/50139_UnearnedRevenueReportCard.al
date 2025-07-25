@@ -347,7 +347,7 @@ page 50139 "Unearned Revenue Report Card"
                 else
                     unearnedRevenueBuffer."Unit Name" := '';
                 // Add more fields as required
-                RevenueAllocation := CalculateRevenueAllocation(tenancyContract."Contract ID", tenancyContract."Contract Start Date", tenancyContract."Contract End Date");
+                RevenueAllocation := CalculateRevenueAllocation(tenancyContract."Contract ID", Rec."Starting Date Year", Rec."Ending Date Year");
                 unearnedRevenueBuffer."RevenueAllocated DuringtheYear" := RevenueAllocation;
                 unearnedRevenueBuffer."Unearned Revenue Balance" := TotalPaidAmount + TotalInvoicedAmount - RevenueAllocation;
                 // Message('Revenue allocation value : ' + Format(RevenueAllocation));
@@ -619,8 +619,7 @@ page 50139 "Unearned Revenue Report Card"
                 else
                     unearnedRevenueBuffer."Unit Name" := '';
 
-                RevenueAllocation := CalculateRevenueAllocations(tenancyContract."Contract ID", tenancyContract."Contract Start Date", tenancyContract."Contract End Date");
-
+                RevenueAllocation := CalculateRevenueAllocations(tenancyContract."Contract ID", Rec."Starting Date Year", Rec."Ending Date Year");
                 unearnedRevenueBuffer."RevenueAllocated DuringtheYear" := RevenueAllocation;
                 unearnedRevenueBuffer."Unearned Revenue Balance" := TotalPaidAmount + TotalInvoicedAmount - RevenueAllocation;
                 // Message('Revenue allocation value : ' + Format(RevenueAllocation));
@@ -671,7 +670,6 @@ page 50139 "Unearned Revenue Report Card"
         // Filter for months within the date range
         RevenueAllocationRec.SetFilter("Posting Month", GetMonthFilters(Rec."Starting Date Year", Rec."Ending Date Year"));
         RevenueAllocationRec.SetFilter("Item Type", ItemTypeFilter);
-
         if RevenueAllocationRec.FindSet() then
             repeat
                 // Sum up the revenue allocation for each month
