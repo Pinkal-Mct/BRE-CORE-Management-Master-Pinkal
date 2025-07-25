@@ -158,6 +158,7 @@ page 50139 "Unearned Revenue Report Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
+                Enabled = (TotalOtherCharges = 0); // 👈 Button only enabled if amount is 0
 
                 trigger OnAction()
                 begin
@@ -491,6 +492,13 @@ page 50139 "Unearned Revenue Report Card"
         EndDate := Rec."Ending Date Year";
 
         GetSelectedItemTypes(ItemTypes);
+
+        // 🔴 SHOW ERROR AND EXIT IF NO ITEM TYPES SELECTED
+        if ItemTypes.Count() = 0 then begin
+            Error('Please select at least one Item Type before running the report.');
+            exit;
+        end;
+
         ItemTypeFilter := GetItemTypeFilter(ItemTypes);
 
         tenancyContract.Reset();
