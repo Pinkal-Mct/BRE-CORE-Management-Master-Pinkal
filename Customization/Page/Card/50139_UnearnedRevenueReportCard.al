@@ -150,22 +150,36 @@ page 50139 "Unearned Revenue Report Card"
     {
         area(Processing)
         {
-            action("Filter Contracts")
+            action("Unearned Rent Revenue Report")
             {
                 ApplicationArea = All;
-                Caption = 'Unearned Revenue Report';
+                Caption = 'Unearned Rent Revenue Report';
                 Image = Find;
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Enabled = (TotalOtherCharges = 0); // 👈 Button only enabled if amount is 0
 
                 trigger OnAction()
                 begin
                     UnearnedRevenueRent();
-                    UnearnedRevenueOtherCharges();
                     CalculateAndUpdateTotals();
-                    Message('All data for Unearned Rent Revenue and Other Charges Revenue has been fetched.');
+                    Message('All data for Unearned Rent Revenue has been fetched.');
+                end;
+            }
+
+            action("Unearned Other Charges Revenue Report")
+            {
+                ApplicationArea = All;
+                Caption = 'Unearned Other Charges Revenue Report';
+                Image = Find;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+
+                trigger OnAction()
+                begin
+                    UnearnedRevenueOtherCharges();
+                    Message('All data for Other Charges Revenue has been fetched.');
                 end;
             }
         }
@@ -783,7 +797,13 @@ page 50139 "Unearned Revenue Report Card"
     var
         SubUnearnedParkingReport: Record "Sub Unearned Parking Report";
     begin
-
+        Clear(TotalOtherCharges);
+        Clear(TotalOpeningBalance);
+        Clear(TotalInvoiceraisedduringtheyear);
+        Clear(Totalrevenueallocatedduringtheyear);
+        Clear(Totalunearnedrevenuebalance);
+        Clear(Totalcalculatedunearnedrevenuebalance);
+        Clear(Totalshortfall);
 
         SubUnearnedParkingReport.SetRange("Header No.", Rec."No.");
         if SubUnearnedParkingReport.FindSet() then
