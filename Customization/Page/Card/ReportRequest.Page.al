@@ -25,12 +25,12 @@ page 50433 "Report Request"
     {
         area(Processing)
         {
-            action(GenerateReport)
+            action(Navigate)
             {
                 ApplicationArea = All;
-                Caption = 'Generate Report';
-                ToolTip = 'Generates the selected report type.';
-                Image = SelectReport;
+                Caption = 'Navigate to Report';
+                ToolTip = 'Navigate to the selected report based on the report type.';
+                Image = Navigate;
                 trigger OnAction()
                 begin
                     case reportType of
@@ -53,7 +53,7 @@ page 50433 "Report Request"
 
         area(Promoted)
         {
-            actionref(Generate_Report; GenerateReport) { }
+            actionref(Navigate_Report; Navigate) { }
         }
     }
 
