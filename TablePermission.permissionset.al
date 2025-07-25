@@ -492,5 +492,10 @@ permissionset 50100 TablePermission
         page "Sub Unearned Prking Card" = X,
         page "Sub Unearned Revenue Card" = X,
         page "Unearned Revenue Report Card" = X,
-        page "Unearned Revenue Report List" = X;
+        page "Unearned Revenue Report List" = X,
+        page "Revenue Allocation Card" = X,
+        page "Revenue Allocation List" = X,
+        page "Revenue Allocation SubGrid" = X,
+        page "Revenue Recognition Detail Sub" = X,
+        page "Revenue Recognition Item Sub" = X;
 }

@@ -61,19 +61,16 @@ page 50433 "Report Request"
         reportType: Enum "Report Type";
 
     procedure RedirectToRevenueAlloationReport()
+    var
+        revenueAllocationList: Page "Revenue Allocation List";
     begin
-
+        revenueAllocationList.Run();
     end;
 
     procedure RedirectToUnearnedRevenueReport()
     var
-        unearnedRevenueReport: Record "Unearned Revenue Report";
-        unearnedRevenueCard: Page "Unearned Revenue Report Card";
+        unearnedRevenueReportList: Page "Unearned Revenue Report List";
     begin
-        if unearnedRevenueReport.FindFirst() then begin
-            unearnedRevenueCard.SetRecord(unearnedRevenueReport);
-            unearnedRevenueCard.Run();
-        end else
-            Error('No unearned revenue report data found.');
+        unearnedRevenueReportList.Run();
     end;
 }
