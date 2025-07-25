@@ -627,7 +627,6 @@ page 50139 "Unearned Revenue Report Card"
                 unearnedRevenueBuffer.Insert();
             until tenancyContract.Next() = 0;
         end;
-        CalculateAndStoreTotalRevenue();
     end;
 
     local procedure CalculateRevenueAllocations(ContractID: Integer; StartDate: Date; EndDate: Date): Decimal
@@ -806,6 +805,7 @@ page 50139 "Unearned Revenue Report Card"
     trigger OnAfterGetRecord()
     begin
         CurrPage."Other Charges Unearned Revenue".Page.SetNo(Rec."No.");
+        CalculateAndStoreTotalRevenue();
     end;
 
 
