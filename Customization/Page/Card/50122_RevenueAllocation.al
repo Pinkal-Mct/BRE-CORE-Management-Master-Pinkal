@@ -244,13 +244,6 @@ page 50122 "Revenue Allocation Card"
         ClearSubgridData();
     end;
 
-    trigger OnAfterGetRecord()
-    begin
-        CalculateTotals();
-        CurrPage."Revenue Recognition Item Details".Page.SetRIID(Rec."No.");
-        CurrPage."Revenue Recognition Details".Page.SetRIID(Rec."No.");
-    end;
-
 
     //---------------Calculate Totals--------------//
     var
@@ -1756,6 +1749,13 @@ page 50122 "Revenue Allocation Card"
     begin
         Clear(totalcontractAmounts);
         Clear(totalamounts);
+        Clear(TotalAnnualAmounts);
+        Clear(TotalFinalAnnualAmounts);
+        Clear(totalcontractAmountsss);
+        Clear(totalamountsss);
+        Clear(totalannualamountsss);
+        Clear(totalfinalannualamountsss);
+
 
         revenueItemLine.SetRange("RR_No.", Rec."No.");
         if revenueItemLine.FindSet() then
@@ -1764,9 +1764,6 @@ page 50122 "Revenue Allocation Card"
                 totalamounts += revenueItemLine."Total Value";
                 TotalAnnualAmounts += revenueItemLine."Annual Amount";
                 TotalFinalAnnualAmounts += revenueItemLine."Final Annual Amount";
-
-
-
             until revenueItemLine.Next() = 0;
 
 
@@ -1786,10 +1783,6 @@ page 50122 "Revenue Allocation Card"
         totalcombinefinalannualamount := TotalFinalAnnualAmounts + totalfinalannualamountsss;
     end;
 
-    trigger OnAfterGetCurrRecord()
-    begin
-        CalculateAndStoreTotalRevenue();
-    end;
 
 
 
@@ -3262,12 +3255,25 @@ page 50122 "Revenue Allocation Card"
 
         TotalFinalAnnualAmounts: Decimal;
 
+        IsRevenueCalculated: Boolean;
+
     // trigger OnAfterGetRecord()
     // begin
     //     CurrPage."Revenue Recognition Item Details".Page.SetRIID(Rec."No.");
     //     CurrPage."Revenue Recognition Details".Page.SetRIID(Rec."No.");
     // end;
 
+    trigger OnAfterGetRecord()
+    begin
+        CalculateTotals();
+        CurrPage."Revenue Recognition Item Details".Page.SetRIID(Rec."No.");
+        CurrPage."Revenue Recognition Details".Page.SetRIID(Rec."No.");
+
+        if (not IsRevenueCalculated) then begin
+            CalculateAndStoreTotalRevenue();
+            IsRevenueCalculated := true;
+        end;
+    end;
 
     trigger OnModifyRecord(): Boolean
     begin
@@ -3279,6 +3285,5 @@ page 50122 "Revenue Allocation Card"
     begin
         CurrPage."Revenue Recognition Item Details".Page.SetRIID(Rec."No.");
         CurrPage."Revenue Recognition Details".Page.SetRIID(Rec."No.");
-        CalculateAndStoreTotalRevenue();
     end;
 }
