@@ -497,5 +497,6 @@ permissionset 50100 TablePermission
         page "Revenue Allocation List" = X,
         page "Revenue Allocation SubGrid" = X,
         page "Revenue Recognition Detail Sub" = X,
-        page "Revenue Recognition Item Sub" = X;
+        page "Revenue Recognition Item Sub" = X,
+        page "RevenueAllocationApproval List" = X;
 }
