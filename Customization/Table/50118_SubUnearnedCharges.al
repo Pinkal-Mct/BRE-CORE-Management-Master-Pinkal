@@ -1,4 +1,4 @@
-table 50118 "Sub Unearned Parking Report"
+table 50118 "Sub Unearned Charges"
 {
     DataClassification = ToBeClassified;
     fields

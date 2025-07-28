@@ -90,7 +90,7 @@ page 50139 "Unearned Revenue Report Card"
             group("Unearned Other Charges Revenue Report Report Details")
             {
                 Caption = 'Unearned Other Charges Revenue Report Details';
-                part("Unearned Other Charges Revenue Report Details"; "Sub Unearned Prking Card")
+                part("Unearned Other Charges Revenue Report Details"; "Sub Unearned Charges")
                 {
                     SubPageLink = "Header No." = field("No.");
                 }
@@ -477,7 +477,7 @@ page 50139 "Unearned Revenue Report Card"
     var
         tenancyContract: Record "Tenancy Contract";
         NewLineNo: Integer;
-        unearnedRevenueBuffer: Record "Sub Unearned Parking Report"; // your buffer table
+        unearnedRevenueBuffer: Record "Sub Unearned Charges"; // your buffer table
         StartDate, EndDate : Date;
         SuspendedReasonRec: Record SuspendReasonTable;
         FinalCalculationRec: Record "Final Calculation";
@@ -772,7 +772,7 @@ page 50139 "Unearned Revenue Report Card"
 
     procedure GetNextLineNum(): Integer
     var
-        unearnedRevenueBuffer: Record "Sub Unearned Parking Report";
+        unearnedRevenueBuffer: Record "Sub Unearned Charges";
         LastLineNo: Integer;
     begin
         unearnedRevenueBuffer.Reset();
@@ -787,7 +787,7 @@ page 50139 "Unearned Revenue Report Card"
 
     procedure ClearSubgridDataParking()
     var
-        RevenueItemDetail: Record "Sub Unearned Parking Report";
+        RevenueItemDetail: Record "Sub Unearned Charges";
     begin
         RevenueItemDetail.SetRange("Header No.", Rec."No."); // ✅ Clear only for this header
         RevenueItemDetail.DeleteAll(true);
@@ -795,7 +795,7 @@ page 50139 "Unearned Revenue Report Card"
 
     procedure CalculateAndStoreTotalRevenue()
     var
-        SubUnearnedParkingReport: Record "Sub Unearned Parking Report";
+        SubUnearnedParkingReport: Record "Sub Unearned Charges";
     begin
         Clear(TotalOtherCharges);
         Clear(TotalOpeningBalance);

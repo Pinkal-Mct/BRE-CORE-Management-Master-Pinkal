@@ -127,7 +127,7 @@ table 50116 "Unearned Revenue Report"
 
     procedure Deleteunearnedrevenueotherrevenue()
     var
-        unearnedrevenueothercharges: Record "Sub Unearned Parking Report";
+        unearnedrevenueothercharges: Record "Sub Unearned Charges";
     begin
         unearnedrevenueothercharges.SetRange("Header No.", Rec."No.");
         if unearnedrevenueothercharges.FindSet() then
