@@ -22,8 +22,10 @@ table 50116 "Unearned Revenue Report"
                 if (Date2DMY("Starting Date Year", 1) <> 1) or (Date2DMY("Starting Date Year", 2) <> 1) then
                     Error('Starting Date must be 1st January of the year.');
 
-                if "Starting Date Year" > "Ending Date Year" then
-                    Error('Starting Date Year cannot be greater than Ending Date Year.');
+                if ("Starting Date Year" <> 0D) and ("Ending Date Year" <> 0D) then begin
+                    if "Starting Date Year" > "Ending Date Year" then
+                        Error('Starting Date Year cannot be greater than Ending Date Year.');
+                end;
             end;
         }
         field(50103; "Ending Date Year"; Date)

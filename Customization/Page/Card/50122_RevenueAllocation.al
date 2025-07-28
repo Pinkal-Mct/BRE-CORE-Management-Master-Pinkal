@@ -166,9 +166,11 @@ page 50122 "Revenue Allocation Card"
                         if companydata."Revenue Methods" = companydata."Revenue Methods"::"Per Day Rent" then begin
                             FetchContracts();
                             CalculateTotals();
+                            Message('All data for Rent Revenue allocation has been fetched.');
                         end else if companydata."Revenue Methods" = companydata."Revenue Methods"::"Fixed Monthly Rent" then begin
                             FetchContractss();
                             CalculateTotals();
+                            Message('All data for Rent Revenue allocation has been fetched.');
                         end else
                             Message('First Select Revenue Method in Company Data Card');
                     end;
