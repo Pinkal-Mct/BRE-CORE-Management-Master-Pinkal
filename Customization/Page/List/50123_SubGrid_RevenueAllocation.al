@@ -140,4 +140,25 @@ page 50123 "Revenue Allocation SubGrid"
             }
         }
     }
+
+    actions
+    {
+        area(Processing)
+        {
+            action(GenerateExcel)
+            {
+                Caption = 'Generate Excel';
+                ApplicationArea = All;
+                Image = ExportToExcel;
+                ToolTip = 'Generate an Excel report for the unearned other charges revenue.';
+
+                trigger OnAction()
+                var
+                    createExcelReport: Codeunit "Create Excel Report";
+                begin
+                    createExcelReport.GenerateExcelReportForAnyTable(50110, 50123, Rec."Header No.");
+                end;
+            }
+        }
+    }
 }
