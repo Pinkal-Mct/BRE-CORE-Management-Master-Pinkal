@@ -114,6 +114,12 @@ table 50967 "Request Credit Note"
             DataClassification = ToBeClassified;
             Caption = 'Property Classification';
         }
+        field(50977; "Adjust with Invoice"; Option)
+        {
+            DataClassification = ToBeClassified;
+            OptionMembers = Pending,Adjusted;
+
+        }
 
 
     }
