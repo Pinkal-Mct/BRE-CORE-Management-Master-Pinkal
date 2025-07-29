@@ -67,13 +67,15 @@ table 50111 "Adjustment Security Deposit"
             DataClassification = ToBeClassified;
             OptionCaption = 'Pending,Approved'; // Include an empty option for flexibility
             OptionMembers = Pending,Approved;
+            Editable = false;
         }
 
         field(50106; "Security Amount Status"; Option)
         {
             DataClassification = ToBeClassified;
-            OptionCaption = ' ,Adjust Installment,Termination Charges,All Charges'; // Empty option
-            OptionMembers = " ","Adjust Installment","Termination Charges","All Charges";
+            OptionCaption = 'Termination Charges'; // Empty option
+            OptionMembers = "Termination Charges";
+            Editable = false;
 
 
             trigger OnValidate()
