@@ -29,16 +29,31 @@ table 50924 "Payment Mode"
                 if Tenancycontract.FindFirst() then begin
                     "Tenant Name" := Tenancycontract."Customer Name";
                     "Tenant Email" := Tenancycontract."Email Address";
+                    "Contract Start date" := Tenancycontract."Contract Start Date";
+                    "Contract End date" := Tenancycontract."Contract End Date";
                     "Payment Reminder" := Tenancycontract."Payment Reminder";
 
                 end else begin
                     "Tenant Name" := '';
                     "Tenant Email" := '';
+                    "Contract Start date" := 0D;
+                    "Contract End date" := 0D;
                 end;
                 EvaluatePaymentSchedule();
                 GetNextSequenceNo();
 
             end;
+        }
+
+        field(50916; "Contract Start date"; Date)
+        {
+            Caption = 'Contract Start date';
+            DataClassification = ToBeClassified;
+        }
+        field(50911; "Contract End date"; Date)
+        {
+            Caption = 'Contract End date';
+            DataClassification = ToBeClassified;
         }
 
 
@@ -155,58 +170,6 @@ table 50924 "Payment Mode"
         {
             DataClassification = ToBeClassified;
 
-            // Trasfer from Table Start
-            // trigger OnLookup()
-            // var
-            //     PaymentMode2Rec: Record "Payment Mode2";
-            //     Selection: Page "Payment Mode2 List";
-            //     SelectedPaymentSeries: Text[250];
-            //     TotalAmount: Decimal;
-            //     TotalVATAmount: Decimal;
-            //     TotalAmountInclVAT: Decimal;
-            // begin
-            //     // First check if Contract ID is selected
-            //     if Rec."Contract ID" = 0 then
-            //         Error('Please select a Contract ID first');
-
-            //     // Filter Payment Mode2 records based on Contract ID
-            //     PaymentMode2Rec.Reset();
-            //     PaymentMode2Rec.SetRange("Contract ID", Rec."Contract ID");
-            //     PaymentMode2Rec.SetFilter("Payment Status", '<> %1 & <> %2', PaymentMode2Rec."Payment Status"::Cancelled, PaymentMode2Rec."Payment Status"::Received);
-
-            //     Selection.LookupMode(true);
-            //     Selection.SetTableView(PaymentMode2Rec);
-
-            //     if Selection.RunModal() = ACTION::LookupOK then begin
-            //         // Clear totals
-            //         Clear(TotalAmount);
-            //         Clear(TotalVATAmount);
-            //         Clear(TotalAmountInclVAT);
-            //         Clear(SelectedPaymentSeries);
-
-            //         Selection.SetSelectionFilter(PaymentMode2Rec);
-            //         if PaymentMode2Rec.FindSet() then begin
-            //             repeat
-            //                 // Add to payment series string
-            //                 if SelectedPaymentSeries <> '' then
-            //                     SelectedPaymentSeries := SelectedPaymentSeries + ',';
-            //                 SelectedPaymentSeries := SelectedPaymentSeries + PaymentMode2Rec."Payment Series";
-
-            //                 // Sum up amounts
-            //                 TotalAmount += PaymentMode2Rec.Amount;
-            //                 TotalVATAmount += PaymentMode2Rec."VAT Amount";
-            //                 TotalAmountInclVAT += PaymentMode2Rec."Amount Including VAT";
-            //             until PaymentMode2Rec.Next() = 0;
-
-            //             // Set all values to the record
-            //             Rec."Combine Payment Series" := SelectedPaymentSeries;
-            //             Rec."Combine Amount" := TotalAmount;
-            //             Rec."Combine VAT Amount" := TotalVATAmount;
-            //             Rec."Combine Amount Including VAT" := TotalAmountInclVAT;
-            //         end;
-            //     end;
-            // end;
-            // Trasfer from Table End
         }
 
         field(50132; "Combine Due Date"; Date)
@@ -238,123 +201,6 @@ table 50924 "Payment Mode"
             DataClassification = ToBeClassified;
         }
 
-
-        // field(50144; "Split Payment Series"; Text[100])
-        // {
-        //     DataClassification = ToBeClassified;
-
-        //     trigger OnLookup()
-        //     var
-        //         PaymentMode2Rec: Record "Payment Mode2";
-        //         Selection: Page "Payment Mode2 List";
-        //     begin
-        //         // Ensure Contract ID is selected first
-        //         if Rec."Contract ID" = 0 then
-        //             Error('Please select a Contract ID first');
-
-        //         // Filter Payment Mode2 records based on Contract ID
-        //         PaymentMode2Rec.Reset();
-        //         PaymentMode2Rec.SetRange("Contract ID", Rec."Contract ID");
-        //         PaymentMode2Rec.SetFilter("Payment Status", '<> %1 & <> %2', PaymentMode2Rec."Payment Status"::Cancelled, PaymentMode2Rec."Payment Status"::Received);
-
-        //         Selection.LookupMode(true);
-        //         Selection.SetTableView(PaymentMode2Rec);
-
-        //         if Selection.RunModal() = ACTION::LookupOK then begin
-        //             Selection.SetSelectionFilter(PaymentMode2Rec);
-
-        //             if PaymentMode2Rec.FindSet() then begin
-        //                 Rec."Split Payment Series" := PaymentMode2Rec."Payment Series"; // Select only one value
-        //             end;
-        //         end;
-        //     end;
-        // }
-
-
-        // field(50138; "Secondary Item Type"; Text[100])
-        // {
-        //     DataClassification = ToBeClassified;
-
-
-        //     trigger OnLookup()
-        //     var
-        //         PaymentMode2Rec: Record "Payment Mode2";
-        //         Selection: Page "Payment Schedule2 List";
-        //         PaymentSchedule2Rec: Record "Payment Schedule2";
-        //         SelectedPaymentSeries: Text[250];
-        //         TotalAmount: Decimal;
-        //         TotalVATAmount: Decimal;
-        //         TotalAmountInclVAT: Decimal;
-        //     begin
-        //         // First check if Contract ID is selected
-        //         if Rec."Contract ID" = 0 then
-        //             Error('Please select a Contract ID first');
-
-        //         // Filter Payment Mode2 records based on Contract ID
-        //         PaymentSchedule2Rec.Reset();
-        //         PaymentSchedule2Rec.SetRange("Contract ID", Rec."Contract ID");
-        //         PaymentSchedule2Rec.SetRange("Payment Series", Rec."Split Payment Series");
-
-        //         Selection.LookupMode(true);
-        //         Selection.SetTableView(PaymentSchedule2Rec);
-
-        //         if Selection.RunModal() = ACTION::LookupOK then begin
-        //             // Clear totals
-        //             Clear(TotalAmount);
-        //             Clear(TotalVATAmount);
-        //             Clear(TotalAmountInclVAT);
-        //             Clear(SelectedPaymentSeries);
-
-        //             Selection.SetSelectionFilter(PaymentSchedule2Rec);
-        //             if PaymentSchedule2Rec.FindSet() then begin
-        //                 repeat
-        //                     // Add to payment series string
-        //                     if SelectedPaymentSeries <> '' then
-        //                         SelectedPaymentSeries := SelectedPaymentSeries + ',';
-        //                     SelectedPaymentSeries := SelectedPaymentSeries + PaymentSchedule2Rec."Secondary Item Type";
-
-        //                     // Sum up amounts
-        //                     TotalAmount += PaymentSchedule2Rec.Amount;
-        //                     TotalVATAmount += PaymentSchedule2Rec."VAT Amount";
-        //                     TotalAmountInclVAT += PaymentSchedule2Rec."Amount Including VAT";
-        //                 until PaymentSchedule2Rec.Next() = 0;
-
-        //                 // Set all values to the record
-        //                 Rec."Secondary Item Type" := SelectedPaymentSeries;
-        //                 Rec."Split Amount" := TotalAmount;
-        //                 Rec."Split VAT Amount" := TotalVATAmount;
-        //                 Rec."Split Amount Including VAT" := TotalAmountInclVAT;
-        //             end;
-        //         end;
-        //     end;
-
-        // }
-        // field(50139; "Split Due Date"; Date)
-        // {
-        //     DataClassification = ToBeClassified;
-        // }
-
-        // field(50140; "Split Payment Mode"; Text[150])
-        // {
-        //     DataClassification = ToBeClassified;
-        //     TableRelation = "Payment Type"."Payment Method";
-        // }
-
-        // field(50141; "Split Amount"; Decimal)
-        // {
-        //     DataClassification = ToBeClassified;
-        // }
-
-        // field(50142; "Split VAT Amount"; Decimal)
-        // {
-        //     DataClassification = ToBeClassified;
-        // }
-
-        // field(50143; "Split Amount Including VAT"; Decimal)
-        // {
-        //     DataClassification = ToBeClassified;
-        // }
-
         field(50131; "Change Payment Mode"; Text[100])
         {
             DataClassification = ToBeClassified;
@@ -364,34 +210,6 @@ table 50924 "Payment Mode"
         field(50128; "Change Payment Series"; Text[100])
         {
             DataClassification = ToBeClassified;
-
-            // Trasfer from Table Start
-            // trigger OnLookup()
-            // var
-            //     PaymentMode2Rec: Record "Payment Mode2";
-            //     Selection: Page "Payment Mode2 List";
-            // begin
-            //     // Ensure Contract ID is selected first
-            //     if Rec."Contract ID" = 0 then
-            //         Error('Please select a Contract ID first');
-
-            //     // Filter Payment Mode2 records based on Contract ID
-            //     PaymentMode2Rec.Reset();
-            //     PaymentMode2Rec.SetRange("Contract ID", Rec."Contract ID");
-            //     PaymentMode2Rec.SetFilter("Payment Status", '<> %1 & <> %2', PaymentMode2Rec."Payment Status"::Cancelled, PaymentMode2Rec."Payment Status"::Received);
-
-            //     Selection.LookupMode(true);
-            //     Selection.SetTableView(PaymentMode2Rec);
-
-            //     if Selection.RunModal() = ACTION::LookupOK then begin
-            //         Selection.SetSelectionFilter(PaymentMode2Rec);
-
-            //         if PaymentMode2Rec.FindSet() then begin
-            //             Rec."Change Payment Series" := PaymentMode2Rec."Payment Series"; // Select only one value
-            //         end;
-            //     end;
-            // end;
-            // Trasfer from Table End
         }
 
         field(50150; "Payment Reminder"; Integer)
@@ -583,11 +401,6 @@ table 50924 "Payment Mode"
                 Paymentmodesubpage.DeleteAll();
             until Paymentmodesubpage.Next() = 0;
     end;
-
-
-
-
-
 }
 
 
