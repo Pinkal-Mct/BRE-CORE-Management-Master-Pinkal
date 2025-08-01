@@ -349,10 +349,17 @@ page 50139 "Unearned Revenue Report Card"
                 unearnedRevenueBuffer."Suspension Date" := SuspendedDate;
                 unearnedRevenueBuffer."Termination Date" := TerminationDate;
 
-                TotalNoofDays := unearnedRevenueBuffer."End Date" - unearnedRevenueBuffer."Start Date" + 1;
-                PerDayrent := unearnedRevenueBuffer."Contract Value" / TotalNoofDays;
-                UnearnedNoofday := unearnedRevenueBuffer."End Date" - EndDate;
-                unearnedRevenueBuffer.CalculatedUnearnedRevBalance := PerDayrent * UnearnedNoofday;
+                if (tenancyContract."Tenant Contract Status" <> tenancyContract."Tenant Contract Status"::Terminated) and
+    (tenancyContract."Tenant Contract Status" <> tenancyContract."Tenant Contract Status"::"Contract Renewed") then begin
+
+                    TotalNoofDays := unearnedRevenueBuffer."End Date" - unearnedRevenueBuffer."Start Date" + 1;
+                    PerDayrent := unearnedRevenueBuffer."Contract Value" / TotalNoofDays;
+                    UnearnedNoofday := unearnedRevenueBuffer."End Date" - EndDate;
+                    unearnedRevenueBuffer.CalculatedUnearnedRevBalance := PerDayrent * UnearnedNoofday;
+
+                end else begin
+                    unearnedRevenueBuffer.CalculatedUnearnedRevBalance := 0;
+                end;
 
                 if tenancyContract."Praposal Type Selected" = tenancyContract."Praposal Type Selected"::"Single Unit" then
                     unearnedRevenueBuffer."Unit Name" := tenancyContract."Unit Name"
@@ -396,6 +403,8 @@ page 50139 "Unearned Revenue Report Card"
         RevenueAllocationRec.Reset();
         RevenueAllocationRec.SetRange("Contract ID", ContractID); // Assuming this field exists
         RevenueAllocationRec.SetRange("Posting Year", StartYear); // Assuming financial year matches
+        RevenueAllocationRec.SetFilter(Description, 'Regular');
+
 
         // Filter for months within the date range
         RevenueAllocationRec.SetFilter("Posting Month", GetMonthFilter(Rec."Starting Date Year", Rec."Ending Date Year"));
@@ -638,11 +647,23 @@ page 50139 "Unearned Revenue Report Card"
                 unearnedRevenueBuffer."Unearned Revenue Balance" := TotalPaidAmount + TotalInvoicedAmount - RevenueAllocation;
                 // Message('Revenue allocation value : ' + Format(RevenueAllocation));
 
-                TotalNoofDays := unearnedRevenueBuffer."End Date" - unearnedRevenueBuffer."Start Date" + 1;
-                PerDayrent := unearnedRevenueBuffer."Other Charges Value" / TotalNoofDays;
-                UnearnedNoofday := unearnedRevenueBuffer."End Date" - EndDate;
+                // TotalNoofDays := unearnedRevenueBuffer."End Date" - unearnedRevenueBuffer."Start Date" + 1;
+                // PerDayrent := unearnedRevenueBuffer."Other Charges Value" / TotalNoofDays;
+                // UnearnedNoofday := unearnedRevenueBuffer."End Date" - EndDate;
+                // unearnedRevenueBuffer.CalculatedUnearnedRevBalance := PerDayrent * UnearnedNoofday;
 
-                unearnedRevenueBuffer.CalculatedUnearnedRevBalance := PerDayrent * UnearnedNoofday;
+                if (tenancyContract."Tenant Contract Status" <> tenancyContract."Tenant Contract Status"::Terminated) and
+   (tenancyContract."Tenant Contract Status" <> tenancyContract."Tenant Contract Status"::"Contract Renewed") then begin
+
+                    TotalNoofDays := unearnedRevenueBuffer."End Date" - unearnedRevenueBuffer."Start Date" + 1;
+                    PerDayrent := unearnedRevenueBuffer."Other Charges Value" / TotalNoofDays;
+                    UnearnedNoofday := unearnedRevenueBuffer."End Date" - EndDate;
+                    unearnedRevenueBuffer.CalculatedUnearnedRevBalance := PerDayrent * UnearnedNoofday;
+
+                end else begin
+                    unearnedRevenueBuffer.CalculatedUnearnedRevBalance := 0;
+                end;
+
                 unearnedRevenueBuffer."Shortfall/Excess" := unearnedRevenueBuffer."Unearned Revenue Balance" - unearnedRevenueBuffer.CalculatedUnearnedRevBalance;
 
                 unearnedRevenueBuffer.Insert();
@@ -680,6 +701,9 @@ page 50139 "Unearned Revenue Report Card"
         RevenueAllocationRec.Reset();
         RevenueAllocationRec.SetRange("Contract ID", ContractID); // Assuming this field exists
         RevenueAllocationRec.SetRange("Posting Year", StartYear); // Assuming financial year matches
+        RevenueAllocationRec.SetFilter(Description, 'Regular');
+
+
 
         // Filter for months within the date range
         RevenueAllocationRec.SetFilter("Posting Month", GetMonthFilters(Rec."Starting Date Year", Rec."Ending Date Year"));
