@@ -56,6 +56,14 @@ table 53506 "Lead Management"
         {
             DataClassification = ToBeClassified;
         }
+        field(53543; "Disqualification Reason"; Text[1000])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53544; "Disqualification Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {
