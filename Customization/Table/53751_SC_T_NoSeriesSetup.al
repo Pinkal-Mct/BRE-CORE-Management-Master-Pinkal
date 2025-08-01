@@ -112,6 +112,12 @@ table 53751 "No. Series Setup"
             Caption = 'Service Sub-Type ID';
             TableRelation = "No. Series".Code;
         }
+        field(53768; "Opportunity ID Nos."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Opportunity ID';
+            TableRelation = "No. Series".Code;
+        }
     }
     keys
     {

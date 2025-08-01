@@ -105,6 +105,11 @@ page 53751 "No. Series Setup"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the Service Sub-Type Master number series.';
                 }
+                field("Opportunity ID Nos."; Rec."Opportunity ID Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the Opportunity Master number series.';
+                }
             }
         }
     }
