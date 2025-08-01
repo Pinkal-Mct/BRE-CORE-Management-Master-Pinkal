@@ -57,4 +57,23 @@ table 53506 "Lead Management"
             DataClassification = ToBeClassified;
         }
     }
+    keys
+    {
+        key(PK; "Lead ID")
+        {
+            Clustered = true;
+        }
+    }
+    trigger OnInsert()
+    var
+        noSeriesSetup: Record "No. Series Setup";
+        noseries: Codeunit "No. Series";
+    begin
+        if noSeriesSetup.Get() then
+            Rec."Lead ID" := noseries.GetNextNo(noSeriesSetup."Lead ID Nos.")
+        else
+            Error('No. Series Setup not found for Vendor Proposal Nos.');
+        Rec."Created By" := CopyStr(UserId(), 1, StrLen(UserId()));
+        Rec."Created Date" := Today;
+    end;
 }

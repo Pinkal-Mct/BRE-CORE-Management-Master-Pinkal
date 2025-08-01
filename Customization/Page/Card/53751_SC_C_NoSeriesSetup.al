@@ -61,6 +61,17 @@ page 53751 "No. Series Setup"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the vendor contract number series.';
                 }
+                field("Lead ID"; Rec."Lead ID Nos.")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Lead ID';
+                    ToolTip = 'Specifies the Lead number series';
+                }
+                field("Opportunity ID Nos."; Rec."Opportunity ID Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the Opportunity Master number series.';
+                }
                 // This field is used to store the vendor contract number series. Table 53106 "Vendor Contract" has a field for vendor contract numbers.
             }
             group("Facility Management")
@@ -105,11 +116,7 @@ page 53751 "No. Series Setup"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the Service Sub-Type Master number series.';
                 }
-                field("Opportunity ID Nos."; Rec."Opportunity ID Nos.")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the Opportunity Master number series.';
-                }
+
             }
         }
     }
