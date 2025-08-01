@@ -118,6 +118,11 @@ table 53751 "No. Series Setup"
             Caption = 'Opportunity ID';
             TableRelation = "No. Series".Code;
         }
+        field(53769; "Lead ID Nos."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "No. Series".Code;
+        }
     }
     keys
     {
