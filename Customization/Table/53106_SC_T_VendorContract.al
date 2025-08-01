@@ -108,17 +108,17 @@ table 53106 "Vendor Contract"
             DataClassification = ToBeClassified;
             Caption = 'Vendor Email';
         }
-        field(53116; "Vendor Name"; Text[50])
+        field(53116; "Vendor Name"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Vendor Name';
         }
-        field(53117; "Vendor Designation"; Text[50])
+        field(53117; "Vendor Designation"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Vendor Designation';
         }
-        field(53118; "Project Name"; Text[50])
+        field(53118; "Project Name"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Project Name';
@@ -190,12 +190,12 @@ table 53106 "Vendor Contract"
             DataClassification = ToBeClassified;
             Caption = 'Payment Method';
         }
-        field(53132; "UAE Compliance Requirements"; Text[250])
+        field(53132; "UAE Compliance Requirements"; Text[500])
         {
             DataClassification = ToBeClassified;
             Caption = 'UAE Compliance Requirements';
         }
-        field(53133; "Industry Standards"; Text[250])
+        field(53133; "Industry Standards"; Text[500])
         {
             DataClassification = ToBeClassified;
             Caption = 'Industry Standards';
@@ -210,7 +210,7 @@ table 53106 "Vendor Contract"
             DataClassification = ToBeClassified;
             Caption = 'Dispute Resolution';
         }
-        field(50136; Incoterms; Text[20])
+        field(50136; Incoterms; Text[500])
         {
             DataClassification = ToBeClassified;
             Caption = 'Incoterms';

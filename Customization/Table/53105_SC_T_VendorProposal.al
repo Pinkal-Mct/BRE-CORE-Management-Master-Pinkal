@@ -110,12 +110,12 @@ table 53105 "Vendor Proposal"
             DataClassification = ToBeClassified;
             Caption = 'Vendor Email';
         }
-        field(53117; "Vendor Name"; Text[50])
+        field(53117; "Vendor Name"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Vendor Name';
         }
-        field(53118; "Vendor Designation"; Text[50])
+        field(53118; "Vendor Designation"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Vendor Designation';
