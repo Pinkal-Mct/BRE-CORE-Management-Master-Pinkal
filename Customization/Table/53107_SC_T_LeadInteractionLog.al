@@ -56,7 +56,7 @@ table 53107 "Lead Interaction Log"
 
     keys
     {
-        key(PK; "Entry No.")
+        key(PK; "Entry No.", "Lead ID")
         {
             Clustered = true;
         }
