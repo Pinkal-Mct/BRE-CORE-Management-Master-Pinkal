@@ -35,6 +35,16 @@ table 53506 "Lead Management"
         field(53537; "Follow-up Date"; Date)
         {
             DataClassification = ToBeClassified;
+            trigger OnValidate()
+            var
+                TodayDate: Date;
+            begin
+                TodayDate := Today();
+
+                // Optional: Prevent past date selection
+                if ("Follow-up Date" <> 0D) and ("Follow-up Date" < TodayDate) then
+                    Error('Follow-up Date cannot be in the past.');
+            end;
         }
         field(53538; "Notes"; Text[250])
         {
