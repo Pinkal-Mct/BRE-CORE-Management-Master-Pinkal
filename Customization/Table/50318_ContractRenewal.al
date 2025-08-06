@@ -132,6 +132,8 @@ table 50318 "Contract Renewal"
                     "Rent Amount VAT %" := TenancyContractRec."Contract VAT %";
                     "Rent VAT Amount" := TenancyContractRec."Contract VAT Amount";
                     "Rent Amount Including VAT" := TenancyContractRec."Contract Amount Including VAT";
+                    "Unit Type" := TenancyContractRec."Unit Type";
+                    "Usage Type" := TenancyContractRec."Usage Type";
 
                 end else begin
                     // Clear fields if no record is found
@@ -1284,7 +1286,16 @@ table 50318 "Contract Renewal"
             DataClassification = ToBeClassified;
             Caption = 'Is any Broker Involved?';
         }
-
+        field(50188; "Unit Type"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Unit Type';
+        }
+        field(50189; "Usage Type"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Usage Type';
+        }
 
 
 

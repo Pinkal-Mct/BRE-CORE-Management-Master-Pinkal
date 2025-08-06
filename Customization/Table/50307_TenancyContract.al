@@ -1071,6 +1071,8 @@ table 50307 "Tenancy Contract"
                     "DEWA Number" := LeaseProposalRec."DEWA Number";
                     "Property Size" := LeaseProposalRec."Property Size";
                     "No of Installments" := LeaseProposalRec."No of Installments";
+                    "Unit Type" := LeaseProposalRec."Unit Type";
+                    "Usage Type" := LeaseProposalRec."Usage Type";
 
                     "Single Rent Calculation" := LeaseProposalRec."Single Rent Calculation";
                     "Merge Rent Calculation" := LeaseProposalRec."Merge Rent Calculation";
@@ -1482,15 +1484,12 @@ table 50307 "Tenancy Contract"
             Caption = 'Final Calculation';
             InitValue = 'Final Calculation';
             Editable = false;
-
-
         }
 
         field(50173; "Contract VAT %"; Option)
         {
             OptionMembers = "0%","5%";
             Editable = false;
-
         }
 
         field(50174; "Contract VAT Amount"; Decimal)
