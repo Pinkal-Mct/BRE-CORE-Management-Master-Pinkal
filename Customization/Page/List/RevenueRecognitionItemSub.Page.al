@@ -158,6 +158,11 @@ page 50973 "Revenue Recognition Item Sub"
         // Process active contracts directly from Revenue Structure
         if TenancyContract.FindSet() then
             repeat
+
+                if TenancyContract."Tenant Contract Status" = TenancyContract."Tenant Contract Status"::Terminated then
+                    continue; // Skip this contract and continue with the next
+
+
                 // NEW: Check if contract should be processed based on status and dates
                 if ShouldProcessContract(TenancyContract, RevenueAllocation.Month, RevenueAllocation."Financial Year") then
                     // Check if contract is active during the selected period
@@ -639,15 +644,15 @@ page 50973 "Revenue Recognition Item Sub"
         SelectedMonthStart := DMY2Date(1, pAllocationMonth, pAllocationYear);
         SelectedMonthEnd := CALCDATE('<+1M-1D>', SelectedMonthStart);
 
-        // Check if termination date falls within selected period
-        FinalCalculation.Reset();
+        // Loop over all Final Calculation records for the contract
         FinalCalculation.SetRange("Contract ID", pContractID);
-        if FinalCalculation.FindFirst() then
-            if (FinalCalculation."Termination Date" <> 0D) and
-               (FinalCalculation."Termination Date" >= SelectedMonthStart) and
-               (FinalCalculation."Termination Date" <= SelectedMonthEnd) then
-                exit(true);
-
+        if FinalCalculation.FindSet() then
+            repeat
+                if (FinalCalculation."Termination Date" <> 0D) and
+                   (FinalCalculation."Termination Date" >= SelectedMonthStart) and
+                   (FinalCalculation."Termination Date" <= SelectedMonthEnd) then
+                    exit(true);
+            until FinalCalculation.Next() = 0;
 
         exit(false);
     end;
@@ -1434,6 +1439,10 @@ page 50973 "Revenue Recognition Item Sub"
         // Process active contracts directly from Revenue Structure
         if TenancyContract.FindSet() then
             repeat
+
+                if TenancyContract."Tenant Contract Status" = TenancyContract."Tenant Contract Status"::Terminated then
+                    continue;
+
                 // NEW: Check if contract should be processed based on status and dates
                 if ShouldProcessContracts(TenancyContract, RevenueAllocation.Month, RevenueAllocation."Financial Year") then
                     // Check if contract is active during the selected period
