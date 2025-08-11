@@ -87,6 +87,14 @@ page 50701 "Company Data"
                     ApplicationArea = All;
                     Caption = 'Revenue Methods';
                 }
+                field("Portal Access"; Rec."Portal Access")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Portal Access';
+                    ToolTip = 'Set to Yes to give this company portal access, No to restrict it.';
+                }
+
+
             }
 
             group("WorkflowFrequency")
@@ -106,6 +114,7 @@ page 50701 "Company Data"
                 ApplicationArea = All;
                 Caption = 'Access Validity (Days)';
             }
+
         }
     }
     procedure OpenFileInBrowser(URL: Text)

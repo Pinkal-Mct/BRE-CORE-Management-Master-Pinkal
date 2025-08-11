@@ -63,6 +63,11 @@ table 50701 "testData"
             OptionMembers = " ","Fixed Monthly Rent","Per Day Rent";
             Caption = 'Revenue Methods';
         }
+        field(50114; "Portal Access"; Boolean)
+        {
+            Caption = 'Portal Access';
+            DataClassification = CustomerContent;
+        }
     }
 
     keys
