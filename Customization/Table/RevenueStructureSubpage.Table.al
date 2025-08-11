@@ -1,4 +1,4 @@
-table 50943 "Rent Calculation Subpage"
+table 50914 "Revenue Structure Subpage"
 {
     DataClassification = ToBeClassified;
 
@@ -42,12 +42,16 @@ table 50943 "Rent Calculation Subpage"
             Editable = false;
 
 
+
         }
 
         field(50104; "Final Annual Amount"; Decimal)
         {
             DataClassification = ToBeClassified;
             Caption = 'Final Annual Amount';
+            Editable = true;
+
+
         }
 
 
@@ -55,6 +59,7 @@ table 50943 "Rent Calculation Subpage"
         {
             DataClassification = ToBeClassified;
             Caption = 'Yearly No. of Instalment';
+            Editable = true;
 
         }
 
@@ -65,10 +70,10 @@ table 50943 "Rent Calculation Subpage"
             AutoIncrement = true;
         }
 
-        field(50107; "RC ID"; Integer)
+        field(50107; "RS ID"; Integer)
         {
             DataClassification = ToBeClassified;
-            Caption = 'RC ID';
+            Caption = 'RS ID';
 
         }
 
@@ -94,7 +99,7 @@ table 50943 "Rent Calculation Subpage"
             Caption = 'Total Amount';
             Editable = false;
             FieldClass = FlowField;
-            CalcFormula = sum("Rent Calculation Subpage"."Final Annual Amount" where("Contract ID" = field("Contract Id"), "RC ID" = field("RC ID")));
+            CalcFormula = sum("Revenue Structure Subpage"."Final Annual Amount" where("Contract ID" = field("Contract Id"), "RS ID" = field("RS ID")));
 
 
 
@@ -121,6 +126,7 @@ table 50943 "Rent Calculation Subpage"
         field(50113; "VAT Amount"; Decimal)
         {
             DataClassification = ToBeClassified;
+            Caption = 'VAT Amount';
 
         }
 
@@ -128,12 +134,14 @@ table 50943 "Rent Calculation Subpage"
         field(50114; "Amount Including VAT"; Decimal)
         {
             DataClassification = ToBeClassified;
+            Caption = 'Amount Including VAT';
+
         }
 
         field(50115; "Secondary Item Type"; Text[100])
         {
             DataClassification = ToBeClassified;
-            
+            Caption = 'Secondary Item Type';
 
 
         }
@@ -153,47 +161,30 @@ table 50943 "Rent Calculation Subpage"
 
         }
 
-        field(50118; "Per Day Rent"; Decimal)
-        {
-            DataClassification = ToBeClassified;
-            Caption = 'Per Day Rent';
 
-        }
-
-        field(50119; "Propety Classification"; Text[100])
-        {
-            DataClassification = ToBeClassified;
-            Caption = 'Proeprty Classifcation';
-        }
 
 
     }
 
     keys
     {
-        key(Key1; "Entry No.", "RC ID")
+        key(Key1; "Entry No.", "RS ID")
         {
             Clustered = true;
         }
     }
 
+    trigger OnDelete()
+    var
+        calculateinstallmentstotal: Codeunit CalculateNumberOfInstallments;
+    begin
+        // CalculateTotals();
+        calculateinstallmentstotal.BeforeDeleteCalculateInstallments(Rec);
+    end;
+
 
 }
 
-//-----------------Table Extention Of Revenue Structure Subpage-----------------//
-// tableextension 50105 RevenueStructureSubpageExt extends "Revenue Structure Subpage"
-// {
-//     trigger OnDelete()
-//     var
-//         calculateinstallmentstotal: Codeunit CalculateNumberOfInstallments;
-//     begin
-//         // CalculateTotals();
-//         calculateinstallmentstotal.BeforeDeleteCalculateInstallments(Rec);
-//     end;
-// }
-
-
-//-----------------Table Extention Of Revenue Structure Subpage-----------------//
 
 
 

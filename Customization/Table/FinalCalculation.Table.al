@@ -73,22 +73,23 @@ table 50901 "Final Calculation"
 
             trigger OnValidate()
             var
+                FinalCalculation: Record "Final Calculation";
                 TerminateDate: Date;
                 EndDate: Date;
-                FinalCalculation: Record "Final Calculation";
             begin
                 FinalCalculation.SetRange("FC ID", Rec."FC ID");
                 FinalCalculation.SetRange("Contract ID", Rec."Contract ID");
-                if FinalCalculation.FindFirst() then begin
+                if not FinalCalculation.IsEmpty() then begin
                     EndDate := Rec."Contract End Date";
                     TerminateDate := Rec."Termination Date";
 
-                    if ("Contract End Date" = "Termination Date") then
+                    if (EndDate = TerminateDate) then
                         "Termination Status" := "Termination Status"::"Regular Termination"
-                    else if ("Contract End Date" > "Termination Date") then
-                        "Termination Status" := "Termination Status"::"Early Termination"
                     else
-                        Error('Termination Date cannot be greater than Contract End Date.');
+                        if (EndDate > TerminateDate) then
+                            "Termination Status" := "Termination Status"::"Early Termination"
+                        else
+                            Error('Termination Date cannot be greater than Contract End Date.');
 
                     // if (EndDate = TerminateDate) or (EndDate < TerminateDate) then
                     //     Error('Termination Date cannot be greater than Contract End Date.');
@@ -304,10 +305,8 @@ table 50901 "Final Calculation"
     begin
         finalrevenuecalculation.SetRange("Contract Id", Rec."Contract ID");
         //  finalrevenuecalculation.SetRange("FC ID", Rec."FC ID");
-        if finalrevenuecalculation.FindSet() then begin
+        if finalrevenuecalculation.FindSet() then
             finalrevenuecalculation.DeleteAll();
-        end
-
     end;
 
     procedure deletebillingcaculation()
@@ -315,9 +314,8 @@ table 50901 "Final Calculation"
         billingcalculation: Record "Final Billing Calculation Grid";
     begin
         billingcalculation.SetRange("Contract ID", rec."Contract ID");
-        if billingcalculation.FindSet() then begin
+        if billingcalculation.FindSet() then
             billingcalculation.DeleteAll();
-        end;
     end;
 
     procedure PendingreceivablePayable()
@@ -325,10 +323,8 @@ table 50901 "Final Calculation"
         pendingRecevieable: Record "Pending Receviable Grid";
     begin
         pendingRecevieable.SetRange("Contract ID", Rec."Contract ID");
-        if pendingRecevieable.FindSet() then begin
+        if pendingRecevieable.FindSet() then
             pendingRecevieable.DeleteAll();
-        end;
-
     end;
 
     procedure TerminationAdditionalCharges()
@@ -336,9 +332,8 @@ table 50901 "Final Calculation"
         TerminationAdditional: Record "Additional Charges Sub";
     begin
         TerminationAdditional.SetRange("Contract ID", Rec."Contract ID");
-        if TerminationAdditional.FindSet() then begin
+        if TerminationAdditional.FindSet() then
             TerminationAdditional.DeleteAll();
-        end;
     end;
 
     procedure RentCalculationGrid()
@@ -346,10 +341,8 @@ table 50901 "Final Calculation"
         RentCalculation: Record "Rent Calculate Sub";
     begin
         RentCalculation.SetRange("Contract ID", Rec."Contract ID");
-        if RentCalculation.FindSet() then begin
+        if RentCalculation.FindSet() then
             RentCalculation.DeleteAll();
-        end;
-
     end;
 
     procedure RevenueStructureGrid()
@@ -357,9 +350,8 @@ table 50901 "Final Calculation"
         RevenueStructureyearlyBrokdown: Record "Other Payment Calculate Sub";
     begin
         RevenueStructureyearlyBrokdown.SetRange("Contract ID", Rec."Contract ID");
-        if RevenueStructureyearlyBrokdown.FindSet() then begin
+        if RevenueStructureyearlyBrokdown.FindSet() then
             RevenueStructureyearlyBrokdown.DeleteAll();
-        end;
 
     end;
 
@@ -368,9 +360,8 @@ table 50901 "Final Calculation"
         RevenueStructure: Record "Revenue Calculate Sub";
     begin
         RevenueStructure.SetRange("Contract ID", Rec."Contract ID");
-        if RevenueStructure.FindSet() then begin
+        if RevenueStructure.FindSet() then
             RevenueStructure.DeleteAll();
-        end;
 
     end;
 
@@ -380,34 +371,27 @@ table 50901 "Final Calculation"
         paymentdetails: Record "Payment Details";
     begin
         paymentdetails.SetRange("Contract ID", Rec."Contract ID");
-        if paymentdetails.FindSet() then begin
+        if paymentdetails.FindSet() then
             paymentdetails.DeleteAll();
-        end;
 
     end;
 
     procedure finalsettlement()
     var
-        finalsettlement: Record FinalSettlement;
-
+        Finalsettlements: Record FinalSettlement;
     begin
-        finalsettlement.SetRange("FC Id", Rec."FC ID");
-        if finalsettlement.FindSet() then begin
-            finalsettlement.DeleteAll();
-        end
-
+        Finalsettlements.SetRange("FC Id", Rec."FC ID");
+        if Finalsettlements.FindSet() then
+            Finalsettlements.DeleteAll();
     end;
 
     procedure finalsettlementrefund()
     var
-        finalsettlementrefund: Record FinalSettlementRefund;
-
+        Finalsettlementrefunds: Record FinalSettlementRefund;
     begin
-        finalsettlementrefund.SetRange("FC Id", Rec."FC ID");
-        if finalsettlementrefund.FindSet() then begin
-            finalsettlementrefund.DeleteAll();
-        end
-
+        Finalsettlementrefunds.SetRange("FC Id", Rec."FC ID");
+        if Finalsettlementrefunds.FindSet() then
+            Finalsettlementrefunds.DeleteAll();
     end;
     //-----------------Delete record also delete subgrid -----------------//
 

@@ -83,8 +83,7 @@ table 50929 "Revenue Recognition"
     local procedure CalculateMonthlyRevenue()
     var
         SubpageRec: Record "Revenue Recognition Subpage";
-        StartDate: Date;
-        EndDate: Date;
+        TempSubpageRecs: array[1000] of Record "Revenue Recognition Subpage" temporary;
         TotalDays: Integer;
         CurrentDate: Date;
         MonthDays: Integer;
@@ -93,18 +92,16 @@ table 50929 "Revenue Recognition"
         AllocatedAmount: Decimal;
         FirstDayNextMonth: Date;
         LastDayOfMonth: Date;
-        DaysInMonth: Integer;
-        Year: Integer;
-        Month: Integer;
-        Day: Integer;
-        IsLeap: Boolean;
+        // DaysInMonth: Integer;
+        // Year: Integer;
+        // Month: Integer;
+        // IsLeap: Boolean;
         MonthlyRate2: Decimal;
         TotalMonths: Integer;
         ActualDaysInMonth: Integer;
         LastEntryNo: Integer;
-        Method1Total: Decimal;
+        // Method1Total: Decimal;
         Method2Total: Decimal;
-        TempSubpageRecs: array[1000] of Record "Revenue Recognition Subpage" temporary;
         RecCount: Integer;
         RemainingAmount: Decimal;
     begin
@@ -120,7 +117,6 @@ table 50929 "Revenue Recognition"
         DailyRate := "Contract Amount" / TotalDays;
 
         CurrentDate := "Start Date";
-        Method1Total := 0;
         Method2Total := 0;
         RecCount := 0;
         MonthlyRate2 := Round("Contract Amount" / TotalMonths);
@@ -140,11 +136,11 @@ table 50929 "Revenue Recognition"
             TempSubpageRecs[RecCount]."Month" := FORMAT(CurrentDate, 0, '<Month Text>') + '-' + FORMAT(CurrentDate, 0, '<Year>');
 
             // Calculate the first day of the next month
-            if DATE2DMY(CurrentDate, 2) = 12 then begin
-                FirstDayNextMonth := DMY2DATE(1, 1, DATE2DMY(CurrentDate, 3) + 1); // January of next year
-            end else begin
+            if DATE2DMY(CurrentDate, 2) = 12 then
+                FirstDayNextMonth := DMY2DATE(1, 1, DATE2DMY(CurrentDate, 3) + 1) // January of next year
+            else
                 FirstDayNextMonth := DMY2DATE(1, DATE2DMY(CurrentDate, 2) + 1, DATE2DMY(CurrentDate, 3)); // Next month of the same year
-            end;
+
 
             LastDayOfMonth := FirstDayNextMonth - 1;
 
@@ -159,20 +155,20 @@ table 50929 "Revenue Recognition"
                 if MonthDays > ("End Date" - CurrentDate + 1) then
                     MonthDays := ("End Date" - CurrentDate + 1);
 
-            Year := DATE2DMY(CurrentDate, 3);
-            Month := DATE2DMY(CurrentDate, 2);
-            IsLeap := IsLeapYear(Year);
+            // Year := DATE2DMY(CurrentDate, 3);
+            // Month := DATE2DMY(CurrentDate, 2);
+            // IsLeap := IsLeapYear(Year);
 
-            if Month = 2 then begin
-                if IsLeap then
-                    DaysInMonth := 29
-                else
-                    DaysInMonth := 28;
-            end else if (Month = 4) or (Month = 6) or (Month = 9) or (Month = 11) then begin
-                DaysInMonth := 30;
-            end else begin
-                DaysInMonth := 31;
-            end;
+            // if Month = 2 then begin
+            //     if IsLeap then
+            //         DaysInMonth := 29
+            //     else
+            //         DaysInMonth := 28;
+            // end else if (Month = 4) or (Month = 6) or (Month = 9) or (Month = 11) then begin
+            //     DaysInMonth := 30;
+            // end else begin
+            //     DaysInMonth := 31;
+            // end;
 
             ActualDaysInMonth := GetDaysInMonthss(CurrentDate);
 
@@ -180,11 +176,11 @@ table 50929 "Revenue Recognition"
             TempSubpageRecs[RecCount]."RR - Method 1 (Day)" := AllocatedAmount;
 
 
-            if MonthDays < ActualDaysInMonth then begin
-                MonthlyRate := Round(MonthlyRate2 / ActualDaysInMonth * MonthDays);
-            end else begin
+            if MonthDays < ActualDaysInMonth then
+                MonthlyRate := Round(MonthlyRate2 / ActualDaysInMonth * MonthDays)
+            else
                 MonthlyRate := MonthlyRate2;
-            end;
+
 
             Method2Total += MonthlyRate;
             TempSubpageRecs[RecCount]."RR - Method 2 (Month)" := MonthlyRate;
@@ -373,7 +369,7 @@ table 50929 "Revenue Recognition"
 
     local procedure CalculateTotalMonths(StartDate: Date; EndDate: Date) Result: Integer
     var
-        StartYear, StartMonth, StartDay : Integer;
+        StartYear, StartMonth : Integer;
         EndYear, EndMonth, EndDay : Integer;
         DaysInEndMonth: Integer;
         FirstDayOfNextMonth: Date;
@@ -381,7 +377,7 @@ table 50929 "Revenue Recognition"
         // Extract the year, month, and day from the start and end dates
         StartYear := DATE2DMY(StartDate, 3); // Year
         StartMonth := DATE2DMY(StartDate, 2); // Month
-        StartDay := DATE2DMY(StartDate, 1); // Day
+                                              // StartDay := DATE2DMY(StartDate, 1); // Day
 
         EndYear := DATE2DMY(EndDate, 3); // Year
         EndMonth := DATE2DMY(EndDate, 2); // Month
@@ -411,20 +407,20 @@ table 50929 "Revenue Recognition"
 
 
     //-----------------Calculate Total Days in Months-----------------//
-    local procedure GetDaysInMonth(CurrentDate: Date): Integer
-    var
-        FirstDayNextMonth: Date;
-        FirstDayCurrentMonth: Date;
-    begin
-        // Calculate the first day of the next month
-        FirstDayNextMonth := CALCDATE('<+CM>', CurrentDate);
+    // local procedure GetDaysInMonth(CurrentDate: Date): Integer
+    // var
+    //     FirstDayNextMonth: Date;
+    //     FirstDayCurrentMonth: Date;
+    // begin
+    //     // Calculate the first day of the next month
+    //     FirstDayNextMonth := CALCDATE('<+CM>', CurrentDate);
 
-        // Calculate the first day of the current month
-        FirstDayCurrentMonth := CALCDATE('<-CM>', CurrentDate);
+    //     // Calculate the first day of the current month
+    //     FirstDayCurrentMonth := CALCDATE('<-CM>', CurrentDate);
 
-        // Return the difference between the first day of the next month and current month
-        exit(FirstDayNextMonth - FirstDayCurrentMonth);
-    end;
+    //     // Return the difference between the first day of the next month and current month
+    //     exit(FirstDayNextMonth - FirstDayCurrentMonth);
+    // end;
     //-----------------Calculate Total Days in Months-----------------//
 
     //-----------------Calculate Total Days in Months's-----------------//

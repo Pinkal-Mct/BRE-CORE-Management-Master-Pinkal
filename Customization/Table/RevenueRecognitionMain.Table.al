@@ -42,10 +42,8 @@ table 50960 "Revenue Recognition Main"
 
     begin
         revenueitems.SetRange("RR_No.", Rec."RR_No.");
-        if revenueitems.FindSet() then begin
+        if revenueitems.FindSet() then
             revenueitems.DeleteAll();
-        end
-
     end;
 
     procedure revenueitemdetails()
@@ -54,8 +52,7 @@ table 50960 "Revenue Recognition Main"
 
     begin
         revenueitemdetail.SetRange("RR_No.", Rec."RR_No.");
-        if revenueitemdetail.FindSet() then begin
+        if revenueitemdetail.FindSet() then
             revenueitemdetail.DeleteAll();
-        end
     end;
 }

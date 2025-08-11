@@ -14,18 +14,17 @@ table 50924 "Payment Mode"
             Caption = 'Contract ID';
             trigger OnValidate()
             var
-                leaserec: Record "Payment Schedule";
-                payschedule: Record "Payment Schedule2";
+                payschedule: Record "Payment Schedule";
                 Tenancycontract: Record "Tenancy Contract";
             begin
 
-                leaserec.SetRange("Contract ID", Rec."Contract ID");
-                Tenancycontract.SetRange("Contract ID", Rec."Contract ID");
-                if leaserec.FindFirst() then begin
-                    "Tenant Id" := leaserec."Tenant Id";
-                end else begin
+                payschedule.SetRange("Contract ID", Rec."Contract ID");
+                if payschedule.FindFirst() then
+                    "Tenant Id" := payschedule."Tenant Id"
+                else
                     "Tenant Id" := '';
-                end;
+
+                Tenancycontract.SetRange("Contract ID", Rec."Contract ID");
                 if Tenancycontract.FindFirst() then begin
                     "Tenant Name" := Tenancycontract."Customer Name";
                     "Tenant Email" := Tenancycontract."Email Address";
@@ -73,17 +72,16 @@ table 50924 "Payment Mode"
             trigger OnValidate()
             var
                 paymentGridRec: Record "Payment Mode2";
-                paymentModeRec: Record "Payment Mode";
                 paymentSeriesRec: Record "Payment Mode2";
                 PdcTransRec: Record "PDC Transaction";
+                sendRejectionToLeaseTeam: Codeunit 50511;
                 approvalPending: Boolean;
                 Isrejected: Boolean;
-                IsApproved: Boolean;
-                sendRejectionToLeaseTeam: Codeunit 50511;
+            //  IsApproved: Boolean;
             begin
                 if Rec."Approval Status" = Rec."Approval Status"::Approved then begin
                     paymentGridRec.SetRange("Contract ID", Rec."Contract ID");
-                    if paymentGridRec.FindSet() then begin
+                    if paymentGridRec.FindSet() then
                         repeat
                             paymentGridRec."Approval Status" := paymentGridRec."Approval Status"::Approved;
 
@@ -91,25 +89,23 @@ table 50924 "Payment Mode"
                             // **Update related PDC Transactions for each Payment Series**
                             pdcTransRec.SetRange("Payment Series", paymentGridRec."Payment Series");
                             pdcTransRec.SetRange("Contract ID", Rec."Contract ID");
-                            if pdcTransRec.FindSet() then begin
+                            if pdcTransRec.FindSet() then
                                 repeat
                                     pdcTransRec."Approval Status" := pdcTransRec."Approval Status"::Approved;
                                     pdcTransRec.Modify();
                                 until pdcTransRec.Next() = 0;
-                            end;
                         until paymentGridRec.Next() = 0;
-                    end;
+
                     Rec."On-hold" := Rec."On-hold"::"False";
-                    IsApproved := true;
+                    // IsApproved := true;
                 end;
                 if Rec."Approval Status" = Rec."Approval Status"::Rejected then begin
                     paymentGridRec.SetRange("Contract ID", Rec."Contract ID");
-                    if paymentGridRec.FindSet() then begin
+                    if paymentGridRec.FindSet() then
                         repeat
                             paymentGridRec."Approval Status" := paymentGridRec."Approval Status"::Rejected;
                             paymentGridRec.Modify();
                         until paymentGridRec.Next() = 0;
-                    end;
                     Rec."On-hold" := Rec."On-hold"::"True";
                 end;
 
@@ -118,26 +114,23 @@ table 50924 "Payment Mode"
                     Isrejected := false;
                     paymentSeriesRec.SetRange("Contract ID", Rec."Contract ID");
                     paymentSeriesRec.SetRange("Tenant Id", Rec."Tenant Id");
-                    if paymentSeriesRec.FindSet() then begin
+                    if paymentSeriesRec.FindSet() then
                         repeat
                             if paymentSeriesRec."Approval Status" = paymentSeriesRec."Approval Status"::Pending then begin
                                 approvalPending := true;
                                 break;
                             end
-                            else if paymentSeriesRec."Approval Status" = paymentSeriesRec."Approval Status"::Rejected then begin
-                                Isrejected := true;
-                            end;
-                        until paymentSeriesRec.Next() = 0;
-                    end;
+                            else
+                                if paymentSeriesRec."Approval Status" = paymentSeriesRec."Approval Status"::Rejected then
+                                    Isrejected := true;
 
+                        until paymentSeriesRec.Next() = 0;
                     // Exit if there are any "Pending" approval statuses
                     if ApprovalPending then
                         exit;
 
-                    if approvalPending = false and Isrejected = true then begin
+                    if approvalPending = false and Isrejected = true then
                         sendRejectionToLeaseTeam.SendPaymentRejectionToLeaseManager(paymentSeriesRec."Contract ID", paymentSeriesRec."Tenant Id", paymentSeriesRec."Contract ID");
-                    end;
-
                 end;
             end;
         }
@@ -159,7 +152,7 @@ table 50924 "Payment Mode"
             Caption = 'Tenant Name';
         }
 
-        field(50130; "Tenant Email"; Text[80])
+        field(50130; "Tenant Email"; Text[100])
         {
             Caption = 'Tenant Email';
         }
@@ -246,9 +239,6 @@ table 50924 "Payment Mode"
         NewPaymentCode: Code[20];
         SequenceNo: Integer;
         MinDueDate: Date;
-        MaxDueDate: Date;
-        DueDates: Text[100];
-        IsValid: Boolean;
         DueDateList: List of [Date]; // List to store due dates
         i: Integer; // Declare the variable 'i' for the loop
         SortedDueDateList: List of [Date]; // List for sorted due dates
@@ -276,10 +266,10 @@ table 50924 "Payment Mode"
         // Sort the DueDateList
         while DueDateList.Count() > 0 do begin
             TempDate := DueDateList.Get(1); // Assume the first date is the smallest
-            for i := 2 to DueDateList.Count() do begin
+            for i := 2 to DueDateList.Count() do
                 if DueDateList.Get(i) < TempDate then
                     TempDate := DueDateList.Get(i); // Update if a smaller date is found
-            end;
+
             SortedDueDateList.Add(TempDate); // Add the smallest date to the sorted list
             DueDateList.Remove(TempDate); // Remove the smallest date from the original list
         end;
@@ -341,11 +331,18 @@ table 50924 "Payment Mode"
 
 
 
-
     local procedure GeneratePaymentCode(SequenceNumber: Integer): Code[20]
+    var
+        PaymentCodeText: Text;
     begin
-        exit('PAY' + PadStr(Format(SequenceNumber), 2, '0'));
+        PaymentCodeText := 'PAY' + PadStr(Format(SequenceNumber), 2, '0');
+        exit(CopyStr(PaymentCodeText, 1, 20));
     end;
+
+    // local procedure GeneratePaymentCode(SequenceNumber: Integer): Code[20]
+    // begin
+    //     exit('PAY' + PadStr(Format(SequenceNumber), 2, '0'));
+    // end;
 
     local procedure PadStr(Input: Text[20]; Length: Integer; PaddingChar: Char): Text[20]
     begin
@@ -356,22 +353,22 @@ table 50924 "Payment Mode"
 
     local procedure GetNextSequenceNo(): Integer
     var
+        MergedRecord: Record "Payment Mode2";
         MaxSequence: Integer;
         LastSequence: Text[10];
-        MergedRecord: Record "Payment Mode2";
     begin
         MergedRecord.Reset();
         MergedRecord.SetRange("Contract ID", Rec."Contract ID");
         //MergedRecord.SetRange("Proposal ID", Rec."Proposal ID");
 
-        if MergedRecord.FindSet() then begin
+        if MergedRecord.FindSet() then
             repeat
                 // Extract the numeric part of the Payment Series
                 LastSequence := CopyStr(MergedRecord."Payment Series", 4, StrLen(MergedRecord."Payment Series"));
                 if Evaluate(MaxSequence, LastSequence) and (MaxSequence > MaxSequence) then
                     MaxSequence := MaxSequence;
-            until MergedRecord.Next() = 0;
-        end else
+            until MergedRecord.Next() = 0
+        else
             MaxSequence := 0; // Default to 0 if no records are found
 
         exit(MaxSequence + 1);

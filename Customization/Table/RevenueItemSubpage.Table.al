@@ -1,22 +1,22 @@
-table 50902 "Additional Charges Sub"
+table 50910 "Revenue Item Subpage"
 {
     DataClassification = ToBeClassified;
 
 
     fields
     {
-        field(50100; "Contract ID"; Integer)
+        field(50100; "ProposalID"; Integer)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Contract ID';
+            Caption = 'Proposal ID';
         }
 
         field(50101; "Secondary Item Type"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Secondary Item';
-            TableRelation = Item WHERE("Item type template" = const("Item Type Template Enum"::"Secondary Item"), "Charges Status" = CONST("Additional Charges"));
-            //TableRelation = "Secondary Item"."Secondary Item Type" WHERE("Payment System" = const("Installment"));
+            TableRelation = Item WHERE("Item type template" = const("Item Type Template Enum"::"Secondary Item"), "Charges Status" = CONST("Regular Charges"));
+            // TableRelation = "Secondary Item"."Secondary Item Type";
 
             trigger OnValidate()
             var
@@ -25,15 +25,13 @@ table 50902 "Additional Charges Sub"
                 // Check if a record with the selected Secondary Item Type exists
                 SecondaryItemRec.SetRange("No.", Rec."Secondary Item Type");
                 if SecondaryItemRec.FindFirst() then begin
-                    "Secondary Item Type" := SecondaryItemRec.Description;
                     // Retrieve the VAT % from the Secondary Item record
+                    "Secondary Item Type" := SecondaryItemRec.Description;
                     "VAT %" := SecondaryItemRec."VAT %";
-                end else begin
+                end else
                     // Clear the VAT % field if no matching record is found
                     "VAT %" := 0;
-                end;
             end;
-
 
         }
 
@@ -107,61 +105,70 @@ table 50902 "Additional Charges Sub"
             Editable = True;
         }
 
+        // field(50108; "No. of Installments"; Integer)
+        // {
+        //     DataClassification = ToBeClassified;
+        //     Caption = 'No. of Installments';
+        // }
+
+        field(50109; "Generate Payment Schedule"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Generate Payment Schedule';
+            InitValue = 'Generate Payment Schedule';
+
+        }
         field(50110; "Entry No."; Integer)
         {
             DataClassification = ToBeClassified;
             AutoIncrement = true;
         }
 
+        field(50111; "Payment Type"; Option)
+        {
+            OptionMembers = "","One Time Payment","Installment";
+            Caption = 'Payment Type';
 
-        field(50114; "Tenant ID"; Code[20])
+
+        }
+
+
+        field(50113; "Link"; Integer)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Link';
+            Editable = false;
+            //InitValue = 'link';
+
+
+        }
+
+        field(50114; "TenantID"; Code[20])
         {
             DataClassification = ToBeClassified;
             Caption = 'Tenant ID';
         }
-
-        field(50115; "Total Amount"; Decimal)
+        field(50116; "Property Name"; Text[100])
         {
-            // DataClassification = ToBeClassified;
-            Caption = 'Total Amount';
-            FieldClass = FlowField;
-            CalcFormula = sum("Additional Charges Sub"."Amount Including VAT" where("Contract ID" = field("Contract ID"), "Tenant ID" = field("Tenant ID")));
-        }
-        field(50116; "Invoiced"; Boolean)
-        {
-            Caption = 'Invoiced';
             DataClassification = ToBeClassified;
         }
-        field(50117; "Invoiced ID"; Code[50])
+        field(50117; "Unit Name"; Code[100])
         {
-            Caption = 'Invoice ID';
             DataClassification = ToBeClassified;
         }
-        field(50118; "Unit Type"; Text[20])
+        field(50118; "Unit Size"; Decimal)
         {
-            Caption = 'Unit Type';
             DataClassification = ToBeClassified;
         }
-        field(50119; "Posted Invoice ID"; Code[50])
+        field(50119; "Customer Name"; Text[100])
         {
-            Caption = 'Invoice ID';
-            DataClassification = ToBeClassified;
-        }
-        field(50120; "Invoice Document"; Text[250])
-        {
-            Caption = 'Invoice Document';
-            DataClassification = ToBeClassified;
-        }
-        field(50121; "Invoice Document URL"; Text[250])
-        {
-            Caption = 'Invoice Document URL';
             DataClassification = ToBeClassified;
         }
     }
 
     keys
     {
-        key(Key1; "Entry No.", "Contract ID")
+        key(Key1; "Entry No.", ProposalID)
         {
             Clustered = true;
         }

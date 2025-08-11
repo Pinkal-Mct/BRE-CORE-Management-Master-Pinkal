@@ -6,14 +6,11 @@ table 50944 "Rent Calculation Subpage2"
     fields
     {
 
-
-
         field(50100; "Year"; Integer)
         {
             DataClassification = ToBeClassified;
             Caption = 'Year';
             Editable = false;
-
         }
 
         field(50101; "Installment No."; Integer)
@@ -21,7 +18,6 @@ table 50944 "Rent Calculation Subpage2"
             DataClassification = ToBeClassified;
             Caption = 'Installment No.';
             Editable = false;
-
         }
 
         field(50102; "Installment Start Date"; Date)
@@ -29,16 +25,12 @@ table 50944 "Rent Calculation Subpage2"
             DataClassification = ToBeClassified;
             Caption = 'Installment Start Date';
             Editable = false;
-
-
         }
         field(50103; "Installment End Date"; Date)
         {
             DataClassification = ToBeClassified;
             Caption = 'Installment End Date';
             Editable = false;
-
-
         }
 
 
@@ -47,9 +39,6 @@ table 50944 "Rent Calculation Subpage2"
             DataClassification = ToBeClassified;
             Caption = 'Due Date';
             Editable = false;
-
-
-
         }
 
         field(50105; "Amount"; Decimal)
@@ -57,10 +46,6 @@ table 50944 "Rent Calculation Subpage2"
             DataClassification = ToBeClassified;
             Caption = 'Amount';
             Editable = false;
-            //DecimalPlaces = ;
-
-
-
         }
 
 
@@ -74,7 +59,6 @@ table 50944 "Rent Calculation Subpage2"
         {
             DataClassification = ToBeClassified;
             Caption = 'RC ID';
-
         }
 
         field(50110; "VAT Amount"; Decimal)
@@ -82,8 +66,6 @@ table 50944 "Rent Calculation Subpage2"
             DataClassification = ToBeClassified;
             Caption = 'VAT Amount';
             Editable = false;
-
-
         }
 
 
@@ -92,8 +74,6 @@ table 50944 "Rent Calculation Subpage2"
             // OptionMembers = "0","5";
             Caption = 'VAT %';
             Editable = false;
-
-
         }
 
 
@@ -102,8 +82,6 @@ table 50944 "Rent Calculation Subpage2"
             DataClassification = ToBeClassified;
             Caption = 'Amount Including VAT';
             Editable = false;
-
-
         }
 
         field(50112; "Secondary Item Type"; Text[100])
@@ -111,32 +89,26 @@ table 50944 "Rent Calculation Subpage2"
             DataClassification = ToBeClassified;
             Caption = 'Secondary Item Type';
             Editable = false;
-
-
         }
 
         field(50113; "Tenant ID"; Code[20])
         {
             DataClassification = ToBeClassified;
             Caption = 'Tenant ID';
-
         }
 
         field(50115; "Contract ID"; Integer)
         {
             DataClassification = ToBeClassified;
             Caption = 'Contract ID';
-
         }
 
 
         field(50114; "Total Amount"; Decimal)
         {
-            //DataClassification = ToBeClassified;
             Caption = 'Total Amount';
             FieldClass = FlowField;
             CalcFormula = sum("Rent Calculation Subpage2".Amount where("RC ID" = field("RC ID")));
-            // CalcFormula = sum("Payment Schedule2"."Amount Including VAT" where("Proposal ID" = field("Proposal ID"), "Tenant ID" = field("Tenant ID")));
             DecimalPlaces = 0 : 0;
         }
 
@@ -157,8 +129,5 @@ table 50944 "Rent Calculation Subpage2"
             Clustered = true;
         }
     }
-
-
-
 
 }

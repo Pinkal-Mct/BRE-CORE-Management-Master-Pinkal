@@ -63,12 +63,15 @@ table 50922 "FinalSettlement"
 
             trigger OnValidate()
             var
+                paymentmode2Grid: Record FinalSettlement;
+                FinalSettlementPosting: Codeunit "Final Settlement Posting Mgt.";
                 Email: Codeunit "FS_Receivable Payment Receipt";
                 azureBlobUploader: Codeunit "Azure AD Blob Storage";
+                TempBlob: Codeunit "Temp Blob";
+                RecRef: RecordRef;
                 fileName: Text;
                 uploadResult: Text;
                 folderName: Text;
-                azureConfig: Record AzureConfiguration;
                 inStream: InStream;
                 // AzureBlobUploader: Codeunit "Azure Blob Management";
                 // InStream: InStream;
@@ -76,19 +79,12 @@ table 50922 "FinalSettlement"
                 // SASUrlBase: Text;
                 // SASUrlWithFileName: Text;
                 // UploadResult: Text;
-                TempBlob: Codeunit "Temp Blob";
                 // ValidFormats: List of [Text];
                 // FileExtension: Text[10];
                 // FileSize: Decimal;
                 // ConfigRecord: Record AzureConfiguration;
                 ReportID: Integer; // Your report ID
-                RecRef: RecordRef;
-                FieldRef1: FieldRef;
-                FieldRef2: FieldRef;
                 OutStream: OutStream;
-                documentattachment: Codeunit UploadAttachment;
-                paymentmode2Grid: Record FinalSettlement;
-                FinalSettlementPosting: Codeunit "Final Settlement Posting Mgt.";
             begin
                 if Rec."Receivable Payment Status" = Enum::"Payment Status"::Received then begin
                     // Call the Final Settlement Posting codeunit to post the amount
@@ -131,8 +127,8 @@ table 50922 "FinalSettlement"
                     folderName := 'Payment Receipt';
                     uploadResult := azureBlobUploader.UploadDocumentToBlob(inStream, fileName, folderName);
                     if fileName <> '' then begin
-                        Rec."Payment Receipt" := fileName;
-                        Rec."View Reciept document URL" := uploadResult;
+                        Rec."Payment Receipt" := CopyStr(fileName, 1, StrLen(fileName));
+                        Rec."View Reciept document URL" := CopyStr(uploadResult, 1, StrLen(uploadResult));
                         Rec.Modify();
                         Message('File uploaded successfully: %1', fileName);
                     end;
@@ -159,11 +155,10 @@ table 50922 "FinalSettlement"
                 BankAccountRec: Record "Bank Account";
             begin
                 // When a Deposit Bank is selected (i.e., a Bank Account No. is provided)
-                if "Deposit Bank" <> '' then begin
+                if "Deposit Bank" <> '' then
                     // Attempt to find the Bank Account using the No. from the Deposit Bank
                     if BankAccountRec.Get("Deposit Bank") then
                         "Deposit Bank" := BankAccountRec."Name"; // Populating the Name field from the Bank Account table
-                end;
             end;
         }
 
@@ -240,10 +235,9 @@ table 50922 "FinalSettlement"
 
     trigger OnInsert()
     begin
-        if Rec."Receivable Payment Mode" = 'Cheque' then begin
+        if Rec."Receivable Payment Mode" = 'Cheque' then
             if DelChr(Rec."Receivable Cheque No.", '=', ' ') = '' then
                 Error('Cheque Number cannot be blank when Payment Mode is Cheque.');
-        end;
     end;
 
 }

@@ -88,11 +88,10 @@ table 50923 "FinalSettlementRefund"
                 BankAccountRec: Record "Bank Account";
             begin
                 // When a Deposit Bank is selected (i.e., a Bank Account No. is provided)
-                if "Deposit Bank" <> '' then begin
+                if "Deposit Bank" <> '' then
                     // Attempt to find the Bank Account using the No. from the Deposit Bank
                     if BankAccountRec.Get("Deposit Bank") then
                         "Deposit Bank" := BankAccountRec."Name"; // Populating the Name field from the Bank Account table
-                end;
             end;
         }
 
@@ -140,10 +139,9 @@ table 50923 "FinalSettlementRefund"
     trigger OnInsert()
     begin
 
-        if Rec."Refund Payment Mode" = 'Cheque' then begin
+        if Rec."Refund Payment Mode" = 'Cheque' then
             if DelChr(Rec."Refund Cheque No.", '=', ' ') = '' then
                 Error('Cheque Number cannot be blank when Payment Mode is Cheque.');
-        end;
     end;
 
 }

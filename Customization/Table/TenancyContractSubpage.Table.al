@@ -29,10 +29,9 @@ table 50938 "Tenancy Contract Subpage"
                     "Secondary Item Type" := SecondaryItemRec.Description;
                     // Retrieve the VAT % from the Secondary Item record
                     "VAT %" := SecondaryItemRec."VAT %";
-                end else begin
+                end else
                     // Clear the VAT % field if no matching record is found
                     "VAT %" := 0;
-                end;
             end;
 
 
