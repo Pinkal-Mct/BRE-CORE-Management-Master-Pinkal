@@ -16,7 +16,7 @@ table 50926 "Vendor Profile"
                 vendor: Record Vendor;
             begin
                 vendor.SetRange("No.", Rec."Vendor ID");
-                if vendor.FindSet() then begin
+                if vendor.FindFirst() then begin
                     Rec."Vendor ID" := vendor."No.";
                     "Vendor Name" := vendor."Name";
                     "Search Name" := vendor."Search Name";
@@ -118,7 +118,7 @@ table 50926 "Vendor Profile"
             Caption = 'Vendor Name';
             Editable = false;
         }
-        field(50102; "Vendor Contact No."; Text[30])
+        field(50102; "Vendor Contact No."; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Vendor Contact No.';
@@ -198,7 +198,7 @@ table 50926 "Vendor Profile"
             Caption = 'Emirate';
             Editable = false;
         }
-        field(50119; Community; Text[30])
+        field(50119; Community; Text[100])
         {
             Caption = 'Community';
             Editable = false;
@@ -451,9 +451,8 @@ table 50926 "Vendor Profile"
         VendorDoc: Record "Vendor Contract Document";
     begin
         VendorDoc.SetRange("Vendor Id", Rec."Vendor ID");
-        if VendorDoc.FindSet() then begin
+        if VendorDoc.FindSet() then
             VendorDoc.DeleteAll();
-        end
     end;
 
     procedure DeleteVendorDocument()
@@ -461,9 +460,8 @@ table 50926 "Vendor Profile"
         VendorDoc: Record "Vendor Document";
     begin
         VendorDoc.SetRange("Vendor Id", Rec."Vendor ID");
-        if VendorDoc.FindSet() then begin
+        if VendorDoc.FindSet() then
             VendorDoc.DeleteAll();
-        end
     end;
 
     procedure DeleteVendorCalculationDetails()
@@ -471,9 +469,8 @@ table 50926 "Vendor Profile"
         VendorDoc: Record "Vendor Calculation Details";
     begin
         VendorDoc.SetRange("Vendor Id", Rec."Vendor ID");
-        if VendorDoc.FindSet() then begin
+        if VendorDoc.FindSet() then
             VendorDoc.DeleteAll();
-        end
     end;
 
 }

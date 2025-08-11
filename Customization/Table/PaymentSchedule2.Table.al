@@ -300,7 +300,7 @@ table 50934 "Payment Schedule2"
 
     local procedure UpdateBalanceAmountOnPaymentReceived()
     var
-        PaymentScheduleRec: Record "Payment Schedule2";
+        // PaymentScheduleRec: Record "Payment Schedule2";
         TenancyContractRec: Record "Tenancy Contract";
     begin
         // Filter only for the current record and matching required values

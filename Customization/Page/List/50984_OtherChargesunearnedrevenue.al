@@ -15,11 +15,13 @@ page 50984 "OtherCharges-UnearnedRevenue"
                 {
                     ApplicationArea = All;
                     Visible = false;
+                    ToolTip = 'Specifies the internal document number for the record.';
                 }
                 field("Item Type"; Rec."Item Type")
                 {
                     ApplicationArea = All;
                     Caption = 'Item Type';
+                    ToolTip = 'Specifies the type of item related to this revenue allocation entry.';
                 }
                 field("Entry No."; Rec."Entry No.")
                 {
@@ -27,6 +29,7 @@ page 50984 "OtherCharges-UnearnedRevenue"
                     Caption = 'Entry No.';
                     Editable = false;
                     Visible = false;
+                    ToolTip = 'Displays the unique entry number generated for the record.';
                 }
             }
         }

@@ -97,16 +97,16 @@ table 50925 "Payment Mode2"
 
                 paymentschedule.SetRange("payment Series", Rec."Payment Series");
                 paymentschedule.SetRange("Contract ID", Rec."Contract ID");
-                if paymentschedule.FindSet() then begin
+                if paymentschedule.FindSet() then
                     repeat
                         paymentschedule."Payment Mode" := Rec."Payment Mode";
                         paymentschedule.Modify();
                     until paymentschedule.Next() = 0;
-                end;
+
             end;
         }
 
-        field(50106; "Cheque Number"; Text[100])
+        field(50106; "Cheque Number"; Text[20])
         {
             DataClassification = ToBeClassified;
             Caption = 'Cheque Number';
@@ -132,12 +132,11 @@ table 50925 "Payment Mode2"
 
                 paymentschedule.SetRange("payment Series", Rec."Payment Series");
                 paymentschedule.SetRange("Contract ID", Rec."Contract ID");
-                if paymentschedule.FindSet() then begin
+                if paymentschedule.FindSet() then
                     repeat
                         paymentschedule."Cheque Number" := Rec."Cheque Number";
                         paymentschedule.Modify();
                     until paymentschedule.Next() = 0;
-                end;
             end;
         }
 
@@ -152,11 +151,11 @@ table 50925 "Payment Mode2"
                 pdcTransRec: Record "PDC Transaction";
             begin
                 // When a Deposit Bank is selected (i.e., a Bank Account No. is provided)
-                if "Deposit Bank" <> '' then begin
+                if "Deposit Bank" <> '' then
                     // Attempt to find the Bank Account using the No. from the Deposit Bank
                     if BankAccountRec.Get("Deposit Bank") then
                         "Deposit Bank" := BankAccountRec."Name"; // Populating the Name field from the Bank Account table
-                end;
+
                 pdcTransRec.SetRange("payment Series", Rec."Payment Series");
                 pdcTransRec.SetRange("Contract ID", Rec."Contract ID");
                 if pdcTransRec.FindSet() then begin
@@ -179,11 +178,16 @@ table 50925 "Payment Mode2"
 
             trigger OnValidate()
             var
+                paymentmode2Grid: Record "Payment Mode2";
+                paymentschedule2: Record "Payment Schedule2";
+                CashReceiptJournalCodeunit: Codeunit 50514;
                 Email: Codeunit "Send Payment Receipt";
                 emailrec: Codeunit "Send PaymentMode Email";
                 azureBlobUploader: Codeunit "Azure AD Blob Storage";
-                fileName: Text;
-                uploadResult: Text;
+                TempBlob: Codeunit "Temp Blob";
+                RecRef: RecordRef;
+                fileName: Text[250];
+                uploadResult: Text[250];
                 folderName: Text;
                 // AzureBlobUploader: Codeunit "Azure Blob Management";
                 // InStream: InStream;
@@ -191,107 +195,92 @@ table 50925 "Payment Mode2"
                 // SASUrlBase: Text;
                 // SASUrlWithFileName: Text;
                 // // UploadResult: Text;
-                TempBlob: Codeunit "Temp Blob";
                 // ValidFormats: List of [Text];
                 // FileExtension: Text[10];
                 // FileSize: Decimal;
                 // ConfigRecord: Record AzureConfiguration;
                 ReportID: Integer; // Your report ID
-                RecRef: RecordRef;
-                FieldRef1: FieldRef;
-                FieldRef2: FieldRef;
+                // FieldRef1: FieldRef;
+                // FieldRef2: FieldRef;
                 OutStream: OutStream;
-                documentattachment: Codeunit UploadAttachment;
-                paymentmode2Grid: Record "Payment Mode2";
-                paymentschedule2: Record "Payment Schedule2";
-                CashReceiptJournalCodeunit: Codeunit 50514;
-                azureConfig: Record AzureConfiguration;
+                // documentattachment: Codeunit UploadAttachment;
+                // azureConfig: Record AzureConfiguration;
                 inStream: InStream;
             begin
-                if Rec."Payment Status" = Rec."Payment Status"::Received then begin
+                if Rec."Payment Status" = Rec."Payment Status"::Received then
                     // if Rec."Payment Mode" = 'Bank Transfer' then begin
                     //     if Rec."Deposit Bank" = '' then begin
                     //         Error('Deposite Bank must be filled when payment mode is bank transfer');
                     //     end;
                     // end;
 
-                    if Rec."Payment Mode" = 'Cheque' then begin
+                    if Rec."Payment Mode" = 'Cheque' then
                         Rec."Cheque Status" := Rec."Cheque Status"::Cleared;
-                    end;
 
 
-
-                    // Rec."Cheque Status" := Rec."Cheque Status"::Cleared;
-                    CashReceiptJournalCodeunit.CreateCashReceiptJournal(Rec);
-                    Email.SendEmail(Rec);
-                    if Rec."Payment Status" = Rec."Payment Status"::Received then begin
-
-                        emailrec.SendEmail(Rec);
+                // Rec."Cheque Status" := Rec."Cheque Status"::Cleared;
+                CashReceiptJournalCodeunit.CreateCashReceiptJournal(Rec);
+                Email.SendEmail(Rec);
+                if Rec."Payment Status" = Rec."Payment Status"::Received then
+                    emailrec.SendEmail(Rec);
 
 
-                        // if not ConfigRecord.FindFirst() then
-                        //     Error('Azure configuration is missing. Please set up the SAS URL in the Azure Configuration table.');
-                        // ValidFormats.Add('.png');
-                        // ValidFormats.Add('.jpg');
-                        // ValidFormats.Add('.jpeg');
+                // if not ConfigRecord.FindFirst() then
+                //     Error('Azure configuration is missing. Please set up the SAS URL in the Azure Configuration table.');
+                // ValidFormats.Add('.png');
+                // ValidFormats.Add('.jpg');
+                // ValidFormats.Add('.jpeg');
 
-                        // SASUrlBase := ConfigRecord."SAS URL";
-                        // FileExtension := '.pdf';
-                        ReportID := 50112;
-                        //  RecRef.Open(DATABASE::"Sales Header"); // Open the table reference
-                        // RecRef.GetTable(Rec);
-                        paymentmode2Grid.Reset();
-                        paymentmode2Grid.SetRange("Tenant ID", Rec."Tenant ID");
-                        paymentmode2Grid.SetRange("Contract ID", Rec."Contract ID"); // Ensure filtering on unique ID
-                        paymentmode2Grid.SetRange("Payment Series", Rec."Payment Series"); // Add this line to filter by Payment Series
+                // SASUrlBase := ConfigRecord."SAS URL";
+                // FileExtension := '.pdf';
+                ReportID := 50112;
+                //  RecRef.Open(DATABASE::"Sales Header"); // Open the table reference
+                // RecRef.GetTable(Rec);
+                paymentmode2Grid.Reset();
+                paymentmode2Grid.SetRange("Tenant ID", Rec."Tenant ID");
+                paymentmode2Grid.SetRange("Contract ID", Rec."Contract ID"); // Ensure filtering on unique ID
+                paymentmode2Grid.SetRange("Payment Series", Rec."Payment Series"); // Add this line to filter by Payment Series
 
-                        if not paymentmode2Grid.FindFirst() then
-                            Error('Not avavilable');
-                        RecRef.GetTable(paymentmode2Grid);
-                        RecRef.GetTable(Rec);
-                        TempBlob.CreateOutStream(OutStream);
-                        Report.SaveAs(ReportID, '', ReportFormat::Pdf, OutStream, RecRef);
-                        TempBlob.CreateInStream(inStream);
+                if not paymentmode2Grid.FindFirst() then
+                    Error('Not avavilable');
+                RecRef.GetTable(paymentmode2Grid);
+                RecRef.GetTable(Rec);
+                TempBlob.CreateOutStream(OutStream);
+                Report.SaveAs(ReportID, '', ReportFormat::Pdf, OutStream, RecRef);
+                TempBlob.CreateInStream(inStream);
 
-                        // TempBlob.CreateInStream(InStream);
-                        fileName := 'Invoice_' + Format(Rec."Contract ID") + Rec."Payment Series" + '.pdf';
-                        // SASUrlWithFileName := StrSubstNo('%1/%2?%3', CopyStr(SASUrlBase, 1, StrPos(SASUrlBase, '?') - 1), FileName, CopyStr(SASUrlBase, StrPos(SASUrlBase, '?') + 1));
-                        // UploadResult := documentattachment.UploadDocumentToBlobStorage(SASUrlWithFileName, FileName, InStream);
-                        // Rec."View Invoice" := FileName;
-                        // Rec."View Reciept document URL" := UploadResult;
-
-
-                        folderName := 'Payment Receipt';
-                        uploadResult := azureBlobUploader.UploadDocumentToBlob(inStream, fileName, folderName);
-                        if fileName <> '' then begin
-                            Rec."View Invoice" := fileName;
-                            Rec."View Reciept document URL" := uploadResult;
-                            Rec.Modify();
-                            Message('File uploaded successfully: %1', fileName);
-                        end;
-                        Rec.Modify();
-                        paymentschedule2.SetRange("payment Series", Rec."Payment Series");
-                        paymentschedule2.SetRange("Contract ID", Rec."Contract ID");
-                        if paymentschedule2.FindSet() then begin
-                            repeat
-                                paymentschedule2.Validate("Payment Status", Format(Rec."Payment Status"));
-                                paymentschedule2.Modify();
-                            until paymentschedule2.Next() = 0;
-
-                        end;
+                // TempBlob.CreateInStream(InStream);
+                fileName := 'Invoice_' + Format(Rec."Contract ID") + Rec."Payment Series" + '.pdf';
+                // SASUrlWithFileName := StrSubstNo('%1/%2?%3', CopyStr(SASUrlBase, 1, StrPos(SASUrlBase, '?') - 1), FileName, CopyStr(SASUrlBase, StrPos(SASUrlBase, '?') + 1));
+                // UploadResult := documentattachment.UploadDocumentToBlobStorage(SASUrlWithFileName, FileName, InStream);
+                // Rec."View Invoice" := FileName;
+                // Rec."View Reciept document URL" := UploadResult;
 
 
-                    end;
-                end
-
-                else if Rec."Payment Status" = Rec."Payment Status"::Cancelled then begin
-                    emailrec.SendEmailCancelled(Rec); // Call for Cancelled status
-                end
-
-                else if Rec."Payment Status" = Rec."Payment Status"::Overdue then begin
-                    emailrec.SendEmailOverdue(Rec); // Call for Overdue status
+                folderName := 'Payment Receipt';
+                uploadResult := azureBlobUploader.UploadDocumentToBlob(inStream, fileName, folderName);
+                if fileName <> '' then begin
+                    Rec."View Invoice" := fileName;
+                    Rec."View Reciept document URL" := uploadResult;
+                    Rec.Modify();
+                    Message('File uploaded successfully: %1', fileName);
                 end;
+                Rec.Modify();
+                paymentschedule2.SetRange("payment Series", Rec."Payment Series");
+                paymentschedule2.SetRange("Contract ID", Rec."Contract ID");
+                if paymentschedule2.FindSet() then
+                    repeat
+                        paymentschedule2.Validate("Payment Status", Format(Rec."Payment Status"));
+                        paymentschedule2.Modify();
+                    until paymentschedule2.Next() = 0
 
+
+                else
+                    if Rec."Payment Status" = Rec."Payment Status"::Cancelled then
+                        emailrec.SendEmailCancelled(Rec) // Call for Cancelled status
+                    else
+                        if Rec."Payment Status" = Rec."Payment Status"::Overdue then
+                            emailrec.SendEmailOverdue(Rec); // Call for Overdue status
             end;
 
             // trigger OnValidate()
@@ -464,23 +453,23 @@ table 50925 "Payment Mode2"
                 paymentModeRec: Record "Payment Mode";
                 paymentGridRec: Record "Payment Mode2";
                 pdcTransRec: Record "PDC Transaction";
+                sendRejectionToLeaseTeam: Codeunit 50511;
+                approvalflow: Codeunit 50510;
                 AllApproved: Boolean;
                 AnyPending: Boolean;
                 AnyRejected: Boolean;
                 CurrApproved: Boolean;
                 CurrRejected: Boolean;
                 CurrAnyPending: Boolean;
-                sendRejectionToLeaseTeam: Codeunit 50511;
-                approvalflow: Codeunit 50510;
             begin
                 pdcTransRec.SetRange("payment Series", Rec."Payment Series");
                 pdcTransRec.SetRange("Contract ID", Rec."Contract ID");
-                if pdcTransRec.FindSet() then begin
+                if pdcTransRec.FindSet() then
                     repeat
                         pdcTransRec."Approval Status" := Rec."Approval Status";
                         pdcTransRec.Modify();
                     until pdcTransRec.Next() = 0;
-                end;
+
                 // Fetch the Parent Record (Main Payment Mode Card)
                 if paymentModeRec.Get(Rec."Contract ID") then begin
 
@@ -499,21 +488,21 @@ table 50925 "Payment Mode2"
                     if paymentGridRec.FindSet() then begin
                         // paymentGridRec.Init();
                         repeat
-                            if (paymentGridRec."Approval Status" = paymentGridRec."Approval Status"::Approved) then begin
+                            if (paymentGridRec."Approval Status" = paymentGridRec."Approval Status"::Approved) then
                                 // AnyPending := false;
-                                AllApproved := true;
-                                // AnyRejected := false;
-                            end
-                            else if paymentGridRec."Approval Status" = paymentGridRec."Approval Status"::Pending then begin
-                                AnyPending := true;
+                                AllApproved := true
+                            // AnyRejected := false;
+                            else
+                                if paymentGridRec."Approval Status" = paymentGridRec."Approval Status"::Pending then
+                                    AnyPending := true
                                 // AllApproved := false;
                                 // AnyRejected := false;
-                            end
-                            else if paymentGridRec."Approval Status" = paymentGridRec."Approval Status"::Rejected then begin
-                                // AnyPending := false;
-                                // AllApproved := false;
-                                AnyRejected := true;
-                            end;
+                                else
+                                    if paymentGridRec."Approval Status" = paymentGridRec."Approval Status"::Rejected then
+                                        // AnyPending := false;
+                                        // AllApproved := false;
+                                        AnyRejected := true
+
 
                         until paymentGridRec.Next() = 0;
 
@@ -522,16 +511,18 @@ table 50925 "Payment Mode2"
                             CurrApproved := true;
                             CurrRejected := false;
                         end
-                        else if Rec."Approval Status" = Rec."Approval Status"::Pending then begin
-                            CurrAnyPending := true;
-                            CurrApproved := false;
-                            CurrRejected := false;
-                        end
-                        else if Rec."Approval Status" = Rec."Approval Status"::Rejected then begin
-                            CurrAnyPending := false;
-                            CurrApproved := false;
-                            CurrRejected := true;
-                        end;
+                        else
+                            if Rec."Approval Status" = Rec."Approval Status"::Pending then begin
+                                CurrAnyPending := true;
+                                CurrApproved := false;
+                                CurrRejected := false;
+                            end
+                            else
+                                if Rec."Approval Status" = Rec."Approval Status"::Rejected then begin
+                                    CurrAnyPending := false;
+                                    CurrApproved := false;
+                                    CurrRejected := true;
+                                end;
 
                     end;
 
@@ -541,23 +532,26 @@ table 50925 "Payment Mode2"
                         paymentModeRec.Modify();
                         approvalflow.SendPaymentModeApprovalToFinanceManger(Format(paymentModeRec."Contract ID"), paymentModeRec."Tenant Id", paymentModeRec."Contract ID", false);
                     end
-                    else if AnyPending or CurrAnyPending then begin
-                        paymentModeRec."On-hold" := paymentModeRec."On-hold"::"True";
-                        paymentModeRec."Approval Status" := paymentModeRec."Approval Status"::Pending;
-                        paymentModeRec.Modify();
-                    end
-                    else if AnyRejected and CurrRejected and (not AllApproved and not CurrApproved) and (not AnyPending and not CurrAnyPending) then begin
-                        paymentModeRec."Approval Status" := paymentModeRec."Approval Status"::Rejected;
-                        paymentModeRec."On-hold" := paymentModeRec."On-hold"::"True";
-                        paymentModeRec.Modify();
-                        sendRejectionToLeaseTeam.SendPaymentRejectionToLeaseManager(paymentModeRec."Contract ID", paymentModeRec."Tenant Id", paymentModeRec."Contract ID");
-                    end
-                    else if (AllApproved or CurrApproved) and (AnyRejected or CurrRejected) and (not AnyPending and not CurrAnyPending) then begin
-                        paymentModeRec."Approval Status" := paymentModeRec."Approval Status"::"On-Hold";
-                        paymentModeRec."On-hold" := paymentModeRec."On-hold"::"True";
-                        paymentModeRec.Modify();
-                        sendRejectionToLeaseTeam.SendPaymentRejectionToLeaseManager(paymentModeRec."Contract ID", paymentModeRec."Tenant Id", paymentModeRec."Contract ID");
-                    end;
+                    else
+                        if AnyPending or CurrAnyPending then begin
+                            paymentModeRec."On-hold" := paymentModeRec."On-hold"::"True";
+                            paymentModeRec."Approval Status" := paymentModeRec."Approval Status"::Pending;
+                            paymentModeRec.Modify();
+                        end
+                        else
+                            if AnyRejected and CurrRejected and (not AllApproved and not CurrApproved) and (not AnyPending and not CurrAnyPending) then begin
+                                paymentModeRec."Approval Status" := paymentModeRec."Approval Status"::Rejected;
+                                paymentModeRec."On-hold" := paymentModeRec."On-hold"::"True";
+                                paymentModeRec.Modify();
+                                sendRejectionToLeaseTeam.SendPaymentRejectionToLeaseManager(paymentModeRec."Contract ID", paymentModeRec."Tenant Id", paymentModeRec."Contract ID");
+                            end
+                            else
+                                if (AllApproved or CurrApproved) and (AnyRejected or CurrRejected) and (not AnyPending and not CurrAnyPending) then begin
+                                    paymentModeRec."Approval Status" := paymentModeRec."Approval Status"::"On-Hold";
+                                    paymentModeRec."On-hold" := paymentModeRec."On-hold"::"True";
+                                    paymentModeRec.Modify();
+                                    sendRejectionToLeaseTeam.SendPaymentRejectionToLeaseManager(paymentModeRec."Contract ID", paymentModeRec."Tenant Id", paymentModeRec."Contract ID");
+                                end;
                     paymentModeRec.Modify();
                 end;
             end;
@@ -583,7 +577,7 @@ table 50925 "Payment Mode2"
             Caption = 'Tenant Name';
         }
 
-        field(50130; "Tenant Email"; Text[80])
+        field(50130; "Tenant Email"; Text[100])
         {
             Caption = 'Tenant Email';
         }
@@ -690,38 +684,23 @@ table 50925 "Payment Mode2"
 
     trigger OnInsert()
     begin
-        if Rec."Payment Mode" = 'Cheque' then begin
+        if Rec."Payment Mode" = 'Cheque' then
             if DelChr(Rec."Cheque Number", '=', ' ') = '' then
                 Error('Cheque Number cannot be blank when Payment Mode is Cheque.');
-        end;
+
     end;
 
     trigger OnModify()
     var
         emailrec: Codeunit "Send PaymentMode Email";
     begin
-
-        if Rec."Payment Status" = Rec."Payment Status"::Received then
-            emailrec.SendEmail(Rec)
-        else if Rec."Payment Status" = Rec."Payment Status"::Cancelled then
-            emailrec.SendEmailCancelled(Rec)
-        else if Rec."Payment Status" = Rec."Payment Status"::Overdue then
-            emailrec.SendEmailOverdue(Rec);
+        case Rec."Payment Status" of
+            Rec."Payment Status"::Received:
+                emailrec.SendEmail(Rec);
+            Rec."Payment Status"::Cancelled:
+                emailrec.SendEmailCancelled(Rec);
+            Rec."Payment Status"::Overdue:
+                emailrec.SendEmailOverdue(Rec);
+        end;
     end;
-
-
-    trigger OnDelete()
-    begin
-
-    end;
-
-    trigger OnRename()
-    begin
-
-    end;
-
-
-
-
-
 }

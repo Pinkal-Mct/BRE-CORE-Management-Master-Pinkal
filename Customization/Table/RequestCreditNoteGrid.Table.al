@@ -81,12 +81,11 @@ table 50968 "Request Credit Note Grid"
                     requestCreditNoteGrid.SetRange("Request No.", Rec."Request No.");
                     requestCreditNoteGrid.SetRange("Credit Memo Generated", false);
                     requestCreditNoteGrid.SetFilter("Line No.", '<>%1', Rec."Line No.");
-                    if requestCreditNoteGrid.IsEmpty() then begin
+                    if requestCreditNoteGrid.IsEmpty() then
                         if requestCreditNote.Get(Rec."Request No.") then begin
                             requestCreditNote."Adjust with Invoice" := requestCreditNote."Adjust with Invoice"::Adjusted;
                             requestCreditNote.Modify();
                         end;
-                    end;
                 end;
             end;
         }
@@ -131,15 +130,7 @@ table 50968 "Request Credit Note Grid"
             Rec."Customer Name" := requestcreditnote."Customer Name";
             Rec."Tenant No." := requestcreditnote."Tenant No.";
             Rec."Property Classification" := requestcreditnote."Property Classification";
-        end else begin
+        end else
             Error('No Request Credit Note found for the specified Request No.');
-        end;
-
     end;
-
-
-
-
-
-
 }

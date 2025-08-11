@@ -20,12 +20,14 @@ page 50983 "RevenueAllocationApproval List"
                     ApplicationArea = All;
                     Caption = 'Status';
                     Editable = false;
+                    ToolTip = 'Specifies the current status of the record.';
                 }
                 field("RA_ID"; Rec."RA_ID")
                 {
                     ApplicationArea = All;
                     Caption = 'RA_ID';
                     Editable = false;
+                    ToolTip = 'Represents the Revenue Allocation ID.';
                 }
                 field("ID"; Rec."ID")
                 {
@@ -33,6 +35,8 @@ page 50983 "RevenueAllocationApproval List"
                     Caption = 'ID';
                     Editable = false;
                     DrillDown = true;
+                    ToolTip = 'Unique identifier for the revenue allocation record. Click to open related details.';
+
 
                     trigger OnDrillDown()
                     var
@@ -50,12 +54,14 @@ page 50983 "RevenueAllocationApproval List"
                     ApplicationArea = All;
                     Caption = 'Financial Year';
                     Editable = false;
+                    ToolTip = 'Displays the financial year related to the revenue allocation.';
                 }
                 field("Month"; Rec."Month")
                 {
                     ApplicationArea = All;
                     Caption = 'Month';
                     Editable = false;
+                    ToolTip = 'Displays the month associated with the revenue allocation.';
                 }
 
             }
@@ -71,10 +77,8 @@ page 50983 "RevenueAllocationApproval List"
                 ApplicationArea = All;
                 Caption = 'Approve';
                 Image = Approve;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
                 Visible = IsFinanceManager;
+                ToolTip = 'Approve the current request after verification.';
 
 
                 trigger OnAction()
@@ -108,10 +112,8 @@ page 50983 "RevenueAllocationApproval List"
                 ApplicationArea = All;
                 Caption = 'Reject';
                 Image = Cancel;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
                 Visible = IsFinanceManager;
+                ToolTip = 'Reject the current request as per your review.';
 
                 trigger OnAction()
                 var
@@ -155,8 +157,7 @@ page 50983 "RevenueAllocationApproval List"
         UserPersonalization: Record "User Personalization";
     begin
 
-        if UserPersonalization.Get(UserSecurityId()) then begin
-
+        if UserPersonalization.Get(UserSecurityId()) then
             case UserPersonalization."Profile ID" of
                 'PROPERTY MANAGER':
                     exit(false);
@@ -165,12 +166,11 @@ page 50983 "RevenueAllocationApproval List"
                 'finance manager':
                     exit(true);
             end;
-        end;
+
 
         exit(false);
     end;
 
     var
         IsFinanceManager: Boolean;
-        IsFieldEditable: Boolean;
 }

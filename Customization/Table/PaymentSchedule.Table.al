@@ -133,9 +133,9 @@ table 50920 "Payment Schedule"
         //PaymentSchedule2.SetRange("Tenant ID", Rec."Tenant ID");
 
         // PaymentSchedule2.SetRange("Proposal ID", Rec."Proposal ID");
-        if PaymentSchedule2.FindSet() then begin
+        if PaymentSchedule2.FindSet() then
             PaymentSchedule2.DeleteAll();
-        end;
+
         // PaymentSchedule2.SetRange("Contract ID", Rec."Contract ID");
         //PaymentSchedule2.SetRange("Tenant ID", Rec."Tenant ID");
         RevenueSubpage.SetRange("ContractID", Rec."Contract ID");
@@ -185,8 +185,6 @@ table 50920 "Payment Schedule"
     var
         RentCalculationSubpage: Record "Rent Calculation Subpage2";
         PaymentSchedule: Record "Payment Schedule2";
-        vatper: Integer;
-
     begin
 
         RentCalculationSubpage.SetRange("Contract ID", Rec."Contract ID");
@@ -273,7 +271,6 @@ table 50920 "Payment Schedule"
         DueDateList: List of [Date]; // List to store unique due dates
         TempDate: Date;
         i: Integer; // Declare the variable 'i' for the loop
-        j: Integer; // Additional loop counter
         SortedDueDateList: List of [Date]; // List for sorted due dates
     begin
         // Filter by Tenant ID and Contract ID
@@ -290,10 +287,10 @@ table 50920 "Payment Schedule"
         // Sort the due dates in ascending order
         while DueDateList.Count() > 0 do begin
             TempDate := DueDateList.Get(1); // Start with first date
-            for i := 2 to DueDateList.Count() do begin
+            for i := 2 to DueDateList.Count() do
                 if DueDateList.Get(i) < TempDate then
                     TempDate := DueDateList.Get(i); // Find the earliest date
-            end;
+
             SortedDueDateList.Add(TempDate); // Add to sorted list
             DueDateList.Remove(TempDate); // Remove from original list
         end;
@@ -314,13 +311,13 @@ table 50920 "Payment Schedule"
             PaymentScheduleRec2.SetRange("Tenant ID", Rec."Tenant ID");
             PaymentScheduleRec2.SetRange("Contract ID", Rec."Contract ID");
 
-            if PaymentScheduleRec2.FindSet() then begin
+            if PaymentScheduleRec2.FindSet() then
                 // Modify all records with this due date to have the same payment series
                 repeat
                     PaymentScheduleRec2."Payment Series" := NewPaymentCode;
                     PaymentScheduleRec2.Modify();
                 until PaymentScheduleRec2.Next() = 0;
-            end;
+
 
             // Increment sequence for the next due date
             SequenceNo += 1;
@@ -329,9 +326,16 @@ table 50920 "Payment Schedule"
         Message('Payment series assignment completed successfully.');
     end;
 
+    // local procedure GeneratePaymentCode(SequenceNumber: Integer): Code[20]
+    // begin
+    //     exit('PAY' + PadStr(Format(SequenceNumber), 2, '0'));
+    // end;
     local procedure GeneratePaymentCode(SequenceNumber: Integer): Code[20]
+    var
+        PaymentCodeText: Text;
     begin
-        exit('PAY' + PadStr(Format(SequenceNumber), 2, '0'));
+        PaymentCodeText := 'PAY' + PadStr(Format(SequenceNumber), 2, '0');
+        exit(CopyStr(PaymentCodeText, 1, 20));
     end;
 
     local procedure PadStr(Input: Text[20]; Length: Integer; PaddingChar: Char): Text[20]

@@ -2,18 +2,18 @@ codeunit 50951 "Approval Request Crdit note "
 {
     procedure SubmitCreditNote(var RequestCreditNote: Record "Request Credit Note")
     var
-        ApprovalStatusList: Record RequestCreditNoteApprovalList;
-        EmailMessage: Codeunit "Email Message";
-        Email: Codeunit "Email";
         UserPersonalizationRec: Record "User Personalization";
         UserRec: Record User;
+        CompanyInfo: Record "Company Information";
+        ApprovalStatusList: Record RequestCreditNoteApprovalList;
+        requestcreditnotegrid: Record "Request Credit Note Grid";
+        EmailMessage: Codeunit "Email Message";
+        Email: Codeunit "Email";
         EmailList: List of [Text];
         fianancemanager: Text;
-        CompanyInfo: Record "Company Information";
         EmailBody: Text;
         AcutalRentAmount: Decimal;
         Totalreductionamount: Decimal;
-        requestcreditnotegrid: Record "Request Credit Note Grid";
     begin
         requestcreditnotegrid.SetRange("Request No.", RequestCreditNote."Request No.");
         requestcreditnotegrid.SetRange("Contract ID", RequestCreditNote."Contract ID");

@@ -10,12 +10,12 @@ codeunit 50952 "Credit Memo Generate"
     var
         Customer: Record Customer;
         customercard: Record Customer;
-        SalesPost: Codeunit "Sales-Post";
         RequestGrid: Record "Request Credit Note Grid";
         GridPerSeries: Record "Request Credit Note Grid";
+        NewSalesHeader: Record "Sales Header";
+        SalesPost: Codeunit "Sales-Post";
         PaymentSeriesList: List of [Code[20]];
         CurrentSeries: Code[20];
-        NewSalesHeader: Record "Sales Header";
     begin
         Customer.SetRange("No.", RequestCreditnoteGrid."Tenant No.");
         if not Customer.FindFirst() then
@@ -152,25 +152,26 @@ codeunit 50952 "Credit Memo Generate"
 
     procedure Createdocument(var SalesheaderRec: Record "Sales Header")
     var
+        SalesHeader1: Record "Sales Header";
+        ConfigRecord: Record AzureConfiguration;
+        RecRef: RecordRef;
+        azureBlobUploader: Codeunit "Azure AD Blob Storage";
+        TempBlob: Codeunit "Temp Blob";
         InStream: InStream;
         FileName: Text;
         SASUrlBase: Text;
-        SASUrlWithFileName: Text;
+        //  SASUrlWithFileName: Text;
         UploadResult: Text;
-        TempBlob: Codeunit "Temp Blob";
         ValidFormats: List of [Text];
         FileExtension: Text[10];
-        FileSize: Decimal;
-        ConfigRecord: Record AzureConfiguration;
+        // FileSize: Decimal;
         ReportID: Integer; // Your report ID
-        RecRef: RecordRef;
-        FieldRef1: FieldRef;
-        FieldRef2: FieldRef;
+        // FieldRef1: FieldRef;
+        // FieldRef2: FieldRef;
         OutStream: OutStream;
-        documentattachment: Codeunit UploadAttachment;
-        SalesHeader1: Record "Sales Header";
-        customercard: Record Customer;
-        azureBlobUploader: Codeunit "Azure AD Blob Storage";
+        //  documentattachment: Codeunit UploadAttachment;
+        //  customercard: Record Customer;
+
         folderName: Text;
     begin
         if SalesheaderRec."Approval Status for CreditNote" <> SalesheaderRec."Approval Status for CreditNote"::Approved then

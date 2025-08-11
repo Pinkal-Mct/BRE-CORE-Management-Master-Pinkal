@@ -31,18 +31,13 @@ table 50906 "Secondary Item"
             trigger OnValidate()
             var
                 CategoryRec: Record "Category type"; // This is a placeholder, replace with the actual category-related table
-                PrimaryRec: Record "Primary Item";
             begin
                 CategoryRec.SetRange("Category Types", Rec."Category Types");
-
-                if CategoryRec.FindFirst() then begin
-                    "Primary Item Type" := CategoryRec."Primary Item Type";
-                end else begin
-
+                if CategoryRec.FindFirst() then
+                    "Primary Item Type" := CategoryRec."Primary Item Type"
+                else
                     "Primary Item Type" := '';
-                end;
             end;
-
 
         }
 

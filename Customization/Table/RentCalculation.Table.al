@@ -1,30 +1,17 @@
-table 50911 "Revenue Structure"
+table 50942 "Rent Calculation"
 {
     DataClassification = ToBeClassified;
 
     fields
     {
-        // field(50100; "Proposal ID"; Integer)
-        // {
-        //     DataClassification = ToBeClassified;
-        //     Caption = 'Proposal ID';
-        //     TableRelation = "Lease Proposal Details"."Proposal ID";
-
-
-
-        // }
-
         field(50112; "Contract ID"; Integer)
         {
             DataClassification = ToBeClassified;
             Caption = 'Contract ID';
             TableRelation = "Tenancy Contract"."Contract ID";
-
-
-
         }
 
-        field(50101; "RS ID"; Integer)
+        field(50101; "RC ID"; Integer)
         {
             DataClassification = ToBeClassified;
             AutoIncrement = true; // Automatically increment the ID
@@ -61,14 +48,8 @@ table 50911 "Revenue Structure"
 
         field(50106; "Number of Installments"; Integer)
         {
-            // DataClassification = ToBeClassified;
+            DataClassification = ToBeClassified;
             Caption = 'Number of Installments';
-            //  Editable = false;
-            // FieldClass = FlowField;
-            // CalcFormula = sum("Revenue Structure Subpage"."Yearly No. of Installment" where("Proposal Id" = field("Proposal ID"), "RS ID" = field("RS ID")));
-
-
-
         }
 
         field(50107; "VAT Amount"; Decimal)
@@ -105,6 +86,11 @@ table 50911 "Revenue Structure"
             Caption = 'VAT %';
             Editable = false;
         }
+        field(50912; "Property Classification"; Text[100])
+        {
+            Caption = 'Property Classification';
+            DataClassification = ToBeClassified;
+        }
 
 
 
@@ -116,7 +102,7 @@ table 50911 "Revenue Structure"
 
     keys
     {
-        key(PK; "RS ID")
+        key(PK; "RC ID")
         {
             Clustered = true;
         }
@@ -137,44 +123,28 @@ table 50911 "Revenue Structure"
     begin
         deletepaymentschedule();
         deleterevenuestructuresubpag1();
-        Deleterevenuerecognition();
     end;
 
     procedure deletepaymentschedule()
     var
-        paymentschedule: Record "Revenue Structure Subpage";
+        paymentschedule: Record "Rent Calculation Subpage";
 
     begin
         paymentschedule.SetRange("Contract Id", Rec."Contract ID");
-        paymentschedule.SetRange("RS ID", Rec."RS ID");
-        if paymentschedule.FindSet() then begin
+        paymentschedule.SetRange("RC ID", Rec."RC ID");
+        if paymentschedule.FindSet() then
             paymentschedule.DeleteAll();
-        end
-
     end;
 
     procedure deleterevenuestructuresubpag1()
     var
-        revenuestructuresubpage1: Record "Revenue Structure Subpage1";
+        revenuestructuresubpage1: Record "Rent Calculation Subpage2";
     begin
         revenuestructuresubpage1.SetRange("Contract ID", Rec."Contract ID");
-        revenuestructuresubpage1.SetRange("RS ID", Rec."RS ID");
-        if revenuestructuresubpage1.FindSet() then begin
+        revenuestructuresubpage1.SetRange("RC ID", Rec."RC ID");
+        if revenuestructuresubpage1.FindSet() then
             revenuestructuresubpage1.DeleteAll();
-        end;
     end;
-
-    procedure Deleterevenuerecognition()
-    var
-        revenuerecognition: Record "RevenueRecognition Othercharge";
-    begin
-        revenuerecognition.SetRange("Contract ID", Rec."Contract ID");
-        if revenuerecognition.FindSet() then
-            repeat
-                revenuerecognition.DeleteAll();
-            until revenuerecognition.Next() = 0;
-    end;
-
 
     //-----------------Delete record also delete subgrid -----------------//
 

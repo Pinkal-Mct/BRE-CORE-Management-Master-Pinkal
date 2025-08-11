@@ -17,23 +17,26 @@ page 50918 "Workflow Frequency Card"
                 {
                     ApplicationArea = All;
                     Editable = false; // The ID is not editable since it's auto-incrementing
-
+                    ToolTip = 'Specifies the unique identifier of the company. This field is auto-generated and cannot be edited.';
                 }
 
                 field("Workflow"; Rec."Workflow")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the workflow associated with this process.';
                 }
                 field("frequncy Status"; Rec."frequncy Status")
                 {
                     ApplicationArea = All;
                     Caption = 'frequncy Status';
+                    ToolTip = 'Indicates the current frequency status of the allocation or process.';
                 }
 
                 field("No. of Days"; Rec."No. of Days")
                 {
                     ApplicationArea = All;
                     Editable = IsApproved;
+                    ToolTip = 'Specifies the number of days related to this allocation. This field is editable only if approved.';
                 }
 
             }
