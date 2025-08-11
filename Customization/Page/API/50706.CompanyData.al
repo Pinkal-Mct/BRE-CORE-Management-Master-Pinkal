@@ -72,6 +72,10 @@ page 50706 CompanyData
                 {
                     Caption = 'API URL';
                 }
+                field("PortalAccess"; Rec."Portal Access")
+                {
+                    Caption = 'Portal Access';
+                }
             }
         }
     }
