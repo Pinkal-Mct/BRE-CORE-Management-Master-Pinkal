@@ -5,7 +5,6 @@ page 50114 "Emirate List"
     ApplicationArea = All;
     Caption = 'Emirate List';
     UsageCategory = Lists;
-    CardPageId = 50115;
 
     layout
     {
@@ -29,11 +28,13 @@ page 50114 "Emirate List"
                     Caption = 'Country Code';
                     TableRelation = Country;
                     Lookup = true;
+                    NotBlank = true;
                 }
                 field("Emirate Name"; Rec."Emirate Name")
                 {
                     ApplicationArea = All;
                     Caption = 'Emirate Name';
+                    NotBlank = true;
                 }
             }
         }

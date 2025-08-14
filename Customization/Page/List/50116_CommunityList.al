@@ -5,7 +5,6 @@ page 50116 "Community List"
     ApplicationArea = All;
     Caption = 'Community List';
     UsageCategory = Lists;
-    CardPageId = 50117;
 
     layout
     {
@@ -29,6 +28,7 @@ page 50116 "Community List"
                     Caption = 'Emirate Name';
                     TableRelation = Emirate;
                     Lookup = true;
+                    NotBlank = true;
                 }
                 field("Community Code"; Rec."Community Code")
                 {
@@ -39,6 +39,7 @@ page 50116 "Community List"
                 {
                     ApplicationArea = All;
                     Caption = 'Community Name';
+                    NotBlank = true;
                 }
             }
         }

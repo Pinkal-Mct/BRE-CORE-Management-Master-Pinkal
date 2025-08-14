@@ -5,7 +5,6 @@ page 50904 "Category List"
     ApplicationArea = All;
     Caption = 'Category List';
     UsageCategory = Lists;
-    CardPageId = 50905;
 
     layout
     {
@@ -26,12 +25,14 @@ page 50904 "Category List"
                     TableRelation = "Primary Item";
                     ToolTip = 'Specifies the main item linked to this record. Choose from the list of available primary items.';
                     Lookup = true;
+                    NotBlank = true;
                 }
                 field("Category Types"; Rec."Category Types")
                 {
                     ApplicationArea = All;
                     Caption = 'Category Types';
                     ToolTip = 'Specifies the category type associated with the selected primary item.';
+                    NotBlank = true;
                 }
             }
         }
