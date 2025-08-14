@@ -1,32 +1,29 @@
 enum 51259 "Pipeline Stage"
 {
-    Extensible = true;
+    Extensible = false; // Must be false as per requirements
+    Caption = 'Sales Pipeline Stage';
 
-    value(0; " ")
-    {
-        Caption = ' ';
-    }
-    value(1; Inquiry)
+    value(0; Inquiry)
     {
         Caption = 'Inquiry';
     }
-    value(2; OfferSubmitted)
+    value(1; OfferSubmitted)
     {
         Caption = 'Offer Submitted';
     }
-    value(3; Negotiation)
+    value(2; Negotiation)
     {
         Caption = 'Negotiation';
     }
-    value(4; Contracting)
+    value(3; Contracting)
     {
         Caption = 'Contracting';
     }
-    value(5; Won)
+    value(4; Won)
     {
         Caption = 'Won';
     }
-    value(6; Lost)
+    value(5; Lost)
     {
         Caption = 'Lost';
     }
