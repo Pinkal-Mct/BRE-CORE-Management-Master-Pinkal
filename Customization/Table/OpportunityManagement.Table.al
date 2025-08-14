@@ -15,21 +15,21 @@ table 51260 "Opportunity Management"
             Caption = 'Lead ID';
             DataClassification = ToBeClassified;
             NotBlank = true;
-            //TableRelation = Lead."Lead ID"; // Uncomment when Lead table is available
+            TableRelation = "Lead Management"."Lead ID"; // Uncomment when Lead table is available
         }
 
         field(51253; "Project ID"; Code[20])
         {
             Caption = 'Project ID';
             DataClassification = ToBeClassified;
-            // TableRelation = Project."Project ID"; // Uncomment when Project table is available
+            TableRelation = "Construction Project"."Project ID"; // Uncomment when Project table is available
         }
 
-        field(51254; "Unit ID"; Code[20])
+        field(51254; "Unit ID"; Code[100])
         {
             Caption = 'Unit ID';
             DataClassification = ToBeClassified;
-            TableRelation = Item.UnitID; // Uncomment when Unit table is available
+            TableRelation = Item."No." WHERE("Item Type Template" = CONST("Unit Service"));
         }
 
         field(51255; "Opportunity Name"; Text[100])
@@ -96,8 +96,15 @@ table 51260 "Opportunity Management"
             Caption = 'Notes';
             DataClassification = ToBeClassified;
         }
+        field(51262; "Created By"; Code[50])
+        {
+            Caption = 'Created By';
+            DataClassification = EndUserIdentifiableInformation;
+            Editable = false;
+            TableRelation = User."User Name";
+        }
 
-        field(51262; "Created Date"; Date)
+        field(51263; "Created Date"; Date)
         {
             Caption = 'Created Date';
             DataClassification = ToBeClassified;
@@ -117,9 +124,16 @@ table 51260 "Opportunity Management"
         noseries: Codeunit "No. Series";
     begin
         if noSeriesSetup.Get() then
-            Rec."Opportunity ID" := noseries.GetNextNo(noSeriesSetup."Equipment ID Nos.")
+            Rec."Opportunity ID" := noseries.GetNextNo(noSeriesSetup."Opportunity ID Nos.")
         else
             Error('No. Series Setup not found for Construction Project Nos.');
+
+        // Set default Pipeline Stage to Inquiry (now it's the default value 0)
+        "Pipeline Stage" := "Pipeline Stage"::Inquiry;
+
+        // Set default dates
+        "Created Date" := Today;
+        Rec."Created By" := CopyStr(UserId(), 1, StrLen(UserId()));
     end;
 
     local procedure UpdateStatusFromPipelineStage()

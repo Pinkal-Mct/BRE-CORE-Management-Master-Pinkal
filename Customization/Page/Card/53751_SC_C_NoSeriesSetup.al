@@ -72,6 +72,11 @@ page 53751 "No. Series Setup"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the Opportunity Master number series.';
                 }
+                field("Project Budget ID Nos."; Rec."Project Budget ID Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the Project Budget Master number series.';
+                }
                 // This field is used to store the vendor contract number series. Table 53106 "Vendor Contract" has a field for vendor contract numbers.
             }
             group("Facility Management")
