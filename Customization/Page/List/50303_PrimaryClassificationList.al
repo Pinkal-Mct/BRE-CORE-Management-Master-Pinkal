@@ -5,7 +5,6 @@ page 50303 "Primary Classification List"
     ApplicationArea = All;
     Caption = 'Primary Classification List';
     UsageCategory = Lists;
-    CardPageId = 50301;
 
     layout
     {
@@ -22,6 +21,7 @@ page 50303 "Primary Classification List"
                 {
                     ApplicationArea = All;
                     Caption = 'Primary Classification Name';
+                    NotBlank = true;
                 }
             }
         }

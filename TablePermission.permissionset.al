@@ -500,5 +500,19 @@ permissionset 50100 TablePermission
         tabledata "Opportunity Management" = RIMD,
         table "Lead Interaction Log" = X,
         table "Lead Management" = X,
-        table "Opportunity Management" = X;
+        table "Opportunity Management" = X,
+        page "Calculation Type List" = X,
+        page "Category List" = X,
+        page "Community List" = X,
+        page "Country List" = X,
+        page "Emirate List" = X,
+        page "Owner Document Subpage" = X,
+        page "Owner Profile Card" = X,
+        page "Owner Profile List" = X,
+        page "Payment Type List" = X,
+        page "Primary Classification List" = X,
+        page "Primary Item List" = X,
+        page "Property Type List" = X,
+        page "Secondary Classification List" = X,
+        page "Vendor Category List" = X;
 }

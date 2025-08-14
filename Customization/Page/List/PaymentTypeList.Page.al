@@ -5,7 +5,6 @@ page 50937 "Payment Type List"
     ApplicationArea = All;
     Caption = 'Payment Type List';
     UsageCategory = Lists;
-    CardPageId = 50936;
 
     layout
     {
@@ -24,6 +23,7 @@ page 50937 "Payment Type List"
                     ApplicationArea = All;
                     Caption = 'Payment Method';
                     ToolTip = 'Specifies the method used to make the payment, such as cash, bank transfer, or cheque.';
+                    NotBlank = true;
                 }
             }
         }

@@ -5,7 +5,6 @@ page 50956 "Vendor Category List"
     ApplicationArea = All;
     Caption = 'Vendor Category List';
     UsageCategory = Lists;
-    CardPageId = 50955;
 
     layout
     {
@@ -24,6 +23,7 @@ page 50956 "Vendor Category List"
                     ApplicationArea = All;
                     Caption = 'Vendor Category Name';
                     ToolTip = 'Specifies the vendor category name associated with the vendor.';
+                    NotBlank = true;
                 }
             }
         }

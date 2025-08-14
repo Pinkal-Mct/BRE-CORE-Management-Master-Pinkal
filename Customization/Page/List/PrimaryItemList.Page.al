@@ -5,7 +5,6 @@ page 50901 "Primary Item List"
     ApplicationArea = All;
     Caption = 'Primary Item List';
     UsageCategory = Lists;
-    CardPageId = 50902;
 
     layout
     {
@@ -24,6 +23,7 @@ page 50901 "Primary Item List"
                     ApplicationArea = All;
                     Caption = 'Primary Item Name';
                     ToolTip = 'Specifies the main item type or category associated with this record.';
+                    NotBlank = true;
                 }
             }
         }
