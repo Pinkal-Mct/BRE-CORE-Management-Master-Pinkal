@@ -494,5 +494,11 @@ permissionset 50100 TablePermission
         page "Revenue Recognition Item Sub" = X,
         page "RevenueAllocationApproval List" = X,
         codeunit "Check Field" = X,
-        codeunit "Create Excel Report" = X;
+        codeunit "Create Excel Report" = X,
+        tabledata "Lead Interaction Log" = RIMD,
+        tabledata "Lead Management" = RIMD,
+        tabledata "Opportunity Management" = RIMD,
+        table "Lead Interaction Log" = X,
+        table "Lead Management" = X,
+        table "Opportunity Management" = X;
 }

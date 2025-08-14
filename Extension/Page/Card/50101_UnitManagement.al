@@ -12,12 +12,6 @@ pageextension 50101 Items extends "Item Card"
         {
             Visible = isVenderService;
         }
-
-        // modify(Description)
-        // {
-        //     //  Visible = isVenderService or Unitcharges;
-        //     Visible = Unitcharges;
-        // }
         modify("Automatic Ext. Texts")
         {
             Visible = false;
@@ -87,7 +81,6 @@ pageextension 50101 Items extends "Item Card"
             {
                 ShowCaption = false;
                 Visible = hideshowfields and isVenderService or Unitcharges;
-
             }
 
         }
@@ -108,6 +101,15 @@ pageextension 50101 Items extends "Item Card"
         {
             caption = 'Unit';
         }
+        addafter("No.")
+        {
+            group(DescriptionGrp)
+            {
+                ShowCaption = false;
+                Visible = isVenderService or Unitcharges or isUnitService;
+            }
+        }
+        movefirst(DescriptionGrp; Description)
         addafter(Type)
         {
             group("Unit Charges Description")
@@ -142,8 +144,6 @@ pageextension 50101 Items extends "Item Card"
                 }
             }
         }
-        movefirst("Unit Charges Description"; Description)
-
         addafter("Base Unit of Measure")
         {
             group("BaseUnitofMeasure")
@@ -597,7 +597,8 @@ pageextension 50101 Items extends "Item Card"
         hideshowfields := hidefields();
         editablefalsefieldNonInventoryType := editablefalseNonInventory();
         Unitcharges := UnitChargesFieldsVisiblity();
-
+        isUnitService := EvaluateFastTabVisibility();
+        isVenderService := EvaluateFastTabVisibilityService();
     end;
 
     procedure SetPrimaryType(): Boolean
