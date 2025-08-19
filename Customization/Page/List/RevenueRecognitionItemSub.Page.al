@@ -44,7 +44,7 @@ page 50973 "Revenue Recognition Item Sub"
                 Caption = 'Revenue Allocation-Other Charges';
                 ApplicationArea = All;
                 Image = List;
-                Enabled = CanPost;
+                //  Enabled = CanPost;
                 ToolTip = 'Fetches revenue allocation details for other charges based on the selected revenue method.';
                 trigger OnAction()
                 var
