@@ -22,6 +22,11 @@ codeunit 51251 "Item Temaplate Management"
 
         if itemDialogBox.RunModal() = Action::OK then begin
             itemCategory := itemDialogBox.GetItemCategory();
+        end
+        else begin
+            IsHandled := true;
+            Result := false;
+            exit;
         end;
 
         ItemTempl.SetRange(Types, itemCategory);

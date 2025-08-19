@@ -130,7 +130,7 @@ table 50303 "Property Registration"
         }
 
         // Last Date Modified
-        field(50112; "Registration Date"; DateTime)
+        field(50112; "Registration Date"; Date)
         {
             DataClassification = ToBeClassified;
             Caption = 'Registration Date';
