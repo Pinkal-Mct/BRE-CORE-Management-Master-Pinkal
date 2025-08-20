@@ -27,7 +27,7 @@ codeunit 50108 "Final Settlement Posting Mgt."
     begin
         // Load G/L Setup for rounding
         GLSetup.Get();
-
+        GenJnlLine.DeleteAll();
         // Check if there's any amount to post
         Amount := FinalSettlement."Receivable Total Amount";
         if Amount = 0 then
@@ -59,20 +59,6 @@ codeunit 50108 "Final Settlement Posting Mgt."
         // Get Invoice ID (Optional - try multiple sources)
         InvoiceID := '';
 
-        // First try BillingSetup
-        BillingSetup.Reset();
-        BillingSetup.SetRange("Contract ID", FinalSettlement."Contract ID");
-        if BillingSetup.FindFirst() then
-            InvoiceID := BillingSetup."Invoice ID";
-
-        // If not found, try Additional Charges
-        if InvoiceID = '' then begin
-            AdditionalCharges.Reset();
-            AdditionalCharges.SetRange("Contract ID", FinalSettlement."Contract ID");
-            if AdditionalCharges.FindFirst() then
-                InvoiceID := AdditionalCharges."Invoiced ID";
-        end;
-
         // If still not found, create default
         if InvoiceID = '' then
             InvoiceID := 'FS-' + Format(FinalSettlement."Contract ID");
@@ -93,6 +79,10 @@ codeunit 50108 "Final Settlement Posting Mgt."
 
         // 1st Line - Total Receive entry (Only if Total Receive > 0)
         if TenantContract."Total Receive" > 0 then begin
+            AdditionalCharges.Reset();
+            AdditionalCharges.SetRange("Contract ID", FinalSettlement."Contract ID");
+            if AdditionalCharges.FindFirst() then
+                InvoiceID := AdditionalCharges."Invoiced ID";
             Clear(GenJnlLine);
             GenJnlLine.Init();
             GenJnlLine."Journal Template Name" := JournalTemplateName;
@@ -125,6 +115,10 @@ codeunit 50108 "Final Settlement Posting Mgt."
 
         // 2nd Line - Pending Receivable entry (Only if Pending Amount > 0)
         if PendingAmount > 0 then begin
+            BillingSetup.Reset();
+            BillingSetup.SetRange("Contract ID", FinalSettlement."Contract ID");
+            if BillingSetup.FindFirst() then
+                InvoiceID := BillingSetup."Invoice ID";
             Clear(GenJnlLine);
             GenJnlLine.Init();
             GenJnlLine."Journal Template Name" := JournalTemplateName;
@@ -136,7 +130,7 @@ codeunit 50108 "Final Settlement Posting Mgt."
             GenJnlLine."Account Type" := GenJnlLine."Account Type"::Customer;
             GenJnlLine."Account No." := FinalSettlement."Tenant ID";
             GenJnlLine.Description := TenantName;
-            GenJnlLine.Validate(Amount, -FinalSettlement."Receivable Total Amount");
+            GenJnlLine.Validate(Amount, -PendingAmount);
 
             // Set balancing account
             if BankAccountNo <> '' then begin
