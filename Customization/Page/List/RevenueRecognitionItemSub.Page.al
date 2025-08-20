@@ -44,7 +44,7 @@ page 50973 "Revenue Recognition Item Sub"
                 Caption = 'Revenue Allocation-Other Charges';
                 ApplicationArea = All;
                 Image = List;
-                //  Enabled = CanPost;
+                Enabled = CanPost;
                 ToolTip = 'Fetches revenue allocation details for other charges based on the selected revenue method.';
                 trigger OnAction()
                 var
@@ -2706,9 +2706,21 @@ page 50973 "Revenue Recognition Item Sub"
 
     procedure UpdateCanPost()
     var
-        revenueallocation: Record "Revenue Allocation Details";
+        RevenueAllocation: Record "Revenue Allocation Details";
     begin
-        CanPost := (revenueallocation.Status = revenueallocation.Status::Pending);
+        Clear(CanPost);
+
+        // Link Revenue Allocation with your current record
+        RevenueAllocation.SetRange("No.", Rec."RR_No.");  // adjust if different link field
+        if RevenueAllocation.FindFirst() then
+            CanPost := (RevenueAllocation.Status = RevenueAllocation.Status::Pending)
+        else
+            CanPost := false; // No record found = cannot post
+    end;
+
+    trigger OnAfterGetRecord()
+    begin
+        UpdateCanPost();
     end;
 
 
