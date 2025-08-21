@@ -20,7 +20,7 @@ table 53506 "Lead Management"
         {
             DataClassification = ToBeClassified;
         }
-        field(53534; "Lead Source"; Enum "Lead Source ")
+        field(53534; "Lead Source"; Enum "Lead Source")
         {
             DataClassification = ToBeClassified;
         }
@@ -71,6 +71,82 @@ table 53506 "Lead Management"
             DataClassification = ToBeClassified;
         }
         field(53544; "Disqualification Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53545; "Lead Rating"; Enum "Lead Rating")
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53546; "Lead Owner"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53547; "Nationality"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53548; "Company Name"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53549; "Preferred Language"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53550; "Property Type"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53551; "Preferred Location"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53552; "Size"; Code[10])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53553; "Bedrooms & Bathrooms"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53554; "Furnishing Status"; Enum "Furnishing Status")
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53555; "Preferred Payment Plan"; Enum "Preferred Payment Plan")
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53556; "Move-in Timeline"; Enum "Move-IN Timeline")
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53557; "Emirates ID/Passport Number"; Code[30])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53558; "Visa Status"; Enum "Visa Status")
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53559; "Source of Funds"; Enum "Source of Funds")
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53560; "Mortgage Pre-Approval Status"; Option)
+        {
+            OptionMembers = " ","Yes","No";
+        }
+        field(53561; "TAX Registration_VAT"; Integer)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53562; "RERA Broker ID"; Code[30])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53563; "Preferred Sale Type"; Enum "Preferred Sales Type")
         {
             DataClassification = ToBeClassified;
         }
