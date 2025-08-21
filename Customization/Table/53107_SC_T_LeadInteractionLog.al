@@ -52,6 +52,16 @@ table 53107 "Lead Interaction Log"
             DataClassification = ToBeClassified;
             Caption = 'Created By';
         }
+        field(53109; "Sales Stage"; Enum "Sales Stage")
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Sales Stage';
+        }
+        field(53110; "Competitor Information"; Text[200])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Competitor Information';
+        }
     }
 
     keys

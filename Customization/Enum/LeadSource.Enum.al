@@ -1,4 +1,4 @@
-enum 53501 "Lead Source "
+enum 53501 "Lead Source"
 {
     Extensible = true;
 
@@ -7,5 +7,8 @@ enum 53501 "Lead Source "
     value(2; "Phone") { }
     value(3; "Referral") { }
     value(4; "Walk-In") { }
-    value(5; "Other") { }
+    value(5; "Social Media") { }
+    value(6; "Website") { }
+    value(7; "Campaign/Events") { }
+    value(8; "Other") { }
 }
