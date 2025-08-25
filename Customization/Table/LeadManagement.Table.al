@@ -150,6 +150,18 @@ table 53506 "Lead Management"
         {
             DataClassification = ToBeClassified;
         }
+        field(53564; "Other"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53565; "Campaign Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53566; "Position/Role"; Text[30])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {
