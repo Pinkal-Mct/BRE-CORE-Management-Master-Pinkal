@@ -183,6 +183,11 @@ page 50707 paymentdata
                     Caption = 'Final Rent Amount';
                 }
 
+                field("PortalSidePaymentProcessing"; Rec."PortalSidePaymentProcessing")
+                {
+                    Caption = 'Portal Side Payment Processing';
+                }
+
             }
         }
     }
