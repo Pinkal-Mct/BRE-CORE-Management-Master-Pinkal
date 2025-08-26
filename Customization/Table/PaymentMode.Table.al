@@ -168,6 +168,17 @@ table 50924 "Payment Mode"
         field(50132; "Combine Due Date"; Date)
         {
             DataClassification = ToBeClassified;
+
+            trigger OnValidate()
+            var
+                TodayDate: Date;
+            begin
+                TodayDate := Today();
+
+                // Optional: Prevent past date selection
+                if ("Combine Due Date" <> 0D) and ("Combine Due Date" < TodayDate) then
+                    Error('Combine Due Date cannot be in the past.');
+            end;
         }
 
 

@@ -108,6 +108,17 @@ table 50915 "Split Payment Change"
         field(50103; "Split Due Date"; Date)
         {
             DataClassification = ToBeClassified;
+
+            trigger OnValidate()
+            var
+                TodayDate: Date;
+            begin
+                TodayDate := Today();
+
+                // Optional: Prevent past date selection
+                if ("Split Due Date" <> 0D) and ("Split Due Date" < TodayDate) then
+                    Error('Split Due Date cannot be in the past.');
+            end;
         }
 
         field(50104; "Split Payment Mode"; Text[150])
