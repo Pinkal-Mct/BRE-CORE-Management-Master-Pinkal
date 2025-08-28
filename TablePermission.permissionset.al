@@ -517,7 +517,7 @@ permissionset 50100 TablePermission
         page "Vendor Category List" = X,
         tabledata "Project Budget Allocation" = RIMD,
         table "Project Budget Allocation" = X,
-        page VendorContract = X,
+        page VendorContractApi = X,
         tabledata "Email Link Setup" = RIMD,
         tabledata "Email Link Token" = RIMD,
         table "Email Link Setup" = X,
