@@ -343,7 +343,6 @@ page 53505 VendorProfile
         }
     }
 
-
     actions
     {
         area(Processing)
@@ -356,7 +355,6 @@ page 53505 VendorProfile
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-
 
                 trigger OnAction()
                 var
