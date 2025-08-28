@@ -516,5 +516,6 @@ permissionset 50100 TablePermission
         page "Secondary Classification List"=X,
         page "Vendor Category List"=X,
         tabledata "Project Budget Allocation"=RIMD,
-        table "Project Budget Allocation"=X;
+        table "Project Budget Allocation"=X,
+        page VendorContract=X;
 }
