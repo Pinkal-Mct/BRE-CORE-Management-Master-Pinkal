@@ -1,6 +1,6 @@
 namespace BRECOREManagementMastermegha.BRECOREManagementMastermegha;
 
-page 54001 VendorContract
+page 54001 VendorContractApi
 {
     APIGroup = 'vendor';
     APIPublisher = 'realestste';
