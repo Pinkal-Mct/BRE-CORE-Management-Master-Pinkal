@@ -149,7 +149,7 @@ tableextension 53111 ContactExtension extends Contact
         }
         field(50123; "Furnishing Status"; Enum "Furnishing Status")
         {
-            Caption = 'Competitor Information';
+            Caption = 'Furnishing Status';
             DataClassification = CustomerContent;
         }
         field(50124; "Preferred Payment Plan"; Enum "Preferred Payment Plan")
