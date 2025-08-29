@@ -93,19 +93,19 @@ table 51261 "Project Budget Allocation"
         }
     }
 
-    trigger OnInsert()
-    var
-        noSeriesSetup: Record "No. Series Setup";
-        noseries: Codeunit "No. Series";
-    begin
-        if noSeriesSetup.Get() then
-            Rec."Project Budget ID" := noseries.GetNextNo(noSeriesSetup."Project Budget ID Nos.")
-        else
-            Error('No. Series Setup not found for Construction Project Nos.');
+    // trigger OnInsert()
+    // var
+    //     noSeriesSetup: Record "No. Series Setup";
+    //     noseries: Codeunit "No. Series";
+    // begin
+    //     if noSeriesSetup.Get() then
+    //         Rec."Project Budget ID" := noseries.GetNextNo(noSeriesSetup."Project Budget ID Nos.")
+    //     else
+    //         Error('No. Series Setup not found for Construction Project Nos.');
 
-        "Created Date" := Today;
-        "Created By" := CopyStr(UserId(), 1, StrLen(UserId()));
-    end;
+    //     "Created Date" := Today;
+    //     "Created By" := CopyStr(UserId(), 1, StrLen(UserId()));
+    // end;
 
     trigger OnModify()
     begin
