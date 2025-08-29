@@ -50,12 +50,24 @@ tableextension 53111 ContactExtension extends Contact
             DataClassification = CustomerContent;
             TableRelation = "Property Type"."Property Type";
 
-            trigger OnValidate()
-            begin
-                // Clear the Property Type field when Property Classification is changed
-                "Usage Type" := '';
-            end;
+            // trigger OnValidate()
+            // var
+            //     PropertyTypeRec: Record "Property Type";  // Used to get Primary Classification
+            // begin
+            //     // Clear the Property Type field when Property Classification is changed
+            //     "Usage Type" := '';
+            //     PropertyTypeRec.SetRange("Property Type", "Property Type");
+            //     if PropertyTypeRec.FindFirst() then
+            //         "PrimaryClassification" := PropertyTypeRec."Classification Name"
+            //     else
+            //         "PrimaryClassification" := '';
+            // end;
         }
+        // field(50126; "PrimaryClassification"; Text[100])
+        // {
+        //     DataClassification = CustomerContent;
+
+        // }
         field(50109; "Preferred Location"; Text[100])
         {
             Caption = 'Preferred Location';
@@ -128,15 +140,13 @@ tableextension 53111 ContactExtension extends Contact
         // Lead Information (Basic Details)
 
         // Property Requirements
-        field(50120; "Usage Type"; Code[20])
-        {
-            Caption = 'Usage Type';
-            DataClassification = CustomerContent;
-            // TableRelation = "Secondary Classification"."Property Type"
-            // WHERE("Classification Name" = FIELD("Property Type"));
-            TableRelation = "Secondary Classification"."ID"
-             WHERE("Property Type" = FIELD("Property Type"));
-        }
+        // field(50120; "Usage Type"; Code[20])
+        // {
+        //     Caption = 'Usage Type';
+        //     DataClassification = CustomerContent;
+        //     TableRelation = "Secondary Classification"."Property Type" where("Classification Name" = FIELD("PrimaryClassification"));
+
+        // }
         field(50121; "Lead Sales Stages"; Text[100])
         {
             Caption = 'Lead Sales Stages';
@@ -164,6 +174,22 @@ tableextension 53111 ContactExtension extends Contact
             DataClassification = CustomerContent;
             TableRelation = "Move-in Timeline"."Name";
         }
+        field(50126; "Bedrooms"; Integer)
+        {
+            Caption = 'Bedrooms';
+            DataClassification = CustomerContent;
+        }
+        field(50127; "Bathrooms"; Integer)
+        {
+            Caption = 'Bathrooms';
+            DataClassification = CustomerContent;
+        }
         // Property Requirements
     }
+
+    trigger OnInsert()
+    begin
+        if ("Date Created" = 0D) then
+            "Date Created" := Today;
+    end;
 }
