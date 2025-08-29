@@ -137,12 +137,13 @@ tableextension 53111 ContactExtension extends Contact
             TableRelation = "Secondary Classification"."ID"
              WHERE("Property Type" = FIELD("Property Type"));
         }
-        field(50121; "Lead Sales Stages"; Text[250])
+        field(50121; "Lead Sales Stages"; Text[100])
         {
             Caption = 'Lead Sales Stages';
             DataClassification = CustomerContent;
+            TableRelation = "Lead Sales Stages"."Name";
         }
-        field(50122; "Competitor Information"; Text[250])
+        field(50122; "Competitor Information"; Text[100])
         {
             Caption = 'Competitor Information';
             DataClassification = CustomerContent;
@@ -161,6 +162,7 @@ tableextension 53111 ContactExtension extends Contact
         {
             Caption = 'Move-in Timeline';
             DataClassification = CustomerContent;
+            TableRelation = "Move-in Timeline"."Name";
         }
         // Property Requirements
     }
