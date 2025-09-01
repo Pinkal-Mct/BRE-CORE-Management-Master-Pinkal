@@ -1,33 +1,37 @@
-page 50956 "Vendor Category List"
+page 50955 "Vendor Category Card"
 {
-    PageType = List;
+    PageType = Card;
     SourceTable = "Vendor Category";
     ApplicationArea = All;
-    Caption = 'Vendor Category List';
-    UsageCategory = Lists;
-    CardPageId = 50955;
+    Caption = 'Vendor Category Card';
+    // UsageCategory = Administration;
 
     layout
     {
         area(content)
         {
-            repeater(Group)
+            group(Group)
             {
+                Caption = 'Vendor Category Details';
                 field("ID"; Rec."ID")
                 {
                     ApplicationArea = All;
-                    Caption = 'ID';
-                    ToolTip = 'Specifies the unique identifier for the record.';
+                    Editable = false; // The ID is not editable since it's auto-incrementing
                 }
                 field("Vendor Category Type"; Rec."Vendor Category Type")
                 {
                     ApplicationArea = All;
                     Caption = 'Vendor Category Name';
-                    ToolTip = 'Specifies the vendor category name associated with the vendor.';
+                    ToolTip = 'Enter the Vendor Categoryname.';
+                    ShowMandatory = true;
                     NotBlank = true;
                 }
             }
         }
     }
 
+
 }
+
+
+

@@ -1,33 +1,37 @@
-page 50937 "Payment Type List"
+page 50936 "Payment Type Card"
 {
-    PageType = List;
+    PageType = Card;
     SourceTable = "Payment Type";
     ApplicationArea = All;
-    Caption = 'Payment Type List';
-    UsageCategory = Lists;
-    CardPageId = 50936;
+    Caption = 'Payment Type Card';
+    // UsageCategory = Administration;
 
     layout
     {
         area(content)
         {
-            repeater(Group)
+            group(Group)
             {
+                Caption = 'Payment Type Details';
                 field("Payment ID"; Rec."Payment ID")
                 {
                     ApplicationArea = All;
-                    Caption = 'Payment ID';
-                    ToolTip = 'Specifies the unique identifier for the payment record.';
+                    Editable = false; // The ID is not editable since it's auto-incrementing
                 }
                 field("Payment Method"; Rec."Payment Method")
                 {
                     ApplicationArea = All;
                     Caption = 'Payment Method';
-                    ToolTip = 'Specifies the method used to make the payment, such as cash, bank transfer, or cheque.';
+                    ToolTip = 'Enter the Payment Method.';
+                    ShowMandatory = true;
                     NotBlank = true;
                 }
             }
         }
     }
 
+
 }
+
+
+
