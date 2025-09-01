@@ -1,0 +1,57 @@
+page 51251 "Country Card"
+{
+    PageType = Card;
+    SourceTable = Country;
+    ApplicationArea = All;
+    Caption = 'Country Card';
+    // UsageCategory = Administration;
+
+    layout
+    {
+        area(content)
+        {
+            group(Group)
+            {
+                Caption = 'Country Details';
+                field("ID"; Rec."ID")
+                {
+                    ApplicationArea = All;
+                }
+                field("Sl No."; Rec."Sl No.")
+                {
+                    ApplicationArea = All;
+                }
+                field("Country Code"; Rec."Country Code")
+                {
+                    ApplicationArea = All;
+                    ShowMandatory = true;
+                    NotBlank = true;
+                }
+                field("Country Name"; Rec."Country Name")
+                {
+                    ApplicationArea = All;
+                    ShowMandatory = true;
+                    NotBlank = true;
+
+                    trigger onvalidate()
+                    begin
+                        currpage.saverecord();
+                    end;
+                }
+            }
+
+
+        }
+
+
+    }
+    trigger OnInsertRecord(BelowxRec: Boolean): Boolean
+    begin
+        Rec.TestField("Country Code");
+        Rec.TestField("Country Name");
+    end;
+
+}
+
+
+

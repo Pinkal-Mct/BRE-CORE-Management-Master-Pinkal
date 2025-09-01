@@ -60,10 +60,7 @@ table 50308 "Lease Proposal Details"
         {
             DataClassification = ToBeClassified;
             Caption = 'Property Name';
-            TableRelation = "Property Registration"."Property Name";
         }
-
-
         field(50104; "Unit ID"; Code[100])
         {
             DataClassification = ToBeClassified;
