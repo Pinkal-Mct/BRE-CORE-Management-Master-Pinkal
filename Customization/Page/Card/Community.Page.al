@@ -1,4 +1,4 @@
-page 51253 "Community Card"
+page 51257 "Community Card"
 {
     PageType = Card;
     SourceTable = Community;

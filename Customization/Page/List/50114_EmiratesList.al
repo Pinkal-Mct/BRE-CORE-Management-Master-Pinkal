@@ -5,7 +5,7 @@ page 50114 "Emirate List"
     ApplicationArea = All;
     Caption = 'Emirate List';
     UsageCategory = Lists;
-    CardPageId = 51252;
+    CardPageId = 51256;
 
     layout
     {
