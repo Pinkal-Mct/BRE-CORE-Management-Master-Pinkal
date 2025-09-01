@@ -5,6 +5,7 @@ page 50304 "Secondary Classification List"
     ApplicationArea = All;
     Caption = 'Unit Type List';
     UsageCategory = Lists;
+    CardPageId = 51256;
 
     layout
     {
@@ -22,12 +23,13 @@ page 50304 "Secondary Classification List"
                     ApplicationArea = All;
                     Caption = 'Primary Classification';
                     TableRelation = "Primary Classification";
-                    Lookup = true;
+                    // Display the Primary Classification description
+                    Lookup = true; // Enable lookup to Primary Classification
                 }
                 field("Property Type"; Rec."Property Type")
                 {
                     ApplicationArea = All;
-                    Caption = 'Unit Type';
+                    Caption = 'Property Type';
                 }
             }
         }

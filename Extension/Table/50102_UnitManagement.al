@@ -63,9 +63,15 @@ tableextension 50102 ItemExtension extends Item
             DataClassification = ToBeClassified;
             Caption = 'Unit Type';
             // Filter the Property Type values based on the selected Primary Classification
-            TableRelation = "Secondary Classification"."Property Type"
+            TableRelation = "Secondary Classification"
                  where("Classification Name" = field("Usage Type"));
-
+            trigger OnValidate()
+            var
+                secondaryClassification: Record "Secondary Classification";
+            begin
+                if secondaryClassification.Get(Rec."Unit Type") then
+                    Rec."Unit Type" := secondaryClassification."Property Type";
+            end;
         }
 
         // field(50107; "Merge Units"; Boolean) // Merge Units Field
@@ -144,11 +150,13 @@ tableextension 50102 ItemExtension extends Item
         {
             DataClassification = ToBeClassified;
             Caption = 'Country';
-            TableRelation = Country."Country Code";
+            TableRelation = Country;
             trigger OnValidate()
+            var
+                country: Record Country;
             begin
-                "Emirate Name" := '';
-                "Community" := '';
+                if country.Get(Rec.Country) then
+                    Rec.Country := country."Country Code";
             end;
         }
         field(50115; "Emirate Name"; Text[50])
@@ -157,11 +165,6 @@ tableextension 50102 ItemExtension extends Item
             Caption = 'Emirate';
             TableRelation = Emirate.ID
                 where("Country Code" = field(Country));
-
-            // trigger OnValidate()
-            // begin
-            //     "Community" := '';
-            // end;
 
             trigger OnValidate()
             var
@@ -183,9 +186,15 @@ tableextension 50102 ItemExtension extends Item
             DataClassification = ToBeClassified;
             Caption = 'Community';
             // Filter the Property Type values based on the selected Primary Classification
-            TableRelation = Community."Community Name"
-                 where("Emirate Name" = field("Emirate Name"));
+            TableRelation = Community where("Emirate Name" = field("Emirate Name"));
 
+            trigger OnValidate()
+            var
+                communityRec: Record Community;
+            begin
+                if communityRec.Get(Community) then
+                    Community := communityRec."Community Name";
+            end;
         }
 
         field(50117; "Unit Address"; Code[100])

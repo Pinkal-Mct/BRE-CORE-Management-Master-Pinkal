@@ -1,41 +1,49 @@
-page 50114 "Emirate List"
+page 51252 "Emirate Card"
 {
-    PageType = List;
+    PageType = Card;
     SourceTable = Emirate;
     ApplicationArea = All;
-    Caption = 'Emirate List';
-    UsageCategory = Lists;
-    CardPageId = 51252;
+    Caption = 'Emirate Card';
+    // UsageCategory = Administration;
 
     layout
     {
         area(content)
         {
-            repeater(Group)
+            group(Group)
             {
+                Caption = 'Emirate Details';
                 field("ID"; Rec."ID")
                 {
                     ApplicationArea = All;
-                    Caption = 'ID';
                 }
                 field("Sl No."; Rec."Sl No.")
                 {
                     ApplicationArea = All;
-                    Caption = 'Sl No.';
                 }
                 field("Country Code"; Rec."Country Code")
                 {
                     ApplicationArea = All;
-                    Caption = 'Country Code';
-                    TableRelation = Country;
-                    Lookup = true;
+                    ShowMandatory = true;
+                    NotBlank = true;
                 }
                 field("Emirate Name"; Rec."Emirate Name")
                 {
                     ApplicationArea = All;
-                    Caption = 'Emirate Name';
+                    ShowMandatory = true;
+                    NotBlank = true;
+
+                    trigger OnValidate()
+                    begin
+                        CurrPage.SaveRecord();
+                    end;
                 }
             }
         }
     }
+    trigger OnInsertRecord(BelowxRec: Boolean): Boolean
+    begin
+        Rec.TestField("Country Code");
+        Rec.TestField("Emirate Name");
+    end;
 }
