@@ -5,7 +5,7 @@ page 50111 "Property Type List"
     ApplicationArea = All;
     Caption = 'Property Type List';
     UsageCategory = Lists;
-    CardPageId = 51255;
+    CardPageId = 51259;
 
     layout
     {

@@ -5,7 +5,7 @@ page 50112 "Country List"
     ApplicationArea = All;
     Caption = 'Country List';
     UsageCategory = Lists;
-    CardPageId = 51251;
+    CardPageId = 51255;
 
     layout
     {

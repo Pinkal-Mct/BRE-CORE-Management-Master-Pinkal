@@ -5,7 +5,7 @@ page 50116 "Community List"
     ApplicationArea = All;
     Caption = 'Community List';
     UsageCategory = Lists;
-    CardPageId = 51253;
+    CardPageId = 51257;
 
     layout
     {

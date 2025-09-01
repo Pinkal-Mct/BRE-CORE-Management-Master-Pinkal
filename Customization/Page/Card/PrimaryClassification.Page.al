@@ -1,4 +1,4 @@
-page 51254 "Primary Classification Card"
+page 51258 "Primary Classification Card"
 {
     PageType = Card;
     SourceTable = "Primary Classification";
