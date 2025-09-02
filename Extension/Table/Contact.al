@@ -185,6 +185,36 @@ tableextension 53111 ContactExtension extends Contact
             DataClassification = CustomerContent;
         }
         // Property Requirements
+        field(50128; "Allow Reopen"; Boolean)
+        {
+            Caption = 'Allow Reopen';
+            DataClassification = CustomerContent;
+        }
+        field(50129; "Disqualification Reason"; Text[500])
+        {
+            Caption = 'Disqualification Reason';
+            DataClassification = CustomerContent;
+        }
+        field(50130; "Previous Status"; Enum "Lead Status")
+        {
+            Caption = 'Previous Status';
+            DataClassification = CustomerContent;
+        }
+        field(50131; "Status Changed By"; Text[50])
+        {
+            Caption = 'Status Changed By';
+            DataClassification = CustomerContent;
+        }
+        field(50132; "Status Changed On"; DateTime)
+        {
+            Caption = 'Status Changed On';
+            DataClassification = CustomerContent;
+        }
+        field(50133; "Disqualification Date"; Date)
+        {
+            Caption = 'Disqualification Date';
+            DataClassification = CustomerContent;
+        }
     }
 
     trigger OnInsert()
