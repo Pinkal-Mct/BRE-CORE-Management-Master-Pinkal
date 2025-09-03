@@ -21,9 +21,9 @@ page 53765 "Email Link Token API"
             repeater(Group)
             {
                 field(Token; Rec.Token) { }
-                field("Customer_No"; Rec."Customer No.") { }
+                field("Customer_No"; Rec."Contact No.") { }
                 field("Item_No"; Rec."Item No.") { }
-                field("Customer_Email"; Rec."Customer Email") { }
+                field("Customer_Email"; Rec."Contact Email") { }
                 field("Expires_At"; Rec."Expires At") { }
                 field(Clicked; Rec.Clicked) { }
                 field("Clicked_At"; Rec."Clicked At") { }
