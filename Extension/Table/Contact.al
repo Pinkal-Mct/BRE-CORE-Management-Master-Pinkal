@@ -41,9 +41,6 @@ tableextension 53111 ContactExtension extends Contact
             DataClassification = ToBeClassified;
             Caption = 'Position/Role';
         }
-        // Contact & Company Details
-
-        // Property Requirements
         field(50108; "Property Type"; Text[100])
         {
             Caption = 'Property Type';
