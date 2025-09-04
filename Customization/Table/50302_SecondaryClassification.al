@@ -28,7 +28,7 @@ table 50302 "Secondary Classification"
 
     keys
     {
-        key(PK; "ID")
+        key(PK; "ID", "Property Type")
         {
             Clustered = true;
         }
