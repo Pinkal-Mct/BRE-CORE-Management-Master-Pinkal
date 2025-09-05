@@ -51,7 +51,7 @@ tableextension 53111 ContactExtension extends Contact
         {
             Caption = 'Property Type';
             DataClassification = CustomerContent;
-            TableRelation = "Property Type"."Property Type" where("Classification Name" = FIELD("Primary Classification"));
+            TableRelation = "Secondary Classification"."Property Type" where("Classification Name" = FIELD("Primary Classification"));
         }
 
         field(53109; "Preferred Location"; Text[100])
@@ -60,17 +60,17 @@ tableextension 53111 ContactExtension extends Contact
             DataClassification = CustomerContent;
         }
 
-        field(53110; "Budget Range (AED)"; Decimal)
+        field(53110; "Budget Range (AED)"; Text[100])
         {
             Caption = 'Budget Range (AED)';
             DataClassification = CustomerContent;
         }
 
-        field(53111; "Size (Sq. Ft.)"; Code[10])
+        field(53111; "Size (Sq. Ft.)"; Decimal)
         {
             Caption = 'Size (Sq. Ft.)';
             DataClassification = CustomerContent;
-            TableRelation = "Unit of Measure"."Code";
+
         }
         // Property Requirements
 
@@ -126,17 +126,11 @@ tableextension 53111 ContactExtension extends Contact
         // Lead Information (Basic Details)
 
         // Property Requirements
-        field(53120; "Usage Type"; Code[20])
+        field(53120; "Usage Type"; Text[100])
         {
             Caption = 'Usage Type';
             DataClassification = CustomerContent;
             TableRelation = "Secondary Classification"."Property Type" where("Classification Name" = FIELD("Primary Classification"));
-        }
-        field(53121; "Lead Sales Stages"; Text[100])
-        {
-            Caption = 'Lead Sales Stages';
-            DataClassification = CustomerContent;
-            TableRelation = "Lead Sales Stages"."Name";
         }
         field(53122; "Competitor Information"; Text[100])
         {
@@ -216,11 +210,6 @@ tableextension 53111 ContactExtension extends Contact
             DataClassification = CustomerContent;
             OptionCaption = 'Agent,Sales Representative';
             OptionMembers = "Agent","Sales Representative";
-        }
-        field(53139; "Lead Value"; Decimal)
-        {
-            Caption = 'Lead Value';
-            DataClassification = CustomerContent;
         }
         field(53140; "Threshold Value"; Decimal)
         {
