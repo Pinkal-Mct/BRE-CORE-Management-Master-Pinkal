@@ -217,6 +217,17 @@ tableextension 53111 ContactExtension extends Contact
             OptionCaption = 'Agent,Sales Representative';
             OptionMembers = "Agent","Sales Representative";
         }
+        field(53139; "Lead Value"; Decimal)
+        {
+            Caption = 'Lead Value';
+            DataClassification = CustomerContent;
+        }
+        field(53140; "Threshold Value"; Decimal)
+        {
+            Caption = 'Threshold Value';
+            DataClassification = CustomerContent;
+        }
+
     }
 
     trigger OnInsert()
