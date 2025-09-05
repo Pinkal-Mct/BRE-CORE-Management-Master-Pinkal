@@ -51,7 +51,7 @@ tableextension 53111 ContactExtension extends Contact
         {
             Caption = 'Property Type';
             DataClassification = CustomerContent;
-            TableRelation = "Secondary Classification"."Property Type" where("Classification Name" = FIELD("Primary Classification"));
+            TableRelation = "Property Type"."Property Type" where("Classification Name" = FIELD("Primary Classification"));
         }
 
         field(53109; "Preferred Location"; Text[100])
