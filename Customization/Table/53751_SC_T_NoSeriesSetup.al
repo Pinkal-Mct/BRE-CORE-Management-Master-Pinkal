@@ -128,6 +128,11 @@ table 53751 "No. Series Setup"
             DataClassification = ToBeClassified;
             TableRelation = "No. Series".Code;
         }
+        field(53771; "Client Info ID Nos."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "No. Series".Code;
+        }
     }
     keys
     {
