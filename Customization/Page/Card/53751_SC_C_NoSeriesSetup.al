@@ -78,6 +78,12 @@ page 53751 "No. Series Setup"
                     ToolTip = 'Specifies the Project Budget Master number series.';
                 }
                 // This field is used to store the vendor contract number series. Table 53106 "Vendor Contract" has a field for vendor contract numbers.
+                field("Client Info ID Nos."; Rec."Client Info ID Nos.")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Client Info ID';
+                    ToolTip = 'Specifies the Client number series';
+                }
             }
             group("Facility Management")
             {
