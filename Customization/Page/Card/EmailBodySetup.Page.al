@@ -22,13 +22,35 @@ page 53766 "Email Body Setup"
                 {
                     ApplicationArea = All;
                     Caption = 'Body';
+
+                    trigger OnValidate()
+                    begin
+                        SetRichText();
+                    end;
+                }
+
+                field("UAE Market Followup Subject"; Rec."UAE Market Followup Subject")
+                {
+                    ApplicationArea = All;
+                    Caption = 'UAE Market Followup Subject';
+                    ToolTip = 'UAE Market Followup Subject';
+                }
+                field("UAE Market Followup Body"; umfBody)
+                {
+                    ApplicationArea = All;
+                    Caption = 'Body';
+                    ToolTip = 'UAE Market Followup Body';
+                    trigger OnValidate()
+                    begin
+                        SetRichText();
+                    end;
                 }
             }
         }
     }
 
     var
-        afBody: Text;
+        afBody, umfBody : Text;
 
     trigger OnAfterGetRecord()
     begin
@@ -59,6 +81,9 @@ page 53766 "Email Body Setup"
     begin
         Rec."Automated FollowUp Body".CreateOutStream(RichTextOutS, TextEncoding::UTF8);
         RichTextOutS.Write(afBody);
+
+        Rec."UAE Market Followup Body".CreateOutStream(RichTextOutS, TextEncoding::UTF8);
+        RichTextOutS.Write(umfBody);
         Rec.Modify(true);
     end;
 }
