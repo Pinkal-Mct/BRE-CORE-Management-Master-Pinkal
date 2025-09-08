@@ -4,15 +4,17 @@ table 52004 "Market Update"
 
     fields
     {
-        field(1; "Update ID"; Integer) { AutoIncrement = true; }
-        field(2; "Title"; Text[100]) { }
-        field(3; "Description"; Text[250]) { }
-        field(4; "Category"; Option)
+        field(52001; "Update ID"; Integer) { AutoIncrement = true; }
+        field(52002; "Title"; Text[100]) { }
+        field(52003; "Description"; Text[250]) { }
+        field(52004; "Category"; Option)
         {
             OptionMembers = " ","Price Trends","New Projects","Regulations";
         }
-        field(5; "Publish Date"; Date) { }
-        field(6; "Active"; Boolean) { }
+        field(52005; "Publish Date"; Date) { }
+        field(52006; "Active"; Boolean) { }
+        field(52007; "Last Sent Date"; Date) { }
+        field(52008; "Created Date"; Date) { }
     }
 
 
