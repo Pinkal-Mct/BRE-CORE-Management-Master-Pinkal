@@ -216,6 +216,41 @@ tableextension 53111 ContactExtension extends Contact
             Caption = 'Threshold Value';
             DataClassification = CustomerContent;
         }
+        field(53141; "Client Info ID"; Code[20])
+        {
+            Caption = 'Client Info ID';
+            DataClassification = CustomerContent;
+            TableRelation = "Client Info"."Client Info ID";
+
+            trigger OnValidate()
+            var
+                ClientInfoRec: Record "Client Info";
+            begin
+                ClientInfoRec.SetRange("Client Info ID", "Client Info ID");
+                if ClientInfoRec.FindFirst() then begin
+                    "Name" := ClientInfoRec."Client Name";
+                    "Company Name" := ClientInfoRec."Company Name";
+                    "Position/Role" := ClientInfoRec."Position/Role";
+                    "Language Code" := ClientInfoRec."Preferred Language";
+                    Address := ClientInfoRec.Address;
+                    "Address 2" := ClientInfoRec."Address 2";
+                    "Country/Region Code" := ClientInfoRec."Country/Region Code";
+                    "Post Code" := ClientInfoRec."Post Code";
+                    City := ClientInfoRec.City;
+                    "E-Mail" := ClientInfoRec.Email;
+                    "Phone No." := ClientInfoRec."Phone No.";
+                    "Mobile Phone No." := ClientInfoRec."Mobile No.";
+                    "Others" := ClientInfoRec.Notes;
+                    "Emirates ID/Passport No." := ClientInfoRec."Emirates ID/Passport Number";
+                    "Visa Status" := ClientInfoRec."Visa Status";
+                    "Source of Funds" := ClientInfoRec."Source of Funds";
+                    "VAT Registration No." := ClientInfoRec."TAX Registration_VAT";
+                    "RERA Broker ID" := ClientInfoRec."RERA Broker ID";
+                    "Preferred Sale Type" := ClientInfoRec."Preferred Sale Type";
+                end;
+            end;
+        }
+
 
     }
 
