@@ -22,7 +22,7 @@ table 51504 "Lead Information"
             caption = 'Property Type';
             DataClassification = ToBeClassified;
         }
-        field(51504; "Unit Type"; text[50])
+        field(51504; "Unit Type"; text[100])
         {
             caption = 'Unit Type';
             DataClassification = ToBeClassified;
@@ -44,7 +44,7 @@ table 51504 "Lead Information"
         {
             DataClassification = ToBeClassified;
         }
-        field(51509; "Contact Email"; Text[50])
+        field(51509; "Contact Email"; Text[80])
         {
             DataClassification = ToBeClassified;
         }
@@ -65,37 +65,26 @@ table 51504 "Lead Information"
         {
             DataClassification = ToBeClassified;
         }
-
+        field(51514; ID; Integer)
+        {
+            DataClassification = ToBeClassified;
+            AutoIncrement = true;
+        }
 
 
     }
 
     keys
     {
-        key(Key1; "lead ID", "CLient Info Id")
+        key(Key1; ID)
         {
             Clustered = true;
         }
-        key(Key2; "Lead Status")
-        {
-
-        }
-        key(Key3; "Lead Rating")
-        {
-
-        }
-        key(Key4; "Sales Person")
+        key(Key2; "CLient Info Id")
         {
 
         }
     }
-
-    fieldgroups
-    {
-        // Add changes to field groups here
-    }
-
-
 
     trigger OnInsert()
     begin

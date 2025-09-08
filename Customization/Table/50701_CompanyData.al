@@ -68,6 +68,12 @@ table 50701 "testData"
             Caption = 'Portal Access';
             DataClassification = CustomerContent;
         }
+        field(50115; "Automated Email"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Automated Email';
+            Editable = true;
+        }
     }
 
     keys
