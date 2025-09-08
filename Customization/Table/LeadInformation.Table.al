@@ -17,10 +17,9 @@ table 51504 "Lead Information"
             DataClassification = ToBeClassified;
         }
 
-        field(51503; "Property Type"; Option)
+        field(51503; "Property Type"; Text[100])
         {
             caption = 'Property Type';
-            optionmembers = " ","Residential","Commercial","Industrial","Land";
             DataClassification = ToBeClassified;
         }
         field(51504; "Unit Type"; text[50])
@@ -33,15 +32,13 @@ table 51504 "Lead Information"
             caption = 'Sales Person';
             DataClassification = ToBeClassified;
         }
-        field(51506; "Lead Rating"; Option)
+        field(51506; "Lead Rating"; Enum "Lead Rating")
         {
             DataClassification = ToBeClassified;
-            OptionMembers = " ","Hot","Warm","Cold";
         }
-        field(51507; "Lead Status"; Option)
+        field(51507; "Lead Status"; Enum "Lead Status")
         {
             DataClassification = ToBeClassified;
-            OptionMembers = " ","New","Contacted","Qualified","Lost","Converted";
         }
         field(51508; "Contact Phone"; Text[50])
         {
@@ -61,6 +58,10 @@ table 51504 "Lead Information"
 
         }
         field(51512; "Notes"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(51513; "CLient Info Id"; Code[20])
         {
             DataClassification = ToBeClassified;
         }
