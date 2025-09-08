@@ -9,6 +9,7 @@ codeunit 52005 "Market Update Mgt."
         Email: Codeunit Email;
         BodyText: Text;
         InS: InStream;
+        SubjectText: Text;
     begin
         // ✅ Ensure setup exists
         if not SetupRec.Get() then
@@ -27,10 +28,12 @@ codeunit 52005 "Market Update Mgt."
                 if LeadRec."E-Mail" <> '' then begin
                     // ✅ Replace placeholders with dynamic values
                     BodyText := ReplacePlaceholders(BodyText, LeadRec);
+                    SubjectText := ReplacePlaceholders(SetupRec."UAE Market Followup Subject", LeadRec);
 
                     EmailMessage.Create(
                         LeadRec."E-Mail",
-                        SetupRec."UAE Market Followup Subject",
+                        SubjectText,
+                        // SetupRec."UAE Market Followup Subject",
                         BodyText,
                         true // HTML
                     );
