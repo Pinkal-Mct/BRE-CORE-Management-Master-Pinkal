@@ -66,13 +66,14 @@ page 53766 "Email Body Setup"
         end;
     end;
 
-    local procedure GetRichText()
+    procedure GetRichText(): Text
     var
         RichTextInS: InStream;
     begin
         Rec.CalcFields("Automated FollowUp Body");
         Rec."Automated FollowUp Body".CreateInStream(RichTextInS, TextEncoding::UTF8);
         RichTextInS.Read(afBody);
+        exit(afBody);
     end;
 
     local procedure SetRichText()
@@ -85,5 +86,12 @@ page 53766 "Email Body Setup"
         Rec."UAE Market Followup Body".CreateOutStream(RichTextOutS, TextEncoding::UTF8);
         RichTextOutS.Write(umfBody);
         Rec.Modify(true);
+    end;
+
+    procedure Replace(TextIn: Text; FindWhat: Text; ReplaceWith: Text): Text
+    begin
+        if FindWhat = '' then
+            exit(TextIn);
+        exit(TextIn.Replace(FindWhat, ReplaceWith));
     end;
 }
