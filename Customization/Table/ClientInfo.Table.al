@@ -8,22 +8,19 @@ table 53114 "Client Info"
         {
             DataClassification = ToBeClassified;
         }
-        field(53101; "Client Name"; Text[50])
+        field(53101; "Client Name"; Text[100])
         {
             DataClassification = ToBeClassified;
         }
-        field(53102; "Email"; Text[100])
+        field(53102; "Email"; Text[80])
         {
             DataClassification = ToBeClassified;
         }
-        field(53103; "Mobile No."; Text[20])
+        field(53103; "Mobile No."; Text[30])
         {
             DataClassification = ToBeClassified;
         }
-        field(53104; "Expected Budget"; Decimal)
-        {
-            DataClassification = ToBeClassified;
-        }
+
         field(53105; "Notes"; Text[250])
         {
             DataClassification = ToBeClassified;
@@ -44,15 +41,15 @@ table 53114 "Client Info"
         {
             DataClassification = ToBeClassified;
         }
-        field(53111; "Company Name"; Text[250])
+        field(53111; "Company Name"; Text[100])
         {
             DataClassification = ToBeClassified;
         }
-        field(53112; "Preferred Language"; Text[50])
+        field(53112; "Preferred Language"; Code[10])
         {
             DataClassification = ToBeClassified;
         }
-        field(53113; "Emirates ID/Passport Number"; Code[30])
+        field(53113; "Emirates ID/Passport Number"; Text[50])
         {
             DataClassification = ToBeClassified;
         }
@@ -68,11 +65,11 @@ table 53114 "Client Info"
         {
             OptionMembers = " ","Yes","No";
         }
-        field(53117; "TAX Registration_VAT"; Integer)
+        field(53117; "TAX Registration_VAT"; Text[20])
         {
             DataClassification = ToBeClassified;
         }
-        field(53118; "RERA Broker ID"; Code[30])
+        field(53118; "RERA Broker ID"; Text[30])
         {
             DataClassification = ToBeClassified;
         }
@@ -88,15 +85,15 @@ table 53114 "Client Info"
         {
             DataClassification = ToBeClassified;
         }
-        field(53122; "Position/Role"; Text[30])
+        field(53122; "Position/Role"; Text[50])
         {
             DataClassification = ToBeClassified;
         }
-        field(53123; "Address"; Text[150])
+        field(53123; "Address"; Text[100])
         {
             DataClassification = ToBeClassified;
         }
-        field(53124; "Address 2"; Text[150])
+        field(53124; "Address 2"; Text[50])
         {
             DataClassification = ToBeClassified;
         }
@@ -115,12 +112,23 @@ table 53114 "Client Info"
             DataClassification = ToBeClassified;
             TableRelation = "Post Code".City WHERE("Country/Region Code" = FIELD("Country/Region Code"), Code = FIELD("Post Code"));
         }
+        field(53128; "Phone No."; Text[30])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {
         key(PK; "Client Info ID")
         {
             Clustered = true;
+        }
+    }
+    fieldgroups
+    {
+        fieldgroup(DropDown; "Client Info ID", "Client Name")
+        {
+
         }
     }
     trigger OnInsert()
