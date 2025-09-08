@@ -51,6 +51,7 @@ codeunit 53752 "Customer Item Emailer"
         TokenRec."Contact No." := ContactNo;
         TokenRec."Contact Email" := CustomerEmail;
         TokenRec."Expires At" := ExpDT;
+        TokenRec."Contact Id" := Contact.SystemId;
         TokenRec.Insert();
 
         // encodedURL := Uri.EscapeDataString(FlowBaseUrl + '&token=' + Format(TokenGuid));
@@ -72,7 +73,7 @@ codeunit 53752 "Customer Item Emailer"
         emailBody := ReplacePlaceHolders(emailBody, Contact, Html);
         // Subject := StrSubstNo('Welcome, %1! Your Personalized Property Recommendations', Contact.Name);
 
-        // emailBody := '<div style = "color:#666" > These links expire on ' + Format(ExpDT) + '.</div>';
+        emailBody := '<div style = "color:#666" > These links expire on ' + Format(ExpDT) + '.</div>';
         // Send via BC Email (HTML = true)
         EmailMsg.Create(CustomerEmail, Subject, emailBody, true);
         Email.Send(EmailMsg, Enum::"Email Scenario"::Default);

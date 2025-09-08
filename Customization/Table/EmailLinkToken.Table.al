@@ -6,7 +6,7 @@ table 53760 "Email Link Token"
     {
         field(53751; Token; Guid) { DataClassification = CustomerContent; }
         field(53752; "Contact No."; Code[20]) { DataClassification = CustomerContent; }
-        field(53753; "Item No."; Code[20]) { DataClassification = CustomerContent; }
+        field(53753; "Contact Id"; Guid) { DataClassification = CustomerContent; }
         field(53754; "Contact Email"; Text[250]) { DataClassification = CustomerContent; }
         field(53755; "Expires At"; DateTime) { DataClassification = CustomerContent; }
         field(53756; Clicked; Boolean) { DataClassification = CustomerContent; }

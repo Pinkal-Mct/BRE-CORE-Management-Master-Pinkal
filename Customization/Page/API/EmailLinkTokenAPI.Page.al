@@ -22,7 +22,7 @@ page 53765 "Email Link Token API"
             {
                 field(Token; Rec.Token) { }
                 field("Customer_No"; Rec."Contact No.") { }
-                field("Item_No"; Rec."Item No.") { }
+                field("Contact_Id"; Rec."Contact Id") { }
                 field("Customer_Email"; Rec."Contact Email") { }
                 field("Expires_At"; Rec."Expires At") { }
                 field(Clicked; Rec.Clicked) { }
