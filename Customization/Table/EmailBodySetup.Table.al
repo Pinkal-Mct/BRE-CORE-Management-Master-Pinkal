@@ -19,6 +19,16 @@ table 53762 "Email Body Setup"
             Caption = 'Body';
             SubType = Memo;
         }
+
+        field(52001; "UAE Market Followup Subject"; Text[250])
+        {
+            Caption = 'UAE Market Followup Subject';
+        }
+        field(52002; "UAE Market Followup Body"; Blob)
+        {
+            Caption = 'UAE Market Followup Body';
+            SubType = Memo;
+        }
     }
 
     keys
