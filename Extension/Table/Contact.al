@@ -250,6 +250,24 @@ tableextension 53111 ContactExtension extends Contact
                 end;
             end;
         }
+        field(53142; "SalesPerson Name"; Text[50])
+        {
+            Caption = 'SalesPerson Name';
+            Editable = false;
+
+        }
+        modify("Salesperson Code")
+        {
+            trigger OnAfterValidate()
+            var
+                SalesPersonRec: Record "Salesperson/Purchaser";
+            begin
+                SalesPersonRec.SetRange(Code, "Salesperson Code");
+                if SalesPersonRec.FindFirst() then
+                    "SalesPerson Name" := SalesPersonRec.Name;
+            end;
+        }
+
 
 
     }
@@ -259,4 +277,42 @@ tableextension 53111 ContactExtension extends Contact
         if ("Date Created" = 0D) then
             "Date Created" := Today;
     end;
+
+    trigger OnAfterModify()
+    var
+        LeadInfo: Record "Lead Information";
+    begin
+        if (Rec."Client Info ID" <> '') AND (Rec."No." <> '') AND (Rec."Primary Classification" <> '') AND (Rec."Property Type" <> '') AND (Rec."Usage Type" <> '') AND (Rec."SalesPerson Name" <> '')
+        then begin
+            LeadInfo.SetRange("Lead ID", Rec."No.");
+            if LeadInfo.FindFirst() then begin
+                LeadInfo."Lead ID" := Rec."No.";
+                LeadInfo."Property Name" := Rec."Primary Classification";
+                LeadInfo."Property Type" := Rec."Property Type";
+                LeadInfo."Unit Type" := Rec."Usage Type";
+                LeadInfo."Sales Person" := Rec."SalesPerson Name";
+                LeadInfo."Lead Status" := Rec."Lead Status";
+                LeadInfo."Lead Rating" := Rec."Lead Rating";
+                LeadInfo."CLient Info Id" := Rec."Client Info ID";
+                LeadInfo."Contact Phone" := Rec."Phone No.";
+                LeadInfo."Contact Email" := Rec."E-Mail";
+                LeadInfo.Modify();
+            end
+            else begin
+                LeadInfo.Init();
+                LeadInfo."Lead ID" := Rec."No.";
+                LeadInfo."Property Name" := Rec."Primary Classification";
+                LeadInfo."Property Type" := Rec."Property Type";
+                LeadInfo."Unit Type" := Rec."Usage Type";
+                LeadInfo."Sales Person" := Rec."SalesPerson Name";
+                LeadInfo."Lead Status" := Rec."Lead Status";
+                LeadInfo."Lead Rating" := Rec."Lead Rating";
+                LeadInfo."CLient Info Id" := Rec."Client Info ID";
+                LeadInfo."Contact Phone" := Rec."Phone No.";
+                LeadInfo."Contact Email" := Rec."E-Mail";
+                LeadInfo.Insert();
+            end;
+        end;
+    end;
+
 }
