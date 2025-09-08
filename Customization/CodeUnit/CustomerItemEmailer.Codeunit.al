@@ -2,7 +2,7 @@ codeunit 53752 "Customer Item Emailer"
 {
     SingleInstance = false;
 
-    procedure SendItemsEmail(ContactNo: Code[20]; ItemNosCsv: Text)
+    procedure SendItemsEmail(ContactNo: Code[20])
     var
         Contact: Record Contact;
         Item: Record Item;

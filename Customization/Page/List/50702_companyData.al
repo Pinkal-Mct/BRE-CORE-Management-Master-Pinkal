@@ -43,6 +43,11 @@ page 50712 "testpagelist"
                     ApplicationArea = All;
                     Editable = false;
                 }
+                field("Automated Email"; Rec."Automated Email")
+                {
+                    ApplicationArea = All;
+                    Editable = true;
+                }
             }
         }
     }
