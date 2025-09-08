@@ -68,8 +68,11 @@ tableextension 50102 ItemExtension extends Item
             trigger OnValidate()
             var
                 secondaryClassification: Record "Secondary Classification";
+                id: Integer;
             begin
-                if secondaryClassification.Get(Rec."Unit Type") then
+                Evaluate(id, Rec."Unit Type");
+                secondaryClassification.SetRange(ID, id);
+                if secondaryClassification.FindFirst() then
                     Rec."Unit Type" := secondaryClassification."Property Type";
             end;
         }
