@@ -32,9 +32,9 @@ page 53767 "Contact API"
                 {
                     Caption = 'Primary Classification';
                 }
-                field("Property_Type"; Rec."Property Type")
+                field("Usage_Type"; Rec."Usage Type")
                 {
-                    Caption = 'Property Type';
+                    Caption = 'Usage Type';
                 }
                 field("Preferred_Location"; Rec."Preferred Location")
                 {
