@@ -72,7 +72,7 @@ table 51504 "Lead Information"
 
     keys
     {
-        key(Key1; "lead ID")
+        key(Key1; "lead ID", "CLient Info Id")
         {
             Clustered = true;
         }
