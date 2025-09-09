@@ -10,27 +10,29 @@ table 53762 "Email Body Setup"
             Caption = 'User ID';
             TableRelation = "User Setup"."User ID";
         }
-        field(53752; "Automated FollowUp Subject"; Text[250])
+        field(53752; "Property Rcmd. Subject"; Text[250])
         {
-            Caption = 'Subject';
+            Caption = 'Property Recommendations Subject';
         }
-        field(53753; "Automated FollowUp Body"; Blob)
+        field(53753; "Property Rcmd. Body"; Blob)
         {
-            Caption = 'Body';
+            Caption = 'Property Recommendations Body';
             SubType = Memo;
         }
-
-        field(52001; "UAE Market Followup Subject"; Text[250])
+        field(53754; "UAE Market Updates Subject"; Text[250])
         {
-            Caption = 'UAE Market Followup Subject';
+            Caption = 'UAE Market Updates Subject';
         }
-        field(52002; "UAE Market Followup Body"; Blob)
+        field(53755; "UAE Market Updates Body"; Blob)
         {
-            Caption = 'UAE Market Followup Body';
+            Caption = 'UAE Market Updates Body';
             SubType = Memo;
+        }
+        field(53756; "Email Type"; Enum "Email Type")
+        {
+            Caption = 'Email Type';
         }
     }
-
     keys
     {
         key(PK; "Primary Key") { Clustered = true; }

@@ -10,55 +10,91 @@ page 53766 "Email Body Setup"
     {
         area(content)
         {
-            group(AutomatedFollowUp)
+            field("Email Type"; Rec."Email Type")
             {
-                Caption = 'Automated FollowUps';
-                field("Automated FollowUp Subject"; Rec."Automated FollowUp Subject")
+                ApplicationArea = All;
+                Caption = 'Email Type';
+                ToolTip = 'Type of Email';
+
+                trigger OnValidate()
+                begin
+                    LoadIntoControlAddIn();
+                end;
+            }
+            group(SubjectGrp)
+            {
+                Caption = 'Subject';
+                field(Subject; Subject)
                 {
                     ApplicationArea = All;
-                    Caption = 'Subject';
-                }
-                field("Automated FollowUp Body"; afBody)
-                {
-                    ApplicationArea = All;
-                    Caption = 'Body';
+                    ShowCaption = false;
 
                     trigger OnValidate()
                     begin
-                        SetRichText();
+                        SetSubjectForType(Subject);
                     end;
                 }
+            }
+            group(RichTextGroup)
+            {
+                Caption = 'Body';
+                field(Body; Body)
+                {
+                    ApplicationArea = All;
+                    ShowCaption = false;
+                    MultiLine = true;
+                    ExtendedDatatype = RichContent;
 
-                field("UAE Market Followup Subject"; Rec."UAE Market Followup Subject")
-                {
-                    ApplicationArea = All;
-                    Caption = 'UAE Market Followup Subject';
-                    ToolTip = 'UAE Market Followup Subject';
-                }
-                field("UAE Market Followup Body"; umfBody)
-                {
-                    ApplicationArea = All;
-                    Caption = 'Body';
-                    ToolTip = 'UAE Market Followup Body';
                     trigger OnValidate()
                     begin
-                        SetRichText();
+                        WriteBodyForType(Body);
                     end;
                 }
             }
         }
     }
+    actions
+    {
+        area(processing)
+        {
+            action(Save)
+            {
+                ApplicationArea = All;
+                Caption = 'Save';
+                Image = Save;
+                ToolTip = 'Save changes in the content.';
+
+                trigger OnAction()
+                begin
+                    // CurrPage.Update(true);
+                    // SaveChanges(Subject, Body);
+                    SetSubjectForType(Subject);
+                    WriteBodyForType(Body);
+                    // Rec.Modify(true);
+                end;
+            }
+        }
+
+        area(Promoted)
+        {
+            actionref(Save_; Save) { }
+        }
+    }
 
     var
-        afBody, umfBody : Text;
+        Subject: Text;
+        Body: Text;
 
     trigger OnAfterGetRecord()
     begin
-        GetRichText();
+        // GetRichText();
+        Rec."Email Type" := Enum::"Email Type"::" ";
+
     end;
 
     trigger OnOpenPage()
     begin
+        CurrPage.Editable := true;
         Rec.Reset;
         if not Rec.Get() then begin
             Rec.Init();
@@ -66,26 +102,11 @@ page 53766 "Email Body Setup"
         end;
     end;
 
-    procedure GetRichText(): Text
+    procedure SaveChanges(SubjectTxt: Text; BodyTxt: Text)
     var
-        RichTextInS: InStream;
     begin
-        Rec.CalcFields("Automated FollowUp Body");
-        Rec."Automated FollowUp Body".CreateInStream(RichTextInS, TextEncoding::UTF8);
-        RichTextInS.Read(afBody);
-        exit(afBody);
-    end;
-
-    local procedure SetRichText()
-    var
-        RichTextOutS: OutStream;
-    begin
-        Rec."Automated FollowUp Body".CreateOutStream(RichTextOutS, TextEncoding::UTF8);
-        RichTextOutS.Write(afBody);
-
-        Rec."UAE Market Followup Body".CreateOutStream(RichTextOutS, TextEncoding::UTF8);
-        RichTextOutS.Write(umfBody);
-        Rec.Modify(true);
+        SetSubjectForType(SubjectTxt);
+        WriteBodyForType(BodyTxt);
     end;
 
     procedure Replace(TextIn: Text; FindWhat: Text; ReplaceWith: Text): Text
@@ -93,5 +114,87 @@ page 53766 "Email Body Setup"
         if FindWhat = '' then
             exit(TextIn);
         exit(TextIn.Replace(FindWhat, ReplaceWith));
+    end;
+
+    local procedure LoadIntoControlAddIn()
+    begin
+        Subject := GetSubjectForType();
+        Body := ReadBodyForType();
+    end;
+
+    local procedure GetSubjectForType(): Text
+    begin
+        case Rec."Email Type" of
+            Enum::"Email Type"::"Property Recommendations":
+                exit(Rec."Property Rcmd. Subject");
+            Enum::"Email Type"::"UAE Market Updates":
+                exit(Rec."UAE Market Updates Subject");
+            else
+                exit(''); // add more cases for new types
+        end;
+    end;
+
+    local procedure SetSubjectForType(SubjectTxt: Text)
+    begin
+        case Rec."Email Type" of
+            Enum::"Email Type"::"Property Recommendations":
+                Rec."Property Rcmd. Subject" := SubjectTxt;
+            Enum::"Email Type"::"UAE Market Updates":
+                Rec."UAE Market Updates Subject" := SubjectTxt;
+            else
+        // add additional cases for new types
+        end;
+        Rec.Modify(true);
+    end;
+
+    local procedure ReadBodyForType(): Text
+    var
+        ins: InStream;
+        bodyTxt: Text;
+    begin
+        bodyTxt := '';
+        case Rec."Email Type" of
+            Enum::"Email Type"::"Property Recommendations":
+                begin
+                    Rec.CalcFields("Property Rcmd. Body");
+                    if Rec."Property Rcmd. Body".HasValue then begin
+                        Rec."Property Rcmd. Body".CreateInStream(ins, TextEncoding::UTF8);
+                        ins.Read(bodyTxt);
+                    end;
+                end;
+            Enum::"Email Type"::"UAE Market Updates":
+                begin
+                    Rec.CalcFields("UAE Market Updates Body");
+                    if Rec."UAE Market Updates Body".HasValue then begin
+                        Rec."UAE Market Updates Body".CreateInStream(ins, TextEncoding::UTF8);
+                        ins.Read(bodyTxt);
+                    end;
+                end;
+            else
+        // add cases for other types
+        end;
+
+        exit(bodyTxt);
+    end;
+
+    local procedure WriteBodyForType(BodyTxt: Text)
+    var
+        outs: OutStream;
+    begin
+        case Rec."Email Type" of
+            Enum::"Email Type"::"Property Recommendations":
+                begin
+                    Rec."Property Rcmd. Body".CreateOutStream(outs, TextEncoding::UTF8);
+                    outs.Write(BodyTxt);
+                end;
+            Enum::"Email Type"::"UAE Market Updates":
+                begin
+                    Rec."UAE Market Updates Body".CreateOutStream(outs, TextEncoding::UTF8);
+                    outs.Write(BodyTxt);
+                end;
+            else
+        // add cases for other types
+        end;
+        Rec.Modify(true);
     end;
 }

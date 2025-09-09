@@ -38,8 +38,8 @@ codeunit 53752 "Customer Item Emailer"
         CustomerEmail := Contact."E-Mail";
 
         if emailBodySetup.Get() then begin
-            emailBody := emailBodySetupPage.GetRichText();
-            Subject := emailBodySetup."Automated FollowUp Subject";
+            emailBody := GetEmailBody();
+            Subject := emailBodySetup."Property Rcmd. Subject";
         end;
 
         NowDT := CurrentDateTime();
@@ -93,5 +93,20 @@ codeunit 53752 "Customer Item Emailer"
         TextIn := emailBodySetupPage.Replace(TextIn, '{{Lead Owner Title}}', Contact."Position/Role");
         // TextIn := emailBodySetupPage.Replace(TextIn, '{{Lead Owner Contact Information}}', );
         exit(TextIn);
+    end;
+
+    procedure GetEmailBody(): Text
+    var
+        emailBodySetup: Record "Email Body Setup";
+        InS: InStream;
+        bodyTxt: Text;
+    begin
+        bodyTxt := '';
+        if emailBodySetup.Get() then begin
+            emailBodySetup.CalcFields("Property Rcmd. Body");
+            emailBodySetup."Property Rcmd. Body".CreateInStream(InS, TextEncoding::UTF8);
+            InS.Read(bodyTxt);
+        end;
+        exit(bodyTxt);
     end;
 }
