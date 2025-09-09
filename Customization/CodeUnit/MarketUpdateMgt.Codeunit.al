@@ -16,8 +16,8 @@ codeunit 52005 "Market Update Mgt."
             Error('Please configure Email Body Setup first.');
 
         // ✅ Get Body Text from BLOB
-        SetupRec.CalcFields("UAE Market Followup Body");
-        SetupRec."UAE Market Followup Body".CreateInStream(InS, TextEncoding::UTF8);
+        SetupRec.CalcFields("UAE Market Updates Body");
+        SetupRec."UAE Market Updates Body".CreateInStream(InS, TextEncoding::UTF8);
         InS.Read(BodyText);
 
         LeadRec.Reset();
@@ -28,7 +28,7 @@ codeunit 52005 "Market Update Mgt."
                 if LeadRec."E-Mail" <> '' then begin
                     // ✅ Replace placeholders with dynamic values
                     BodyText := ReplacePlaceholders(BodyText, LeadRec);
-                    SubjectText := ReplacePlaceholders(SetupRec."UAE Market Followup Subject", LeadRec);
+                    SubjectText := ReplacePlaceholders(SetupRec."UAE Market Updates Subject", LeadRec);
 
                     EmailMessage.Create(
                         LeadRec."E-Mail",
