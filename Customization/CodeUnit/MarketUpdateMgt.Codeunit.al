@@ -53,7 +53,7 @@ codeunit 52005 "Market Update Mgt."
         Template := Template.Replace('{{Lead Owner Name}}', LeadRec."Name");
         Template := Template.Replace('{{Lead Owner Contact Information}}', LeadRec."Owner Contact No.");
         Template := Template.Replace('{{Lead Owner Title}}', Format(LeadRec."Owner Type"));
-        Template := Template.Replace('{{Lead Owner Contact Information}}', LeadRec."Owner Email");
+        Template := Template.Replace('{{Lead Owner Email}}', LeadRec."Owner Email");
         exit(Template);
     end;
 
