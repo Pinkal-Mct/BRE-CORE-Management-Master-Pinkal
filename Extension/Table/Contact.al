@@ -256,6 +256,12 @@ tableextension 53111 ContactExtension extends Contact
             Editable = false;
 
         }
+        field(53143; "Next Action"; Text[100])
+        {
+            Caption = 'Next Action';
+            DataClassification = ToBeClassified;
+        }
+
         modify("Salesperson Code")
         {
             trigger OnAfterValidate()
