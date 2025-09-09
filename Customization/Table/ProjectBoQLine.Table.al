@@ -144,33 +144,39 @@ table 53109 "Project BoQ Line"
             DataClassification = SystemMetadata;
             Editable = false;
         }
+        field(50116; "BOQ ID"; Code[20])
+        {
+            Caption = 'BOQ ID';
+            DataClassification = ToBeClassified;
+        }
+
 
     }
 
     keys
     {
-        key(PK; "BoQ Line ID")
+        key(PK; "BoQ Line ID", "BOQ ID")
         {
             Clustered = true;
         }
     }
 
-    trigger OnInsert()
-    begin
-        if "Budget Category" = '' then
-            Error('Budget Category is required.');
+    // trigger OnInsert()
+    // begin
+    //     if "Budget Category" = '' then
+    //         Error('Budget Category is required.');
 
-        "Created By" := CopyStr(UserId, 1, StrLen(UserId));
-        "Created On" := CurrentDateTime;
-    end;
+    //     "Created By" := CopyStr(UserId, 1, StrLen(UserId));
+    //     "Created On" := CurrentDateTime;
+    // end;
 
     trigger OnModify()
     begin
-        if "Budget Category" = '' then
-            Error('Budget Category is required.');
+        // if "Budget Category" = '' then
+        //     Error('Budget Category is required.');
 
-        if CalcRemainingQty() < 0 then
-            Error('Remaining Quantity cannot be less than 0.');
+        // if CalcRemainingQty() < 0 then
+        //     Error('Remaining Quantity cannot be less than 0.');
 
         "Modified By" := CopyStr(UserId, 1, StrLen(UserId));
         "Modified On" := CurrentDateTime;

@@ -41,15 +41,15 @@ table 53108 "Project BoQ Header"
         }
     }
 
-    // trigger OnInsert()
+    trigger OnInsert()
 
-    // var
-    //     noSeriesSetup: Record "No. Series Setup";
-    //     noseries: Codeunit "No. Series";
-    // begin
-    //     if noSeriesSetup.Get() then
-    //         Rec."BoQID" := noseries.GetNextNo(noSeriesSetup."Project BoQ header ID Nos.")
-    //     else
-    //         Error('No. Series Setup not found for Vendor Proposal Nos.');
-    // end;
+    var
+        noSeriesSetup: Record "No. Series Setup";
+        noseries: Codeunit "No. Series";
+    begin
+        if noSeriesSetup.Get() then
+            Rec."BoQID" := noseries.GetNextNo(noSeriesSetup."Project Budget ID Nos.")
+        else
+            Error('No. Series Setup not found for Vendor Proposal Nos.');
+    end;
 }
