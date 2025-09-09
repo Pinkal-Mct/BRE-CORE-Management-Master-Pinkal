@@ -47,10 +47,10 @@ codeunit 52005 "Market Update Mgt."
     /// 🔹 Helper function for replacing placeholders in email templates
     local procedure ReplacePlaceholders(Template: Text; LeadRec: Record Contact): Text
     begin
-        Template := Template.Replace('{{Contact Person Name}}', LeadRec."Lead Owner");
+        Template := Template.Replace('{{Contact Person Name}}', LeadRec."Name");
         Template := Template.Replace('{{Company Name}}', LeadRec."Company Name");
         Template := Template.Replace('{{Location}}', LeadRec."Preferred Location");
-        Template := Template.Replace('{{Lead Owner Name}}', LeadRec."Name");
+        Template := Template.Replace('{{Lead Owner Name}}', LeadRec."SalesPerson Name");
         Template := Template.Replace('{{Lead Owner Contact Information}}', LeadRec."Owner Contact No.");
         Template := Template.Replace('{{Lead Owner Title}}', Format(LeadRec."Owner Type"));
         Template := Template.Replace('{{Lead Owner Email}}', LeadRec."Owner Email");
