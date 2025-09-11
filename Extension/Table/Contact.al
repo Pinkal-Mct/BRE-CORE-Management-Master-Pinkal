@@ -284,6 +284,7 @@ tableextension 53111 ContactExtension extends Contact
             "Date Created" := Today;
     end;
 
+
     trigger OnAfterModify()
     var
         LeadInfo: Record "Lead Information";
