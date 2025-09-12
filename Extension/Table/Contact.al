@@ -261,6 +261,10 @@ tableextension 53111 ContactExtension extends Contact
             Caption = 'Next Action';
             DataClassification = ToBeClassified;
         }
+        field(52001; "Total Score"; Integer)
+        {
+            DataClassification = CustomerContent;
+        }
 
         modify("Salesperson Code")
         {
