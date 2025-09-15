@@ -25,6 +25,10 @@ page 50936 "Payment Type Card"
                     ToolTip = 'Enter the Payment Method.';
                     ShowMandatory = true;
                     NotBlank = true;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.SaveRecord();
+                    end;
                 }
             }
         }
