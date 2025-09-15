@@ -23,10 +23,16 @@ tableextension 50102 ItemExtension extends Item
                 PropertyRec.SetRange("Property ID", Rec."Property ID");
                 if PropertyRec.FindSet() then begin
                     "Property Name" := PropertyRec."Property Name";
-                    "Usage Type" := PropertyRec."Property Classification"
+                    "Usage Type" := PropertyRec."Property Classification";
+                    Country := PropertyRec.Country;
+                    "Emirate Name" := PropertyRec."Emirate Name";
+                    Community := PropertyRec.Community;
                 end else begin
                     "Property Name" := '';
                     "Usage Type" := '';
+                    Country := '';
+                    "Emirate Name" := '';
+                    Community := '';
                 end;
             end;
 
@@ -151,56 +157,21 @@ tableextension 50102 ItemExtension extends Item
         }
         field(50114; "Country"; Text[100])
         {
-            DataClassification = ToBeClassified;
             Caption = 'Country';
-            TableRelation = Country;
-            trigger OnValidate()
-            var
-                country: Record Country;
-            begin
-                if country.Get(Rec.Country) then
-                    Rec.Country := country."Country Code";
-            end;
+            DataClassification = ToBeClassified;
         }
         field(50115; "Emirate Name"; Text[50])
         {
             DataClassification = ToBeClassified;
             Caption = 'Emirate';
-            TableRelation = Emirate.ID
-                where("Country Code" = field(Country));
-
-            trigger OnValidate()
-            var
-                emirate: Record "Emirate";
-                emirateID: Integer;
-            begin
-                Evaluate(emirateID, "Emirate Name");
-                emirate.SetRange(ID, emirateID);
-                if emirate.FindFirst() then begin
-                    "Emirate Name" := Format(emirate."Emirate Name");
-                    Community := '';
-                end else begin
-                    Error('Invalid Emirate Name: %1', "Emirate Name");
-                end;
-            end;
         }
         field(50116; "Community"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Community';
-            // Filter the Property Type values based on the selected Primary Classification
-            TableRelation = Community where("Emirate Name" = field("Emirate Name"));
-
-            trigger OnValidate()
-            var
-                communityRec: Record Community;
-            begin
-                if communityRec.Get(Community) then
-                    Community := communityRec."Community Name";
-            end;
         }
 
-        field(50117; "Unit Address"; Code[100])
+        field(50117; "Unit Address"; Text[250])
         {
             DataClassification = ToBeClassified;
             Caption = 'Unit Address';

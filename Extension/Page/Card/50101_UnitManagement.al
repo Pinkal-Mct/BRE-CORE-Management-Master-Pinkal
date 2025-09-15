@@ -230,40 +230,6 @@ pageextension 50101 Items extends "Item Card"
                     Editable = false;
                     Visible = false;
                 }
-                field("Country"; Rec.Country)
-                {
-                    ApplicationArea = All;
-                    Caption = 'Country';
-                    Lookup = true;
-                    Editable = editablefalsefieldNonInventoryType;
-                    trigger OnValidate()
-                    begin
-                        AutoGenerateUnitName(Rec); // Call to auto-generate the Unit Name when Merge Units changes
-                    end;
-
-                }
-                field(Emirate; Rec."Emirate Name")
-                {
-                    ApplicationArea = All;
-                    Caption = 'Emirate';
-                    Lookup = true;
-                    Editable = editablefalsefieldNonInventoryType;
-                    trigger OnValidate()
-                    begin
-                        AutoGenerateUnitName(Rec); // Call to auto-generate the Unit Name when Merge Units changes
-                    end;
-                }
-                field("Community"; Rec.Community)
-                {
-                    ApplicationArea = All;
-                    Caption = 'Community';
-                    Lookup = true;
-                    Editable = editablefalsefieldNonInventoryType;
-                    trigger OnValidate()
-                    begin
-                        AutoGenerateUnitName(Rec); // Call to auto-generate the Unit Name when Merge Units changes
-                    end;
-                }
                 field("Property ID"; Rec."Property ID") // OOB Field (or create custom if not OOB)
                 {
                     ApplicationArea = All;
@@ -281,6 +247,40 @@ pageextension 50101 Items extends "Item Card"
                     ApplicationArea = All;
                     Caption = 'Property Name';
                     Editable = false;
+                }
+                field("Country"; Rec.Country)
+                {
+                    ApplicationArea = All;
+                    Caption = 'Country';
+                    Lookup = true;
+                    Editable = false;
+                    trigger OnValidate()
+                    begin
+                        AutoGenerateUnitName(Rec); // Call to auto-generate the Unit Name when Merge Units changes
+                    end;
+
+                }
+                field(Emirate; Rec."Emirate Name")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Emirate';
+                    Lookup = true;
+                    Editable = false;
+                    trigger OnValidate()
+                    begin
+                        AutoGenerateUnitName(Rec); // Call to auto-generate the Unit Name when Merge Units changes
+                    end;
+                }
+                field("Community"; Rec.Community)
+                {
+                    ApplicationArea = All;
+                    Caption = 'Community';
+                    Lookup = true;
+                    Editable = false;
+                    trigger OnValidate()
+                    begin
+                        AutoGenerateUnitName(Rec); // Call to auto-generate the Unit Name when Merge Units changes
+                    end;
                 }
                 field("Floor Number"; Rec."Floor Number") // Custom Field
                 {
