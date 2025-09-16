@@ -1118,7 +1118,7 @@ page 50973 "Revenue Recognition Item Sub"
                     RevenueRecognitionDetails."Customer Name" := pTenancyContract."Customer Name";
                     RevenueRecognitionDetails."Contract Start Date" := pTenancyContract."Contract Start Date";
                     RevenueRecognitionDetails."Contract End Date" := pTenancyContract."Contract End Date";
-                    RevenueRecognitionDetails."Contract Amount" := pRevenueStructure."Amount Including VAT";
+                    RevenueRecognitionDetails."Contract Amount" := pRevenueStructure."Amount";
                     RevenueRecognitionDetails."Owner Name" := pTenancyContract."Owner's Name";
                     RevenueRecognitionDetails."Contract Tenure" := pTenancyContract."Contract Tenor";
                     RevenueRecognitionDetails."Grace Days" := pTenancyContract."Grace Period";
@@ -2373,7 +2373,7 @@ page 50973 "Revenue Recognition Item Sub"
                     RevenueRecognitionDetails."Customer Name" := pTenancyContract."Customer Name";
                     RevenueRecognitionDetails."Contract Start Date" := pTenancyContract."Contract Start Date";
                     RevenueRecognitionDetails."Contract End Date" := pTenancyContract."Contract End Date";
-                    RevenueRecognitionDetails."Contract Amount" := pRevenueStructure."Amount Including VAT";
+                    RevenueRecognitionDetails."Contract Amount" := pRevenueStructure."Amount";
                     RevenueRecognitionDetails."Owner Name" := pTenancyContract."Owner's Name";
                     RevenueRecognitionDetails."Contract Tenure" := pTenancyContract."Contract Tenor";
                     RevenueRecognitionDetails."Grace Days" := pTenancyContract."Grace Period";
