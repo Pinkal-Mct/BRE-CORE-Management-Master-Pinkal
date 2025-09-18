@@ -207,80 +207,80 @@ table 50925 "Payment Mode2"
                 // azureConfig: Record AzureConfiguration;
                 inStream: InStream;
             begin
-                if Rec."Payment Status" = Rec."Payment Status"::Received then
-                    // if Rec."Payment Mode" = 'Bank Transfer' then begin
-                    //     if Rec."Deposit Bank" = '' then begin
-                    //         Error('Deposite Bank must be filled when payment mode is bank transfer');
-                    //     end;
-                    // end;
+                case Rec."Payment Status" of
+                    Rec."Payment Status"::Received:
+                        begin
+                            // if Rec."Payment Mode" = 'Bank Transfer' then begin
+                            //     if Rec."Deposit Bank" = '' then begin
+                            //         Error('Deposite Bank must be filled when payment mode is bank transfer');
+                            //     end;
+                            // end;
 
-                    if Rec."Payment Mode" = 'Cheque' then
-                        Rec."Cheque Status" := Rec."Cheque Status"::Cleared;
+                            if Rec."Payment Mode" = 'Cheque' then
+                                Rec."Cheque Status" := Rec."Cheque Status"::Cleared;
 
+                            // Rec."Cheque Status" := Rec."Cheque Status"::Cleared;
+                            CashReceiptJournalCodeunit.CreateCashReceiptJournal(Rec);
+                            Email.SendEmail(Rec);
+                            emailrec.SendEmail(Rec);
 
-                // Rec."Cheque Status" := Rec."Cheque Status"::Cleared;
-                CashReceiptJournalCodeunit.CreateCashReceiptJournal(Rec);
-                Email.SendEmail(Rec);
-                if Rec."Payment Status" = Rec."Payment Status"::Received then
-                    emailrec.SendEmail(Rec);
+                            // if not ConfigRecord.FindFirst() then
+                            //     Error('Azure configuration is missing. Please set up the SAS URL in the Azure Configuration table.');
+                            // ValidFormats.Add('.png');
+                            // ValidFormats.Add('.jpg');
+                            // ValidFormats.Add('.jpeg');
 
+                            // SASUrlBase := ConfigRecord."SAS URL";
+                            // FileExtension := '.pdf';
+                            ReportID := 50112;
+                            //  RecRef.Open(DATABASE::"Sales Header"); // Open the table reference
+                            // RecRef.GetTable(Rec);
+                            paymentmode2Grid.Reset();
+                            paymentmode2Grid.SetRange("Tenant ID", Rec."Tenant ID");
+                            paymentmode2Grid.SetRange("Contract ID", Rec."Contract ID"); // Ensure filtering on unique ID
+                            paymentmode2Grid.SetRange("Payment Series", Rec."Payment Series"); // Add this line to filter by Payment Series
 
-                // if not ConfigRecord.FindFirst() then
-                //     Error('Azure configuration is missing. Please set up the SAS URL in the Azure Configuration table.');
-                // ValidFormats.Add('.png');
-                // ValidFormats.Add('.jpg');
-                // ValidFormats.Add('.jpeg');
+                            if not paymentmode2Grid.FindFirst() then
+                                Error('Not avavilable');
+                            RecRef.GetTable(paymentmode2Grid);
+                            RecRef.GetTable(Rec);
+                            TempBlob.CreateOutStream(OutStream);
+                            Report.SaveAs(ReportID, '', ReportFormat::Pdf, OutStream, RecRef);
+                            TempBlob.CreateInStream(inStream);
 
-                // SASUrlBase := ConfigRecord."SAS URL";
-                // FileExtension := '.pdf';
-                ReportID := 50112;
-                //  RecRef.Open(DATABASE::"Sales Header"); // Open the table reference
-                // RecRef.GetTable(Rec);
-                paymentmode2Grid.Reset();
-                paymentmode2Grid.SetRange("Tenant ID", Rec."Tenant ID");
-                paymentmode2Grid.SetRange("Contract ID", Rec."Contract ID"); // Ensure filtering on unique ID
-                paymentmode2Grid.SetRange("Payment Series", Rec."Payment Series"); // Add this line to filter by Payment Series
+                            // TempBlob.CreateInStream(InStream);
+                            fileName := 'Invoice_' + Format(Rec."Contract ID") + Rec."Payment Series" + '.pdf';
+                            // SASUrlWithFileName := StrSubstNo('%1/%2?%3', CopyStr(SASUrlBase, 1, StrPos(SASUrlBase, '?') - 1), FileName, CopyStr(SASUrlBase, StrPos(SASUrlBase, '?') + 1));
+                            // UploadResult := documentattachment.UploadDocumentToBlobStorage(SASUrlWithFileName, FileName, InStream);
+                            // Rec."View Invoice" := FileName;
+                            // Rec."View Reciept document URL" := UploadResult;
 
-                if not paymentmode2Grid.FindFirst() then
-                    Error('Not avavilable');
-                RecRef.GetTable(paymentmode2Grid);
-                RecRef.GetTable(Rec);
-                TempBlob.CreateOutStream(OutStream);
-                Report.SaveAs(ReportID, '', ReportFormat::Pdf, OutStream, RecRef);
-                TempBlob.CreateInStream(inStream);
-
-                // TempBlob.CreateInStream(InStream);
-                fileName := 'Invoice_' + Format(Rec."Contract ID") + Rec."Payment Series" + '.pdf';
-                // SASUrlWithFileName := StrSubstNo('%1/%2?%3', CopyStr(SASUrlBase, 1, StrPos(SASUrlBase, '?') - 1), FileName, CopyStr(SASUrlBase, StrPos(SASUrlBase, '?') + 1));
-                // UploadResult := documentattachment.UploadDocumentToBlobStorage(SASUrlWithFileName, FileName, InStream);
-                // Rec."View Invoice" := FileName;
-                // Rec."View Reciept document URL" := UploadResult;
-
-
-                folderName := 'Payment Receipt';
-                uploadResult := azureBlobUploader.UploadDocumentToBlob(inStream, fileName, folderName);
-                if fileName <> '' then begin
-                    Rec."View Invoice" := fileName;
-                    Rec."View Reciept document URL" := uploadResult;
-                    Rec.Modify();
-                    Message('File uploaded successfully: %1', fileName);
+                            folderName := 'Payment Receipt';
+                            uploadResult := CopyStr(azureBlobUploader.UploadDocumentToBlob(inStream, fileName, folderName), 1, 250);
+                            if fileName <> '' then begin
+                                Rec."View Invoice" := fileName;
+                                Rec."View Reciept document URL" := uploadResult;
+                                Rec.Modify();
+                                Message('File uploaded successfully: %1', fileName);
+                            end;
+                            Rec.Modify();
+                            paymentschedule2.SetRange("payment Series", Rec."Payment Series");
+                            paymentschedule2.SetRange("Contract ID", Rec."Contract ID");
+                            if paymentschedule2.FindSet() then
+                                repeat
+                                    paymentschedule2.Validate("Payment Status", Format(Rec."Payment Status"));
+                                    paymentschedule2.Modify();
+                                until paymentschedule2.Next() = 0
+                        end;
+                    Rec."Payment Status"::Cancelled:
+                        begin
+                            emailrec.SendEmailCancelled(Rec); // Call for Cancelled status
+                            Rec.Validate("Cheque Status", Rec."Cheque Status"::Retrieved);
+                            // Rec."Cheque Status" := Rec."Cheque Status"::Retrieved;
+                        end;
+                    Rec."Payment Status"::Overdue:
+                        emailrec.SendEmailOverdue(Rec); // Call for Overdue status
                 end;
-                Rec.Modify();
-                paymentschedule2.SetRange("payment Series", Rec."Payment Series");
-                paymentschedule2.SetRange("Contract ID", Rec."Contract ID");
-                if paymentschedule2.FindSet() then
-                    repeat
-                        paymentschedule2.Validate("Payment Status", Format(Rec."Payment Status"));
-                        paymentschedule2.Modify();
-                    until paymentschedule2.Next() = 0
-
-
-                else
-                    if Rec."Payment Status" = Rec."Payment Status"::Cancelled then
-                        emailrec.SendEmailCancelled(Rec) // Call for Cancelled status
-                    else
-                        if Rec."Payment Status" = Rec."Payment Status"::Overdue then
-                            emailrec.SendEmailOverdue(Rec); // Call for Overdue status
             end;
 
             // trigger OnValidate()
