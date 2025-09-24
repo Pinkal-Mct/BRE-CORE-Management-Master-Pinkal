@@ -47,8 +47,8 @@ page 50904 "Category List"
             {
                 ApplicationArea = All;
                 Caption = 'New';
-                Promoted = true;
-                PromotedCategory = Process;
+                ToolTip = 'New';
+                Image = New;
                 trigger OnAction()
                 begin
                     Rec.Init();
