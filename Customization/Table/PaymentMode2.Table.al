@@ -699,13 +699,15 @@ table 50925 "Payment Mode2"
     var
         emailrec: Codeunit "Send PaymentMode Email";
     begin
-        case Rec."Payment Status" of
-            Rec."Payment Status"::Received:
-                emailrec.SendEmail(Rec);
-            Rec."Payment Status"::Cancelled:
-                emailrec.SendEmailCancelled(Rec);
-            Rec."Payment Status"::Overdue:
-                emailrec.SendEmailOverdue(Rec);
-        end;
+        // ✅ Check if Payment Status has changed
+        if Rec."Payment Status" <> xRec."Payment Status" then
+            case Rec."Payment Status" of
+                Rec."Payment Status"::Received:
+                    emailrec.SendEmail(Rec);
+                Rec."Payment Status"::Cancelled:
+                    emailrec.SendEmailCancelled(Rec);
+                Rec."Payment Status"::Overdue:
+                    emailrec.SendEmailOverdue(Rec);
+            end;
     end;
 }
