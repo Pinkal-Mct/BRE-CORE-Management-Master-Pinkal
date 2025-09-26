@@ -678,7 +678,7 @@ table 50307 "Tenancy Contract"
                 where("Property ID" = field("Property ID"));
         }
 
-        field(50128; "Emirates ID"; Code[15])
+        field(50128; "Emirates ID"; Code[25])
         {
             DataClassification = ToBeClassified;
             Caption = 'Emirates ID';

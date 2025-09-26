@@ -21,7 +21,7 @@ tableextension 50101 CustomerExtension extends Customer
             // Additional properties can be added here if needed
         }
 
-        field(50102; "Password"; Code[30])
+        field(50102; "Password"; Text[30])
         {
             DataClassification = ToBeClassified; // Marking as sensitive for security
             Caption = 'Password';
