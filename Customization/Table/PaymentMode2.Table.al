@@ -314,10 +314,21 @@ table 50925 "Payment Mode2"
             var
                 pdcTransRec: Record "PDC Transaction";
             begin
-                if (Rec."Cheque Status" in [Rec."Cheque Status"::Cleared, Rec."Cheque Status"::Deposited, Rec."Cheque Status"::Returned]) then
+
+                // if Rec."Approval Status" = Rec."Approval Status"::Approved then
+                //     Rec."Deposit Status" := Rec."Deposit Status"::"N"   // ✅ Force N when approved
+                // else
+                if (Rec."Cheque Status" in
+                    [Rec."Cheque Status"::Cleared,
+                     Rec."Cheque Status"::Deposited,
+                     Rec."Cheque Status"::Returned]) then
                     Rec."Deposit Status" := Rec."Deposit Status"::"Y"
                 else
-                    Rec."Deposit Status" := Rec."Deposit Status"::"N";
+                    Rec."Deposit Status" := Rec."Deposit Status"::"-";
+                // if (Rec."Cheque Status" in [Rec."Cheque Status"::Cleared, Rec."Cheque Status"::Deposited, Rec."Cheque Status"::Returned]) then
+                //     Rec."Deposit Status" := Rec."Deposit Status"::"Y"
+                // else 
+                //     Rec."Deposit Status" := Rec."Deposit Status"::"-";
 
 
                 // Update Payment Status based on Cheque Status
@@ -553,6 +564,8 @@ table 50925 "Payment Mode2"
                                     sendRejectionToLeaseTeam.SendPaymentRejectionToLeaseManager(paymentModeRec."Contract ID", paymentModeRec."Tenant Id", paymentModeRec."Contract ID");
                                 end;
                     paymentModeRec.Modify();
+                    if Rec."Approval Status" = Rec."Approval Status"::Approved then
+                        Rec."Deposit Status" := Rec."Deposit Status"::"N"   // ✅ Force N when approved
                 end;
             end;
         }
