@@ -145,16 +145,7 @@ table 50303 "Property Registration"
             DataClassification = ToBeClassified;
             Caption = 'Property Type';
             // Filter the Property Type values based on the selected Primary Classification
-            TableRelation = "Property Type" where("Classification Name" = field("Property Classification"));
-
-            trigger OnValidate()
-            var
-                propertyType: Record "Property Type";
-            begin
-                if propertyType.Get(Rec."Property Type") then
-                    Rec."Property Type" := propertyType."Property Type";
-            end;
-
+            TableRelation = "Property Type"."Property Type" where("Classification Name" = field("Property Classification"));
         }
 
         // Last Date Modified
