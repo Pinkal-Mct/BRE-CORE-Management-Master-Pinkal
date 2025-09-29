@@ -278,8 +278,8 @@ table 50925 "Payment Mode2"
                             Rec.Validate("Cheque Status", Rec."Cheque Status"::Retrieved);
                             // Rec."Cheque Status" := Rec."Cheque Status"::Retrieved;
                         end;
-                    Rec."Payment Status"::Overdue:
-                        emailrec.SendEmailOverdue(Rec); // Call for Overdue status
+                // Rec."Payment Status"::Overdue:
+                //     emailrec.SendEmailOverdue(Rec); // Call for Overdue status
                 end;
             end;
 
@@ -719,8 +719,8 @@ table 50925 "Payment Mode2"
                     emailrec.SendEmail(Rec);
                 Rec."Payment Status"::Cancelled:
                     emailrec.SendEmailCancelled(Rec);
-                Rec."Payment Status"::Overdue:
-                    emailrec.SendEmailOverdue(Rec);
+            // Rec."Payment Status"::Overdue:
+            //     emailrec.SendEmailOverdue(Rec);
             end;
     end;
 }
