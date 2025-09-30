@@ -31,7 +31,7 @@ table 50903 "Category Type"
 
     keys
     {
-        key(PK; "ID", "Primary Item Type", "Category Types")
+        key(PK; "ID")
         {
             Clustered = true;
         }
