@@ -370,19 +370,16 @@ tableextension 50102 ItemExtension extends Item
         {
             DataClassification = ToBeClassified;
             Caption = 'Category';
-            TableRelation = "Category Type"."Category Types";
+            TableRelation = "Category Type";
 
             trigger OnValidate()
             var
                 CategoryRec: Record "Category type";
-                PrimaryRec: Record "Primary Item";
             begin
-                CategoryRec.SetRange("Category Types", Rec."Category Types");
-
-                if CategoryRec.FindFirst() then
-                    "Primary Item Type" := CategoryRec."Primary Item Type"
-                else
-                    "Primary Item Type" := '';
+                if CategoryRec.Get("Category Types") then begin
+                    "Category Types" := CategoryRec."Category Types";
+                    "Primary Item Type" := CategoryRec."Primary Item Type";
+                end;
             end;
         }
 
