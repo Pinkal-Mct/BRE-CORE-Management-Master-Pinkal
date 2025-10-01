@@ -8,7 +8,7 @@ table 50971 "OverDuePaymentmode"
         field(50100; "ID"; Integer)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Payment Series';
+            Caption = 'ID';
             AutoIncrement = true;
         }
 
