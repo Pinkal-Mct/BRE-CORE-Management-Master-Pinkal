@@ -561,5 +561,9 @@ permissionset 50100 TablePermission
         page "Primary Item Card" = X,
         page "Property Type Card" = X,
         page "Secondary Classification Card" = X,
-        page "Vendor Category Card" = X;
+        page "Vendor Category Card" = X,
+        tabledata OverDuePaymentmode = RIMD,
+        table OverDuePaymentmode = X,
+        codeunit OverduePaymentReq = X,
+        codeunit "Send Email Paymentmode Overdue" = X;
 }
