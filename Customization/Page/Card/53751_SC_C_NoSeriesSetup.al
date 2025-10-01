@@ -84,6 +84,13 @@ page 53751 "No. Series Setup"
                     Caption = 'Client Info ID';
                     ToolTip = 'Specifies the Client number series';
                 }
+                field("Sales Proposal ID Nos."; Rec."Sales Proposal ID Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the Sales Proposal number series.';
+                    Caption = 'Sales Proposal ID';
+                }
+
             }
             group("Facility Management")
             {
