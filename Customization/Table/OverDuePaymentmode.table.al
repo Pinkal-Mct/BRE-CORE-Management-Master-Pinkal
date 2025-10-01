@@ -44,6 +44,10 @@ table 50971 "OverDuePaymentmode"
             Caption = 'Payment Status';
         }
 
+        field(50107; "Tenant Name"; Text[100])
+        {
+            Caption = 'Tenant Name';
+        }
     }
 
     keys

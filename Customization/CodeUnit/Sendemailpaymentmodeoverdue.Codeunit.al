@@ -29,7 +29,7 @@ codeunit 50902 "Send Email Paymentmode Overdue"
                 EmailAddress, // Use email from Payment Mode table instead of Rec."Tenant Email"
                 'Payment Mode Details - ' + Format(Rec."Contract ID"),
                 '<html><body>' +
-                '<p>Dear ' + Rec."Tenant Id" + ',</p>' +
+                '<p>Dear ' + Rec."Tenant Name" + ',</p>' +
                 '<p>I hope this message finds you well. This is a kind reminder that your payment for (Rent/Charges) is Overdue.</p>' +
                 '<h3>Details of the Payment:</h3>' +
                 '<b>Contract ID:</b> ' + Format(Rec."Contract ID") + '<br/>' +
