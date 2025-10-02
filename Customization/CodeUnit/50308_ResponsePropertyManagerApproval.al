@@ -17,17 +17,25 @@ codeunit 50308 "Contract Status Synchronizer"
         if ContractStatusRec.Status = 'Approved' then begin
             case ContractStatusRec."Tenancy Contract Status" of
                 'Activation':
-                    // TenancyContract."Tenant Contract Status" := TenancyContract."Tenant Contract Status"::Active;
-                    TenancyContract.Validate("Tenant Contract Status", TenancyContract."Tenant Contract Status"::Active);
+                    begin
+                        TenancyContract."Previous Status" := Format(TenancyContract."Tenant Contract Status");
+                        TenancyContract.Validate("Tenant Contract Status", TenancyContract."Tenant Contract Status"::Active);
+                    end;
                 'Termination':
-                    // TenancyContract."Tenant Contract Status" := TenancyContract."Tenant Contract Status"::Terminated;
-                    TenancyContract.Validate("Tenant Contract Status", TenancyContract."Tenant Contract Status"::Terminated);
+                    begin
+                        TenancyContract."Previous Status" := Format(TenancyContract."Tenant Contract Status");
+                        TenancyContract.Validate("Tenant Contract Status", TenancyContract."Tenant Contract Status"::Terminated);
+                    end;
                 'Suspension':
-                    // TenancyContract."Tenant Contract Status" := TenancyContract."Tenant Contract Status"::Suspended;
-                    TenancyContract.Validate("Tenant Contract Status", TenancyContract."Tenant Contract Status"::Suspended);
+                    begin
+                        TenancyContract."Previous Status" := Format(TenancyContract."Tenant Contract Status");
+                        TenancyContract.Validate("Tenant Contract Status", TenancyContract."Tenant Contract Status"::Suspended);
+                    end;
                 'Under Suspension-Unit Release':
-                    // TenancyContract."Tenant Contract Status" := TenancyContract."Tenant Contract Status"::"Under Suspension-Unit Released";
-                    TenancyContract.Validate("Tenant Contract Status", TenancyContract."Tenant Contract Status"::"Under Suspension-Unit Released");
+                    begin
+                        TenancyContract."Previous Status" := Format(TenancyContract."Tenant Contract Status");
+                        TenancyContract.Validate("Tenant Contract Status", TenancyContract."Tenant Contract Status"::"Under Suspension-Unit Released");
+                    end;
                 else
                     Message('Unsupported Tenancy Contract Status: %1', ContractStatusRec."Tenancy Contract Status");
             end;

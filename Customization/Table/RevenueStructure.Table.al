@@ -73,14 +73,7 @@ table 50911 "Revenue Structure"
             Editable = false;
             TableRelation = "Lease Proposal Details"."Tenant ID";
         }
-        // field(50110; "Rent Calculation Type"; Text[100])
-        // {
-        //     DataClassification = ToBeClassified;
-        //     Caption = 'Rent Calculation Type';
-        //     Editable = false;
-        // }
-
-        field(50111; "VAT %"; Option)
+        field(50110; "VAT %"; Option)
         {
             OptionMembers = "0","5";
             Caption = 'VAT %';

@@ -565,5 +565,7 @@ permissionset 50100 TablePermission
         tabledata OverDuePaymentmode = RIMD,
         table OverDuePaymentmode = X,
         codeunit OverduePaymentReq = X,
-        codeunit "Send Email Paymentmode Overdue" = X;
+        codeunit "Send Email Paymentmode Overdue" = X,
+        tabledata "Sales Proposal" = RIMD,
+        table "Sales Proposal" = X;
 }
