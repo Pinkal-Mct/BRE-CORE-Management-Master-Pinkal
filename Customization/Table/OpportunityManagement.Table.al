@@ -15,7 +15,7 @@ table 51260 "Opportunity Management"
             Caption = 'Lead ID';
             DataClassification = ToBeClassified;
             NotBlank = true;
-            TableRelation = "Lead Management"."Lead ID"; // Uncomment when Lead table is available
+            // TableRelation = "Lead Management"."Lead ID"; // Uncomment when Lead table is available
         }
 
         field(51253; "Project ID"; Code[20])

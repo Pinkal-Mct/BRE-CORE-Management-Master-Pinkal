@@ -82,6 +82,17 @@ table 51505 "Sales Proposal"
         {
             Caption = 'Units';
         }
+        field(51518; "Reason for Rejection"; Text[500])
+        {
+            Caption = 'Reason for Rejection';
+            Editable = false;
+        }
+        field(51519; "Internal Remark"; Text[250])
+        {
+            Caption = 'Internal Remark';
+            Editable = false;
+        }
+
     }
 
     keys
