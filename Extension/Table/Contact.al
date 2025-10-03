@@ -256,7 +256,7 @@ tableextension 53111 ContactExtension extends Contact
             Editable = false;
 
         }
-        field(53143; "Next Action"; Text[100])
+        field(53143; "Next Action"; Text[1000])
         {
             Caption = 'Next Action';
             DataClassification = ToBeClassified;
