@@ -90,6 +90,12 @@ page 53751 "No. Series Setup"
                     ToolTip = 'Specifies the Sales Proposal number series.';
                     Caption = 'Sales Proposal ID';
                 }
+                field("Customer Eligibility ID Nos."; Rec."Customer Eligibility ID Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the Customer Eligibility number series.';
+                    Caption = 'Customer Eligibility ID';
+                }
 
             }
             group("Facility Management")
