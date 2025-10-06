@@ -19,6 +19,9 @@ codeunit 50910 "OverduePaymentReq"
                 Username := UserRec."User Name";
             until UserPersonalizationRec.Next() = 0;
 
+        if EmailAddress.Count = 0 then
+            Error('No valid email addresses found for PROPERTY MANAGER.');
+
 
         EmailMessage.Create(
              EmailAddress,
