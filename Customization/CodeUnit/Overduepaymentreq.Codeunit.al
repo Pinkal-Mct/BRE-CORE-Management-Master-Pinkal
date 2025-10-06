@@ -17,10 +17,12 @@ codeunit 50910 "OverduePaymentReq"
                     if UserRec."Contact Email" <> '' then
                         EmailAddress.Add(UserRec."Contact Email");
                 Username := UserRec."User Name";
-            until UserPersonalizationRec.Next() = 0;
+            until UserPersonalizationRec.Next() = 0
+        else
+            Error('No users found with the profile FINANCE MANAGER.');
 
         if EmailAddress.Count = 0 then
-            Error('No valid email addresses found for PROPERTY MANAGER.');
+            Error('No valid email addresses found for FINANCE MANAGER.');
 
 
         EmailMessage.Create(
