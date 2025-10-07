@@ -60,7 +60,7 @@ tableextension 53111 ContactExtension extends Contact
             DataClassification = CustomerContent;
         }
 
-        field(53110; "Budget Range (AED)"; Text[100])
+        field(53110; "Budget Range (AED)"; Decimal)
         {
             Caption = 'Budget Range (AED)';
             DataClassification = CustomerContent;
