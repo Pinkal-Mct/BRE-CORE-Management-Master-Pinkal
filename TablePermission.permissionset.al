@@ -567,5 +567,11 @@ permissionset 50100 TablePermission
         tabledata "Sales Proposal" = RIMD,
         table "Sales Proposal" = X,
         tabledata "Customer Eligibility" = RIMD,
-        table "Customer Eligibility" = X;
+        table "Customer Eligibility" = X,
+        tabledata Paymentplandetails = RIMD,
+        tabledata PaymentplanLine = RIMD,
+        tabledata PaymentplanStages = RIMD,
+        table Paymentplandetails = X,
+        table PaymentplanLine = X,
+        table PaymentplanStages = X;
 }
