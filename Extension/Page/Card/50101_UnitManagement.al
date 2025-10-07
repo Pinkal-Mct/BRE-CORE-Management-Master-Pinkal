@@ -106,7 +106,7 @@ pageextension 50101 Items extends "Item Card"
             group(DescriptionGrp)
             {
                 ShowCaption = false;
-                Visible = isVenderService or Unitcharges or isUnitService;
+                Visible = isVenderService or Unitcharges or isUnitService or isUnitInventory;
             }
         }
         movefirst(DescriptionGrp; Description)
@@ -149,7 +149,7 @@ pageextension 50101 Items extends "Item Card"
             group("BaseUnitofMeasure")
             {
                 ShowCaption = false;
-                Visible = isUnitService;
+                Visible = isUnitService or isUnitInventory;
                 field("Market Rate per Sq. Ft."; rec."Market Rate per Sq. Ft.")
                 {
                     ApplicationArea = All;
@@ -164,7 +164,7 @@ pageextension 50101 Items extends "Item Card"
             group("MarketRateperSq.Ft.")
             {
                 ShowCaption = false;
-                Visible = isUnitService;
+                Visible = isUnitService or isUnitInventory;
                 field("Unit Size"; rec."Unit Size")
                 {
                     ApplicationArea = All;
@@ -192,7 +192,7 @@ pageextension 50101 Items extends "Item Card"
             group("UnitSize")
             {
                 ShowCaption = false;
-                Visible = isUnitService;
+                Visible = isUnitService or isUnitInventory;
                 field("Amount"; rec."Amount")
                 {
                     ApplicationArea = All;
@@ -206,7 +206,7 @@ pageextension 50101 Items extends "Item Card"
             group("Gen.Prod.PostingGroup")
             {
                 ShowCaption = false;
-                Visible = isUnitService;
+                Visible = isUnitService or isUnitInventory;
                 field("Primary Classification Type"; Rec."Primary Classification Type")
                 {
                     ApplicationArea = All;
@@ -220,7 +220,7 @@ pageextension 50101 Items extends "Item Card"
         {
             group(UnitManagement)
             {
-                Visible = isUnitService;
+                Visible = isUnitService or isUnitInventory;
                 Caption = 'Unit Management';
                 // Visible = IsUnitManagementVisible;
                 field(FixedNumber; Rec.FixedNumber)
@@ -336,12 +336,14 @@ pageextension 50101 Items extends "Item Card"
                 {
                     ApplicationArea = All;
                     Editable = false;
+                    Visible = isUnitService;
                 }
 
                 field("Unit Status"; rec."Unit Status")
                 {
                     ApplicationArea = All;
                     Lookup = true;
+                    Visible = isUnitService;
                 }
             }
             part("Document Attachments"; "Unit Document SubPage")
@@ -351,6 +353,20 @@ pageextension 50101 Items extends "Item Card"
                 // Visible = isVisible;
                 Editable = editablefalsefieldNonInventoryType;
                 Visible = ShowFinancialFields and isUnitService and isVisible;
+            }
+        }
+        addafter("Unit Address")
+        {
+            group("Inventory status")
+            {
+                showcaption = false;
+                field("inventory Unit Status"; Rec."Inventory Unit Status")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Unit Status';
+                    Editable = true;
+                    Visible = isUnitInventory;
+                }
             }
         }
         addafter("Item Category Code")
@@ -516,6 +532,7 @@ pageextension 50101 Items extends "Item Card"
         isVisible: Boolean;
         isUnitService: Boolean;
         isVenderService: Boolean;
+        isUnitInventory: Boolean;
 
 
     procedure EvaluateFastTabVisibility(): Boolean
@@ -548,6 +565,16 @@ pageextension 50101 Items extends "Item Card"
         end;
     end;
 
+    procedure InventoryUnitVisibility(): Boolean
+    begin
+        if Rec."Item Template" = Enum::"Item Template Enum"::Inventory then begin
+            if Rec."Item type template" = Enum::"Item Type Template Enum"::"Unit Inventory" then
+                exit(true)
+            else
+                exit(false);
+        end;
+    end;
+
 
     trigger OnModifyRecord(): Boolean
     begin
@@ -556,6 +583,7 @@ pageextension 50101 Items extends "Item Card"
         hideshowfields := hidefields();
         editablefalsefieldNonInventoryType := editablefalseNonInventory();
         isUnitService := EvaluateFastTabVisibility();
+        isUnitInventory := InventoryUnitVisibility();
         isVenderService := EvaluateFastTabVisibilityService();
         Unitcharges := UnitChargesFieldsVisiblity();
     end;
@@ -586,6 +614,7 @@ pageextension 50101 Items extends "Item Card"
         hideshowfields := hidefields();
         editablefalsefieldNonInventoryType := editablefalseNonInventory();
         isUnitService := EvaluateFastTabVisibility();
+        isUnitInventory := InventoryUnitVisibility();
         isVenderService := EvaluateFastTabVisibilityService();
         Unitcharges := UnitChargesFieldsVisiblity();
 
@@ -598,6 +627,7 @@ pageextension 50101 Items extends "Item Card"
         editablefalsefieldNonInventoryType := editablefalseNonInventory();
         Unitcharges := UnitChargesFieldsVisiblity();
         isUnitService := EvaluateFastTabVisibility();
+        isUnitInventory := InventoryUnitVisibility();
         isVenderService := EvaluateFastTabVisibilityService();
     end;
 
@@ -634,7 +664,10 @@ pageextension 50101 Items extends "Item Card"
         hideshowfields := hidefields();
         editablefalsefieldNonInventoryType := editablefalseNonInventory();
         ShowFinancialFields := not IsUserInProfile('FINANCE MANAGER');
-
+        isUnitService := EvaluateFastTabVisibility();
+        isUnitInventory := InventoryUnitVisibility();
+        isVenderService := EvaluateFastTabVisibilityService();
+        Unitcharges := UnitChargesFieldsVisiblity();
     end;
 
     var
