@@ -84,4 +84,64 @@ codeunit 53751 "Fetch Month"
             DaysInMonth[2] := 29; // Leap year adjustment
         exit(DaysInMonth[MonthNo]);
     end;
+
+    procedure GetNoofMonthsFromFrequency(Frequency: Text): Integer
+    begin
+        case Frequency of
+            'Monthly':
+                exit(1);
+            'Quarterly':
+                exit(3);
+            'Half-Yearly':
+                exit(6);
+            'Yearly':
+                exit(12);
+            else
+                exit(0);
+        end;
+    end;
+
+
+    procedure ParseDuration(durationString: Text; var Years: Integer; var Months: Integer; var Days: Integer)
+    var
+        tempArray: List of [Text];
+        token: Text;
+        valueText: Text;
+        isFound: Boolean;
+        i: Integer;
+    begin
+        Years := 0;
+        Months := 0;
+        Days := 0;
+
+        tempArray := durationString.Split(' ');
+
+        for i := 1 to tempArray.Count do begin
+            token := tempArray.Get(i);
+            isFound := false;
+
+            if token.Contains('year') then begin
+                if i > 1 then begin
+                    valueText := tempArray.Get(i - 1);
+                    if Evaluate(Years, valueText) then;
+                end;
+                isFound := true;
+            end;
+
+            if token.Contains('month') and not isFound then begin
+                if i > 1 then begin
+                    valueText := tempArray.Get(i - 1);
+                    if Evaluate(Months, valueText) then;
+                end;
+                isFound := true;
+            end;
+
+            if token.Contains('day') and not isFound then
+                if i > 1 then begin
+                    valueText := tempArray.Get(i - 1);
+                    if Evaluate(Days, valueText) then;
+                end;
+        end;
+    end;
+
 }
