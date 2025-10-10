@@ -489,7 +489,8 @@ pageextension 50101 Items extends "Item Card"
         UnitnumberCode := Format(Unitnumber); // Assuming "Unit Number" is a field in the record
 
         // Step 1: Generate Unit Name: PropertyCode-UnitType-FixedNumber
-        TargetItem."Unit Name" := PropertyCode + '-SU-' + Format(TargetItem.FixedNumber); // Assuming 'SU' is the Unit Type for Single Unit
+        // TargetItem."Unit Name" := PropertyCode + '-SU-' + Format(TargetItem.FixedNumber);  // Assuming 'SU' is the Unit Type for Single Unit
+        TargetItem."Unit Name" := PropertyCode + '-SU-' + UnitnumberCode;  // Assuming 'SU' is the Unit Type for Single Unit
 
         // Step 2: Generate Unit ID: CountryCode-EmiratesCode-CommunityCode-PropertyCode-FixedNumber
         UnitID := CountryCode + '-' + EmiratesCode + '-' + CommunityCode + '-' + PropertyCode + '-' + UnitnumberCode;
