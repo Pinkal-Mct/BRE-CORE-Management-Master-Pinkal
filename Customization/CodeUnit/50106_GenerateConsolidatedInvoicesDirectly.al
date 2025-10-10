@@ -32,6 +32,7 @@ codeunit 50106 GenerateConsolidatedInvoices
         //////////// START REACTIVATION CONTRACT ////////////////////////
         paymentScheudle3.SetFilter("Due Date", '<%1', todaydate);
         //paymentScheudle3.SetFilter("Workflow Frequency Date", '<%1', todaydate);
+        paymentScheudle3.SetFilter("Installment No.", '>%1', 1);
         paymentScheudle3.SetRange("Contract Status", 'Active');
         if paymentScheudle3.FindSet() then
             repeat
@@ -145,6 +146,7 @@ codeunit 50106 GenerateConsolidatedInvoices
 
             /////////////////////////// Below code FOR WORKFLOW FREQUENCY ////////////////////////////////////
             paymentschedule2grid.SetRange("Workflow frequency date", todaydate);
+
             //paymentschedule2grid.SetRange("Due Date", todaydate);
             if paymentschedule2grid.FindSet() then
                 repeat
