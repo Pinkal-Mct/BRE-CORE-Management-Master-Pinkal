@@ -1610,14 +1610,14 @@ table 50307 "Tenancy Contract"
         {
             DataClassification = ToBeClassified;
             Caption = 'Renewal Notification to Tenant';
-            Editable = true;
+            Editable = false;
 
         }
         field(50194; "Tenant Loyalty Check Reminder"; Integer)
         {
             DataClassification = ToBeClassified;
             Caption = 'Tenant Loyalty Check Reminder';
-            Editable = true;
+            Editable = false;
 
         }
         field(50195; "Payment Reminder"; Integer)
