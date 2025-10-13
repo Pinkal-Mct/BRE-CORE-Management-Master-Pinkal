@@ -141,41 +141,44 @@ table 50920 "Payment Schedule"
         RevenueSubpage.SetRange("ContractID", Rec."Contract ID");
         // RevenueSubpage.SetRange(ProposalID, Rec."Proposal ID");
         RevenueSubpage.SetRange("Payment Type", 1);
-        if RevenueSubpage.FindSet() then
-            repeat
+        if not RevenueSubpage.FindSet() then begin
+            Message('No Payment Type 1 records found in the Tenancy Contract.');
+            exit;
+        end;
+        repeat
 
-                // PaymentSchedule2.SetRange("PS ID", Rec."PS Id");
+            // PaymentSchedule2.SetRange("PS ID", Rec."PS Id");
 
-                PaymentSchedule2.Init();
-                // PaymentSchedule2."PS ID" := Rec."PS Id";
-                PaymentSchedule2."Contract ID" := RevenueSubpage."ContractID";
-                PaymentSchedule2."Contract start date" := Rec."Contract Start date";
-                // PaymentSchedule2."Proposal ID" := rec."Proposal ID";
-                PaymentSchedule2."Contract Status" := Rec."Contract Status";
-                PaymentSchedule2."Property ID" := Rec."Property ID";
-                PaymentSchedule2."Tenant Name" := Rec."Tenant Name";
-                PaymentSchedule2."Tenant ID" := RevenueSubpage."TenantId";
-                PaymentSchedule2."Property Classification" := Rec."Property Classification";
-                PaymentSchedule2."Secondary Item Type" := RevenueSubpage."Secondary Item Type";
-                PaymentSchedule2.Amount := RevenueSubpage.Amount;
-                PaymentSchedule2."VAT Amount" := RevenueSubpage."VAT Amount";
-                PaymentSchedule2."Amount Including VAT" := RevenueSubpage."Amount Including VAT";
-                PaymentSchedule2."Installment Start Date" := RevenueSubpage."Start Date";
-                PaymentSchedule2."Installment End Date" := RevenueSubpage."End Date";
-                PaymentSchedule2."Due Date" := RevenueSubpage."Start Date";
-                PaymentSchedule2."Installment No." := 1;
-                // if PaymentSchedule2."VAT%" = RevenueSubpage."VAT %"::"5%" then
-                //     vatper := 5
-                // else
-                //     vatper := 0;
-                if RevenueSubpage."VAT %" = RevenueSubpage."VAT %"::"5%" then
-                    vatper := 5
-                else
-                    vatper := 0;
-                PaymentSchedule2."VAT%" := vatper;
-                PaymentSchedule2.Insert();
-                Clear(PaymentSchedule2);
-            until RevenueSubpage.Next() = 0;
+            PaymentSchedule2.Init();
+            // PaymentSchedule2."PS ID" := Rec."PS Id";
+            PaymentSchedule2."Contract ID" := RevenueSubpage."ContractID";
+            PaymentSchedule2."Contract start date" := Rec."Contract Start date";
+            // PaymentSchedule2."Proposal ID" := rec."Proposal ID";
+            PaymentSchedule2."Contract Status" := Rec."Contract Status";
+            PaymentSchedule2."Property ID" := Rec."Property ID";
+            PaymentSchedule2."Tenant Name" := Rec."Tenant Name";
+            PaymentSchedule2."Tenant ID" := RevenueSubpage."TenantId";
+            PaymentSchedule2."Property Classification" := Rec."Property Classification";
+            PaymentSchedule2."Secondary Item Type" := RevenueSubpage."Secondary Item Type";
+            PaymentSchedule2.Amount := RevenueSubpage.Amount;
+            PaymentSchedule2."VAT Amount" := RevenueSubpage."VAT Amount";
+            PaymentSchedule2."Amount Including VAT" := RevenueSubpage."Amount Including VAT";
+            PaymentSchedule2."Installment Start Date" := RevenueSubpage."Start Date";
+            PaymentSchedule2."Installment End Date" := RevenueSubpage."End Date";
+            PaymentSchedule2."Due Date" := RevenueSubpage."Start Date";
+            PaymentSchedule2."Installment No." := 1;
+            // if PaymentSchedule2."VAT%" = RevenueSubpage."VAT %"::"5%" then
+            //     vatper := 5
+            // else
+            //     vatper := 0;
+            if RevenueSubpage."VAT %" = RevenueSubpage."VAT %"::"5%" then
+                vatper := 5
+            else
+                vatper := 0;
+            PaymentSchedule2."VAT%" := vatper;
+            PaymentSchedule2.Insert();
+            Clear(PaymentSchedule2);
+        until RevenueSubpage.Next() = 0;
 
 
     end;
