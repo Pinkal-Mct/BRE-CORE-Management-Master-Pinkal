@@ -1,4 +1,3 @@
-
 codeunit 50502 "Send Proposal Email"
 {
     procedure SendEmail(Rec: Record "Lease Proposal Details"): Text;
@@ -18,17 +17,22 @@ codeunit 50502 "Send Proposal Email"
         EmailMessage: Codeunit "Email Message";
         CompanyInfo: Record "Company Information";
         ConsolidatedInvoiceHeader: Record "Lease Proposal Details";
-        AdditionalDetailsTable: Record "Revenue Item Subpage"; // Replace with the actual table name
+        AdditionalDetailsTable: Record "Revenue Item Subpage";
         RecRef: RecordRef;
         SecondRecRef: RecordRef;
         FileManagement: Codeunit "File Management";
     begin
 
-        ReportID := 50102; // Assuming 1306 is the Report ID for Sales - Invoice
-        SecondReportID := 50110; // Report ID for the second report
+        ReportID := 50102;
+        SecondReportID := 50110;
 
         ConsolidatedInvoiceHeader.SetRange("Proposal ID", Rec."Proposal ID");
         if ConsolidatedInvoiceHeader.FindSet() then begin
+
+            // Email ID validation - blank check
+            if ConsolidatedInvoiceHeader."Tenant Contact Email" = '' then
+                Error('The email ID is blank. Please enter the email ID first.');
+
             RecRef.GetTable(ConsolidatedInvoiceHeader);
             TempBlob.CreateOutStream(OutStream);
 
@@ -38,7 +42,7 @@ codeunit 50502 "Send Proposal Email"
             FileName := 'proposal_' + Format(ConsolidatedInvoiceHeader."Proposal ID") + '.pdf';
 
             // Fetch data for the second report
-            AdditionalDetailsTable.SetRange(ProposalID, Rec."Proposal ID"); // Replace with actual field filtering
+            AdditionalDetailsTable.SetRange(ProposalID, Rec."Proposal ID");
             if AdditionalDetailsTable.FindSet() then begin
                 SecondRecRef.GetTable(AdditionalDetailsTable);
                 SecondTempBlob.CreateOutStream(SecondOutStream);
@@ -76,12 +80,12 @@ codeunit 50502 "Send Proposal Email"
                     '<p>Best regards,<br/>' + CompanyInfo.Name + '</p>' +
                     '</body>' +
                     '</html>',
-                    true // Ensure the email is sent as an HTML email
+                    true
                 );
             end;
 
             EmailMessage.AddAttachment(FileName, '', InStream);
-            EmailMessage.AddAttachment(SecondFileName, '', SecondInStream); // Attach the second report
+            EmailMessage.AddAttachment(SecondFileName, '', SecondInStream);
 
             // Debugging to confirm the email sending process
             if Email.Send(EmailMessage) then
@@ -94,6 +98,3 @@ codeunit 50502 "Send Proposal Email"
             Error('No lease proposal details found for Proposal ID: %1', Rec."Tenant ID");
     end;
 }
-
-
-

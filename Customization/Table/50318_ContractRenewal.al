@@ -349,38 +349,34 @@ table 50318 "Contract Renewal"
                 SelectedUnits: Text[1024];
                 mergeUnitId: Integer;
             begin
+                if Rec."Merge Unit ID" <> '' then begin
 
+                    Evaluate(mergeUnitId, Rec."Merge Unit ID");
 
-                Evaluate(mergeUnitId, Rec."Merge Unit ID");
+                    // Delete old records for the selected Merge Unit ID
+                    MergeUnitLeaseGrid.SetRange("Merge Unit ID", FORMAT(mergeUnitId));
+                    if MergeUnitLeaseGrid.FindSet() then
+                        repeat
+                            MergeUnitLeaseGrid.Delete();
+                        until MergeUnitLeaseGrid.Next() = 0;
 
-                // Delete old records for the selected Merge Unit ID
-                MergeUnitLeaseGrid.SetRange("Merge Unit ID", FORMAT(mergeUnitId));
-                if MergeUnitLeaseGrid.FindSet() then
-                    repeat
-                        MergeUnitLeaseGrid.Delete();
-                    until MergeUnitLeaseGrid.Next() = 0;
-
-                // Insert new records for the selected Merge Unit ID
-                MergeUnitGrid.SetRange("Merged Unit ID", mergeUnitId);
-                if MergeUnitGrid.FindSet() then
-                    repeat
-                        MergeUnitLeaseGrid.Init();
-                        MergeUnitLeaseGrid."Merge Unit ID" := FORMAT(MergeUnitGrid."Merged Unit ID");
-                        MergeUnitLeaseGrid."ID" := Rec."ID";
-                        MergeUnitLeaseGrid."Single Unit Name" := MergeUnitGrid."Single Unit Name";
-                        MergeUnitLeaseGrid."Unit ID" := MergeUnitGrid."Unit ID";
-                        MergeUnitLeaseGrid."Base Unit of Measure" := MergeUnitGrid."Base Unit of Measure";
-                        MergeUnitLeaseGrid."Unit Size" := MergeUnitGrid."Unit Size";
-                        MergeUnitLeaseGrid."Unit Name" := MergeUnitGrid."Unit Name";
-                        MergeUnitLeaseGrid."Market Rate per Square" := MergeUnitGrid."Market Rate per Square";
-                        MergeUnitLeaseGrid.Amount := MergeUnitGrid.Amount;
-                        MergeUnitLeaseGrid.Insert();
-                    until MergeUnitGrid.Next() = 0;
-
-
-
-
-
+                    // Insert new records for the selected Merge Unit ID
+                    MergeUnitGrid.SetRange("Merged Unit ID", mergeUnitId);
+                    if MergeUnitGrid.FindSet() then
+                        repeat
+                            MergeUnitLeaseGrid.Init();
+                            MergeUnitLeaseGrid."Merge Unit ID" := FORMAT(MergeUnitGrid."Merged Unit ID");
+                            MergeUnitLeaseGrid."ID" := Rec."ID";
+                            MergeUnitLeaseGrid."Single Unit Name" := MergeUnitGrid."Single Unit Name";
+                            MergeUnitLeaseGrid."Unit ID" := MergeUnitGrid."Unit ID";
+                            MergeUnitLeaseGrid."Base Unit of Measure" := MergeUnitGrid."Base Unit of Measure";
+                            MergeUnitLeaseGrid."Unit Size" := MergeUnitGrid."Unit Size";
+                            MergeUnitLeaseGrid."Unit Name" := MergeUnitGrid."Unit Name";
+                            MergeUnitLeaseGrid."Market Rate per Square" := MergeUnitGrid."Market Rate per Square";
+                            MergeUnitLeaseGrid.Amount := MergeUnitGrid.Amount;
+                            MergeUnitLeaseGrid.Insert();
+                        until MergeUnitGrid.Next() = 0;
+                end;
             end;
 
         }
