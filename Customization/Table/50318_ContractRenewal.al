@@ -156,14 +156,29 @@ table 50318 "Contract Renewal"
             DataClassification = ToBeClassified;
 
             trigger OnValidate()
-
+            var
+                TenancyContractRec: Record "Tenancy Contract";
+                ErrorMsg: Text;
             begin
-                ;
-
+                // First, call the existing lease duration calculation
                 CalculateLeaseDuration();
 
+                // Validate that renewal start date is after the original contract end date
+                if "Contract ID" <> 0 then begin
+                    TenancyContractRec.SetRange("Contract ID", "Contract ID");
+                    if TenancyContractRec.FindFirst() then
+                        if "Contract Start Date" <> 0D then
+                            // Check if renewal start date is NOT after original end date
+                            if "Contract Start Date" <= TenancyContractRec."Contract End Date" then begin
+                                ErrorMsg := StrSubstNo(
+                                    'Renewal contract start date (%1) must be after the original contract end date (%2).',
+                                    "Contract Start Date",
+                                    TenancyContractRec."Contract End Date"
+                                );
+                                Error(ErrorMsg);
+                            end;
+                end;
             end;
-
         }
 
         field(50104; "Contract End Date"; Date)
@@ -171,48 +186,10 @@ table 50318 "Contract Renewal"
             DataClassification = ToBeClassified;
 
             trigger OnValidate()
-
-            // var
-            //     MergedUnitRec: Record "Merged Units";
-            //     MergeUnitGrid: Record "Sub Merged Units";
-            //     MergeUnitLeaseGrid: Record "CR Sub Lease Merged Units";
-            //     ItemRec: Record Item;
-
-            //     SelectedUnits: Text[1024];
-            //     mergeUnitId: Integer;
             begin
 
-
-                // Evaluate(mergeUnitId, Rec."Merge Unit ID");
-
-                // // Delete old records for the selected Merge Unit ID
-                // MergeUnitLeaseGrid.SetRange("Merge Unit ID", FORMAT(mergeUnitId));
-                // if MergeUnitLeaseGrid.FindSet() then
-                //     repeat
-                //         MergeUnitLeaseGrid.Delete();
-                //     until MergeUnitLeaseGrid.Next() = 0;
-
-                // // Insert new records for the selected Merge Unit ID
-                // MergeUnitGrid.SetRange("Merged Unit ID", mergeUnitId);
-                // if MergeUnitGrid.FindSet() then
-                //     repeat
-                //         MergeUnitLeaseGrid.Init();
-                //         MergeUnitLeaseGrid."Merge Unit ID" := FORMAT(MergeUnitGrid."Merged Unit ID");
-                //         MergeUnitLeaseGrid."ID" := Rec."ID";
-                //         MergeUnitLeaseGrid."Single Unit Name" := MergeUnitGrid."Single Unit Name";
-                //         MergeUnitLeaseGrid."Unit ID" := MergeUnitGrid."Unit ID";
-                //         MergeUnitLeaseGrid."Base Unit of Measure" := MergeUnitGrid."Base Unit of Measure";
-                //         MergeUnitLeaseGrid."Unit Size" := MergeUnitGrid."Unit Size";
-                //         MergeUnitLeaseGrid."Unit Name" := MergeUnitGrid."Unit Name";
-                //         MergeUnitLeaseGrid."Market Rate per Square" := MergeUnitGrid."Market Rate per Square";
-                //         MergeUnitLeaseGrid.Amount := MergeUnitGrid.Amount;
-                //         MergeUnitLeaseGrid.Insert();
-                //     until MergeUnitGrid.Next() = 0;
-
-
-
+                // Call the existing lease duration calculation
                 CalculateLeaseDuration();
-
             end;
         }
 
