@@ -336,14 +336,12 @@ pageextension 50101 Items extends "Item Card"
                 {
                     ApplicationArea = All;
                     Editable = false;
-                    Visible = isUnitService;
                 }
 
                 field("Unit Status"; rec."Unit Status")
                 {
                     ApplicationArea = All;
                     Lookup = true;
-                    Visible = isUnitService;
                 }
             }
             part("Document Attachments"; "Unit Document SubPage")
@@ -355,20 +353,20 @@ pageextension 50101 Items extends "Item Card"
                 Visible = ShowFinancialFields and isUnitService and isVisible;
             }
         }
-        addafter("Unit Address")
-        {
-            group("Inventory status")
-            {
-                showcaption = false;
-                field("inventory Unit Status"; Rec."Inventory Unit Status")
-                {
-                    ApplicationArea = All;
-                    Caption = 'Unit Status';
-                    Editable = true;
-                    Visible = isUnitInventory;
-                }
-            }
-        }
+        // addafter("Unit Address")
+        // {
+        //     group("Inventory status")
+        //     {
+        //         showcaption = false;
+        //         field("inventory Unit Status"; Rec."Inventory Unit Status")
+        //         {
+        //             ApplicationArea = All;
+        //             Caption = 'Unit Status';
+        //             Editable = true;
+        //             Visible = isUnitInventory;
+        //         }
+        //     }
+        // }
         addafter("Item Category Code")
         {
             group("Facility Management")
