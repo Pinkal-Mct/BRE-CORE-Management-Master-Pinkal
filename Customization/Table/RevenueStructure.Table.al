@@ -80,6 +80,11 @@ table 50911 "Revenue Structure"
             Editable = false;
         }
 
+        field(50111; "Entry No"; Integer)
+        {
+            DataClassification = ToBeClassified;
+            Editable = false; // Make it read-only for the user
+        }
     }
 
 

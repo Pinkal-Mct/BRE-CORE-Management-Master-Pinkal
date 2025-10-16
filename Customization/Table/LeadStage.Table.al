@@ -40,7 +40,7 @@ table 52005 "Lead Stage"
 
     keys
     {
-        key(PK; "Stage ID")
+        key(PK; "Stage ID", "Stage Name")
         {
             Clustered = true;
         }
