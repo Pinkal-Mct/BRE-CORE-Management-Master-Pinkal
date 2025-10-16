@@ -124,6 +124,7 @@ table 50946 "Final Billing Calculation Grid"
         {
             Caption = 'Total Difference Amount';
             FieldClass = FlowField;
+            DecimalPlaces = 2 : 2;
             CalcFormula = sum("Final Billing Calculation Grid"."DifferenceAmount" where("Contract ID" = field("Contract ID")));
 
         }
@@ -131,6 +132,7 @@ table 50946 "Final Billing Calculation Grid"
         {
             Caption = 'Total Invoiced Amount';
             FieldClass = FlowField;
+            DecimalPlaces = 2 : 2;
             CalcFormula = sum("Final Billing Calculation Grid"."DifferenceVAT" where("Contract ID" = field("Contract ID")));
 
         }
@@ -138,6 +140,7 @@ table 50946 "Final Billing Calculation Grid"
         {
             Caption = 'Total Difference Amount Incl. VAT';
             FieldClass = FlowField;
+            DecimalPlaces = 2 : 2;
             CalcFormula = sum("Final Billing Calculation Grid"."DifferenceAmountInclVAT" where("Contract ID" = field("Contract ID")));
 
         }
