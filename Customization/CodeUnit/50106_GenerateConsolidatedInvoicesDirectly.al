@@ -265,6 +265,7 @@ codeunit 50106 GenerateConsolidatedInvoices
         saleline.Type := saleline.Type::Item;
         saleline."Sell-to Customer No." := salesheader1."Sell-to Customer No.";
         item.SetRange(Description, newpaymentschedule2."Secondary Item Type");
+        item.SetFilter("Charges Status", '<>%1', item."Charges Status"::" ");
         if item.FindSet() then begin
             // if newpaymentschedule2."Property Classification" <> '' then begin
             //     item.SetRange(Description, newpaymentschedule2."Secondary Item Type");
