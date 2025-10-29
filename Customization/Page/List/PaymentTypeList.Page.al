@@ -30,4 +30,20 @@ page 50937 "Payment Type List"
         }
     }
 
+    trigger OnOpenPage()
+    var
+        paymentType: Text[100];
+    begin
+        Rec.Reset();
+        foreach paymentType in Enum::"Default Payment Type".Names() do begin
+            Rec.SetRange("Payment Method", paymentType);
+            if not Rec.FindFirst() then begin
+                Rec.Init();
+                Rec."Payment Method" := paymentType;
+                Rec.Insert();
+                Rec.Reset();
+                clear(Rec);
+            end;
+        end;
+    end;
 }
