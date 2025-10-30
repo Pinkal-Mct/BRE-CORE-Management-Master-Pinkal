@@ -416,7 +416,13 @@ table 50925 "Payment Mode2"
             Caption = 'Total Amount';
             Editable = false;
             FieldClass = FlowField;
-            CalcFormula = sum("Payment Mode2".Amount where("Contract ID" = field("Contract ID"), "Tenant ID" = field("Tenant ID")));
+            CalcFormula = sum("Payment Mode2".Amount
+        where(
+            "Contract ID" = field("Contract ID"),
+            "Tenant ID" = field("Tenant ID"),
+            "Payment Status" = filter(<> 'Cancelled')
+        ));
+            // CalcFormula = sum("Payment Mode2".Amount where("Contract ID" = field("Contract ID"), "Tenant ID" = field("Tenant ID")));
         }
 
         field(50912; "Total VAT Amount"; Decimal)
@@ -424,14 +430,14 @@ table 50925 "Payment Mode2"
             Caption = 'Total VAT Amount';
             Editable = false;
             FieldClass = FlowField;
-            CalcFormula = sum("Payment Mode2"."VAT Amount" where("Contract ID" = field("Contract ID"), "Tenant ID" = field("Tenant ID")));
+            CalcFormula = sum("Payment Mode2"."VAT Amount" where("Contract ID" = field("Contract ID"), "Tenant ID" = field("Tenant ID"), "Payment Status" = filter(<> 'Cancelled')));
         }
         field(50913; "Total Amount Including VAT"; Decimal)
         {
             Caption = 'Total Amount Including VAT';
             Editable = false;
             FieldClass = FlowField;
-            CalcFormula = sum("Payment Mode2"."Amount Including VAT" where("Contract ID" = field("Contract ID"), "Tenant ID" = field("Tenant ID")));
+            CalcFormula = sum("Payment Mode2"."Amount Including VAT" where("Contract ID" = field("Contract ID"), "Tenant ID" = field("Tenant ID"), "Payment Status" = filter(<> 'Cancelled')));
         }
 
         field(50110; "Tenant Id"; Code[20])
