@@ -249,7 +249,7 @@ table 50925 "Payment Mode2"
                             TempBlob.CreateInStream(inStream);
 
                             // TempBlob.CreateInStream(InStream);
-                            fileName := 'Invoice_' + Format(Rec."Contract ID") + Rec."Payment Series" + '.pdf';
+                            fileName := 'Receipt_' + Format(Rec."Contract ID") + Rec."Payment Series" + '.pdf';
                             // SASUrlWithFileName := StrSubstNo('%1/%2?%3', CopyStr(SASUrlBase, 1, StrPos(SASUrlBase, '?') - 1), FileName, CopyStr(SASUrlBase, StrPos(SASUrlBase, '?') + 1));
                             // UploadResult := documentattachment.UploadDocumentToBlobStorage(SASUrlWithFileName, FileName, InStream);
                             // Rec."View Invoice" := FileName;
