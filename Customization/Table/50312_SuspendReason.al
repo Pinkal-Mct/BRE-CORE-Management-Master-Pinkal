@@ -389,7 +389,7 @@ table 50312 SuspendReasonTable
                         Error('Proposal ID and Contract ID must be specified.');
 
                     // Attempt to retrieve the record with both keys
-                    if TenancyContract.Get("Proposal ID", "Contract ID") then begin
+                    if TenancyContract.Get("Contract ID") then begin
                         // Update the field if the record exists
                         TenancyContract."Update Contract Status" := TenancyContract."Update Contract Status"::"Initiate Under Suspension-Unit Released";
                         TenancyContract.Modify();
