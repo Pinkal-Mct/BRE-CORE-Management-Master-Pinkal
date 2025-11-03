@@ -143,6 +143,11 @@ table 53751 "No. Series Setup"
             DataClassification = ToBeClassified;
             TableRelation = "No. Series".Code;
         }
+        field(53774; "Payment Receipt ID Nos."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "No. Series".Code;
+        }
     }
     keys
     {
