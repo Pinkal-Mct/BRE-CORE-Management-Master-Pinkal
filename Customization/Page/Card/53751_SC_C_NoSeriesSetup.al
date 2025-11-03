@@ -12,10 +12,19 @@ page 53751 "No. Series Setup"
     {
         area(Content)
         {
+            group("Property Management")
+            {
+                field("Payment Receipt ID Nos."; Rec."Payment Receipt ID Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the Payment Receipt number series.';
+                }
+            }
             group("Sales Management")
             {
 
                 Caption = 'No. Series Setup';
+                Visible = false;
                 field("Construction Project Nos."; Rec."Construction Project Nos.")
                 {
                     ApplicationArea = All;
@@ -100,6 +109,7 @@ page 53751 "No. Series Setup"
             }
             group("Facility Management")
             {
+                Visible = false;
                 field("OEM ID Nos."; Rec."OEM ID Nos.")
                 {
                     ApplicationArea = All;
