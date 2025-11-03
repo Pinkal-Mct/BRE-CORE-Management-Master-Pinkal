@@ -83,6 +83,7 @@ tableextension 50504 PostedSalesInvoiceHeader extends "Sales Invoice Header"
     var
         postedinvoiceheader: Record "Sales Invoice Header";
         paymentschedule2: Record "Payment Schedule2";
+        paymentschedule2Rec: Record "Payment Schedule2";
         paymentmode2: Record "Payment Mode2";
         paymentschedule2grid: Record "Payment Schedule2";
         finasettlement: Record FinalSettlement;
@@ -94,8 +95,17 @@ tableextension 50504 PostedSalesInvoiceHeader extends "Sales Invoice Header"
         if paymentschedule2.FindSet() then
             repeat
                 paymentschedule2."Invoice ID" := Rec."No.";
+
                 paymentschedule2.Modify();
             until paymentschedule2.Next() = 0;
+
+        paymentschedule2Rec.SetRange("Contract ID", Rec."Contract ID");
+        paymentschedule2Rec.SetRange("Invoice ID", Rec."No.");
+        if paymentschedule2Rec.FindSet() then
+            repeat
+                paymentschedule2Rec."Invoice Approval Status" := Rec."Approval Status";
+                paymentschedule2Rec.Modify();
+            until paymentschedule2Rec.Next() = 0;
 
         // finasettlement.SetRange("FC ID", Rec."FC ID");
         // finasettlement.SetRange("Invoice ID", Rec."Pre-Assigned No.");
