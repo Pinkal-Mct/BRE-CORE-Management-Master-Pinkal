@@ -44,11 +44,11 @@ codeunit 50102 "Send Payment Receipt"
                 Error('Payment Mode record not found for Tenant ID: %1', ConsolidatedInvoiceHeader."Tenant ID");
 
             // Generate auto-incremented receipt number
-            if ConsolidatedInvoiceHeader."Receipt #" = '' then begin
-                ReceiptNo := NoSeriesManagement.GetNextNo('RECEIPTNO', WorkDate(), true);
-                ConsolidatedInvoiceHeader."Receipt #" := ReceiptNo;
-                ConsolidatedInvoiceHeader.Modify();
-            end;
+            // if ConsolidatedInvoiceHeader."Receipt #" = '' then begin
+            //     ReceiptNo := NoSeriesManagement.GetNextNo('RECEIPTNO', WorkDate(), true);
+            //     ConsolidatedInvoiceHeader."Receipt #" := ReceiptNo;
+            //     ConsolidatedInvoiceHeader.Modify();
+            // end;
 
             // Prepare the report output
             RecRef.GetTable(ConsolidatedInvoiceHeader);
