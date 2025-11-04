@@ -215,6 +215,8 @@ table 50925 "Payment Mode2"
                             //         Error('Deposite Bank must be filled when payment mode is bank transfer');
                             //     end;
                             // end;
+                            GenerateReceiptNumber();
+                            Rec.Modify();
 
                             if Rec."Payment Mode" = 'Cheque' then
                                 Rec."Cheque Status" := Rec."Cheque Status"::Cleared;
@@ -243,7 +245,7 @@ table 50925 "Payment Mode2"
                             if not paymentmode2Grid.FindFirst() then
                                 Error('Not avavilable');
                             RecRef.GetTable(paymentmode2Grid);
-                            RecRef.GetTable(Rec);
+                            // RecRef.GetTable(Rec);
                             TempBlob.CreateOutStream(OutStream);
                             Report.SaveAs(ReportID, '', ReportFormat::Pdf, OutStream, RecRef);
                             TempBlob.CreateInStream(inStream);
@@ -728,5 +730,16 @@ table 50925 "Payment Mode2"
             // Rec."Payment Status"::Overdue:
             //     emailrec.SendEmailOverdue(Rec);
             end;
+    end;
+
+    procedure GenerateReceiptNumber()
+    var
+        noSeriesSetup: Record "No. Series Setup";
+        noseries: Codeunit "No. Series";
+    begin
+        if noSeriesSetup.Get() then
+            Rec."Receipt #" := noseries.GetNextNo(noSeriesSetup."Payment Receipt ID Nos.")
+        else
+            Error('No. Series Setup not found for Construction Project Nos.');
     end;
 }
