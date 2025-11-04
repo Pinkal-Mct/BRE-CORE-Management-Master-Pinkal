@@ -127,15 +127,15 @@ table 50308 "Lease Proposal Details"
 
                     // Determine VAT percentage based on Usage Type
                     // Determine VAT percentage based on Usage Type
-                    case ItemRec."Usage Type" of
-                        'Commercial':
-                            Validate("Rent Amount VAT %", "Rent Amount VAT %"::"5%");
-                        else
-                            Validate("Rent Amount VAT %", "Rent Amount VAT %"::"0%");
-                    end;
+                    // case ItemRec."Usage Type" of
+                    //     'Commercial':
+                    //         Validate("Rent Amount VAT %", "Rent Amount VAT %"::"5%");
+                    //     else
+                    //         Validate("Rent Amount VAT %", "Rent Amount VAT %"::"0%");
+                    // end;
 
                     // ItemRec."Unit Status" := 'Selected';
-
+                    SetRentAmountVAT();
                     ItemRec."Unit Status" := ItemRec."Unit Status"::Selected;
 
 
@@ -574,6 +574,7 @@ table 50308 "Lease Proposal Details"
                         "Market Rate per Sq. Ft." := MergedUnitRec."Market Rate per Square";
                         "Single Unit Name" := MergedUnitRec."Single Unit Name";
                         "Unit Number" := MergedUnitRec."Unit Number";
+                        SetRentAmountVAT();
 
                         // Update the Merge Unit Status to 'Selected' in the Merged Units table
                         if MergedUnitRec."Status" = MergedUnitRec."Status"::Free then begin
@@ -1858,7 +1859,19 @@ table 50308 "Lease Proposal Details"
     end;
 
 
+    local procedure SetRentAmountVAT()
+    var
+        UsageTypeTxt: Text;
+    begin
+        UsageTypeTxt := UpperCase(Rec."Usage Type");
 
+        case UsageTypeTxt of
+            'COMMERCIAL':
+                "Rent Amount VAT %" := "Rent Amount VAT %"::"5%";
+            else
+                "Rent Amount VAT %" := "Rent Amount VAT %"::"0%";
+        end;
+    end;
 
     // procedure CalculateBrokerageAmount()
     // var
