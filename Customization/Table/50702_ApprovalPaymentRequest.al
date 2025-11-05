@@ -104,6 +104,11 @@ table 50702 "Approval Payment Request"
             DataClassification = ToBeClassified;
             Caption = 'Items';
         }
+        field(50119; "Payment mode ID"; Integer)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Payment mode ID';
+        }
     }
 
     keys
