@@ -11,7 +11,7 @@ table 50964 "Brokerage Calculation Sub"
             Caption = 'Owner ID';
             Editable = false;
         }
-        field(50101; "Owner Name"; Code[20])
+        field(50101; "Owner Name"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Owner Name';
