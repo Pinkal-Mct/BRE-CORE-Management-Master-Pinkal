@@ -109,6 +109,10 @@ page 50711 PaymentApproval
                 {
                     Caption = 'Items';
                 }
+                field(PaymentModeId; Rec."Payment mode ID")
+                {
+                    Caption = 'Items';
+                }
 
             }
         }
