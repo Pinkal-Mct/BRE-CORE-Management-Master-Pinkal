@@ -219,7 +219,8 @@ table 50925 "Payment Mode2"
                             Rec.Modify();
 
                             if Rec."Payment Mode" = 'Cheque' then
-                                Rec."Cheque Status" := Rec."Cheque Status"::Cleared;
+                                Rec.Validate("Cheque Status", Rec."Cheque Status"::Cleared);
+                            // Rec."Cheque Status" := Rec."Cheque Status"::Cleared;
 
                             // Rec."Cheque Status" := Rec."Cheque Status"::Cleared;
                             CashReceiptJournalCodeunit.CreateCashReceiptJournal(Rec);

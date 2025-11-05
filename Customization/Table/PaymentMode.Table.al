@@ -221,8 +221,18 @@ table 50924 "Payment Mode"
             DataClassification = ToBeClassified;
             Caption = 'Payment Reminder';
             Editable = false;
-
         }
+        field(50151; "C_Cheque_Number"; Text[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Cheque Number';
+        }
+        field(50152; "C_Deposit_Bank"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Deposit Bank';
+        }
+
 
 
     }
