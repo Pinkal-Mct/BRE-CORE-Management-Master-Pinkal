@@ -709,13 +709,13 @@ table 50925 "Payment Mode2"
 
 
 
-    trigger OnInsert()
-    begin
-        if Rec."Payment Mode" = 'Cheque' then
-            if DelChr(Rec."Cheque Number", '=', ' ') = '' then
-                Error('Cheque Number cannot be blank when Payment Mode is Cheque.');
+    // trigger OnInsert()
+    // begin
+    //     if Rec."Payment Mode" = 'Cheque' then
+    //         if DelChr(Rec."Cheque Number", '=', ' ') = '' then
+    //             Error('Cheque Number cannot be blank when Payment Mode is Cheque.');
 
-    end;
+    // end;
 
     trigger OnModify()
     var
