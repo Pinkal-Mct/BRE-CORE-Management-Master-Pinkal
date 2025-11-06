@@ -227,10 +227,11 @@ table 50924 "Payment Mode"
             DataClassification = ToBeClassified;
             Caption = 'Cheque Number';
         }
-        field(50152; "C_Deposit_Bank"; Text[100])
+        field(50152; "C_Deposit_Bank"; Code[20])
         {
             DataClassification = ToBeClassified;
             Caption = 'Deposit Bank';
+            TableRelation = "Bank Account"; // You can add a TableRelation here if required
         }
 
 
