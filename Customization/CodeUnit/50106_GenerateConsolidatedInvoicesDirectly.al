@@ -20,6 +20,7 @@ codeunit 50106 GenerateConsolidatedInvoices
         salesheader1card: Record "Sales Header";
         slaesheader1card1: Record "Sales Header";
         paymentschedulecardpage: Record "Payment Schedule";
+        paymentscheduleRecord: Record "Payment Schedule";
 
     begin
         todaydate := Today();
@@ -36,52 +37,63 @@ codeunit 50106 GenerateConsolidatedInvoices
         paymentScheudle3.SetRange("Contract Status", 'Active');
         if paymentScheudle3.FindSet() then
             repeat
-                if paymentScheudle3.Invoiced = false then begin
+                if paymentScheudle3."Contract Status" = 'Terminated' then begin
+                    exit;
+                end else begin
+                    // add below code for create invoice 
+                    paymentscheduleRecord.SetRange("Contract ID", paymentScheudle3."Contract ID");
+                    paymentscheduleRecord.SetFilter("Contract Status", 'Suspended');
+                    if paymentscheduleRecord.FindSet() then begin
+                        paymentScheudle3."Contract Status" := paymentscheduleRecord."Contract Status";
+                        paymentScheudle3.Modify();
+                    end else begin
+                        if paymentScheudle3.Invoiced = false then begin
 
 
-                    //   SalesHeader.SetRange("Sell-to Customer No.", paymentScheudle3."Tenant ID");
-                    // SalesHeader1.SetRange("No.", paymentScheudle3."Invoice ID");
-                    SalesHeader1.SetRange("Contract ID", paymentScheudle3."Contract ID");
-                    SalesHeader1.SetRange("Overdue Invoice", 'Reactive');
-                    SalesHeader1.SetRange("Due Date", currentdate);
-                    SalesHeader1.SetRange("Document Type", Enum::"Sales Document Type"::Invoice);
-                    if SalesHeader1.FindSet() then begin
+                            //   SalesHeader.SetRange("Sell-to Customer No.", paymentScheudle3."Tenant ID");
+                            // SalesHeader1.SetRange("No.", paymentScheudle3."Invoice ID");
+                            SalesHeader1.SetRange("Contract ID", paymentScheudle3."Contract ID");
+                            SalesHeader1.SetRange("Overdue Invoice", 'Reactive');
+                            SalesHeader1.SetRange("Due Date", currentdate);
+                            SalesHeader1.SetRange("Document Type", Enum::"Sales Document Type"::Invoice);
+                            if SalesHeader1.FindSet() then begin
 
-                        createSalesLines(SalesHeader1, paymentScheudle3);
-                    end
-                    else begin
-                        newsalesheader1 := CreateSalesInvoice(paymentScheudle3."Tenant ID", currentdate, paymentScheudle3."Contract ID", paymentScheudle3."Tenant Name", paymentScheudle3."Property Classification");
-                        customercard.SetRange("No.", newsalesheader1."Sell-to Customer No.");
-                        if customercard.FindSet() then begin
-                            if newsalesheader1."Property Classification" <> '' then begin
-                                customercard.Validate("Gen. Bus. Posting Group", newsalesheader1."Property Classification");
-                                customercard.Validate("Customer Posting Group", newsalesheader1."Property Classification");
-                                customercard.Modify();
+                                createSalesLines(SalesHeader1, paymentScheudle3);
                             end
-                        end;
-                        if newsalesheader1."Property Classification" <> '' then begin
-                            // newsalesheader1."Gen. Bus. Posting Group" := newsalesheader1."Property Classification";
-                            // newsalesheader1."Customer Posting Group" := newsalesheader1."Property Classification";
-                            newsalesheader1.Validate("Gen. Bus. Posting Group", newsalesheader1."Property Classification");
-                            newsalesheader1.Validate("Customer Posting Group", newsalesheader1."Property Classification");
+                            else begin
+                                newsalesheader1 := CreateSalesInvoice(paymentScheudle3."Tenant ID", currentdate, paymentScheudle3."Contract ID", paymentScheudle3."Tenant Name", paymentScheudle3."Property Classification");
+                                customercard.SetRange("No.", newsalesheader1."Sell-to Customer No.");
+                                if customercard.FindSet() then begin
+                                    if newsalesheader1."Property Classification" <> '' then begin
+                                        customercard.Validate("Gen. Bus. Posting Group", newsalesheader1."Property Classification");
+                                        customercard.Validate("Customer Posting Group", newsalesheader1."Property Classification");
+                                        customercard.Modify();
+                                    end
+                                end;
+                                if newsalesheader1."Property Classification" <> '' then begin
+                                    // newsalesheader1."Gen. Bus. Posting Group" := newsalesheader1."Property Classification";
+                                    // newsalesheader1."Customer Posting Group" := newsalesheader1."Property Classification";
+                                    newsalesheader1.Validate("Gen. Bus. Posting Group", newsalesheader1."Property Classification");
+                                    newsalesheader1.Validate("Customer Posting Group", newsalesheader1."Property Classification");
+                                    newsalesheader1.Modify();
+                                end;
+                                createSalesLines(newsalesheader1, paymentScheudle3);
+                            end;
+
+                            newsalesheader1."Overdue Invoice" := 'Reactive';
+                            // newsalesheader1."Posting No. Series" := salesreciveablesetup."Posted Invoice Nos.";
                             newsalesheader1.Modify();
+
+                            paymentScheudle3.Invoiced := true;
+                            paymentScheudle3."Invoice ID" := newsalesheader1."No.";
+                            paymentScheudle3."Overdue Invoice" := newsalesheader1."Overdue Invoice";
+                            paymentScheudle3.Modify();
+
+
+
                         end;
-                        createSalesLines(newsalesheader1, paymentScheudle3);
                     end;
-
-                    newsalesheader1."Overdue Invoice" := 'Reactive';
-                    // newsalesheader1."Posting No. Series" := salesreciveablesetup."Posted Invoice Nos.";
-                    newsalesheader1.Modify();
-
-                    paymentScheudle3.Invoiced := true;
-                    paymentScheudle3."Invoice ID" := newsalesheader1."No.";
-                    paymentScheudle3."Overdue Invoice" := newsalesheader1."Overdue Invoice";
-                    paymentScheudle3.Modify();
-
-
-
                 end;
-
 
             until paymentScheudle3.Next() = 0;
 
@@ -207,7 +219,11 @@ codeunit 50106 GenerateConsolidatedInvoices
 
 
 
-    procedure CreateSalesInvoice(TenantID: Code[20]; DueDate: Date; ContractID: Integer; TenantName: Text[100]; PropertyClassification: Text[100]): Record "Sales Header"
+    procedure CreateSalesInvoice(TenantID: Code[20];
+        DueDate: Date;
+        ContractID: Integer;
+        TenantName: Text[100];
+        PropertyClassification: Text[100]): Record "Sales Header"
     var
         salesHeader: Record "Sales Header";
         salesReciveable: Record "Sales & Receivables Setup";
