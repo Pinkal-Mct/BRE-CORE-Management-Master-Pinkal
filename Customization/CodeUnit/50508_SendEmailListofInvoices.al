@@ -42,22 +42,22 @@ codeunit 50508 LeaseManagerSendMail
         if EmailAddress.Count() = 0 then
             Error('No users with the "Finance Manager" profile have a valid email address.');
 
-        UserPersonalizationRec1.SetRange("Profile ID", 'Property Manager');  // lease manager
-                                                                             // if UserPersonalizationRec1.FindFirst() then begin
-                                                                             //     UserRec.Get(UserPersonalizationRec1."User SID");
-                                                                             //     CCMail.Add(UserRec."Contact Email");
-                                                                             //     // Username := UserRec."User Name";
-                                                                             //     //CCMail.Add('dhruvp6373@gmail.com');
+        UserPersonalizationRec1.SetRange("Profile ID", 'LEASE_MANAGER');  // lease manager
+                                                                          // if UserPersonalizationRec1.FindFirst() then begin
+                                                                          //     UserRec.Get(UserPersonalizationRec1."User SID");
+                                                                          //     CCMail.Add(UserRec."Contact Email");
+                                                                          //     // Username := UserRec."User Name";
+                                                                          //     //CCMail.Add('dhruvp6373@gmail.com');
 
         // end;
-        if UserPersonalizationRec.FindSet() then
+        if UserPersonalizationRec1.FindSet() then
             repeat
-                if UserRec.Get(UserPersonalizationRec."User SID") then
+                if UserRec.Get(UserPersonalizationRec1."User SID") then
                     if UserRec."Contact Email" <> '' then
-                        EmailAddress.Add(UserRec."Contact Email");
-            until UserPersonalizationRec.Next() = 0;
-        if EmailAddress.Count() = 0 then
-            Error('No users with the "Property Manager" profile have a valid email address.');
+                        CCMail.Add(UserRec."Contact Email");
+            until UserPersonalizationRec1.Next() = 0;
+        if CCMail.Count() = 0 then
+            Error('No users with the "Lease Manager" profile have a valid email address.');
 
 
         EmailBody := LeaseManagerSendInvoiceMail(InvoicesExist);
@@ -65,7 +65,7 @@ codeunit 50508 LeaseManagerSendMail
         if InvoicesExist then begin
             EmailMessage.Create(EmailAddress, 'Daily Invoice Summary', '<html>' +
                                            '<body>' +
-                                           '<p>Dear ' + Username + ',</p>' +
+                                           '<p>Dear Finance Manager,</p>' +
                                            '<p>Today, new invoices were generated:</p>' +
                                            EmailBody +
                                            '<br/><br/><br/>' + 'Thank you' +
