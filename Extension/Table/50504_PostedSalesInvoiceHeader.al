@@ -107,15 +107,6 @@ tableextension 50504 PostedSalesInvoiceHeader extends "Sales Invoice Header"
                 paymentschedule2Rec.Modify();
             until paymentschedule2Rec.Next() = 0;
 
-        // finasettlement.SetRange("FC ID", Rec."FC ID");
-        // finasettlement.SetRange("Invoice ID", Rec."Pre-Assigned No.");
-        // if finasettlement.FindSet() then
-        //     repeat
-        //         finasettlement."Invoice ID" := Rec."No.";
-        //         finasettlement."View Invoice" := Rec."View Invoice";
-        //         finasettlement."Invoice URL" := Rec."View Document URL";
-        //         finasettlement.Modify();
-        //     until finasettlement.Next() = 0;
 
         additionalcharges.SetRange("Contract ID", Rec."Contract ID");
         additionalcharges.SetRange("Invoiced ID", Rec."Pre-Assigned No.");
@@ -123,8 +114,6 @@ tableextension 50504 PostedSalesInvoiceHeader extends "Sales Invoice Header"
             repeat
                 additionalcharges."Invoiced ID" := Rec."No.";
                 additionalcharges."Posted Invoice ID" := Rec."No.";
-                additionalcharges."Invoice Document" := Rec."View Invoice";
-                additionalcharges."Invoice Document URL" := Rec."View Document URL";
                 additionalcharges.Modify();
             until additionalcharges.Next() = 0;
 
@@ -134,22 +123,11 @@ tableextension 50504 PostedSalesInvoiceHeader extends "Sales Invoice Header"
             repeat
                 billingcalculationgrid."Invoice ID" := Rec."No.";
                 billingcalculationgrid."Posted Invoice ID" := Rec."No.";
-                billingcalculationgrid."Invoice Document" := Rec."View Invoice";
-                billingcalculationgrid."Invoice Document URL" := Rec."View Document URL";
                 billingcalculationgrid.Modify();
             until billingcalculationgrid.Next() = 0;
 
-
-
-        // paymentmode2.SetRange("Contract ID", paymentschedule2grid."Contract ID");
-        // paymentmode2.SetRange("Payment Series", paymentschedule2grid."Payment Series");
-        // if paymentmode2.FindSet() then
-        //     repeat
-        //         paymentmode2."Invoice #" := paymentschedule2grid."Invoice ID";
-        //         paymentmode2.Modify();
-        //     until paymentmode2.Next() = 0;
-
     end;
+
 
 
 }
