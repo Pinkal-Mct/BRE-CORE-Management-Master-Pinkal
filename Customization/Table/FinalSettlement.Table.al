@@ -215,6 +215,12 @@ table 50922 "FinalSettlement"
         //     DataClassification = ToBeClassified;
         //     AutoIncrement = true;
         // }
+        field(50123; "receivablePaymentStatuss"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'receivablePaymentStatus';
+        }
+
 
     }
 
