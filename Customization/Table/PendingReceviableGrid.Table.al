@@ -153,7 +153,16 @@ table 50947 "Pending Receviable Grid"
             Caption = 'Unit Type';
         }
 
-
+        field(50128; "GeneratedCRMemoSD"; Text[10])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Generated CR Memo Security Deposit';
+        }
+        field(50129; "CrditNoteID Security Deposit"; Code[50])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Credit Note ID Security Deposit';
+        }
     }
 
     keys
