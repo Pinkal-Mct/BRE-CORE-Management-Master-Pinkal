@@ -5,7 +5,7 @@ codeunit 50514 "Cash Receipt Journal Entry"
     begin
     end;
 
-    procedure CreateCashReceiptJournal(PaymentSeriesCode: Record "Payment Mode2")
+    procedure CreateCashReceiptJournal(PaymentSeriesCode: Record "Payment Mode2"; postingDate: Date)
     var
         PaymentSeriesRec: Record "Payment Mode2"; // Your Payment Series Table
         PaymentScheduleRec: Record "Payment Schedule2"; // Your Payment Schedule Table
@@ -71,14 +71,16 @@ codeunit 50514 "Cash Receipt Journal Entry"
                 GenJournalLineRec."Journal Template Name" := 'CASH RECE';
                 GenJournalLineRec."Journal Batch Name" := 'DEFAULT';
                 GenJournalLineRec."Document No." := Format(PaymentSeriesCode."Entry No.");
-                GenJournalLineRec."Posting Date" := Today;
+                GenJournalLineRec."Posting Date" := postingDate;
                 GenJournalLineRec."Line No." := LineNumber;
                 GenJournalLineRec."Document Type" := GenJournalLineRec."Document Type"::Payment;
 
                 if PaymentSeriesRec."Payment Mode" = 'Cheque' then begin
-                    GenJournalLineRec."Account Type" := GenJournalLineRec."Account Type"::"G/L Account";
-                    GenJournalLineRec."Account No." := PDCCollectionGL;
+                    GenJournalLineRec."Account Type" := GenJournalLineRec."Account Type"::Customer;
+                    GenJournalLineRec."Account No." := PaymentSeriesRec."Tenant Id";
                     GenJournalLineRec.Description := PaymentSeriesRec."Cheque Number"; // Customer from Payment Series
+                    GenJournalLineRec."Bal. Account Type" := GenJournalLineRec."Bal. Account Type"::"G/L Account";
+                    GenJournalLineRec."Bal. Account No." := PDCCollectionGL;
                 end else begin
                     GenJournalLineRec."Account Type" := GenJournalLineRec."Account Type"::Customer;
                     GenJournalLineRec."Account No." := PaymentSeriesRec."Tenant Id"; // Customer from Payment Series
@@ -91,16 +93,18 @@ codeunit 50514 "Cash Receipt Journal Entry"
                 GenJournalLineRec."Applies-to Doc. No." := PaymentSeriesRec."Invoice #";
 
                 // GenJournalLineRec."Bal. Account No." := PaymentSeriesRec."Deposit Bank";
-                BankAccountRec.Reset();
-                BankAccountRec.SetRange("Search Name", PaymentSeriesRec."Deposit Bank");
-                if BankAccountRec.FindSet() then begin
-                    GenJournalLineRec."Bal. Account Type" := GenJournalLineRec."Bal. Account Type"::"Bank Account";
-                    GenJournalLineRec."Bal. Account No." := BankAccountRec."No.";
-                    // GenJournalLineRec."Currency Code" := BankAccountRec."Currency Code";
-                end
-                else begin
-                    GenJournalLineRec."Bal. Account Type" := GenJournalLineRec."Bal. Account Type"::"G/L Account";
-                    GenJournalLineRec."Bal. Account No." := '3001';
+                if PaymentSeriesRec."Payment Mode" <> 'Cheque' then begin
+                    BankAccountRec.Reset();
+                    BankAccountRec.SetRange("Search Name", PaymentSeriesRec."Deposit Bank");
+                    if BankAccountRec.FindSet() then begin
+                        GenJournalLineRec."Bal. Account Type" := GenJournalLineRec."Bal. Account Type"::"Bank Account";
+                        GenJournalLineRec."Bal. Account No." := BankAccountRec."No.";
+                        // GenJournalLineRec."Currency Code" := BankAccountRec."Currency Code";
+                    end
+                    else begin
+                        GenJournalLineRec."Bal. Account Type" := GenJournalLineRec."Bal. Account Type"::"G/L Account";
+                        GenJournalLineRec."Bal. Account No." := '3001';
+                    end;
                 end;
 
 
@@ -114,7 +118,7 @@ codeunit 50514 "Cash Receipt Journal Entry"
                 GenJournalLineRec.SetRange("Journal Template Name", 'CASH RECE');
                 GenJournalLineRec.SetRange("Journal Batch Name", 'DEFAULT');
                 GenJournalLineRec.SetRange("Document No.", Format(PaymentSeriesCode."Entry No."));
-                GenJournalLineRec."Posting Date" := Today;
+                GenJournalLineRec."Posting Date" := postingDate;
                 if GenJournalLineRec.FindSet() then begin
                     GenJournalLineRec.DeleteAll();
                 end;
