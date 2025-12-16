@@ -35,7 +35,7 @@ codeunit 50514 "Cash Receipt Journal Entry"
                 GenJournalLineRec.Reset();
                 GenJournalLineRec.SetRange("Journal Template Name", 'CASH RECE');
                 GenJournalLineRec.SetRange("Journal Batch Name", 'DEFAULT');
-                GenJournalLineRec.SetRange("Line No.", 10000);
+                // GenJournalLineRec.SetRange("Line No.", 10000);
 
                 if GenJournalLineRec.FindSet() then begin
                     GenJournalLineRec.DeleteAll();
