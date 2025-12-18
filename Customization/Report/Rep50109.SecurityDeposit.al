@@ -73,6 +73,13 @@ report 50109 "Security Deposit"
             begin
                 // ------------------------------------custome start & end date ----------------------------------------------------------/
 
+                OpeningBalance := 0;
+                Additions := 0;
+                CarriedForwardInAmount := 0;
+                CarriedForwardOutAmount := 0;
+                ClosingBalance := 0;
+                AdjustmentAmount := 0;
+                RefundAmount := 0;
                 // Set the custom date range text
                 CustomDateRangeText :=
                      Format(CustomStartDate, 0, '<Day,2>/<Month,2>/') + Format(Date2DMY(CustomStartDate, 3)) + ' - ' +
@@ -172,18 +179,20 @@ report 50109 "Security Deposit"
                 // end
                 // else
                 //     ClosingBalance := 0;
+                /*
+                                // Assign value to the ClosingBalance column
+                                "ClosingBalance" := ClosingBalance;
 
-                // Assign value to the ClosingBalance column
-                "ClosingBalance" := ClosingBalance;
+                                // Closing Balance condition
+                                if CustomEndDate < "Contract End Date" then begin
+                                    ClosingBalance := SecurityDepositAmount;
+                                    // RefundAmount := 0
+                                end
+                                else
+                                    ClosingBalance := 0;
+                */
 
-                // Closing Balance condition
-                if CustomEndDate < "Contract End Date" then begin
-                    ClosingBalance := SecurityDepositAmount;
-                    // RefundAmount := 0
-                end
-                else
-                    ClosingBalance := 0;
-
+                ClosingBalance := (OpeningBalance + Additions + CarriedForwardInAmount) - (CarriedForwardOutAmount + AdjustmentAmount + RefundAmount);
                 // // Assign value to the ClosingBalance column
                 // "ClosingBalance" := ClosingBalance;
 
