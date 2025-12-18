@@ -73,6 +73,7 @@ codeunit 50514 "Cash Receipt Journal Entry"
                 GenJournalLineRec."Document No." := Format(PaymentSeriesCode."Entry No.");
                 GenJournalLineRec."Posting Date" := postingDate;
                 GenJournalLineRec."Line No." := LineNumber;
+                GenJournalLineRec."Contract ID" := PaymentSeriesRec."Contract ID";
                 GenJournalLineRec."Document Type" := GenJournalLineRec."Document Type"::Payment;
 
                 if PaymentSeriesRec."Payment Mode" = 'Cheque' then begin
@@ -209,6 +210,7 @@ codeunit 50514 "Cash Receipt Journal Entry"
         GenJournalLine."Line No." := LineNo;
         GenJournalLine."Document Type" := GenJournalLine."Document Type"::Payment;
         GenJournalLine."Account Type" := GenJournalLine."Account Type"::Customer;
+        GenJournalLine."Contract ID" := PDCTransactionRec."Contract ID";
         GenJournalLine."Account No." := PDCTransactionRec."Tenant Id"; // Customer from Payment Series
         GenJournalLine.Description := 'PDC Received - Cheque No. ' + PDCTransactionRec."Cheque Number";
         GenJournalLine.Validate(Amount, Round(-PDCTransactionRec.Amount));

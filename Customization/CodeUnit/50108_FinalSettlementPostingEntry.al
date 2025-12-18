@@ -94,6 +94,7 @@ codeunit 50108 "Final Settlement Posting Mgt."
             GenJnlLine."Account Type" := GenJnlLine."Account Type"::Customer;
             GenJnlLine."Account No." := FinalSettlement."Tenant ID";
             GenJnlLine.Description := TenantName;
+            GenJnlLine."Contract ID" := FinalSettlement."Contract ID";
             GenJnlLine.Validate(Amount, -TenantContract."Total Receive");
 
             // Set balancing account
@@ -129,6 +130,7 @@ codeunit 50108 "Final Settlement Posting Mgt."
             GenJnlLine."Document Type" := GenJnlLine."Document Type"::Payment;
             GenJnlLine."Account Type" := GenJnlLine."Account Type"::Customer;
             GenJnlLine."Account No." := FinalSettlement."Tenant ID";
+            GenJnlLine."Contract ID" := FinalSettlement."Contract ID";
             GenJnlLine.Description := TenantName;
             GenJnlLine.Validate(Amount, -PendingAmount);
 
@@ -201,6 +203,7 @@ codeunit 50108 "Final Settlement Posting Mgt."
         billingcalculation: Record "Final Billing Calculation Grid";
         JournalTemplateName: Code[10];
         JournalBatchName: Code[10];
+        ContractID: Integer;
     begin
         // Initialize journal template and batch names
         JournalTemplateName := 'CASH RECE';
@@ -230,6 +233,7 @@ codeunit 50108 "Final Settlement Posting Mgt."
         if finalcalculation.FindFirst() then begin
             Tenantid := finalcalculation."Tenant ID";
             Tenantname := finalcalculation."Tenant Name";
+            ContractID := finalcalculation."Contract ID";
         end else begin
             Error('Final Calculation not found for Contract ID %1', FinalSettlement."Contract ID");
         end;
@@ -286,6 +290,7 @@ codeunit 50108 "Final Settlement Posting Mgt."
         GenJnlLine.Description := Tenantname;
         GenJnlLine."Account Type" := GenJnlLine."Account Type"::Customer;
         GenJnlLine."Account No." := Tenantid;
+        GenJnlLine."Contract ID" := ContractID;
 
         // Use Validate to ensure all dependent fields are calculated
         GenJnlLine.Validate(Amount, -TotalRefundableDeposit);
@@ -340,6 +345,7 @@ codeunit 50108 "Final Settlement Posting Mgt."
         billingcalculation: Record "Final Billing Calculation Grid";
         JournalTemplateName: Code[10];
         JournalBatchName: Code[10];
+        ContractID: Integer;
     begin
         // Initialize journal template and batch names
         JournalTemplateName := 'CASH RECE';
@@ -369,6 +375,7 @@ codeunit 50108 "Final Settlement Posting Mgt."
         if finalcalculation.FindFirst() then begin
             Tenantid := finalcalculation."Tenant ID";
             Tenantname := finalcalculation."Tenant Name";
+            ContractID := finalcalculation."Contract ID";
         end else begin
             Error('Final Calculation not found for Contract ID %1', FinalSettlement."Contract ID");
         end;
@@ -419,6 +426,7 @@ codeunit 50108 "Final Settlement Posting Mgt."
         GenJnlLine.Description := Tenantname;
         GenJnlLine."Account Type" := GenJnlLine."Account Type"::Customer;
         GenJnlLine."Account No." := Tenantid;
+        GenJnlLine."Contract ID" := ContractID;
 
         // Use Validate for Amount to trigger proper calculations
         GenJnlLine.Validate(Amount, -TotalRefundableDeposit);

@@ -61,6 +61,8 @@ codeunit 50107 "Security Deposit Posting Mgt."
         GenJnlLine."Account Type" := GenJnlLine."Account Type"::"G/L Account";
         GenJnlLine."Account No." := TenantReceivableAccount;
         GenJnlLine.Amount := -Amount;
+        GenJnlLine."Contract ID" := SecurityDeposit."Contract ID";
+
         GenJnlLine.Insert();
 
         // 2nd Line - Carry Forward Out (+Amount)
@@ -76,6 +78,7 @@ codeunit 50107 "Security Deposit Posting Mgt."
         GenJnlLine."Account Type" := GenJnlLine."Account Type"::"G/L Account";
         GenJnlLine."Account No." := CarryForwardOutAccount;
         GenJnlLine.Amount := Amount;
+        GenJnlLine."Contract ID" := SecurityDeposit."Contract ID";
         GenJnlLine.Insert();
 
         // 3rd Line - Carry Forward In (-Amount)
@@ -91,6 +94,7 @@ codeunit 50107 "Security Deposit Posting Mgt."
         GenJnlLine."Account Type" := GenJnlLine."Account Type"::"G/L Account";
         GenJnlLine."Account No." := CarryForwardInAccount;
         GenJnlLine.Amount := -Amount;
+        GenJnlLine."Contract ID" := SecurityDeposit."Contract ID";
         GenJnlLine.Insert();
 
         // 4th Line - Tenant Receivable (+Amount)
@@ -106,6 +110,7 @@ codeunit 50107 "Security Deposit Posting Mgt."
         GenJnlLine."Account Type" := GenJnlLine."Account Type"::"G/L Account";
         GenJnlLine."Account No." := TenantReceivableAccount;
         GenJnlLine.Amount := Amount;
+        GenJnlLine."Contract ID" := SecurityDeposit."Contract ID";
         GenJnlLine.Insert();
 
         // Now Post the Journal

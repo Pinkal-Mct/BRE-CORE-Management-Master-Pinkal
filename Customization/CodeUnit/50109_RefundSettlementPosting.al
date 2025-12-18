@@ -117,6 +117,7 @@ codeunit 50109 "Refund Settlement Posting Mgt."
             GenJnlLine."Account Type" := GenJnlLine."Account Type"::"G/L Account";
             GenJnlLine."Account No." := RefundOtherDepositGL;
             GenJnlLine.Validate(Amount, Round(appliedamount));
+            GenJnlLine."Contract ID" := FinalSettlementRefund."Contract ID";
             BankAccount.Reset();
             BankAccount.SetRange("Search Name", FinalSettlementRefund."Deposit Bank");
             if BankAccount.FindSet()
@@ -150,6 +151,7 @@ codeunit 50109 "Refund Settlement Posting Mgt."
             GenJnlLine."Account Type" := GenJnlLine."Account Type"::"G/L Account";
             GenJnlLine."Account No." := RefundChillerDepositGL;
             GenJnlLine.Validate(Amount, Round(appliedamount));
+            GenJnlLine."Contract ID" := FinalSettlementRefund."Contract ID";
             BankAccount.Reset();
             BankAccount.SetRange("Search Name", FinalSettlementRefund."Deposit Bank");
             if BankAccount.FindSet()
@@ -183,6 +185,7 @@ codeunit 50109 "Refund Settlement Posting Mgt."
             GenJnlLine."Account Type" := GenJnlLine."Account Type"::"G/L Account";
             GenJnlLine."Account No." := RefundSecurityDepositGL;
             GenJnlLine.Validate(Amount, Round(appliedamount));
+            GenJnlLine."Contract ID" := FinalSettlementRefund."Contract ID";
             BankAccount.Reset();
             BankAccount.SetRange("Search Name", FinalSettlementRefund."Deposit Bank");
             if BankAccount.FindSet()
@@ -215,6 +218,7 @@ codeunit 50109 "Refund Settlement Posting Mgt."
                 GenJnlLine."Account Type" := GenJnlLine."Account Type"::Customer;
                 GenJnlLine."Account No." := TenantReceivableAccount;
                 GenJnlLine.Validate(Amount, Round(appliedamount));
+                GenJnlLine."Contract ID" := FinalSettlementRefund."Contract ID";
                 BankAccount.Reset();
                 BankAccount.SetRange("Search Name", FinalSettlementRefund."Deposit Bank");
                 if BankAccount.FindSet()
