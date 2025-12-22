@@ -142,6 +142,7 @@ table 50934 "Payment Schedule2"
                 if "Payment Status" = 'Received' then
                     // Call the procedure to update the balance amount
                     UpdateBalanceAmountOnPaymentReceived();
+                UpdateTenancySubpageInvoicedAndPaid();
             end;
 
 
@@ -352,8 +353,24 @@ table 50934 "Payment Schedule2"
         if PostedSalesInvoiceHeader.FindFirst() then begin
             Rec."Invoice Approval Status" := PostedSalesInvoiceHeader."Approval Status";
             Rec.Modify();
-        end
+        end;
+
     end;
 
+    local procedure UpdateTenancySubpageInvoicedAndPaid()
+    var
+        TenancyContractSubPageRec: Record "Tenancy Contract Subpage";
+    begin
+        // Filter by Contract and Item Type
+        TenancyContractSubPageRec.SetRange("ContractID", Rec."Contract ID");
+        TenancyContractSubPageRec.SetRange("Secondary Item Type", Rec."Secondary Item Type");
+        if TenancyContractSubPageRec.FindFirst() then begin
+            if Rec."Payment Status" = 'Received' then
+                TenancyContractSubPageRec.Validate("Invoiced and Paid", TenancyContractSubPageRec."Invoiced and Paid" + Rec."Amount Including VAT")
+            else
+                TenancyContractSubPageRec.Validate("Invoiced and Paid", TenancyContractSubPageRec."Invoiced and Paid" - Rec."Amount Including VAT");
+            TenancyContractSubPageRec.Modify();
 
+        end;
+    end;
 }

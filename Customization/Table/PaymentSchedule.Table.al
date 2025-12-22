@@ -353,7 +353,7 @@ table 50920 "Payment Schedule"
     var
     begin
         Deletepaymetnscheudlesubpage();
-
+        TenancyContractsubpageInvoicedPaidUpdate();
     end;
 
     procedure Deletepaymetnscheudlesubpage()
@@ -366,5 +366,18 @@ table 50920 "Payment Schedule"
         if Paymentschedulesubpage.FindSet() then
             Paymentschedulesubpage.DeleteAll();
 
+    end;
+
+    procedure TenancyContractsubpageInvoicedPaidUpdate()
+    var
+        TenancyContractSubPageRec: Record "Tenancy Contract Subpage";
+    begin
+        TenancyContractSubPageRec.SetRange("ContractID", Rec."Contract ID");
+        if TenancyContractSubPageRec.FindSet()
+        then
+            repeat
+                TenancyContractSubPageRec.Validate("Invoiced and Paid", 0);
+                TenancyContractSubPageRec.Modify();
+            until TenancyContractSubPageRec.Next() = 0;
     end;
 }
