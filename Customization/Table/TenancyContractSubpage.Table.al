@@ -135,7 +135,11 @@ table 50938 "Tenancy Contract Subpage"
 
 
         }
-
+        field(50112; Invoiced; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Invoiced';
+        }
 
         field(50113; "Link"; Integer)
         {
@@ -163,6 +167,11 @@ table 50938 "Tenancy Contract Subpage"
             DataClassification = ToBeClassified;
             Caption = 'Contract Renewal ID';
 
+        }
+        field(50117; "Invoiced and Paid"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Invoiced and Paid';
         }
     }
 
