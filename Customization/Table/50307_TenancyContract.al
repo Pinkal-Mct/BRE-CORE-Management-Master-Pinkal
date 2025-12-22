@@ -1769,6 +1769,27 @@ table 50307 "Tenancy Contract"
         {
             DataClassification = ToBeClassified;
         }
+        field(50213; "Carry Forward In"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Carry Forward In';
+        }
+        field(50214; "Carry Forward Out"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Carry Forward Out';
+        }
+        field(50215; Adjustments; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Adjustments';
+        }
+        field(50216; Refund; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Refund';
+        }
+
     }
 
     keys
