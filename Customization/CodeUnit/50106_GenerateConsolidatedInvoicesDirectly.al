@@ -84,8 +84,8 @@ codeunit 50106 GenerateConsolidatedInvoices
                             // newsalesheader1."Posting No. Series" := salesreciveablesetup."Posted Invoice Nos.";
                             newsalesheader1.Modify();
 
-                            paymentScheudle3.Invoiced := true;
                             paymentScheudle3."Invoice ID" := newsalesheader1."No.";
+                            paymentScheudle3.Invoiced := true;
                             paymentScheudle3."Overdue Invoice" := newsalesheader1."Overdue Invoice";
                             paymentScheudle3.Modify();
 
