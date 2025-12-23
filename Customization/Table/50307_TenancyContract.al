@@ -1503,6 +1503,12 @@ table 50307 "Tenancy Contract"
         field(50169; "Security Deposit Amt. Received"; Decimal)
         {
             DataClassification = ToBeClassified;
+
+            trigger OnValidate()
+            begin
+                "Security Amount Pending" := "Security Deposit Amount" - "Security Deposit Amt. Received";
+                UpdateSecurityDepositBalance();
+            end;
         }
 
         field(50170; "Single Rent Calculation"; Option)
@@ -1773,21 +1779,48 @@ table 50307 "Tenancy Contract"
         {
             DataClassification = ToBeClassified;
             Caption = 'Carry Forward In';
+
+            trigger OnValidate()
+            var
+                tenancyContractSubPage: Record "Tenancy Contract Subpage";
+            begin
+                tenancyContractSubPage.SetRange(ContractID, Rec."Contract ID");
+                tenancyContractSubPage.SetRange("Secondary Item Type", 'Security Deposit Amount');
+                if tenancyContractSubPage.FindFirst() then begin
+                    Rec.Validate("Security Deposit Amt. Received", "Carry Forward In" + tenancyContractSubPage."Invoiced and Paid");
+                    Rec.Modify()
+                end;
+            end;
         }
         field(50214; "Carry Forward Out"; Decimal)
         {
             DataClassification = ToBeClassified;
             Caption = 'Carry Forward Out';
+
+            trigger OnValidate()
+            begin
+                UpdateSecurityDepositBalance();
+            end;
         }
         field(50215; Adjustments; Decimal)
         {
             DataClassification = ToBeClassified;
             Caption = 'Adjustments';
+
+            trigger OnValidate()
+            begin
+                UpdateSecurityDepositBalance();
+            end;
         }
         field(50216; Refund; Decimal)
         {
             DataClassification = ToBeClassified;
             Caption = 'Refund';
+
+            trigger OnValidate()
+            begin
+                UpdateSecurityDepositBalance();
+            end;
         }
 
     }
@@ -2882,4 +2915,9 @@ table 50307 "Tenancy Contract"
         end;
     end;
 
+    procedure UpdateSecurityDepositBalance()
+    begin
+        Rec."Security Balanced Amount" := Rec."Security Deposit Amt. Received" - (Rec."Carry Forward Out" + Rec.Adjustments + Rec.Refund);
+        Rec.Modify()
+    end;
 }

@@ -172,6 +172,16 @@ table 50938 "Tenancy Contract Subpage"
         {
             DataClassification = ToBeClassified;
             Caption = 'Invoiced and Paid';
+
+            trigger OnValidate()
+            var
+                tenancyContractRec: Record "Tenancy Contract";
+            begin
+                if tenancyContractRec.Get("ContractID") then begin
+                    tenancyContractRec.Validate("Security Deposit Amt. Received", tenancyContractRec."Carry Forward In" + "Invoiced and Paid");
+                    tenancyContractRec.Modify();
+                end;
+            end;
         }
     }
 
