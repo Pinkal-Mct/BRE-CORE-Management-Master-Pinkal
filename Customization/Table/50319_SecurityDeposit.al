@@ -282,14 +282,16 @@ table 50319 "Security Deposit"
         if TenancyContractRec.FindFirst() then begin
             TenancyContractRec."Security Balanced Amount" := "Balance Amount";
             // TenancyContractRec."Security Amount Received" := "Adjusted amount"; // Update the Balance Amount
+            TenancyContractRec."Carry Forward Out" += "Carry Forward Amount";
             TenancyContractRec.Modify(); // Save the record
         end;
 
         TenancyContractRec.SetRange("Contract ID", "New_Contract ID");
         if TenancyContractRec.FindFirst() then begin
             TenancyContractRec."Security Deposit Amt. Received" := "Security Deposit Amt. Received";
+            TenancyContractRec."Security Amount Pending" := TenancyContractRec."Security Deposit Amount" - TenancyContractRec."Security Deposit Amt. Received";  // Update the Balance Amount
             TenancyContractRec."Security Balanced Amount" := "Security Deposit Amt. Received";
-            TenancyContractRec."Security Amount Pending" := "Security Deposit Amt. Pending";  // Update the Balance Amount
+            TenancyContractRec."Carry Forward In" += "Carry Forward Amount";
             TenancyContractRec.IsCarryForwarded := true; // Mark as carry forward
             TenancyContractRec.Modify(); // Save the record
 
