@@ -409,6 +409,45 @@ table 50901 "Final Calculation"
     end;
     //-----------------Delete record also delete subgrid -----------------//
 
+    procedure CalculateFinalSummary(pFinalCalculation: Record "Final Calculation")
+    var
+        PendingReceivableGrid: Record "Pending Receviable Grid";
+        TerminationAddCharges: Record "Additional Charges Sub";
+        totalDifferenceAmountInclVAT: Decimal;
+        TotalRefundableAmount: Decimal;
+        TotalReceivableAmount: Decimal;
+    begin
+        pFinalCalculation."Amount Refundable" := 0;
+        pFinalCalculation."Net Receivable From The Tenant" := 0;
+
+        PendingReceivableGrid.SetRange("Contract ID", pFinalCalculation."Contract ID");
+        if PendingReceivableGrid.FindSet() then
+            repeat
+                totalDifferenceAmountInclVAT += PendingReceivableGrid.DifferenceAmountInclVAT;
+            until PendingReceivableGrid.Next() = 0;
+
+        if totalDifferenceAmountInclVAT > 0 then
+            TotalReceivableAmount := totalDifferenceAmountInclVAT
+        else
+            TotalRefundableAmount := Abs(totalDifferenceAmountInclVAT);
+
+        TerminationAddCharges.Reset();
+        TerminationAddCharges.SetRange("Contract ID", pFinalCalculation."Contract ID");
+        TerminationAddCharges.CalcSums("Amount Including VAT");
+        TotalReceivableAmount += TerminationAddCharges."Amount Including VAT";
+
+        TotalRefundableAmount += pFinalCalculation."Total Refundable Deposit";
+        pFinalCalculation."Total Claim" := TotalReceivableAmount;
+        pFinalCalculation."Total Refund" := TotalRefundableAmount;
+
+        pFinalCalculation."Summery Net Balance" := pFinalCalculation."Total Claim" - pFinalCalculation."Total Refund";
+
+        if pFinalCalculation."Summery Net Balance" < 0 then
+            pFinalCalculation."Amount Refundable" := Abs(pFinalCalculation."Summery Net Balance")
+        else
+            pFinalCalculation."Net Receivable From The Tenant" := pFinalCalculation."Summery Net Balance";
+        pFinalCalculation.Modify();
+    end;
 }
 
 
