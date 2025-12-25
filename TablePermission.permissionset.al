@@ -573,5 +573,8 @@ permissionset 50100 TablePermission
         tabledata PaymentplanStages = RIMD,
         table Paymentplandetails = X,
         table PaymentplanLine = X,
-        table PaymentplanStages = X;
+        table PaymentplanStages = X,
+        tabledata "Adjustment Deposits" = RIMD,
+        table "Adjustment Deposits" = X,
+        page "Select Date" = X;
 }
