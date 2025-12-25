@@ -44,6 +44,7 @@ table 50902 "Additional Charges Sub"
             trigger OnValidate()
             begin
                 CalcVATAndTotal();
+
             end;
 
         }
@@ -69,6 +70,7 @@ table 50902 "Additional Charges Sub"
             trigger OnValidate()
             var
                 vatPer: Integer;
+                finalcalculationRec: Record "Final Calculation";
             begin
                 if "VAT %" = "VAT %"::"5%" then
                     vatPer := 5
@@ -76,6 +78,10 @@ table 50902 "Additional Charges Sub"
                     vatPer := 0;
 
                 "VAT Amount" := Amount * (vatPer / 100);
+
+
+
+
             end;
 
         }
@@ -87,9 +93,11 @@ table 50902 "Additional Charges Sub"
             Editable = false;
 
             trigger OnValidate()
+            var
             begin
                 "Amount Including VAT" := Amount + "VAT Amount";
             end;
+
         }
 
         field(50106; "Start Date"; Date)
@@ -173,6 +181,7 @@ table 50902 "Additional Charges Sub"
     //--------------Method to calculate VAT Amount and Amount Including VAT-----------------//
     local procedure CalcVATAndTotal()
     var
+        finalCalculation: Record "Final Calculation";
         vatPer: Integer;
     begin
         if "VAT %" = "VAT %"::"5%" then
@@ -182,7 +191,37 @@ table 50902 "Additional Charges Sub"
 
         "VAT Amount" := Amount * (vatPer / 100);
         "Amount Including VAT" := Amount + "VAT Amount";
+        Rec.Modify();
+
+        finalCalculation.SetRange("Contract ID", Rec."Contract ID");
+        if finalCalculation.FindFirst() then begin
+            finalCalculation.CalculateFinalSummary(finalCalculation);
+        end;
+
+        // "Amount Including VAT" := Amount + "VAT Amount";
     end;
 
     //--------------Method to calculate VAT Amount and Amount Including VAT-----------------//
+
+    trigger OnDelete()
+    var
+        finalcalculationRec: Record "Final Calculation";
+    begin
+        finalcalculationRec.SetRange("Contract ID", Rec."Contract ID");
+        if finalcalculationRec.FindFirst() then begin
+            finalcalculationRec."Total Claim" -= Rec."Amount Including VAT";
+            finalcalculationRec."Summery Net Balance" := finalcalculationRec."Total Claim" - finalcalculationRec."Total Refund";
+
+            finalcalculationRec."Amount Refundable" := 0;
+            finalcalculationRec."Net Receivable From The Tenant" := 0;
+            if finalcalculationRec."Summery Net Balance" < 0 then
+                finalcalculationRec."Amount Refundable" := Abs(finalcalculationRec."Summery Net Balance")
+            else
+                finalcalculationRec."Net Receivable From The Tenant" := finalcalculationRec."Summery Net Balance";
+
+            finalcalculationRec.Modify();
+
+        end;
+    END;
+
 }
