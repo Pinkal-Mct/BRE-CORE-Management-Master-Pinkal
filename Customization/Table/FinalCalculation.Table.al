@@ -272,8 +272,22 @@ table 50901 "Final Calculation"
             Caption = 'Final Payments';
             Editable = false;
         }
+        field(50140; "Remaining Security Deposit"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Remaining Security Deposit';
+        }
 
-
+        field(50141; "Remaining Chiller Deposit"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Remaining Chiller Deposit';
+        }
+        field(50142; "Remaining Other Deposit"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Remaining Other Deposit';
+        }
 
     }
 
