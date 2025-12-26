@@ -15,10 +15,6 @@ table 50119 "Adjustment Deposits"
 
         field(50102; "Transaction Type"; Option)
         {
-            OptionMembers = " ",Refund,Adjustment,Both;
-        }
-        field(50103; Transaction; Option)
-        {
             OptionMembers = " ",Refund,Adjustment;
         }
 
