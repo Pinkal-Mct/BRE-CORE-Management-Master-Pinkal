@@ -1567,6 +1567,11 @@ table 50307 "Tenancy Contract"
         {
             DataClassification = ToBeClassified;
             Editable = false;
+
+            trigger OnValidate()
+            begin
+                UpdateTenancyContractSubPage();
+            end;
         }
 
         field(50177; "Security Balanced Amount"; Decimal)
@@ -2919,5 +2924,17 @@ table 50307 "Tenancy Contract"
     begin
         Rec."Security Balanced Amount" := Rec."Security Deposit Amt. Received" - (Rec."Carry Forward Out" + Rec.Adjustments + Rec.Refund);
         Rec.Modify()
+    end;
+
+    procedure UpdateTenancyContractSubPage()
+    var
+        tenancyContractSubPageRec: Record "Tenancy Contract Subpage";
+    begin
+        tenancyContractSubPageRec.SetRange(ContractID, Rec."Contract ID");
+        tenancyContractSubPageRec.SetRange("Secondary Item Type", 'Security Deposit Amount');
+        if tenancyContractSubPageRec.FindFirst() then begin
+            tenancyContractSubPageRec.Validate(Amount, Rec."Security Amount Pending");
+            tenancyContractSubPageRec.Modify();
+        end;
     end;
 }

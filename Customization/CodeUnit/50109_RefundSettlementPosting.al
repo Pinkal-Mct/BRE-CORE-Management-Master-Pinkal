@@ -114,8 +114,10 @@ codeunit 50109 "Refund Settlement Posting Mgt."
             GenJnlLine."Document Type" := GenJnlLine."Document Type"::Payment;
             GenJnlLine."Document No." := DocNo;
             GenJnlLine.Description := 'Refund Other Deposit';
-            GenJnlLine."Account Type" := GenJnlLine."Account Type"::"G/L Account";
-            GenJnlLine."Account No." := RefundOtherDepositGL;
+            // GenJnlLine."Account Type" := GenJnlLine."Account Type"::"G/L Account";
+            // GenJnlLine."Account No." := RefundOtherDepositGL;
+            GenJnlLine.Validate("Account Type", GenJnlLine."Account Type"::Customer);
+            GenJnlLine.Validate("Account No.", FinalSettlementRefund."Tenant ID");
             GenJnlLine.Validate(Amount, Round(appliedamount));
             GenJnlLine."Contract ID" := FinalSettlementRefund."Contract ID";
             BankAccount.Reset();
@@ -148,8 +150,10 @@ codeunit 50109 "Refund Settlement Posting Mgt."
             GenJnlLine."Document Type" := GenJnlLine."Document Type"::Payment;
             GenJnlLine."Document No." := DocNo;
             GenJnlLine.Description := 'Refund Chiller Deposit';
-            GenJnlLine."Account Type" := GenJnlLine."Account Type"::"G/L Account";
-            GenJnlLine."Account No." := RefundChillerDepositGL;
+            // GenJnlLine."Account Type" := GenJnlLine."Account Type"::"G/L Account";
+            // GenJnlLine."Account No." := RefundChillerDepositGL;
+            GenJnlLine.Validate("Account Type", GenJnlLine."Account Type"::Customer);
+            GenJnlLine.Validate("Account No.", FinalSettlementRefund."Tenant ID");
             GenJnlLine.Validate(Amount, Round(appliedamount));
             GenJnlLine."Contract ID" := FinalSettlementRefund."Contract ID";
             BankAccount.Reset();
@@ -182,8 +186,10 @@ codeunit 50109 "Refund Settlement Posting Mgt."
             GenJnlLine."Document Type" := GenJnlLine."Document Type"::Payment;
             GenJnlLine."Document No." := DocNo;
             GenJnlLine.Description := 'Refund Security Deposit';
-            GenJnlLine."Account Type" := GenJnlLine."Account Type"::"G/L Account";
-            GenJnlLine."Account No." := RefundSecurityDepositGL;
+            // GenJnlLine."Account Type" := GenJnlLine."Account Type"::"G/L Account";
+            // GenJnlLine."Account No." := RefundSecurityDepositGL;
+            GenJnlLine.Validate("Account Type", GenJnlLine."Account Type"::Customer);
+            GenJnlLine.Validate("Account No.", FinalSettlementRefund."Tenant ID");
             GenJnlLine.Validate(Amount, Round(appliedamount));
             GenJnlLine."Contract ID" := FinalSettlementRefund."Contract ID";
             BankAccount.Reset();
