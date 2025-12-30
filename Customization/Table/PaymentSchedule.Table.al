@@ -130,17 +130,12 @@ table 50920 "Payment Schedule"
 
     begin
         PaymentSchedule2.SetRange("Contract ID", Rec."Contract ID");
-        //PaymentSchedule2.SetRange("Tenant ID", Rec."Tenant ID");
-
-        // PaymentSchedule2.SetRange("Proposal ID", Rec."Proposal ID");
         if PaymentSchedule2.FindSet() then
             PaymentSchedule2.DeleteAll();
 
-        // PaymentSchedule2.SetRange("Contract ID", Rec."Contract ID");
-        //PaymentSchedule2.SetRange("Tenant ID", Rec."Tenant ID");
         RevenueSubpage.SetRange("ContractID", Rec."Contract ID");
-        // RevenueSubpage.SetRange(ProposalID, Rec."Proposal ID");
         RevenueSubpage.SetRange("Payment Type", 1);
+        RevenueSubpage.SetFilter("Amount Including VAT", '<>%1', 0);
         if not RevenueSubpage.FindSet() then begin
             Message('No Payment Type 1 records found in the Tenancy Contract.');
             exit;

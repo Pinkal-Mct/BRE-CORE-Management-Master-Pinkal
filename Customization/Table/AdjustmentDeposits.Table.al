@@ -36,6 +36,9 @@ table 50119 "Adjustment Deposits"
         field(50108; "Contract Id"; Integer)
         {
         }
+        field(50109; "Adjusted"; Boolean)
+        {
+        }
     }
 
     keys
