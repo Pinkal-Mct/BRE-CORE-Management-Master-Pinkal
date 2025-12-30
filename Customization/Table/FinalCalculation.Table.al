@@ -323,6 +323,7 @@ table 50901 "Final Calculation"
         RevenueStructureyearlyBrokdownGrid();
         finalsettlement();
         finalsettlementrefund();
+        DeleteAdjustmentDeposits();
 
     end;
 
@@ -421,9 +422,18 @@ table 50901 "Final Calculation"
         if Finalsettlementrefunds.FindSet() then
             Finalsettlementrefunds.DeleteAll();
     end;
+
+    procedure DeleteAdjustmentDeposits()
+    var
+        adjustmentDepositsRec: Record "Adjustment Deposits";
+    begin
+        adjustmentDepositsRec.SetRange("Contract Id", Rec."Contract ID");
+        if adjustmentDepositsRec.FindSet() then
+            adjustmentDepositsRec.DeleteAll();
+    end;
     //-----------------Delete record also delete subgrid -----------------//
 
-    procedure CalculateFinalSummary(pFinalCalculation: Record "Final Calculation")
+    procedure CalculateFinalSummary(var pFinalCalculation: Record "Final Calculation")
     var
         PendingReceivableGrid: Record "Pending Receviable Grid";
         TerminationAddCharges: Record "Additional Charges Sub";
@@ -431,8 +441,9 @@ table 50901 "Final Calculation"
         TotalRefundableAmount: Decimal;
         TotalReceivableAmount: Decimal;
     begin
-        pFinalCalculation."Amount Refundable" := 0;
-        pFinalCalculation."Net Receivable From The Tenant" := 0;
+
+        // Pending Receivable
+        PendingReceivableGrid.Reset();
 
         PendingReceivableGrid.SetRange("Contract ID", pFinalCalculation."Contract ID");
         if PendingReceivableGrid.FindSet() then
@@ -445,11 +456,17 @@ table 50901 "Final Calculation"
         else
             TotalRefundableAmount := Abs(totalDifferenceAmountInclVAT);
 
+        // TerminationAddCharges.Reset();
+        // TerminationAddCharges.SetRange("Contract ID", pFinalCalculation."Contract ID");
+        // TerminationAddCharges.CalcSums("Amount Including VAT");
+        // TotalReceivableAmount += TerminationAddCharges."Amount Including VAT";
         TerminationAddCharges.Reset();
         TerminationAddCharges.SetRange("Contract ID", pFinalCalculation."Contract ID");
-        TerminationAddCharges.CalcSums("Amount Including VAT");
-        TotalReceivableAmount += TerminationAddCharges."Amount Including VAT";
 
+        if TerminationAddCharges.FindFirst() then begin
+            TerminationAddCharges.CalcSums("Amount Including VAT");
+            TotalReceivableAmount += TerminationAddCharges."Amount Including VAT";
+        end;
         TotalRefundableAmount += pFinalCalculation."Total Refundable Deposit";
         pFinalCalculation."Total Claim" := TotalReceivableAmount;
         pFinalCalculation."Total Refund" := TotalRefundableAmount;
