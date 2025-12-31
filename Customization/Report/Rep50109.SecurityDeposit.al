@@ -70,6 +70,7 @@ report 50109 "Security Deposit"
                 SecurityDepositTransfer: Record "Security Deposit";
                 AdditionalCharges: Record "Additional Charges Sub";
                 FinalCalculation: Record "Final Calculation";
+                adjustmentDeposit: Record "Adjustment Deposits";
             begin
                 // ------------------------------------custome start & end date ----------------------------------------------------------/
 
@@ -153,6 +154,7 @@ report 50109 "Security Deposit"
 
                 // --------------------------------- Calculate Adjustment and Refund based on the rules -----------------------/
 
+                /*
                 // Calculate Adjustment and Refund using the specified rules
                 if TotalAdditionalCharges > NetBalance then begin
                     AdjustmentAmount := NetBalance;
@@ -165,6 +167,23 @@ report 50109 "Security Deposit"
                     RefundAmount := 0;
                 end else begin
                     // When TotalAdditionalCharges equals NetBalance
+                    AdjustmentAmount := 0;
+                    RefundAmount := 0;
+                end;
+                */
+
+                adjustmentDeposit.SetRange("Contract ID", "Contract ID");
+                adjustmentDeposit.SetRange("Item Description", adjustmentDeposit."Item Description"::"Security Deposit");
+                if adjustmentDeposit.FindSet() then begin
+                    AdjustmentAmount := 0;
+                    RefundAmount := 0;
+                    repeat
+                        if adjustmentDeposit."Transaction Type" = adjustmentDeposit."Transaction Type"::Adjustment then
+                            AdjustmentAmount += adjustmentDeposit.Amount
+                        else if adjustmentDeposit."Transaction Type" = adjustmentDeposit."Transaction Type"::Refund then
+                            RefundAmount += adjustmentDeposit.Amount;
+                    until adjustmentDeposit.Next() = 0;
+                end else begin
                     AdjustmentAmount := 0;
                     RefundAmount := 0;
                 end;
