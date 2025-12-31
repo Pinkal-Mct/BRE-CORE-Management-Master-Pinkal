@@ -244,6 +244,11 @@ table 50934 "Payment Schedule2"
             OptionMembers = Pending,Approved,Rejected;
             Caption = 'Invoice Approval Status';
         }
+        field(50934; "Year"; Integer)
+        {
+            Caption = 'Year';
+            DataClassification = ToBeClassified;
+        }
 
 
     }
