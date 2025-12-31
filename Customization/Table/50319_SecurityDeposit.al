@@ -86,10 +86,10 @@ table 50319 "Security Deposit"
             DataClassification = ToBeClassified;
             Caption = 'Security Deposit Amount';
 
-            trigger OnValidate()
-            begin
-                UpdateAdjustedAmount();
-            end;
+            // trigger OnValidate()
+            // begin
+            //     UpdateAdjustedAmount();
+            // end;
         }
 
         field(50107; "New_Contract ID"; Integer)
@@ -254,10 +254,11 @@ table 50319 "Security Deposit"
 
 
 
-    local procedure UpdateAdjustedAmount()
+    procedure UpdateAdjustedAmount()
     var
         TenancyContractRec: Record "Tenancy Contract";
         tenancyContractSubPage: Record "Tenancy Contract Subpage";
+        finalcalcRec: Record "Final Calculation";
     begin
 
 
@@ -280,31 +281,36 @@ table 50319 "Security Deposit"
         // Save changes to the Tenancy Contract table
         TenancyContractRec.SetRange("Contract ID", "Contract ID");
         if TenancyContractRec.FindFirst() then begin
-            TenancyContractRec."Security Balanced Amount" := "Balance Amount";
-            // TenancyContractRec."Security Amount Received" := "Adjusted amount"; // Update the Balance Amount
             TenancyContractRec."Carry Forward Out" += "Carry Forward Amount";
+            TenancyContractRec."Security Balanced Amount" := TenancyContractRec."Security Deposit Amt. Received" - (TenancyContractRec."Carry Forward Out" + TenancyContractRec.Adjustments + TenancyContractRec.Refund);
+            // TenancyContractRec."Security Amount Received" := "Adjusted amount"; // Update the Balance Amount
             TenancyContractRec.Modify(); // Save the record
+
+            finalcalcRec.SetRange("Contract ID", Rec."Contract ID");
+            if finalcalcRec.FindFirst() then begin
+                finalcalcRec."Security Deposit" := TenancyContractRec."Security Balanced Amount";
+                finalcalcRec.Modify(true);
+            end;
         end;
 
+        TenancyContractRec.Reset();
         TenancyContractRec.SetRange("Contract ID", "New_Contract ID");
         if TenancyContractRec.FindFirst() then begin
-            TenancyContractRec."Security Deposit Amt. Received" := "Security Deposit Amt. Received";
-            TenancyContractRec."Security Amount Pending" := TenancyContractRec."Security Deposit Amount" - TenancyContractRec."Security Deposit Amt. Received";  // Update the Balance Amount
-            TenancyContractRec."Security Balanced Amount" := "Security Deposit Amt. Received";
             TenancyContractRec."Carry Forward In" += "Carry Forward Amount";
-            TenancyContractRec.IsCarryForwarded := true; // Mark as carry forward
-            TenancyContractRec.Modify(); // Save the record
 
             tenancyContractSubPage.SetRange(ContractID, TenancyContractRec."Contract ID");
             tenancyContractSubPage.SetRange("Secondary Item Type", 'Security Deposit Amount');
             if tenancyContractSubPage.FindSet() then begin
-                tenancyContractSubPage.Amount := TenancyContractRec."Security Deposit Amount" - TenancyContractRec."Security Deposit Amt. Received";
+                TenancyContractRec."Security Deposit Amt. Received" := TenancyContractRec."Carry Forward In" + tenancyContractSubPage."Invoiced and Paid";
+                TenancyContractRec."Security Amount Pending" := TenancyContractRec."Security Deposit Amount" - TenancyContractRec."Security Deposit Amt. Received";  // Update the Balance Amount
+                TenancyContractRec."Security Balanced Amount" := TenancyContractRec."Security Deposit Amt. Received" - (TenancyContractRec."Carry Forward Out" + TenancyContractRec.Adjustments + TenancyContractRec.Refund);
+                TenancyContractRec.IsCarryForwarded := true; // Mark as carry forward
+                TenancyContractRec.Modify(); // Save the record
+
+                tenancyContractSubPage.Amount := TenancyContractRec."Security Amount Pending";
                 tenancyContractSubPage.Validate(Amount);
                 tenancyContractSubPage.Modify();
             end;
         end;
     end;
-
-
-    //------------------- Update Adjust Amount With New and Old Contract -------------------//
 }
