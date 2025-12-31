@@ -22,7 +22,7 @@ pageextension 50108 "G/L Posting Preview Ext" extends "G/L Posting Preview"
                     GenJournal.SetRange("Journal Batch Name", 'DEFAULT');
                     if GenJournal.FindSet() then
                         if tenancyContract.Get(GenJournal."Contract ID") then begin
-                            tenancyContract.Validate(Refund, tenancyContract.Refund + GenJournal.Amount);
+                            tenancyContract.Validate(Refund, tenancyContract.Refund + Abs(GenJournal.Amount));
                             tenancyContract.Modify();
                             GenJournal.SendToPosting(Codeunit::"Gen. Jnl.-Post");
                         end;
