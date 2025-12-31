@@ -473,10 +473,16 @@ table 50901 "Final Calculation"
 
         pFinalCalculation."Summery Net Balance" := pFinalCalculation."Total Claim" - pFinalCalculation."Total Refund";
 
-        if pFinalCalculation."Summery Net Balance" < 0 then
-            pFinalCalculation."Amount Refundable" := Abs(pFinalCalculation."Summery Net Balance")
-        else
-            pFinalCalculation."Net Receivable From The Tenant" := pFinalCalculation."Summery Net Balance";
+        if pFinalCalculation."Summery Net Balance" < 0 then begin
+
+            pFinalCalculation."Amount Refundable" := Abs(pFinalCalculation."Summery Net Balance");
+            pFinalCalculation."Net Receivable From The Tenant" := 0;
+        end
+        else begin
+
+            pFinalCalculation."Net Receivable From The Tenant" := Abs(pFinalCalculation."Summery Net Balance");
+            pFinalCalculation."Amount Refundable" := 0;
+        end;
         pFinalCalculation.Modify();
     end;
 }

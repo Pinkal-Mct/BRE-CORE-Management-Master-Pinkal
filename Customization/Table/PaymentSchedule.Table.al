@@ -111,6 +111,7 @@ table 50920 "Payment Schedule"
         }
 
 
+
     }
 
     keys
@@ -162,6 +163,7 @@ table 50920 "Payment Schedule"
             PaymentSchedule2."Installment End Date" := RevenueSubpage."End Date";
             PaymentSchedule2."Due Date" := RevenueSubpage."Start Date";
             PaymentSchedule2."Installment No." := 1;
+            PaymentSchedule2.Year := 1;
             // if PaymentSchedule2."VAT%" = RevenueSubpage."VAT %"::"5%" then
             //     vatper := 5
             // else
@@ -209,6 +211,7 @@ table 50920 "Payment Schedule"
                 PaymentSchedule."Amount Including VAT" := RentCalculationSubpage."Amount Including VAT";
                 PaymentSchedule."Due Date" := RentCalculationSubpage."Due Date";
                 PaymentSchedule."VAT%" := RentCalculationSubpage."VAT %";
+                PaymentSchedule.Year := RentCalculationSubpage.Year;
                 // if RentCalculationSubpage."VAT %" = 5 then
                 //     vatper := 5
                 // else
@@ -253,6 +256,7 @@ table 50920 "Payment Schedule"
                 PaymentSchedule3."Amount Including VAT" := RevenueStructureSubpage."Amount Including VAT";
                 PaymentSchedule3."Due Date" := RevenueStructureSubpage."Due Date";
                 PaymentSchedule3."VAT%" := RevenueStructureSubpage."VAT %";
+                PaymentSchedule3.Year := RevenueStructureSubpage.Year;
                 PaymentSchedule3.Insert();
                 Clear(PaymentSchedule3);
             until RevenueStructureSubpage.Next() = 0;

@@ -214,10 +214,14 @@ table 50902 "Additional Charges Sub"
 
             finalcalculationRec."Amount Refundable" := 0;
             finalcalculationRec."Net Receivable From The Tenant" := 0;
-            if finalcalculationRec."Summery Net Balance" < 0 then
-                finalcalculationRec."Amount Refundable" := Abs(finalcalculationRec."Summery Net Balance")
-            else
+            if finalcalculationRec."Summery Net Balance" < 0 then begin
+                finalcalculationRec."Amount Refundable" := Abs(finalcalculationRec."Summery Net Balance");
+                finalcalculationRec."Net Receivable From The Tenant" := 0;
+            end
+            else begin
                 finalcalculationRec."Net Receivable From The Tenant" := finalcalculationRec."Summery Net Balance";
+
+            end;
 
             finalcalculationRec.Modify();
 
