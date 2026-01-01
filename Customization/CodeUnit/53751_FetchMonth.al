@@ -101,10 +101,25 @@ codeunit 53751 "Fetch Month"
         end;
     end;
 
+    procedure GetNoofMonthsFromNoofInstallment(YearlyNoofInstallment: Integer): Integer
+    begin
+        case YearlyNoofInstallment of
+            1:
+                exit(12);
+            2:
+                exit(6);
+            4:
+                exit(3);
+            12:
+                exit(1);
+        end;
+    end;
+
 
     procedure ParseDuration(durationString: Text; var Years: Integer; var Months: Integer; var Days: Integer)
     var
-        tempArray: List of [Text];
+        tempArray:
+            List of [Text];
         token: Text;
         valueText: Text;
         isFound: Boolean;
