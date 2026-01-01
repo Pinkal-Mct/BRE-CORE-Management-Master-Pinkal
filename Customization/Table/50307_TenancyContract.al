@@ -1790,7 +1790,7 @@ table 50307 "Tenancy Contract"
                 tenancyContractSubPage: Record "Tenancy Contract Subpage";
             begin
                 tenancyContractSubPage.SetRange(ContractID, Rec."Contract ID");
-                tenancyContractSubPage.SetRange("Secondary Item Type", 'Security Deposit Amount');
+                tenancyContractSubPage.SetRange("Secondary Item Type", 'Security Deposit');
                 if tenancyContractSubPage.FindFirst() then begin
                     Rec.Validate("Security Deposit Amt. Received", "Carry Forward In" + tenancyContractSubPage."Invoiced and Paid");
                     Rec.Modify()
@@ -2931,7 +2931,7 @@ table 50307 "Tenancy Contract"
         tenancyContractSubPageRec: Record "Tenancy Contract Subpage";
     begin
         tenancyContractSubPageRec.SetRange(ContractID, Rec."Contract ID");
-        tenancyContractSubPageRec.SetRange("Secondary Item Type", 'Security Deposit Amount');
+        tenancyContractSubPageRec.SetRange("Secondary Item Type", 'Security Deposit');
         if tenancyContractSubPageRec.FindFirst() then begin
             tenancyContractSubPageRec.Validate(Amount, Rec."Security Amount Pending");
             tenancyContractSubPageRec.Modify();
