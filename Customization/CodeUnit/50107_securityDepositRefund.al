@@ -18,7 +18,7 @@ codeunit 50107 "Security Deposit Posting Mgt."
         GenJnlTemplate := 'CASH RECE';
         GenJnlBatch := 'DEFAULT';
 
-        Amount := SecurityDeposit."Security Deposit Amt. Received";
+        Amount := SecurityDeposit."Carry Forward Amount";
         PropertyType := SecurityDeposit."Property Classification";
 
         if Amount = 0 then
