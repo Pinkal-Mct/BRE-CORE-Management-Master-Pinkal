@@ -139,10 +139,10 @@ table 50319 "Security Deposit"
             DataClassification = ToBeClassified;
             Caption = 'Enter Amount';
 
-            trigger OnValidate()
-            begin
-                UpdateAdjustedAmount();
-            end;
+            // trigger OnValidate()
+            // begin
+            //     UpdateAdjustedAmount();
+            // end;
         }
 
         field(50112; "Security Deposit Amt. Pending"; Decimal)
