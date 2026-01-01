@@ -19,7 +19,7 @@ table 50934 "Payment Schedule2"
 
             begin
                 // Check if the payment status is 'Received'
-                if "Secondary Item Type" = 'Security Deposit Amount' then
+                if "Secondary Item Type" = 'Security Deposit' then
                     // Call the procedure to update the balance amount
                     UpdateBalanceAmountOnPaymentReceived();
             end;
@@ -273,42 +273,6 @@ table 50934 "Payment Schedule2"
 
 
 
-    // local procedure UpdateBalanceAmountOnPaymentReceived()
-    // var
-    //     PaymentScheduleRec: Record "Payment Schedule2";
-    //     TenancyContractRec: Record "Tenancy Contract";
-    // begin
-    //     // Filter records where 'Secondary Item Type' is 'Security Deposit Amount' and 'Payment Status' is 'Received'
-    //     PaymentScheduleRec.SetRange("Secondary Item Type", 'Security Deposit Amount');
-    //     PaymentScheduleRec.SetRange("Payment Status", 'Received');
-
-    //     if PaymentScheduleRec.FindSet() then begin
-    //         repeat
-    //             // Filter Tenancy Contract records based on Contract ID
-    //             if Rec."Secondary Item Type" = 'Security Deposit Amount' then begin
-    //                 TenancyContractRec.SetRange("Contract ID", PaymentScheduleRec."Contract ID");
-
-    //                 if TenancyContractRec.FindSet() then begin
-    //                     repeat
-    //                         // If Balance Amount has a value, update it
-    //                         if TenancyContractRec."Balance Amount" <> 0 then begin
-    //                             TenancyContractRec."Balance Amount" += PaymentScheduleRec."Amount Including VAT";
-    //                             TenancyContractRec."Security Balanced Amount" += PaymentScheduleRec."Amount Including VAT";
-    //                         end
-    //                         else begin
-    //                             // If Balance Amount is 0, set it to Amount Including VAT
-    //                             TenancyContractRec."Balance Amount" := PaymentScheduleRec."Amount Including VAT";
-    //                             TenancyContractRec."Security Balanced Amount" := PaymentScheduleRec."Amount Including VAT";
-    //                         end;
-
-    //                         // Modify the record to save changes
-    //                         TenancyContractRec.Modify();
-    //                     until TenancyContractRec.Next() = 0;
-    //                 end;
-    //             end;
-    //         until PaymentScheduleRec.Next() = 0;
-    //     end;
-    // end;
 
     local procedure UpdateBalanceAmountOnPaymentReceived()
     var
@@ -323,7 +287,7 @@ table 50934 "Payment Schedule2"
 
         TenancyContractRec.SetRange("Contract ID", Rec."Contract ID");
         if TenancyContractRec.FindSet() then
-            if (Rec."Secondary Item Type" = 'Security Deposit Amount') and
+            if (Rec."Secondary Item Type" = 'Security Deposit') and
      (Rec."Payment Status" = 'Received') then begin
                 // Update the Balance Amount with Amount Including VAT from current Payment Schedule record
                 if TenancyContractRec."Security Deposit Amt. Received" <> 0 then begin

@@ -177,7 +177,7 @@ table 50938 "Tenancy Contract Subpage"
             var
                 tenancyContractRec: Record "Tenancy Contract";
             begin
-                if Rec."Secondary Item Type" = 'Security Deposit Amount' then begin
+                if Rec."Secondary Item Type" = 'Security Deposit' then begin
                     if tenancyContractRec.Get("ContractID") then begin
                         tenancyContractRec.Validate("Security Deposit Amt. Received", tenancyContractRec."Carry Forward In" + "Invoiced and Paid");
                         tenancyContractRec.Modify();

@@ -289,6 +289,7 @@ table 50319 "Security Deposit"
             finalcalcRec.SetRange("Contract ID", Rec."Contract ID");
             if finalcalcRec.FindFirst() then begin
                 finalcalcRec."Security Deposit" := TenancyContractRec."Security Balanced Amount";
+                finalcalcRec."Remaining Security Deposit" := TenancyContractRec."Security Balanced Amount";
                 finalcalcRec.Modify(true);
             end;
         end;
@@ -299,7 +300,7 @@ table 50319 "Security Deposit"
             TenancyContractRec."Carry Forward In" += "Carry Forward Amount";
 
             tenancyContractSubPage.SetRange(ContractID, TenancyContractRec."Contract ID");
-            tenancyContractSubPage.SetRange("Secondary Item Type", 'Security Deposit Amount');
+            tenancyContractSubPage.SetRange("Secondary Item Type", 'Security Deposit');
             if tenancyContractSubPage.FindSet() then begin
                 TenancyContractRec."Security Deposit Amt. Received" := TenancyContractRec."Carry Forward In" + tenancyContractSubPage."Invoiced and Paid";
                 TenancyContractRec."Security Amount Pending" := TenancyContractRec."Security Deposit Amount" - TenancyContractRec."Security Deposit Amt. Received";  // Update the Balance Amount
