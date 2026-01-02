@@ -14,15 +14,15 @@ table 50934 "Payment Schedule2"
             DataClassification = ToBeClassified;
             Caption = 'Secondary Item Type';
 
-            trigger OnValidate()
+            // trigger OnValidate()
 
 
-            begin
-                // Check if the payment status is 'Received'
-                if "Secondary Item Type" = 'Security Deposit' then
-                    // Call the procedure to update the balance amount
-                    UpdateBalanceAmountOnPaymentReceived();
-            end;
+            // begin
+            //     // Check if the payment status is 'Received'
+            //     // if "Secondary Item Type" = 'Security Deposit' then
+            //     // Call the procedure to update the balance amount
+            //     // UpdateBalanceAmountOnPaymentReceived();
+            // end;
 
         }
 
@@ -55,7 +55,7 @@ table 50934 "Payment Schedule2"
                 // Check if the payment status is 'Received'
 
                 // Call the procedure to update the balance amount
-                UpdateBalanceAmountOnPaymentReceived();
+                // UpdateBalanceAmountOnPaymentReceived();
             end;
 
 
