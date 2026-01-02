@@ -41,7 +41,7 @@ table 50938 "Tenancy Contract Subpage"
         {
             DataClassification = ToBeClassified;
             Caption = 'Amount';
-            Editable = false;
+            // Editable = false;
 
             trigger OnValidate()
             begin
@@ -91,6 +91,7 @@ table 50938 "Tenancy Contract Subpage"
             trigger OnValidate()
             begin
                 "Amount Including VAT" := Amount + "VAT Amount";
+                UpdatedPaymentRecords();
             end;
         }
 
@@ -195,10 +196,6 @@ table 50938 "Tenancy Contract Subpage"
         }
     }
 
-
-
-
-
     //--------------Method to calculate VAT Amount and Amount Including VAT-----------------//
     local procedure CalcVATAndTotal()
     var
@@ -214,4 +211,35 @@ table 50938 "Tenancy Contract Subpage"
     end;
 
     //--------------Method to calculate VAT Amount and Amount Including VAT-----------------//
+
+    procedure UpdatedPaymentRecords()
+    var
+        paymentScheduleSub: Record "Payment Schedule2";
+        paymentMode2: Record "Payment Mode2";
+        differenceAmount: Decimal;
+    begin
+        paymentScheduleSub.SetRange("Contract ID", Rec.ContractID);
+        paymentScheduleSub.SetRange("Secondary Item Type", Rec."Secondary Item Type");
+        if paymentScheduleSub.FindFirst() then begin
+            if Rec.Amount = 0 then begin
+                differenceAmount := paymentScheduleSub.Amount;
+                paymentScheduleSub.Delete()
+            end
+            else begin
+                differenceAmount := paymentScheduleSub.Amount - Rec.Amount;
+                paymentScheduleSub.Amount := Rec.Amount;
+                paymentScheduleSub."VAT Amount" := Rec."VAT Amount";
+                paymentScheduleSub."Amount Including VAT" := Rec."Amount Including VAT";
+                paymentScheduleSub.Modify(true);
+            end;
+        end;
+
+        paymentMode2.SetRange("Contract ID", Rec.ContractID);
+        paymentMode2.SetRange("Payment Series", 'PAY01');
+        if paymentMode2.FindFirst() then begin
+            paymentMode2.Amount -= differenceAmount;
+            paymentMode2."Amount Including VAT" := paymentMode2.Amount + paymentMode2."VAT Amount";
+            paymentMode2.Modify(true);
+        end;
+    end;
 }

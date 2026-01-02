@@ -14,6 +14,7 @@ codeunit 50108 "Final Settlement Posting Mgt."
         AdditionalCharges: Record "Additional Charges Sub";
         BillingSetup: Record "Final Billing Calculation Grid";
         Amount: Decimal;
+        remainingInvoiceAmount: Decimal;
         PendingAmount: Decimal;
         GLSetup: Record "General Ledger Setup";
         TenantName: Text[100];
@@ -22,8 +23,11 @@ codeunit 50108 "Final Settlement Posting Mgt."
         CustomerCard: Record Customer;
         JournalTemplateName: Code[10];
         JournalBatchName: Code[10];
+        additionalChargesInvoiceID: Code[20];
+        finalBillingInvoiceID: Code[20];
         InvoiceID: Code[20];
         HasJournalEntries: Boolean;
+        finalBillingAdjusted: Boolean;
     begin
         // Load G/L Setup for rounding
         GLSetup.Get();
@@ -57,11 +61,15 @@ codeunit 50108 "Final Settlement Posting Mgt."
             PendingAmount := 0;
 
         // Get Invoice ID (Optional - try multiple sources)
-        InvoiceID := '';
+        AdditionalCharges.Reset();
+        AdditionalCharges.SetRange("Contract ID", FinalSettlement."Contract ID");
+        if AdditionalCharges.FindFirst() then
+            additionalChargesInvoiceID := AdditionalCharges."Invoiced ID";
 
-        // If still not found, create default
-        if InvoiceID = '' then
-            InvoiceID := 'FS-' + Format(FinalSettlement."Contract ID");
+        BillingSetup.Reset();
+        BillingSetup.SetRange("Contract ID", FinalSettlement."Contract ID");
+        if BillingSetup.FindFirst() then
+            finalBillingInvoiceID := BillingSetup."Invoice ID";
 
         // Find Bank Account
         BankAccountNo := '';
@@ -77,12 +85,10 @@ codeunit 50108 "Final Settlement Posting Mgt."
         LineNo := 10000;
         HasJournalEntries := false;
 
-        // 1st Line - Total Receive entry (Only if Total Receive > 0)
-        if TenantContract."Total Receive" > 0 then begin
-            AdditionalCharges.Reset();
-            AdditionalCharges.SetRange("Contract ID", FinalSettlement."Contract ID");
-            if AdditionalCharges.FindFirst() then
-                InvoiceID := AdditionalCharges."Invoiced ID";
+        finalBillingAdjusted := false;
+        remainingInvoiceAmount := 0;
+
+        while Amount > 0 do begin
             Clear(GenJnlLine);
             GenJnlLine.Init();
             GenJnlLine."Journal Template Name" := JournalTemplateName;
@@ -95,9 +101,8 @@ codeunit 50108 "Final Settlement Posting Mgt."
             GenJnlLine."Account No." := FinalSettlement."Tenant ID";
             GenJnlLine.Description := TenantName;
             GenJnlLine."Contract ID" := FinalSettlement."Contract ID";
-            GenJnlLine.Validate(Amount, -TenantContract."Total Receive");
+            GenJnlLine."Applies-to Doc. Type" := GenJnlLine."Applies-to Doc. Type"::Invoice;
 
-            // Set balancing account
             if BankAccountNo <> '' then begin
                 GenJnlLine."Bal. Account Type" := GenJnlLine."Bal. Account Type"::"Bank Account";
                 GenJnlLine."Bal. Account No." := BankAccountNo;
@@ -106,47 +111,24 @@ codeunit 50108 "Final Settlement Posting Mgt."
                 GenJnlLine."Bal. Account No." := '3001';
             end;
 
-            GenJnlLine."Applies-to Doc. Type" := GenJnlLine."Applies-to Doc. Type"::Invoice;
-            GenJnlLine."Applies-to Doc. No." := InvoiceID;
+            if not finalBillingAdjusted then begin
+                if CheckRemainingAmount(finalBillingInvoiceID, remainingInvoiceAmount) then begin
+                    GenJnlLine."Applies-to Doc. No." := finalBillingInvoiceID;
+                    finalBillingAdjusted := true;
+                end;
+            end
+            else begin
+                if finalBillingAdjusted or (remainingInvoiceAmount = 0) then begin
+                    if CheckRemainingAmount(additionalChargesInvoiceID, remainingInvoiceAmount) then
+                        GenJnlLine."Applies-to Doc. No." := additionalChargesInvoiceID;
+                end;
+            end;
+
+            GenJnlLine.Validate(Amount, -remainingInvoiceAmount);
             GenJnlLine.Insert();
 
             LineNo += 10000;
-            HasJournalEntries := true;
-        end;
-
-        // 2nd Line - Pending Receivable entry (Only if Pending Amount > 0)
-        if PendingAmount > 0 then begin
-            BillingSetup.Reset();
-            BillingSetup.SetRange("Contract ID", FinalSettlement."Contract ID");
-            if BillingSetup.FindFirst() then
-                InvoiceID := BillingSetup."Invoice ID";
-            Clear(GenJnlLine);
-            GenJnlLine.Init();
-            GenJnlLine."Journal Template Name" := JournalTemplateName;
-            GenJnlLine."Journal Batch Name" := JournalBatchName;
-            GenJnlLine."Line No." := LineNo;
-            GenJnlLine."Posting Date" := Today;
-            GenJnlLine."Document No." := DocNo;
-            GenJnlLine."Document Type" := GenJnlLine."Document Type"::Payment;
-            GenJnlLine."Account Type" := GenJnlLine."Account Type"::Customer;
-            GenJnlLine."Account No." := FinalSettlement."Tenant ID";
-            GenJnlLine."Contract ID" := FinalSettlement."Contract ID";
-            GenJnlLine.Description := TenantName;
-            GenJnlLine.Validate(Amount, -PendingAmount);
-
-            // Set balancing account
-            if BankAccountNo <> '' then begin
-                GenJnlLine."Bal. Account Type" := GenJnlLine."Bal. Account Type"::"Bank Account";
-                GenJnlLine."Bal. Account No." := BankAccountNo;
-            end else begin
-                GenJnlLine."Bal. Account Type" := GenJnlLine."Bal. Account Type"::"G/L Account";
-                GenJnlLine."Bal. Account No." := '3001';
-            end;
-
-            GenJnlLine."Applies-to Doc. Type" := GenJnlLine."Applies-to Doc. Type"::Invoice;
-            GenJnlLine."Applies-to Doc. No." := InvoiceID;
-            GenJnlLine.Insert();
-
+            Amount -= remainingInvoiceAmount;
             HasJournalEntries := true;
         end;
 
@@ -180,282 +162,24 @@ codeunit 50108 "Final Settlement Posting Mgt."
                 TenantContract."Total Receive", PendingAmount);
     end;
 
-
-    procedure receivecashrecipt(FinalSettlement: Record "FinalSettlement")
+    procedure CheckRemainingAmount(invoiceId: Code[20]; var remainingAmount: Decimal): Boolean
     var
-        GenJnlLine: Record "Gen. Journal Line";
-        SalesInvoice: Record "Sales Invoice Header";
-        finalcalculation: Record "Final Calculation";
-        GenJnlTemplate: Record "Gen. Journal Template";
-        GenJnlBatch: Record "Gen. Journal Batch";
-        PostingDate: Date;
-        DocumentNo: Code[20];
-        AccountNo: Code[20];
-        InvoiceNo: Code[20];
-        GenJournalLine: Record "Gen. Journal Line";
-        LastLineNo: Integer;
-        GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line";
-        TerminationCharges: Record "Termination Charges Sub";
-        TotalRefundableDeposit: Decimal;
-        TerminationChargesub: Record "Additional Charges Sub";
-        Tenantid: Code[20];
-        Tenantname: Text[100];
-        billingcalculation: Record "Final Billing Calculation Grid";
-        JournalTemplateName: Code[10];
-        JournalBatchName: Code[10];
-        ContractID: Integer;
+        postedSalesInvoice: Record "Sales Invoice Header";
     begin
-        // Initialize journal template and batch names
-        JournalTemplateName := 'CASH RECE';
-        JournalBatchName := 'DEFAULT';
-
-        // Verify that the template and batch exist
-        if not GenJnlTemplate.Get(JournalTemplateName) then
-            Error('The Journal Template %1 does not exist.', JournalTemplateName);
-
-        GenJnlBatch.Reset();
-        GenJnlBatch.SetRange("Journal Template Name", JournalTemplateName);
-        GenJnlBatch.SetRange(Name, JournalBatchName);
-        if not GenJnlBatch.FindFirst() then
-            Error('The Journal Batch %1 does not exist for template %2.', JournalBatchName, JournalTemplateName);
-
-        PostingDate := Today();
-
-        // Add validation for finalsettlement record
-        if FinalSettlement."Contract ID" = 0 then
-            Error('Contract ID is missing in the Final Settlement record');
-
-        DocumentNo := 'RECEIVE-' + Format(FinalSettlement."Contract ID");
-
-        // Fetch tenant details from Final Calculation
-        finalcalculation.Reset();
-        finalcalculation.SetRange("Contract ID", FinalSettlement."Contract ID");
-        if finalcalculation.FindFirst() then begin
-            Tenantid := finalcalculation."Tenant ID";
-            Tenantname := finalcalculation."Tenant Name";
-            ContractID := finalcalculation."Contract ID";
-        end else begin
-            Error('Final Calculation not found for Contract ID %1', FinalSettlement."Contract ID");
-        end;
-
-        // Determine Bal. Account based on Refund Payment Mode
-        if UpperCase(FinalSettlement."Receivable Payment mode") = 'CASH' then begin
-            AccountNo := '3001'; // Cash G/L Account
-        end else begin
-            AccountNo := '3002';
-            if AccountNo = '' then
-                Error('Bank Account No. not found for Contract ID %1', FinalSettlement."Contract ID");
-        end;
-
-        // Sum Additional Charges and fetch Invoice No.
-        TotalRefundableDeposit := 0;
-        InvoiceNo := '';
-
-        TerminationChargesub.Reset();
-        TerminationChargesub.SetRange("Contract ID", FinalSettlement."Contract ID");
-        if TerminationChargesub.FindSet() then begin
-            repeat
-                TotalRefundableDeposit += TerminationChargesub."Amount Including VAT";
-                if InvoiceNo = '' then
-                    InvoiceNo := TerminationChargesub."Posted Invoice ID";
-            until TerminationChargesub.Next() = 0;
-        end else begin
-            Error('Additional charges not found for Contract ID %1', FinalSettlement."Contract ID");
-        end;
-
-        // Critical validation - ensure amount is not zero
-        if TotalRefundableDeposit <= 0 then
-            Error('Total refundable deposit amount is zero or negative (%1) for Contract ID %2. Cannot create journal entry.',
-                  TotalRefundableDeposit, FinalSettlement."Contract ID");
-
-        // Clear any existing journal lines in this batch
-        // GenJournalLine.Reset();
-        // GenJournalLine.SetRange("Journal Template Name", JournalTemplateName);
-        // GenJournalLine.SetRange("Journal Batch Name", JournalBatchName);
-        // if not GenJournalLine.IsEmpty() then
-        //     GenJournalLine.DeleteAll(true);
-
-        // Start with standard line number
-        LastLineNo := 10000;
-
-        // Create journal line
-        Clear(GenJnlLine);
-        GenJnlLine.Init();
-        GenJnlLine."Journal Template Name" := JournalTemplateName;
-        GenJnlLine."Journal Batch Name" := JournalBatchName;
-        GenJnlLine."Line No." := LastLineNo;
-        GenJnlLine."Posting Date" := PostingDate;
-        GenJnlLine."Document Type" := GenJnlLine."Document Type"::Payment;
-        GenJnlLine."Document No." := DocumentNo;
-        GenJnlLine.Description := Tenantname;
-        GenJnlLine."Account Type" := GenJnlLine."Account Type"::Customer;
-        GenJnlLine."Account No." := Tenantid;
-        GenJnlLine."Contract ID" := ContractID;
-
-        // Use Validate to ensure all dependent fields are calculated
-        GenJnlLine.Validate(Amount, -TotalRefundableDeposit);
-
-        // Double-check that amount is not zero after validation
-        if GenJnlLine.Amount = 0 then
-            Error('Amount became zero after validation. Check Customer %1 and amount %2',
-                  Tenantid, TotalRefundableDeposit);
-
-        GenJnlLine."Bal. Account Type" := GenJnlLine."Bal. Account Type"::"G/L Account";
-        GenJnlLine."Bal. Account No." := AccountNo;
-        GenJnlLine."Applies-to Doc. Type" := GenJnlLine."Applies-to Doc. Type"::Invoice;
-        GenJnlLine."Applies-to Doc. No." := InvoiceNo;
-
-        // Insert the journal line
-        GenJnlLine.Insert(true);
-
-        GenJnlLine.Reset();
-        GenJnlLine.SetRange("Journal Template Name", JournalTemplateName);
-        GenJnlLine.SetRange("Journal Batch Name", JournalBatchName);
-        if GenJnlLine.FindSet() then
-            GenJnlLine.DeleteAll(true);
-
-        // Post the journal line
-        if GenJnlLine.Amount <> 0 then begin
-            GenJnlPostLine.RunWithCheck(GenJnlLine);
-            Message('Cash Receipt journal entries created and posted successfully.');
-        end else begin
-            Error('Journal posting skipped because amount is zero.');
-        end;
-    end;
-
-    procedure receivablecashrecipt(FinalSettlement: Record "FinalSettlement")
-    var
-        GenJnlLine: Record "Gen. Journal Line";
-        SalesInvoice: Record "Sales Invoice Header";
-        finalcalculation: Record "Final Calculation";
-        GenJnlTemplate: Record "Gen. Journal Template";
-        GenJnlBatch: Record "Gen. Journal Batch";
-        PostingDate: Date;
-        DocumentNo: Code[20];
-        AccountNo: Code[20];
-        InvoiceNo: Code[20];
-        GenJournalLine: Record "Gen. Journal Line";
-        LastLineNo: Integer;
-        GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line";
-        TerminationCharges: Record "Termination Charges Sub";
-        TotalRefundableDeposit: Decimal;
-        TerminationChargesub: Record "Additional Charges Sub";
-        Tenantid: Code[20];
-        Tenantname: Text[100];
-        billingcalculation: Record "Final Billing Calculation Grid";
-        JournalTemplateName: Code[10];
-        JournalBatchName: Code[10];
-        ContractID: Integer;
-    begin
-        // Initialize journal template and batch names
-        JournalTemplateName := 'CASH RECE';
-        JournalBatchName := 'DEFAULT';
-
-        // Verify that the template and batch exist
-        if not GenJnlTemplate.Get(JournalTemplateName) then
-            Error('The Journal Template %1 does not exist.', JournalTemplateName);
-
-        GenJnlBatch.Reset();
-        GenJnlBatch.SetRange("Journal Template Name", JournalTemplateName);
-        GenJnlBatch.SetRange(Name, JournalBatchName);
-        if not GenJnlBatch.FindFirst() then
-            Error('The Journal Batch %1 does not exist for template %2.', JournalBatchName, JournalTemplateName);
-
-        PostingDate := Today();
-
-        // Add validation for finalsettlement record
-        if FinalSettlement."Contract ID" = 0 then
-            Error('Contract ID is missing in the Final Settlement record');
-
-        DocumentNo := 'RECEIVE-' + Format(FinalSettlement."Contract ID");
-
-        // Fetch tenant details from Final Calculation
-        finalcalculation.Reset();
-        finalcalculation.SetRange("Contract ID", FinalSettlement."Contract ID");
-        if finalcalculation.FindFirst() then begin
-            Tenantid := finalcalculation."Tenant ID";
-            Tenantname := finalcalculation."Tenant Name";
-            ContractID := finalcalculation."Contract ID";
-        end else begin
-            Error('Final Calculation not found for Contract ID %1', FinalSettlement."Contract ID");
-        end;
-
-        // Determine Bal. Account based on Refund Payment Mode
-        if UpperCase(FinalSettlement."Receivable Payment mode") = 'CASH' then begin
-            AccountNo := '3001'; // Cash G/L Account
-        end else begin
-            AccountNo := '3002';
-            if AccountNo = '' then
-                Error('Bank Account No. not found for Contract ID %1', FinalSettlement."Contract ID");
-        end;
-
-        // Find Invoice No. and Amount based on Contract ID
-        billingcalculation.Reset();
-        billingcalculation.SetRange("Contract ID", FinalSettlement."Contract ID");
-        if billingcalculation.FindSet() then begin
-            InvoiceNo := billingcalculation."Posted Invoice ID";
-            TotalRefundableDeposit := billingcalculation."Invoice Amount";
-
-            // Critical check: Ensure amount is not zero or negative
-            if TotalRefundableDeposit <= 0 then
-                Error('Invoice amount is zero or negative (%1) for Contract ID %2. Cannot create journal entry.',
-                      TotalRefundableDeposit, FinalSettlement."Contract ID");
-        end else begin
-            Error('Invoice not found for Contract ID %1', FinalSettlement."Contract ID");
-        end;
-
-        // Clear any existing journal lines in this batch
-        // GenJournalLine.Reset();
-        // GenJournalLine.SetRange("Journal Template Name", JournalTemplateName);
-        // GenJournalLine.SetRange("Journal Batch Name", JournalBatchName);
-        // if not GenJournalLine.IsEmpty() then
-        //     GenJournalLine.DeleteAll(true);
-
-        // Start with standard line number
-        LastLineNo := 10000;
-
-        // Create journal line
-        Clear(GenJnlLine);
-        GenJnlLine.Init();
-        GenJnlLine."Journal Template Name" := JournalTemplateName;
-        GenJnlLine."Journal Batch Name" := JournalBatchName;
-        GenJnlLine."Line No." := LastLineNo;
-        GenJnlLine."Posting Date" := PostingDate;
-        GenJnlLine."Document Type" := GenJnlLine."Document Type"::Payment;
-        GenJnlLine."Document No." := DocumentNo;
-        GenJnlLine.Description := Tenantname;
-        GenJnlLine."Account Type" := GenJnlLine."Account Type"::Customer;
-        GenJnlLine."Account No." := Tenantid;
-        GenJnlLine."Contract ID" := ContractID;
-
-        // Use Validate for Amount to trigger proper calculations
-        GenJnlLine.Validate(Amount, -TotalRefundableDeposit);
-
-        // Double check amount not zero after validation
-        if GenJnlLine.Amount = 0 then
-            Error('Amount became zero after validation. Check Customer %1 and amount %2',
-                  Tenantid, TotalRefundableDeposit);
-
-        GenJnlLine."Bal. Account Type" := GenJnlLine."Bal. Account Type"::"G/L Account";
-        GenJnlLine."Bal. Account No." := AccountNo;
-        GenJnlLine."Applies-to Doc. Type" := GenJnlLine."Applies-to Doc. Type"::Invoice;
-        GenJnlLine."Applies-to Doc. No." := InvoiceNo;
-
-        // Insert the journal line
-        GenJnlLine.Insert(true);
-
-        GenJnlLine.Reset();
-        GenJnlLine.SetRange("Journal Template Name", JournalTemplateName);
-        GenJnlLine.SetRange("Journal Batch Name", JournalBatchName);
-        if GenJnlLine.FindSet() then
-            GenJnlLine.DeleteAll(true);
-
-        // Post the journal line using RunWithCheck to catch any posting errors
-        if GenJnlLine.Amount <> 0 then begin
-            GenJnlPostLine.RunWithCheck(GenJnlLine);
-            Message('Cash Receipt journal entries created and posted successfully.');
-        end else begin
-            Error('Journal posting skipped because amount is zero.');
+        if postedSalesInvoice.Get(invoiceId) then begin
+            postedSalesInvoice.CalcFields("Remaining Amount");
+            if postedSalesInvoice."Remaining Amount" > 0 then begin
+                remainingAmount := postedSalesInvoice."Remaining Amount";
+                exit(true);
+            end
+            else begin
+                remainingAmount := 0;
+                exit(false);
+            end;
+        end
+        else begin
+            remainingAmount := 0;
+            exit(false);
         end;
     end;
 }

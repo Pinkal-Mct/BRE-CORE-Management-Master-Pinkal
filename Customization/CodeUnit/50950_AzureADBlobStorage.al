@@ -47,6 +47,7 @@ codeunit 50950 "Azure AD Blob Storage"
         ConfigRecord: Record "AzureConfiguration";
         ContentType: Text;
         FullBlobPath: Text;
+        TypeHelper: Codeunit "Type Helper";
     begin
         if not ConfigRecord.FindFirst() then
             Error('Azure configuration is missing. Please set up the configuration.');
@@ -78,7 +79,8 @@ codeunit 50950 "Azure AD Blob Storage"
         HttpHeaders.Add('Authorization', 'Bearer ' + AccessToken);
         HttpHeaders.Add('x-ms-blob-type', 'BlockBlob');
         HttpHeaders.Add('x-ms-version', '2020-08-04');
-        HttpHeaders.Add('x-ms-date', GetRFC1123FormattedDateTime());
+        //  HttpHeaders.Add('x-ms-date', GetRFC1123FormattedDateTime());
+        HttpHeaders.Add('x-ms-date', TypeHelper.GetCurrUTCDateTimeAsText());
 
         ContentType := GetMimeTypeFromFileName(FileName);
         HttpHeaders.Add('x-ms-blob-content-disposition', StrSubstNo('inline; filename="%1"', FileName));
