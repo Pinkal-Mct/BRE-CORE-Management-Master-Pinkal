@@ -12,17 +12,22 @@ codeunit 50514 "Cash Receipt Journal Entry"
         GenJournalLineRec: Record "Gen. Journal Line";
         // GenJournalBatchRec: Record "Gen. Journal Batch";
         GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line";
+        COASetup: Record "COA Setup";
         COACode: Record "COA Setup Line";
         BankAccountRec: Record "Bank Account";
         LineNumber: Integer;
         ContractRec: Record "Tenancy Contract";
         TenantReceivableGL: Code[20];
-        PDCCollectionGL: Code[20];
+        //  PDCCollectionGL: Code[20];
         BalAccountNo: Code[20];
         BatchName: Code[20];
         ErrorMessage: Text[100];
         PropertyClassification: Text[50];
         CustRec: Record Customer;
+        PDCAccount: Code[20];
+        balAccountType: Enum "Gen. Journal Account Type";
+        CashAccount: Code[20];
+        BankaccountNo: Code[20];
     begin
         // Find the Payment Series Record
         // PaymentSeriesRec.Reset();
@@ -40,7 +45,6 @@ codeunit 50514 "Cash Receipt Journal Entry"
                 if GenJournalLineRec.FindSet() then begin
                     GenJournalLineRec.DeleteAll();
                 end;
-                PDCCollectionGL := '2002';
                 //  Get Contract Info
                 ContractRec.Reset();
                 ContractRec.SetRange("Contract ID", PaymentSeriesRec."Contract ID");
@@ -59,6 +63,40 @@ codeunit 50514 "Cash Receipt Journal Entry"
             end else
                 Error('No contract found with ID %1', PaymentSeriesRec."Contract ID");
 
+            ///////////////////////// COA Setup /////////////////////////////
+
+            COASetup.Get();
+            if PaymentSeriesRec."Payment Mode" = 'Cheque' then begin
+                if COASetup."PDC Collection/Return" <> '' then begin
+                    PDCAccount := COASetup."PDC Collection/Return";
+                end
+                else begin
+                    Error('COA Setup doest not exist for PDC Collection/Return account');
+                end;
+            end else begin
+
+                BankAccountRec.Reset();
+                BankAccountRec.SetRange("Search Name", PaymentSeriesRec."Deposit Bank");
+                if BankAccountRec.FindSet() then begin
+                    if BankAccountRec."Bank Acc. Posting Group" <> ''
+                    then
+                        BankaccountNo := BankAccountRec."No."
+                    else
+                        Error('Bank Account Posting Group is blank in Bank Account %1', BankAccountRec."No.");
+                end
+                else begin
+
+                    if COASetup.Cash <> '' then begin
+                        CashAccount := COASetup.Cash;
+                    end else
+                        Error('COA Setup doest not exist for Cash account');
+                end;
+            end;
+
+
+
+            ////////////////////////////// END COA Setup /////////////////////////
+
             // Loop through Payment Schedule and create individual lines
             PaymentScheduleRec.SetRange("Payment Series", PaymentSeriesRec."Payment Series");
             PaymentScheduleRec.SetRange("Contract ID", PaymentSeriesRec."Contract ID");
@@ -66,6 +104,8 @@ codeunit 50514 "Cash Receipt Journal Entry"
                 LineNumber := 0;
 
                 LineNumber := GenJournalLineRec."Line No." + 10000;
+
+
                 Clear(GenJournalLineRec);
                 GenJournalLineRec.Init();
                 GenJournalLineRec."Journal Template Name" := 'CASH RECE';
@@ -81,7 +121,7 @@ codeunit 50514 "Cash Receipt Journal Entry"
                     GenJournalLineRec."Account No." := PaymentSeriesRec."Tenant Id";
                     GenJournalLineRec.Description := PaymentSeriesRec."Cheque Number"; // Customer from Payment Series
                     GenJournalLineRec."Bal. Account Type" := GenJournalLineRec."Bal. Account Type"::"G/L Account";
-                    GenJournalLineRec."Bal. Account No." := PDCCollectionGL;
+                    GenJournalLineRec."Bal. Account No." := PDCAccount;
                 end else begin
                     GenJournalLineRec."Account Type" := GenJournalLineRec."Account Type"::Customer;
                     GenJournalLineRec."Account No." := PaymentSeriesRec."Tenant Id"; // Customer from Payment Series
@@ -99,12 +139,12 @@ codeunit 50514 "Cash Receipt Journal Entry"
                     BankAccountRec.SetRange("Search Name", PaymentSeriesRec."Deposit Bank");
                     if BankAccountRec.FindSet() then begin
                         GenJournalLineRec."Bal. Account Type" := GenJournalLineRec."Bal. Account Type"::"Bank Account";
-                        GenJournalLineRec."Bal. Account No." := BankAccountRec."No.";
+                        GenJournalLineRec."Bal. Account No." := BankaccountNo;
                         // GenJournalLineRec."Currency Code" := BankAccountRec."Currency Code";
                     end
                     else begin
                         GenJournalLineRec."Bal. Account Type" := GenJournalLineRec."Bal. Account Type"::"G/L Account";
-                        GenJournalLineRec."Bal. Account No." := '3001';
+                        GenJournalLineRec."Bal. Account No." := CashAccount;
                     end;
                 end;
 
@@ -136,6 +176,7 @@ codeunit 50514 "Cash Receipt Journal Entry"
         GenJournalLine: Record "Gen. Journal Line";
         GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line";
         BankAccountRec: Record "Bank Account";
+        COASetup: Record "COA Setup";
         LineNo: Integer;
         COACode: Record "COA Setup Line";
         CustRec: Record Customer;
@@ -143,14 +184,11 @@ codeunit 50514 "Cash Receipt Journal Entry"
         TenantReceivableGL: Code[20];
         BalAccountNo: Code[20];
         ErrorMessage: Text[100];
-        PDCReceivedGL: Code[20];
         PropertyClassification: Text[50];
-
+        PDCAccount: Code[20];
 
     begin
         LineNo := 0;
-        PDCReceivedGL := '2001';
-
         if PDCTransactionRec."Contract ID" <> 0 then begin
             ContractRec.Reset();
             ContractRec.SetRange("Contract ID", PDCTransactionRec."Contract ID"); // Use correct field name
@@ -182,6 +220,18 @@ codeunit 50514 "Cash Receipt Journal Entry"
                 Error('No contract found with ID %1', PDCTransactionRec."Contract ID");
         end else
             Error('Contract ID is missing in PDC record.');
+
+        ///////////////////////// COA Setup /////////////////////////////
+
+        COASetup.Get();
+        if COASetup."PDC Received" <> '' then begin
+            PDCAccount := COASetup."PDC Received";
+        end
+        else
+            Error('COA Setup doest not exist for PDC Received account');
+
+
+        ////////////////////////////// END COA Setup /////////////////////////
 
         // // Update Customer Posting Group based on Property Classification
         // if ContractRec.Get(PDCTransactionRec."Contract ID") then begin
@@ -216,7 +266,7 @@ codeunit 50514 "Cash Receipt Journal Entry"
         GenJournalLine.Validate(Amount, Round(-PDCTransactionRec.Amount));
         // GenJournalLine."Amount (LCY)" := GenJournalLine.Amount;
         GenJournalLine."Bal. Account Type" := GenJournalLine."Bal. Account Type"::"G/L Account";
-        GenJournalLine."Bal. Account No." := PDCReceivedGL;
+        GenJournalLine."Bal. Account No." := PDCAccount;
 
         GenJournalLine.Insert();
 

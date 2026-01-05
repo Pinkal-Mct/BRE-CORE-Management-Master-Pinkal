@@ -3,6 +3,7 @@ codeunit 50107 "Security Deposit Posting Mgt."
     procedure PostSecurityDepositAmount(SecurityDeposit: Record "Security Deposit")
     var
         GenJnlLine: Record "Gen. Journal Line";
+        COASetup: Record "COA Setup";
         GenJnlTemplate: Code[10];
         GenJnlBatch: Code[10];
         Amount: Decimal;
@@ -25,17 +26,34 @@ codeunit 50107 "Security Deposit Posting Mgt."
             Error('Security Deposit Amount Received is zero. Cannot post.');
 
         // Set G/L Accounts based on Property Type
-        case PropertyType of
-            'Residential':
-                TenantReceivableAccount := '1501';
-            'Commercial':
-                TenantReceivableAccount := '1506';
+        // case PropertyType of
+        //     'Residential':
+        //         TenantReceivableAccount := '1501';
+        //     'Commercial':
+        //         TenantReceivableAccount := '1506';
+        //     else
+        //         Error('Invalid Property Type. Must be Residential or Commercial.');
+        // end;
+        COASetup.Get();
+        if PropertyType = 'Residential' then begin
+            if COASetup."Tenant Receivables-Residential" <> '' then begin
+                TenantReceivableAccount := COASetup."Tenant Receivables-Residential";
+            end
             else
-                Error('Invalid Property Type. Must be Residential or Commercial.');
+                Error('COA Setup doest not exist for Tenant Receivables-Residential Account');
+
+        end else begin
+            if COASetup."Tenant Receivables-Commercial" <> '' then begin
+                TenantReceivableAccount := COASetup."Tenant Receivables-Commercial";
+            end
+            else
+                Error('COA Setup doest not exist for Tenant Receivables-Commercial Account');
         end;
 
-        CarryForwardOutAccount := '4504';
-        CarryForwardInAccount := '4503';
+
+
+        CarryForwardOutAccount := COASetup."Carried Forward Out SD";
+        CarryForwardInAccount := COASetup."Carried Forward in SD";
 
         // Generate Document No
         DocNo := 'SD-' + Format(SecurityDeposit."Contract ID");

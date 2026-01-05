@@ -9,7 +9,7 @@ codeunit 50108 "Final Settlement Posting Mgt."
         LineNo: Integer;
         DocNo: Code[20];
         GenJnlPost: Codeunit "Gen. Jnl.-Post";
-        TenantContract: Record "Final Calculation";
+        FinalcalculationRec: Record "Final Calculation";
         PendingReceivableRID: Record "Pending Receviable Grid";
         AdditionalCharges: Record "Additional Charges Sub";
         BillingSetup: Record "Final Billing Calculation Grid";
@@ -28,6 +28,10 @@ codeunit 50108 "Final Settlement Posting Mgt."
         InvoiceID: Code[20];
         HasJournalEntries: Boolean;
         finalBillingAdjusted: Boolean;
+        COASetup: Record "COA Setup";
+        respectiveAccountNo: Code[20];
+        balAccountType: Enum "Gen. Journal Account Type";
+
     begin
         // Load G/L Setup for rounding
         GLSetup.Get();
@@ -45,12 +49,23 @@ codeunit 50108 "Final Settlement Posting Mgt."
         JournalBatchName := 'DEFAULT';
 
         // Get tenant contract information
-        TenantContract.Reset();
-        TenantContract.SetRange("Contract ID", FinalSettlement."Contract ID");
-        if not TenantContract.FindFirst() then
+        FinalcalculationRec.Reset();
+        FinalcalculationRec.SetRange("Contract ID", FinalSettlement."Contract ID");
+        if not FinalcalculationRec.FindFirst() then
             Error('Contract not found for Contract ID %1', FinalSettlement."Contract ID");
 
-        TenantName := TenantContract."Tenant Name";
+        TenantName := FinalcalculationRec."Tenant Name";
+
+        if FinalcalculationRec."Unit Type" <> '' then begin
+            CustomerCard.Reset();
+            CustomerCard.SetRange("No.", FinalSettlement."Tenant ID");
+            if CustomerCard.FindFirst() then begin
+                CustomerCard.Validate("Gen. Bus. Posting Group", FinalcalculationRec."Unit Type");
+                CustomerCard.Validate("Customer Posting Group", FinalcalculationRec."Unit Type");
+                CustomerCard.Modify();
+            end;
+        end;
+
 
         // Get pending receivable information
         PendingReceivableRID.Reset();
@@ -72,11 +87,35 @@ codeunit 50108 "Final Settlement Posting Mgt."
             finalBillingInvoiceID := BillingSetup."Invoice ID";
 
         // Find Bank Account
-        BankAccountNo := '';
-        BankAccount.Reset();
-        BankAccount.SetRange("Search Name", FinalSettlement."Deposit Bank");
-        if BankAccount.FindFirst() then
-            BankAccountNo := BankAccount."No.";
+        // BankAccountNo := '';
+        // BankAccount.Reset();
+        // BankAccount.SetRange("Search Name", FinalSettlement."Deposit Bank");
+        // if BankAccount.FindFirst() then
+        //     BankAccountNo := BankAccount."No.";
+        if FinalSettlement."Receivable Payment mode" = 'Cash' then begin
+            COASetup.Get();
+            if COASetup.Cash <> '' then begin
+                respectiveAccountNo := COASetup.Cash;
+                balAccountType := balAccountType::"G/L Account";
+            end
+            else
+                Error('COA Setup doest not exist for Cash Payment');
+        end
+        else begin
+            respectiveAccountNo := '';
+            BankAccount.Reset();
+            BankAccount.SetRange("Search Name", FinalSettlement."Deposit Bank");
+            if BankAccount.FindFirst() then begin
+                if BankAccount."Bank Acc. Posting Group" <> '' then begin
+
+                    respectiveAccountNo := BankAccount."No.";
+                    balAccountType := balAccountType::"Bank Account";
+                end
+                else
+                    Error('Bank Acc. Posting Group is blank in Bank Account %1', BankAccount."No.");
+            end;
+        end;
+
 
         // Generate Document No
         DocNo := 'FS-' + Format(FinalSettlement."Contract ID") + '-' + Format(FinalSettlement."FC ID");
@@ -103,13 +142,13 @@ codeunit 50108 "Final Settlement Posting Mgt."
             GenJnlLine."Contract ID" := FinalSettlement."Contract ID";
             GenJnlLine."Applies-to Doc. Type" := GenJnlLine."Applies-to Doc. Type"::Invoice;
 
-            if BankAccountNo <> '' then begin
-                GenJnlLine."Bal. Account Type" := GenJnlLine."Bal. Account Type"::"Bank Account";
-                GenJnlLine."Bal. Account No." := BankAccountNo;
-            end else begin
-                GenJnlLine."Bal. Account Type" := GenJnlLine."Bal. Account Type"::"G/L Account";
-                GenJnlLine."Bal. Account No." := '3001';
-            end;
+            // if BankAccountNo <> '' then begin
+            //     GenJnlLine."Bal. Account Type" := GenJnlLine."Bal. Account Type"::"Bank Account";
+            //     GenJnlLine."Bal. Account No." := BankAccountNo;
+            // end else begin
+            GenJnlLine."Bal. Account Type" := balAccountType;
+            GenJnlLine."Bal. Account No." := respectiveAccountNo;
+
 
             if not finalBillingAdjusted then begin
                 if CheckRemainingAmount(finalBillingInvoiceID, remainingInvoiceAmount) then begin
@@ -135,18 +174,9 @@ codeunit 50108 "Final Settlement Posting Mgt."
         // Check if at least one journal line was created
         if not HasJournalEntries then
             Error('No journal entries were created. Both Total Receive (%1) and Pending Amount (%2) are zero or negative for Contract ID %3',
-                  TenantContract."Total Receive", PendingAmount, FinalSettlement."Contract ID");
+                  FinalcalculationRec."Total Receive", PendingAmount, FinalSettlement."Contract ID");
 
         // Update customer posting groups if Unit Type exists
-        if TenantContract."Unit Type" <> '' then begin
-            CustomerCard.Reset();
-            CustomerCard.SetRange("No.", FinalSettlement."Tenant ID");
-            if CustomerCard.FindFirst() then begin
-                CustomerCard.Validate("Gen. Bus. Posting Group", TenantContract."Unit Type");
-                CustomerCard.Validate("Customer Posting Group", TenantContract."Unit Type");
-                CustomerCard.Modify();
-            end;
-        end;
 
         // Post the Journal
         GenJnlPost.Run(GenJnlLine);
@@ -159,7 +189,7 @@ codeunit 50108 "Final Settlement Posting Mgt."
             GenJnlLine.DeleteAll(true);
 
         Message('Final Settlement amount posted successfully. Total Receive: %1, Pending: %2',
-                TenantContract."Total Receive", PendingAmount);
+                FinalcalculationRec."Total Receive", PendingAmount);
     end;
 
     procedure CheckRemainingAmount(invoiceId: Code[20]; var remainingAmount: Decimal): Boolean
