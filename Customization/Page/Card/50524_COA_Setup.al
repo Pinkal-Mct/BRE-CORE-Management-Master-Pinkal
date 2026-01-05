@@ -9,8 +9,21 @@ page 50524 "COA Setup"
     {
         area(Content)
         {
-            group(General)
+            group(Tenant)
             {
+                Caption = 'Tenant Accounts';
+                field("Tenant Receivables-Residential"; Rec."Tenant Receivables-Residential")
+                {
+                    ApplicationArea = All;
+                }
+                field("Tenant Receivables-Commercial"; Rec."Tenant Receivables-Commercial")
+                {
+                    ApplicationArea = All;
+                }
+            }
+            group(Rent)
+            {
+                Caption = 'Rent Accounts';
                 field("Residential Rent"; Rec."Residential Rent")
                 {
                     ApplicationArea = All;
@@ -31,7 +44,45 @@ page 50524 "COA Setup"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the G/L account for unearned commercial rent.';
                 }
+                field(Cash; Rec.Cash)
+                {
+                    ApplicationArea = All;
+                    Caption = 'Cash';
+                }
 
+            }
+            group(CarryForward)
+            {
+                Caption = 'Carry Forward Security Deposit Account';
+
+                field("Carriedforward in SD"; Rec."Carried Forward in SD")
+                {
+                    ApplicationArea = All;
+                }
+                field("Carried Forward Out SD"; Rec."Carried Forward Out SD")
+                {
+                    ApplicationArea = All;
+                }
+            }
+            group(PDCAcoounts)
+            {
+                Caption = 'PDC Accounts';
+                field("PDC Received"; Rec."PDC Received")
+                {
+                    ApplicationArea = All;
+                }
+                field("PDC Collection/Return"; Rec."PDC Collection/Return")
+                {
+                    ApplicationArea = All;
+                }
+                field("PDC Issued"; Rec."PDC Issued")
+                {
+                    ApplicationArea = All;
+                }
+                field("PDC Cleared/Returned"; Rec."PDC Cleared/Returned")
+                {
+                    ApplicationArea = All;
+                }
             }
             part(COASetupLines; "COA Setup List")
             {

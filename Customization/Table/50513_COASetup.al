@@ -32,6 +32,62 @@ table 50513 "COA Setup"
             Caption = 'Commercial-Unearned Rent';
             TableRelation = "G/L Account"."No.";
         }
+        field(50506; "Cash"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Cash';
+            TableRelation = "G/L Account"."No.";
+        }
+        field(50507; "PDC Received"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'PDC Received';
+            TableRelation = "G/L Account"."No.";
+        }
+        field(50508; "PDC Collection/Return"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'PDC Collection/Return';
+            TableRelation = "G/L Account"."No.";
+        }
+        field(50509; "PDC Issued"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'PDC Issued';
+            TableRelation = "G/L Account"."No.";
+        }
+        field(50510; "PDC Cleared/Returned"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'PDC Cleared/Returned';
+            TableRelation = "G/L Account"."No.";
+        }
+        field(50511; "Tenant Receivables-Residential"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Tenant Receivables-Residential';
+            TableRelation = "G/L Account"."No.";
+        }
+        field(50512; "Tenant Receivables-Commercial"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Tenant Receivables-Commercial';
+            TableRelation = "G/L Account"."No.";
+        }
+        field(50513; "Carried Forward in SD"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Carried forward In-Security Deposits';
+            TableRelation = "G/L Account"."No.";
+        }
+        field(50514; "Carried Forward Out SD"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Carried forward Out-Security Deposits';
+            TableRelation = "G/L Account"."No.";
+        }
+
+
     }
 
     keys
