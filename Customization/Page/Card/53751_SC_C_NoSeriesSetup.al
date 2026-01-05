@@ -19,6 +19,11 @@ page 53751 "No. Series Setup"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the Payment Receipt number series.';
                 }
+                field("Management Fee Master"; Rec."Management Fee Master")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the Management fee master series.';
+                }
             }
             group("Sales Management")
             {
