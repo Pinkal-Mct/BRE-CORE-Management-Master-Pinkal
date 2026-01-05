@@ -148,6 +148,11 @@ table 53751 "No. Series Setup"
             DataClassification = ToBeClassified;
             TableRelation = "No. Series".Code;
         }
+        field(53775; "Management Fee Master"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "No. Series".Code;
+        }
     }
     keys
     {

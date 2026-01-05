@@ -455,7 +455,7 @@ table 50303 "Property Registration"
 
     keys
     {
-        key(PK; "Property ID", "Property Classification", "Property Type", "Property Size")
+        key(PK; "Property ID", "Property Classification", "Property Type", "Property Size", "Property Name")
         {
             Clustered = true;
         }
@@ -495,29 +495,29 @@ table 50303 "Property Registration"
     begin
         // Check if record already exists for same Vendor ID and Property ID to avoid duplicates (optional but good)
         managementfee.SetRange("Vendor ID", Rec."Vendor ID");
-        managementfee.SetRange("Property ID", Rec."Property ID");
+        //     managementfee.SetRange("Property ID", Rec."Property ID");
 
         if not managementfee.IsEmpty() then
             exit; // Record already exists, avoid duplicate insert
 
         // Now insert new record
         managementfee.Init();
-        managementfee."Property ID" := Rec."Property ID";
-        managementfee."Company ID" := Rec."Company ID";
-        managementfee."Vendor ID" := Rec."Vendor ID";
-        managementfee."Vendor Name" := Rec."Vendor Name";
-        managementfee."Property Name" := Rec."Property Name";
-        managementfee."Start Date" := Rec."Start Date";
-        managementfee."End Date" := Rec."End Date";
-        managementfee."Property Type" := Rec."Property Classification";
-        managementfee."Contract Status" := Rec."Contract Status";
+        // managementfee."Property ID" := Rec."Property ID";
+        // managementfee."Company ID" := Rec."Company ID";
+        // managementfee."Vendor ID" := Rec."Vendor ID";
+        // managementfee."Vendor Name" := Rec."Vendor Name";
+        // managementfee."Property Name" := Rec."Property Name";
+        // managementfee."Start Date" := Rec."Start Date";
+        // managementfee."End Date" := Rec."End Date";
+        // managementfee."Property Type" := Rec."Property Classification";
+        // managementfee."Contract Status" := Rec."Contract Status";
 
-        managementfee."Calculation Method" := Rec."Calculation Method";
-        managementfee."Percentage Type" := Rec."Percentage Type";
-        managementfee."Base Amount" := Rec."Base Amount";
-        managementfee."Frequency Of Payment" := Rec."Frequency Of Payment";
-        managementfee.Amount := Rec.Amount;
-        managementfee.Percentage := Rec.Percentage;
+        // managementfee."Calculation Method" := Rec."Calculation Method";
+        // managementfee."Percentage Type" := Rec."Percentage Type";
+        // managementfee."Base Amount" := Rec."Base Amount";
+        // managementfee."Frequency Of Payment" := Rec."Frequency Of Payment";
+        // managementfee.Amount := Rec.Amount;
+        // managementfee.Percentage := Rec.Percentage;
         managementfee.Insert();
         Clear(managementfee);
     end;

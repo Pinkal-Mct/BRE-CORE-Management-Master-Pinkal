@@ -122,7 +122,7 @@ table 50100 "Owner Profile"
 
     keys
     {
-        key(PK; "Owner ID")
+        key(PK; "Owner ID", "Full Name")
         {
             Clustered = true;
         }
