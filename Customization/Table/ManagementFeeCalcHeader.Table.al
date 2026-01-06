@@ -4,7 +4,7 @@ table 50120 "Management Fee Calc. Header"
 
     fields
     {
-        field(50100; "Primary Key"; Integer)
+        field(50100; "Primary Key"; Code[10])
         {
             DataClassification = ToBeClassified;
 
