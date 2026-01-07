@@ -576,5 +576,11 @@ permissionset 50100 TablePermission
         table PaymentplanStages = X,
         tabledata "Adjustment Deposits" = RIMD,
         table "Adjustment Deposits" = X,
-        page "Select Date" = X;
+        page "Select Date" = X,
+        tabledata "Management Fee Calc. Header" = RIMD,
+        tabledata "Management Fee Calc. Line" = RIMD,
+        tabledata "Management Fee Grid" = RIMD,
+        table "Management Fee Calc. Header" = X,
+        table "Management Fee Calc. Line" = X,
+        table "Management Fee Grid" = X;
 }
