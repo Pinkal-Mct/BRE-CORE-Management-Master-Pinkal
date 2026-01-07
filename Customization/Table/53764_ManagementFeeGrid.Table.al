@@ -134,6 +134,10 @@ table 53764 "Management Fee Grid"
                 CalcFields("Company/Owner Name");
             end;
         }
+        field(53720; "Validity Period"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+        }
 
     }
     keys

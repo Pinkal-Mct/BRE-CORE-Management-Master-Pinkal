@@ -34,7 +34,7 @@ table 50120 "Management Fee Calc. Header"
         field(50104; "Property"; Text[100])
         {
             DataClassification = ToBeClassified;
-            TableRelation = "Property Registration"."Property Name" where("Owner ID" = Field("Owner ID"));
+            // TableRelation = "Property Registration"."Property Name" where("Owner ID" = Field("Owner ID"));
         }
         field(50105; "Financial Year"; Integer)
         {
@@ -48,6 +48,14 @@ table 50120 "Management Fee Calc. Header"
         {
             DataClassification = ToBeClassified;
         }
+        field(50108; "All Owners"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(50109; "All Properties"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
@@ -57,4 +65,16 @@ table 50120 "Management Fee Calc. Header"
             Clustered = true;
         }
     }
+
+    // trigger OnModify()
+    // var
+    // begin
+    //     if "All Owners" = true then
+    //         "All Properties" := true
+    //     else
+    //         "All Properties" := false;
+
+    // end;
+
+
 }
