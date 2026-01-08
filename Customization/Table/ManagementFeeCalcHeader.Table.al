@@ -39,6 +39,26 @@ table 50120 "Management Fee Calc. Header"
         field(50105; "Financial Year"; Integer)
         {
             DataClassification = ToBeClassified;
+
+            trigger OnLookup()
+            var
+                YearRec: Record Integer;
+                integerList: Page "Integer List";
+                CurrYear: Integer;
+            begin
+                CurrYear := Date2DMY(Today(), 3);
+
+                YearRec.SetRange(Number, CurrYear - 5, CurrYear + 5);
+
+                integerList.Caption := 'Select Financial Year';
+                integerList.LookupMode(true);
+                integerList.SetTableView(YearRec);
+                if integerList.RunModal() = Action::LookupOK then begin
+                    integerList.SetSelectionFilter(YearRec);
+                    if YearRec.FindFirst() then
+                        Rec."Financial Year" := YearRec.Number;
+                end;
+            end;
         }
         field(50106; "Period From"; Date)
         {
