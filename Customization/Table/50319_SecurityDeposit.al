@@ -186,7 +186,7 @@ table 50319 "Security Deposit"
         {
             DataClassification = ToBeClassified;
             Caption = 'Status';
-            OptionMembers = " ",Open,Posted;
+            OptionMembers = Open,Posted;
         }
     }
 
