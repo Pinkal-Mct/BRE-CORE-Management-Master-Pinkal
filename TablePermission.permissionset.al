@@ -582,5 +582,6 @@ permissionset 50100 TablePermission
         tabledata "Management Fee Grid" = RIMD,
         table "Management Fee Calc. Header" = X,
         table "Management Fee Calc. Line" = X,
-        table "Management Fee Grid" = X;
+        table "Management Fee Grid" = X,
+        page "Integer List" = X;
 }
