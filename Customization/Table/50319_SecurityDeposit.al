@@ -182,6 +182,12 @@ table 50319 "Security Deposit"
             Caption = 'Property Classification';
             tableRelation = "Tenancy Contract"."Property Classification";
         }
+        field(50180; Status; Option)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Status';
+            OptionMembers = " ",Open,Posted;
+        }
     }
 
 
