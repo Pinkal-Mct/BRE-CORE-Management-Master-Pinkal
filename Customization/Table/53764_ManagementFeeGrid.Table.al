@@ -138,6 +138,10 @@ table 53764 "Management Fee Grid"
         {
             DataClassification = ToBeClassified;
         }
+        field(53721; "Property Management Company"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
 
     }
     keys
@@ -156,6 +160,7 @@ table 53764 "Management Fee Grid"
         ManagementFeeMaster.SetRange("Management Fee Number", Rec."Management Fee Number");
         if ManagementFeeMaster.FindFirst() then begin
             Rec."Vendor ID" := ManagementFeeMaster."Vendor ID";
+            Rec."Property Management Company" := ManagementFeeMaster."Vendor Name";
         end;
     end;
 }
