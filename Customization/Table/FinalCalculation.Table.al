@@ -288,6 +288,13 @@ table 50901 "Final Calculation"
             DataClassification = ToBeClassified;
             Caption = 'Remaining Other Deposit';
         }
+        field(50143; "Credit Not To Be Raised"; Decimal)
+        {
+            //DataClassification = ToBeClassified;
+            Caption = 'Credit Note To Be Raised';
+            FieldClass = FlowField;
+            CalcFormula = sum(FinancialAdjContractReduction."Amount Incl. VAT" where("Contract No." = field("Contract ID")));
+        }
 
     }
 
