@@ -25,15 +25,26 @@ table 53766 "InvoiceCreditNoteSummary"
         {
             DataClassification = ToBeClassified;
         }
-        field(53705; Total; Decimal)
+        field(53705; "Total Invoice"; Decimal)
         {
-            DataClassification = ToBeClassified;
+            FieldClass = FlowField;
+            CalcFormula = sum(InvoiceCreditNoteSummary."Invoice" where("Contract No." = field("Contract No.")));
+
+        }
+        field(53708; "Total Credit Note"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = sum(InvoiceCreditNoteSummary."Credit Note" where("Contract No." = field("Contract No.")));
         }
         field(53706; Invoiced; Boolean)
         {
             DataClassification = ToBeClassified;
         }
         field(53707; "Credit Noted"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53709; "Invoice ID"; Code[50])
         {
             DataClassification = ToBeClassified;
         }
@@ -45,4 +56,36 @@ table 53766 "InvoiceCreditNoteSummary"
             Clustered = true;
         }
     }
+
+    procedure CalculateInvoiceCreditNoteSummary(var pInvoiceCreditNoteSummary: Record "InvoiceCreditNoteSummary")
+    var
+        finanacialAdjustContractReduction: Record FinancialAdjContractReduction;
+        totalcreditnote: Decimal;
+    begin
+        finanacialAdjustContractReduction.Reset();
+        finanacialAdjustContractReduction.SetRange("Contract No.", pInvoiceCreditNoteSummary."Contract No.");
+        if finanacialAdjustContractReduction.FindSet() then begin
+            finanacialAdjustContractReduction.CalcSums("Amount Incl. VAT");
+            totalcreditnote += finanacialAdjustContractReduction."Amount Incl. VAT";
+        end;
+        pInvoiceCreditNoteSummary."Credit Note" := totalcreditnote;
+        pInvoiceCreditNoteSummary.Modify();
+
+    end;
+
+    procedure CalculateTotalInvoiceAmount(var pInvoiceCreditNoteSummary: Record "InvoiceCreditNoteSummary")
+    var
+        Terminationadditionalcharges: Record "Additional Charges Sub";
+        totalinvoice: Decimal;
+    begin
+        Terminationadditionalcharges.Reset();
+        Terminationadditionalcharges.SetRange("Contract ID", pInvoiceCreditNoteSummary."Contract No.");
+        if Terminationadditionalcharges.FindSet() then begin
+            Terminationadditionalcharges.CalcSums("Amount Including VAT");
+            totalinvoice += Terminationadditionalcharges."Amount Including VAT";
+        end;
+        pInvoiceCreditNoteSummary."Invoice" := totalinvoice;
+        pInvoiceCreditNoteSummary.Modify();
+    end;
+
 }

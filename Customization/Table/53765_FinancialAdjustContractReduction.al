@@ -116,6 +116,24 @@ table 53765 "FinancialAdjContractReduction"
         "VAT Amount" := Amount * (vatPer / 100);
         "Amount Incl. VAT" := Amount + "VAT Amount";
         Rec.Modify();
+
+        InvoiceCreditNoteSummaryRec.SetRange("Contract No.", Rec."Contract No.");
+        InvoiceCreditNoteSummaryRec.SetRange("Description", 'Financial Adjustments / Contract Reductions');
+        if InvoiceCreditNoteSummaryRec.FindFirst() then begin
+            InvoiceCreditNoteSummaryRec.CalculateInvoiceCreditNoteSummary(InvoiceCreditNoteSummaryRec);
+        end;
+    end;
+
+    trigger OnDelete()
+    var
+        InvoiceCreditNoteSummaryRec: Record "InvoiceCreditNoteSummary";
+    begin
+        InvoiceCreditNoteSummaryRec.SetRange("Contract No.", Rec."Contract No.");
+        InvoiceCreditNoteSummaryRec.SetRange("Description", 'Financial Adjustments / Contract Reductions');
+        if InvoiceCreditNoteSummaryRec.FindFirst() then begin
+            InvoiceCreditNoteSummaryRec."Credit Note" -= Rec."Amount Incl. VAT";
+        end;
+        InvoiceCreditNoteSummaryRec.Modify();
     end;
 
 }
