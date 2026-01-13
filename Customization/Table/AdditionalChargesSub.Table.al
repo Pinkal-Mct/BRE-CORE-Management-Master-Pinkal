@@ -183,6 +183,7 @@ table 50902 "Additional Charges Sub"
     var
         finalCalculation: Record "Final Calculation";
         vatPer: Integer;
+        InvoiceCreditNoteSummaryRec: Record "InvoiceCreditNoteSummary";
     begin
         if "VAT %" = "VAT %"::"5%" then
             vatPer := 5
@@ -197,6 +198,11 @@ table 50902 "Additional Charges Sub"
         if finalCalculation.FindFirst() then begin
             finalCalculation.CalculateFinalSummary(finalCalculation);
         end;
+        InvoiceCreditNoteSummaryRec.SetRange("Contract No.", Rec."Contract ID");
+        InvoiceCreditNoteSummaryRec.SetRange("Description", 'Termination Additional Charges');
+        if InvoiceCreditNoteSummaryRec.FindFirst() then begin
+            InvoiceCreditNoteSummaryRec.CalculateTotalInvoiceAmount(InvoiceCreditNoteSummaryRec);
+        end;
 
         // "Amount Including VAT" := Amount + "VAT Amount";
     end;
@@ -206,6 +212,7 @@ table 50902 "Additional Charges Sub"
     trigger OnDelete()
     var
         finalcalculationRec: Record "Final Calculation";
+        InvoiceCreditNoteSummaryRec: Record "InvoiceCreditNoteSummary";
     begin
         finalcalculationRec.SetRange("Contract ID", Rec."Contract ID");
         if finalcalculationRec.FindFirst() then begin
@@ -226,6 +233,12 @@ table 50902 "Additional Charges Sub"
             finalcalculationRec.Modify();
 
         end;
+        InvoiceCreditNoteSummaryRec.SetRange("Contract No.", Rec."Contract ID");
+        InvoiceCreditNoteSummaryRec.SetRange("Description", 'Termination Additional Charges');
+        if InvoiceCreditNoteSummaryRec.FindFirst() then begin
+            InvoiceCreditNoteSummaryRec.Invoice -= Rec."Amount Including VAT";
+        end;
+        InvoiceCreditNoteSummaryRec.Modify();
     END;
 
 }
