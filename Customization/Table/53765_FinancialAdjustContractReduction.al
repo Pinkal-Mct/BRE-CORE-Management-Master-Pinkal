@@ -94,6 +94,10 @@ table 53765 "FinancialAdjContractReduction"
                 "VAT Amount" := Amount * (vatPer / 100);
             end;
         }
+        field(53711; "Credit Note ID"; Code[50])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {

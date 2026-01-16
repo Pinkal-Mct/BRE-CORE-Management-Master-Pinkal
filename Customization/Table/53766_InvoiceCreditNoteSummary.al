@@ -48,6 +48,10 @@ table 53766 "InvoiceCreditNoteSummary"
         {
             DataClassification = ToBeClassified;
         }
+        field(53710; "Credit Note ID"; Code[50])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {
