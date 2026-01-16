@@ -118,10 +118,19 @@ table 50954 "Credit Note"
             Clustered = true;
         }
     }
-
     trigger OnInsert()
+    var
+        creditNote: Record "Credit Note";
+        NextID: Integer;
     begin
-        "Credit Note No." := 'CN_' + CopyStr('00000' + Format(Rec.ID), StrLen('00000' + Format(Rec.ID)) - 4, 5);
+        if ID = 0 then begin
+            if creditNote.FindLast() then
+                NextID := creditNote.ID + 1
+            else
+                NextID := 1;
+
+            "Credit Note No." := 'CN_' + CopyStr('00000' + Format(NextID), StrLen('00000' + Format(NextID)) - 4, 5);
+        end;
     end;
 
 }

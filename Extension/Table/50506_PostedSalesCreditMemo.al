@@ -81,6 +81,7 @@ tableextension 50506 "Posted Sales Credit Memo" extends "Sales Cr.Memo Header"
         paymentmodegrid: Record "Payment Mode2";
         paymentschedulegrid: Record "Payment Schedule2";
         PendingReceviableGrid: Record "Pending Receviable Grid";
+        finaladjustmentReduction: Record "FinancialAdjContractReduction";
     begin
         Requestcreditnotegrid.SetRange("Credit Note No.", "Pre-Assigned No.");
         Requestcreditnotegrid.SetRange("Contract ID", "Contract ID");
@@ -132,5 +133,13 @@ tableextension 50506 "Posted Sales Credit Memo" extends "Sales Cr.Memo Header"
                 PendingReceviableGrid."CrditNoteID Security Deposit" := "No.";
                 PendingReceviableGrid.Modify();
             until PendingReceviableGrid.Next() = 0;
+
+        finaladjustmentReduction.SetRange("Contract No.", "Contract ID");
+        finaladjustmentReduction.SetRange("Credit Note ID", "Pre-Assigned No.");
+        if finaladjustmentReduction.FindSet() then
+            repeat
+                finaladjustmentReduction."Credit Note ID" := "No.";
+                finaladjustmentReduction.Modify();
+            until finaladjustmentReduction.Next() = 0;
     end;
 }

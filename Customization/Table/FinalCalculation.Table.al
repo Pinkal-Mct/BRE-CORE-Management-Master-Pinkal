@@ -331,6 +331,8 @@ table 50901 "Final Calculation"
         finalsettlement();
         finalsettlementrefund();
         DeleteAdjustmentDeposits();
+        finaladjustmentreduction();
+        invoicecreditnotesummary();
 
     end;
 
@@ -438,6 +440,24 @@ table 50901 "Final Calculation"
         if adjustmentDepositsRec.FindSet() then
             adjustmentDepositsRec.DeleteAll();
     end;
+
+    procedure finaladjustmentreduction()
+    var
+        finaladjustmentReduction: Record "FinancialAdjContractReduction";
+    begin
+        finaladjustmentReduction.SetRange("Contract No.", Rec."Contract ID");
+        if finaladjustmentReduction.FindSet() then
+            finaladjustmentReduction.DeleteAll();
+    end;
+
+    procedure invoicecreditnotesummary()
+    var
+        invoicecreditnotesummaryRec: Record "InvoiceCreditNoteSummary";
+    begin
+        invoicecreditnotesummaryRec.SetRange("Contract No.", Rec."Contract ID");
+        if invoicecreditnotesummaryRec.FindSet() then
+            invoicecreditnotesummaryRec.DeleteAll();
+    end;
     //-----------------Delete record also delete subgrid -----------------//
 
     procedure CalculateFinalSummary(var pFinalCalculation: Record "Final Calculation")
@@ -474,7 +494,7 @@ table 50901 "Final Calculation"
             TerminationAddCharges.CalcSums("Amount Including VAT");
             TotalReceivableAmount += TerminationAddCharges."Amount Including VAT";
         end;
-
+        pFinalCalculation.CalcFields("Credit Not To Be Raised");
         TotalReceivableAmount -= pFinalCalculation."Credit Not To Be Raised";
 
         TotalRefundableAmount += pFinalCalculation."Total Refundable Deposit";
