@@ -9,6 +9,7 @@ table 50954 "Credit Note"
             DataClassification = ToBeClassified;
             Caption = 'ID';
             Editable = false;
+            AutoIncrement = true;
         }
         field(50101; "Contract ID"; Integer)
         {
@@ -118,21 +119,9 @@ table 50954 "Credit Note"
         }
     }
 
-    // trigger OnInsert()
-    // var
-    //     NextID: Integer;
-    //     MyRec: Record "Credit Note";
-    // begin
-    //     if ID = 0 then begin
-    //         // Get the next available numeric ID manually
-    //         if MyRec.FindLast() then
-    //             NextID := MyRec.ID + 1
-    //         else
-    //             NextID := 1;
-
-    //         ID := NextID; // Integer field
-    //         "Credit Note No." := 'CN_' + CopyStr('00000' + Format(NextID), StrLen('00000' + Format(NextID)) - 4, 5);
-    //     end;
-    // end;
+    trigger OnInsert()
+    begin
+        "Credit Note No." := 'CN_' + CopyStr('00000' + Format(Rec.ID), StrLen('00000' + Format(Rec.ID)) - 4, 5);
+    end;
 
 }
