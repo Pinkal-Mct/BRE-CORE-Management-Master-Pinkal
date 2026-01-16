@@ -474,6 +474,9 @@ table 50901 "Final Calculation"
             TerminationAddCharges.CalcSums("Amount Including VAT");
             TotalReceivableAmount += TerminationAddCharges."Amount Including VAT";
         end;
+
+        TotalReceivableAmount -= pFinalCalculation."Credit Not To Be Raised";
+
         TotalRefundableAmount += pFinalCalculation."Total Refundable Deposit";
         pFinalCalculation."Total Claim" := TotalReceivableAmount;
         pFinalCalculation."Total Refund" := TotalRefundableAmount;
